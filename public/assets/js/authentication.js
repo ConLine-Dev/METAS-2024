@@ -18,7 +18,7 @@
         },
         loop: true,
         autoplay: {
-            delay: 1500,
+            delay: 10000,
             disableOnInteraction: false
         }
     });
