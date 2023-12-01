@@ -3,13 +3,13 @@
 
   /* page loader */
   
-  function hideLoader() {
-    const loader = document.getElementById("loader");
-    loader.classList.add("d-none")
-  }
+  // function hideLoader() {
+  //   const loader = document.getElementById("loader");
+  //   loader.classList.add("d-none")
+  // }
 
-  window.addEventListener("load", hideLoader);
-  /* page loader */
+  // window.addEventListener("load", hideLoader);
+  // /* page loader */
 
   /* tooltip */
   const tooltipTriggerList = document.querySelectorAll(
@@ -361,36 +361,18 @@
   }, 10);
   /* count-up */
 
-  /* back to top */
-  const scrollToTop = document.querySelector(".scrollToTop");
-  const $rootElement = document.documentElement;
-  const $body = document.body;
-  window.onscroll = () => {
-    const scrollTop = window.scrollY || window.pageYOffset;
-    const clientHt = $rootElement.scrollHeight - $rootElement.clientHeight;
-    if (window.scrollY > 100) {
-      scrollToTop.style.display = "flex";
-    } else {
-      scrollToTop.style.display = "none";
-    }
-  };
-  scrollToTop.onclick = () => {
-    window.scrollTo(0, 0);
-  };
-  /* back to top */
+  // /* header dropdowns scroll */
+  // var myHeaderShortcut = document.getElementById("header-shortcut-scroll");
+  // new SimpleBar(myHeaderShortcut, { autoHide: true });
 
-  /* header dropdowns scroll */
-  var myHeaderShortcut = document.getElementById("header-shortcut-scroll");
-  new SimpleBar(myHeaderShortcut, { autoHide: true });
+  // var myHeadernotification = document.getElementById(
+  //   "header-notification-scroll"
+  // );
+  // new SimpleBar(myHeadernotification, { autoHide: true });
 
-  var myHeadernotification = document.getElementById(
-    "header-notification-scroll"
-  );
-  new SimpleBar(myHeadernotification, { autoHide: true });
-
-  var myHeaderCart = document.getElementById("header-cart-items-scroll");
-  new SimpleBar(myHeaderCart, { autoHide: true });
-  /* header dropdowns scroll */
+  // var myHeaderCart = document.getElementById("header-cart-items-scroll");
+  // new SimpleBar(myHeaderCart, { autoHide: true });
+  // /* header dropdowns scroll */
 })();
 
 /* full screen */
