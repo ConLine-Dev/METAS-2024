@@ -1,3 +1,37 @@
+const metasUserLocal = localStorage.getItem('metasUser');
+const localMetas = JSON.parse(metasUserLocal);
+
+// Inserindo nome do usuario
+const nomeUsuarioLogado = localMetas.name;
+const nomeUsuarioSemConline = nomeUsuarioLogado.replace(' - ConLine', '')
+nameUser.textContent = nomeUsuarioSemConline;
+
+
+// Logout
+function logout(element) {
+   localStorage.removeItem('metasUser');
+}
+
+
+// Fecth para puxar a consulta da rota/banco
+function Thefetch(url, method, options = {}) { // Função Thefetch com 3 parâmetros: url, method e options (este último com valor padrão de objeto vazio)
+    return new Promise((resolve, reject) => { // Retorna uma nova Promise com duas funções de callback: resolve e reject
+      fetch(url, { // Chama a função fetch com a url passada como parâmetro e um objeto contendo o método e um objeto headers com o tipo de conteúdo
+        method: method, // Método HTTP passado como parâmetro
+        headers: {'Content-Type': 'application/json'}, // Tipo de conteúdo: JSON
+        ...options // Opções adicionais passadas como objeto no terceiro parâmetro (se existirem)
+      })
+        .then(response => response.json()) // Se a Promise for resolvida, transforma a resposta em JSON
+        .then(data => resolve(data)) // Se a conversão para JSON for bem sucedida, chama a função de callback resolve com os dados
+        .catch(error => reject(error)); // Se ocorrer algum erro, chama a função de callback reject com o erro
+    });
+  }
+
+
+
+
+
+
 (function () {
     'use strict';
     if (localStorage.getItem("ynexdarktheme")) {

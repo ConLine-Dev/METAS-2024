@@ -1,14 +1,12 @@
-const metasUserLocal = localStorage.getItem('metasUser');
-const localMetas = JSON.parse(metasUserLocal);
-console.log(localMetas)
+import conversao from "./helper.js";
 
-const nomeUsuarioLogado = localMetas.name;
-const nomeUsuarioSemConline = nomeUsuarioLogado.replace(' - ConLine', '')
+(async function() {
+      console.log(conversao.get_mes(0));
+      const fluxo_ano_anterior = await Thefetch('/api/ano-anterior')
 
-nameUser.textContent = nomeUsuarioSemConline; // Inserindo nome do usuario
+   
+      console.log(fluxo_ano_anterior)
+})();
 
 
-// Logout
-function logout(element) {
-   localStorage.removeItem('metasUser');
-}
+
