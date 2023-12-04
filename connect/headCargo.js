@@ -1,11 +1,12 @@
 const sql = require('mssql');
+require('dotenv/config');
 
 const config = {
-  user: process.env.HEADCARGO_DB_USER,
-  password: process.env.HEADCARGO_DB_PASSWORD,
-  server: process.env.HEADCARGO_DB_HOST,
-  database: process.env.HEADCARGO_DB_NAME,
-  port: process.env.HEADCARGO_DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  server: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  port: Number(process.env.DB_PORT),
   options: {
     encrypt: false,
     requestTimeout: 200000 // tempo limite em milissegundos
@@ -46,5 +47,5 @@ const executeQuerySQL = async (query) => {
 
 
 module.exports = {
-    headCargoQuery: executeQuerySQL,
+    executeQuerySQL: executeQuerySQL,
 };

@@ -3,19 +3,18 @@ const router = express.Router();
 const path = require("path");
 const fs = require('fs');
 // const { ManageUser } = require('../controllers/ManageUser');
-// const { headCargoQuery } = require('../connect/headCargo');
+const { helpers } = require('../functions/helpers');
 
 
-router.get('/listPoints', async (req, res, next) => {
+router.get('/ano-anterior', async (req, res, next) => {
     try {
-        // const result = await headCargoQuery('');
+        const result = await helpers.resultados_ano_anterior();
 
-        res.status(200).json('deu certo')
+        res.status(200).json(result)
     } catch (error) {
 
         res.status(404).json('Erro')   
     }
-    
 });
 
 
