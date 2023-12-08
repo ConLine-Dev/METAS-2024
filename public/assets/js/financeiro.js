@@ -4,7 +4,7 @@ import conversao from "./helper-functions.js";
 const fluxo_ano_anterior = await Thefetch('/api/ano-anterior');
 const fluxo_ano_atual = await Thefetch('/api/ano-atual')
 const meta = 1.15;
-const megaMeta = 1.3;
+// const megaMeta = 1.3;
 
 const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
 
@@ -104,7 +104,6 @@ async function total_valores_ate_dia_atual_ano_anterior(consulta) {
    return somaTotal;
 }
 
-
 // Cards de META ANUAL, MEGA META ANUAL, META HOJE, MEGA META HOJE
 async function cardMetasAnuais() {
    const total_ano_anterior = await total_ano(fluxo_ano_anterior);
@@ -113,19 +112,19 @@ async function cardMetasAnuais() {
    const total_ano_anterior_ate_hoje = await total_valores_ate_dia_atual_ano_anterior(fluxo_ano_anterior)
 
    const meta_anual = ((total_ano_atual) / (total_ano_anterior * meta)) * 100;
-   const mega_meta_anual = ((total_ano_atual) / (total_ano_anterior * megaMeta)) * 100;
+   // const mega_meta_anual = ((total_ano_atual) / (total_ano_anterior * megaMeta)) * 100;
    const meta_hoje = ((total_ano_atual) / (total_ano_anterior_ate_hoje * meta)) * 100;
-   const mega_meta_hoje = ((total_ano_atual) / (total_ano_anterior_ate_hoje * megaMeta)) * 100;
+   // const mega_meta_hoje = ((total_ano_atual) / (total_ano_anterior_ate_hoje * megaMeta)) * 100;
 
    const card_meta_anual = document.querySelector('#cardMetaAnual');
-   const card_mega_meta_anual = document.querySelector('#cardMegaMetaAnual');
+   // const card_mega_meta_anual = document.querySelector('#cardMegaMetaAnual');
    const card_meta_hoje = document.querySelector('#cardMetaHoje');
-   const card_mega_meta_hoje = document.querySelector('#cardMegaMetaHoje');
+   // const card_mega_meta_hoje = document.querySelector('#cardMegaMetaHoje');
 
    card_meta_anual.textContent = meta_anual.toFixed(2) + '%';
-   card_mega_meta_anual.textContent = mega_meta_anual.toFixed(2) + '%';
+   // card_mega_meta_anual.textContent = mega_meta_anual.toFixed(2) + '%';
    card_meta_hoje.textContent = meta_hoje.toFixed(2) + '%';
-   card_mega_meta_hoje.textContent = mega_meta_hoje.toFixed(2) + '%';
+   // card_mega_meta_hoje.textContent = mega_meta_hoje.toFixed(2) + '%';
 }
 
 
@@ -161,12 +160,12 @@ async function grafico_financeiro_mes_mes() {
       
       // Adicionar a meta mensal ajustada no array
       metas_mensais.push(meta_mensal_ajustada);
-      console.log(meta_mensal_ajustada, 'meta');
+      // console.log(meta_mensal_ajustada, 'meta');
       
       // Calcular a porcentagem em relação à meta para o mês atual
       const valor_arrecadado = soma_mes_mes_atual[i].VALOR_CONVERTIDO_REAL;
       valor_arrecadado_meta.push(valor_arrecadado)
-      console.log(valor_arrecadado, 'valor_arrecadado');
+      // console.log(valor_arrecadado, 'valor_arrecadado');
       const porcentagem_em_relacao_a_meta = meta_mensal_ajustada !== 0 ? (valor_arrecadado / meta_mensal_ajustada) * 100 : 0;
       // Armazenar a porcentagem no array
       porcentagens_meta.push(porcentagem_em_relacao_a_meta.toFixed(2));
@@ -200,12 +199,12 @@ async function grafico_financeiro_mes_mes() {
       colors: ['#F9423A', '#3F2021'],
 
       chart: {
-         height: 350,
+         height: 500,
          type: 'bar',
       },
 
       chart: {
-         height: 350,
+         height: 500,
          type: 'area',
          stacked: false,
          toolbar: {
@@ -280,10 +279,120 @@ async function grafico_financeiro_mes_mes() {
       }
    }
 
+   var grafico_meta_anual = {
+      series: [{
+         data: valor_arrecadado_meta
+      }],
+   
+      colors: ['rgba(249, 66, 58, 0.1)'],
+   
+      chart: {
+         height: 80,
+         type: 'line',
+         stacked: false,
+         toolbar: {
+            show: false
+          },
+      },
+   
+      stroke: {
+         curve: 'smooth',
+         width: 2
+      },
+   
+
+   
+       dataLabels: {
+         enabled: false
+       },
+   
+       xaxis: {
+         labels: {
+            show: false,
+         },
+         axisBorder: {
+            show: false,
+         },
+         axisTicks: {
+            show: false,
+         },
+       },
+   
+      yaxis: {
+         show: false,
+      },
+   
+      grid: {
+         show: false,
+      },
+   
+      tooltip: {
+         enabled: false,
+      }
+   }
+   
+
    var chart = new ApexCharts(document.querySelector("#meta-mes-a-mes"), options);
    chart.render();
+
+   var meta_anual_grafico_card = new ApexCharts(document.querySelector("#meta_anual_grafico_card"), grafico_meta_anual);
+   meta_anual_grafico_card.render();
 }
 
+// Cria grafico de participação por modal
+async function soma_valores_modais(dados) {
+   return dados.reduce((acumulador, item) => {
+      const modalidade = item.MODALIDADE;
+      acumulador[modalidade] = (acumulador[modalidade] || 0) + item.VALOR_CONVERTIDO_REAL;
+      return acumulador;
+   }, {});
+}
 
-grafico_financeiro_mes_mes();
+async function grafico_modais() {
+   const total_valores_modais = await soma_valores_modais(fluxo_ano_atual);
+   const total_valores_ano_atual = await total_ano(fluxo_ano_atual);
+
+   // Calcular porcentagem para cada modalidade
+   const porcentagens = [];
+   for (const modalidade in total_valores_modais) {
+      const valor_modalidade = total_valores_modais[modalidade];
+      const porcentagem = (valor_modalidade / total_valores_ano_atual) * 100;
+      porcentagens[modalidade] = Number(porcentagem.toFixed(2));
+   }
+   
+   // Tirando o modal e deixando somente os valores do objeto
+   const porcentagens_somente_numero = Object.values(porcentagens);
+
+   const porcentagem_IM = document.querySelector('#porcentagem_IM');
+   const porcentagem_EM = document.querySelector('#porcentagem_EM');
+   const porcentagem_IA = document.querySelector('#porcentagem_IA');
+   const porcentagem_EA = document.querySelector('#porcentagem_EA');
+   const porcentagem_OUTROS = document.querySelector('#porcentagem_OUTROS');
+
+   porcentagem_IM.textContent = porcentagens_somente_numero[0] + '%'
+   porcentagem_EM.textContent = porcentagens_somente_numero[1] + '%'
+   porcentagem_IA.textContent = porcentagens_somente_numero[2] + '%'
+   porcentagem_EA.textContent = porcentagens_somente_numero[3] + '%'
+   porcentagem_OUTROS.textContent = porcentagens_somente_numero[4] + '%'
+
+   var options = {
+      series: porcentagens_somente_numero,
+      chart: {
+      type: 'donut',
+      width: '123%',
+    },
+    labels: ['IM', 'EM', 'IA', 'EA', 'OUTROS'],
+    legend: {
+      show: true,
+      position: 'bottom',
+    },
+    
+    };
+
+    var chart = new ApexCharts(document.querySelector("#modais"), options);
+    chart.render();
+}
+
 cardMetasAnuais();
+grafico_financeiro_mes_mes();
+grafico_modais();
