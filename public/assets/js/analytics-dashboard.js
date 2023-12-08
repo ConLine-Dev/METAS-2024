@@ -127,14 +127,14 @@ var total = {
         enabled: false,
     }
 }
-document.getElementById('analytics-bouncerate').innerHTML = '';
-var total = new ApexCharts(document.querySelector("#analytics-bouncerate"), total);
-total.render();
-function bounceRate() {
-    total.updateOptions({
-        colors: ["rgba(" + myVarVal + ", 0.1)"],
-    })
-}
+// document.getElementById('analytics-bouncerate').innerHTML = '';
+// var total = new ApexCharts(document.querySelector("#analytics-bouncerate"), total);
+// total.render();
+// function bounceRate() {
+//     total.updateOptions({
+//         colors: ["rgba(" + myVarVal + ", 0.1)"],
+//     })
+// }
 /* Bounce rate Chart */
 
 /* Sessions By Device Chart */
@@ -198,14 +198,14 @@ var options = {
     },
     colors: ["rgb(249, 66, 58)", "rgba(35, 183, 229, 1)", "rgba(38, 191, 148, 1)", "rgba(245, 184, 73, 1)",],
 };
-document.querySelector("#sessions").innerHTML = " ";
-var chart = new ApexCharts(document.querySelector("#sessions"), options);
-chart.render();
-function Sessions() {
-    chart.updateOptions({
-        colors: ["rgba(" + myVarVal + ", 1)", "rgba(35, 183, 229, 1)", "rgba(38, 191, 148, 1)", "rgba(245, 184, 73, 1)",],
-    })
-};
+// document.querySelector("#sessions").innerHTML = " ";
+// var chart = new ApexCharts(document.querySelector("#sessions"), options);
+// chart.render();
+// function Sessions() {
+//     chart.updateOptions({
+//         colors: ["rgba(" + myVarVal + ", 1)", "rgba(35, 183, 229, 1)", "rgba(38, 191, 148, 1)", "rgba(245, 184, 73, 1)",],
+//     })
+// };
 /* Sessions By Device Chart */
 
 /* Audience report Chart */
@@ -258,14 +258,14 @@ var options = {
     },
     colors: ["rgb(249, 66, 58)", '#23b7e5'],
 };
-document.querySelector("#audienceReport").innerHTML = ""
-var chart2 = new ApexCharts(document.querySelector("#audienceReport"), options);
-chart2.render();
-function audienceReport() {
-    chart2.updateOptions({
-        colors: ["rgba(" + myVarVal + ", 1)", '#23b7e5'],
-    })
-}
+// document.querySelector("#audienceReport").innerHTML = ""
+// var chart2 = new ApexCharts(document.querySelector("#audienceReport"), options);
+// chart2.render();
+// function audienceReport() {
+//     chart2.updateOptions({
+//         colors: ["rgba(" + myVarVal + ", 1)", '#23b7e5'],
+//     })
+// }
 /* Audience report Chart */
 
 /* Country Sessions vs Bounce Rate Chart */

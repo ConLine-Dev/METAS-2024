@@ -1,18 +1,3 @@
-const metasUserLocal = localStorage.getItem('metasUser');
-const localMetas = JSON.parse(metasUserLocal);
-
-// Inserindo nome do usuario
-const nomeUsuarioLogado = localMetas.name;
-const nomeUsuarioSemConline = nomeUsuarioLogado.replace(' - ConLine', '')
-nameUser.textContent = nomeUsuarioSemConline;
-
-
-// Logout
-function logout(element) {
-   localStorage.removeItem('metasUser');
-}
-
-
 // Fecth para puxar a consulta da rota/banco
 function Thefetch(url, method, options = {}) { // Função Thefetch com 3 parâmetros: url, method e options (este último com valor padrão de objeto vazio)
     return new Promise((resolve, reject) => { // Retorna uma nova Promise com duas funções de callback: resolve e reject
