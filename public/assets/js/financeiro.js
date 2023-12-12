@@ -116,6 +116,7 @@ async function cardMetasAnuais() {
    const meta_hoje = ((total_ano_atual) / (total_ano_anterior_ate_hoje * meta)) * 100;
    // const mega_meta_hoje = ((total_ano_atual) / (total_ano_anterior_ate_hoje * megaMeta)) * 100;
 
+
    const card_meta_anual = document.querySelector('#cardMetaAnual');
    // const card_mega_meta_anual = document.querySelector('#cardMegaMetaAnual');
    const card_meta_hoje = document.querySelector('#cardMetaHoje');
@@ -126,7 +127,6 @@ async function cardMetasAnuais() {
    card_meta_hoje.textContent = meta_hoje.toFixed(2) + '%';
    // card_mega_meta_hoje.textContent = mega_meta_hoje.toFixed(2) + '%';
 }
-
 
 // Cria o grafico mes a mes
 async function grafico_financeiro_mes_mes() {
@@ -147,25 +147,26 @@ async function grafico_financeiro_mes_mes() {
    // Armazena o que foi arrecadado a cada mês
    let arrecadacao_acumulada = 0;
    
-   const valor_arrecadado_meta = [];
-   const porcentagens_meta = [];
+   const valor_arrecadado_meta = [soma_mes_mes_atual[0].VALOR_CONVERTIDO_REAL]; // Adicionado valor arrecadado em janeiro
+   const porcentagem_em_relacao_a_meta_janeiro = meta_janeiro !== 0 ? (valor_arrecadado_meta[0] / meta_janeiro) * 100 : 0; // Calculado a porcentagem para janeiro
+   const porcentagens_meta = [porcentagem_em_relacao_a_meta_janeiro.toFixed(2)]; // Adicionado a porcentagem de janeiro
    
    // Calcular as metas mensais para os meses restantes
-   for (let i = 0; i < 12; i++) {
+   for (let i = 1; i < 12; i++) {
       // Adicionar a arrecadação do mês anterior à arrecadação acumulada
-      arrecadacao_acumulada += soma_mes_mes_atual[i].VALOR_CONVERTIDO_REAL;
+      arrecadacao_acumulada += soma_mes_mes_atual[i -1].VALOR_CONVERTIDO_REAL;
       
       // Calcular a meta mensal ajustada para o mês atual
       const meta_mensal_ajustada = i === 0 ? meta_janeiro : (meta_anual - arrecadacao_acumulada) / (12 - i);
       
       // Adicionar a meta mensal ajustada no array
       metas_mensais.push(meta_mensal_ajustada);
-      // console.log(meta_mensal_ajustada, 'meta');
+      console.log(meta_mensal_ajustada, 'meta');
       
       // Calcular a porcentagem em relação à meta para o mês atual
       const valor_arrecadado = soma_mes_mes_atual[i].VALOR_CONVERTIDO_REAL;
       valor_arrecadado_meta.push(valor_arrecadado)
-      // console.log(valor_arrecadado, 'valor_arrecadado');
+
       const porcentagem_em_relacao_a_meta = meta_mensal_ajustada !== 0 ? (valor_arrecadado / meta_mensal_ajustada) * 100 : 0;
       // Armazenar a porcentagem no array
       porcentagens_meta.push(porcentagem_em_relacao_a_meta.toFixed(2));
@@ -179,12 +180,6 @@ async function grafico_financeiro_mes_mes() {
       newSomaMesAnterior.push(element.VALOR_CONVERTIDO_REAL)
    }
 
-   // const newSomaMesAtual = []
-   // for (let index = 0; index < soma_mes_mes_atual.length; index++) {
-   //    const element = soma_mes_mes_atual[index];
-   //    newSomaMesAtual.push(element.VALOR_CONVERTIDO_REAL)
-   // }
-
    var options = {
       series: [{
          name: 'Ano Atual',
@@ -193,7 +188,7 @@ async function grafico_financeiro_mes_mes() {
       }, {
          name: 'Meta',
          type: 'area',
-         data: newSomaMesAnterior
+         data: metas_mensais
       }],
 
       colors: ['#F9423A', '#3F2021'],
@@ -337,6 +332,9 @@ async function grafico_financeiro_mes_mes() {
 
    var meta_anual_grafico_card = new ApexCharts(document.querySelector("#meta_anual_grafico_card"), grafico_meta_anual);
    meta_anual_grafico_card.render();
+
+   var meta_hoje_grafico_card = new ApexCharts(document.querySelector("#meta_hoje_grafico_card"), grafico_meta_anual);
+   meta_hoje_grafico_card.render();
 }
 
 // Cria grafico de participação por modal
