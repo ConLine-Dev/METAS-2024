@@ -1,133 +1,290 @@
-<html lang="en" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="light" data-toggled="close" loader="disable" data-nav-style="menu-click">
+<html lang="en" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="light" data-toggled="close" loader="disable" data-nav-style="menu-hover">
 
 <head>
    <!-- Meta Data -->
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <title>Conline - Dashboard</title>
+   <meta name="Description" content="Metas Conline">
+   <!-- Favicon -->
+   <link rel="icon" href="/assets/images/brand-logos/icon-redondo.png" type="image/x-icon" />
+   <!-- Main Theme Js -->
+   <script src="/assets/js/main.js"></script>
    <!-- Bootstrap Css -->
    <link id="style" href="/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
    <!-- Style Css -->
    <link href="/assets/css/styles.min.css" rel="stylesheet">
    <!-- Icons Css -->
    <link href="/assets/css/icons.css" rel="stylesheet">
-   <!-- Main Theme Js -->
-   <script src="/assets/js/main.js"></script>
-
+   <!-- Verificação Login -->
+   <!-- <script src="/assets/js/back-login-page.js"></script> -->
 </head>
 <body>
-   <!-- Start::page-header -->
-   <!-- Page Header -->
-   <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
-      <h1 class="page-title fw-semibold fs-18 mb-0">Meta Financeira</h1>
-      <div class="ms-md-1 ms-0">
-         <nav>
-            <ol class="breadcrumb mb-0">
-               <li class="breadcrumb-item"><a href="javascript:void(0);">Meta Financeira</a></li>
-            </ol>
-         </nav>
+   <!-- app-header -->
+   <header class="app-header">
+      <!-- Start::main-header-container -->
+      <div class="main-header-container container-fluid">
+         <!-- Start::header-content-left -->
+         <div class="header-content-left">
+            <!-- Start::header-element -->
+            <div class="header-element">
+               <div class="horizontal-logo">
+                  <a href="https://www.conlinebr.com.br" target="_blank" class="header-logo">
+                     <img src="/assets/images/brand-logos/logo.png" alt="logo" class="desktop-logo"
+                        style="height: 1.5rem">
+                     <img src="../assets/images/brand-logos/logo-mycon.png" alt="logo" class="toggle-logo">
+                     <img src="../assets/images/brand-logos/logo-mycon-light.png" alt="logo" class="toggle-dark">
+                     <img src="/assets/images/brand-logos/logo-light.png" alt="logo" class="desktop-dark"
+                        style="height: 1.5rem">
+                  </a>
+               </div>
+            </div>
+            <!-- End::header-element -->
+            <!-- Start::header-element -->
+            <div class="header-element">
+               <!-- Start::header-link -->
+               <a aria-label="Hide Sidebar"
+                  class="sidemenu-toggle header-link animated-arrow hor-toggle horizontal-navtoggle"
+                  data-bs-toggle="sidebar" href="javascript:void(0);">
+                  <span></span>
+               </a>
+               <!-- End::header-link -->
+            </div>
+            <!-- End::header-element -->
+         </div>
+         <!-- End::header-content-left -->
+         <!-- Start::header-content-right -->
+         <div class="header-content-right">
+            <!-- Start::header-element -->
+            <div class="header-element header-theme-mode">
+               <!-- Start::header-link|layout-setting -->
+               <a href="javascript:void(0);" class="header-link layout-setting">
+                  <span class="light-layout">
+                     <!-- Start::header-link-icon -->
+                     <i class="bx bx-moon header-link-icon"></i>
+                     <!-- End::header-link-icon -->
+                  </span> <span class="dark-layout">
+                     <!-- Start::header-link-icon -->
+                     <i class="bx bx-sun header-link-icon"></i>
+                     <!-- End::header-link-icon -->
+                  </span>
+               </a>
+               <!-- End::header-link|layout-setting -->
+            </div>
+            <!-- End::header-element -->
+            <!-- Start::header-element -->
+            <div class="header-element">
+               <!-- Start::header-link|dropdown-toggle -->
+               <a href="javascript:void(0);" class="header-link dropdown-toggle" id="mainHeaderProfile"
+                  data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                  <div class="d-flex align-items-center">
+                     <div class="me-sm-2 me-0">
+                        <img src="/assets/images/brand-logos/avatar-do-usuario.png" alt="img" width="32" height="32"
+                           class="rounded-circle" id="fotoUsuario">
+                     </div>
+                     <div class="d-sm-block d-none">
+                        <p class="fw-semibold mb-0 lh-1" id="nameUser">Nome Usuário</p>
+                     </div>
+                  </div>
+               </a> <!-- End::header-link|dropdown-toggle -->
+               <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end"
+                  aria-labelledby="mainHeaderProfile">
+                  <li>
+                     <a class="dropdown-item d-flex" onclick="logout(this)" href="/" style="cursor: pointer;">
+                        <i class="ti ti-logout fs-18 me-2 op-7"></i>
+                        Sair
+                     </a>
+                  </li>
+               </ul>
+            </div>
+            <!-- End::header-element -->
+         </div>
+         <!-- End::header-content-right -->
       </div>
-   </div>
-   <!-- Page Header Close -->
-   <!-- End::page-header -->
-   <!-- Start::row-1 -->
-   <div class="row" style="display: flex;">
-      <div class="col-xl-4">
+      <!-- End::main-header-container -->
+   </header>
+   <!-- /app-header -->
+
+   <!-- Start::app-sidebar -->
+   <aside class="app-sidebar sticky sticky-pin" id="sidebar">
+      <!-- Start::main-sidebar -->
+      <div class="main-sidebar" id="sidebar-scroll" data-simplebar="init">
+
+         <div class="simplebar-wrapper" style="margin: 0px;">
+            <div class="simplebar-height-auto-observer-wrapper">
+               <div class="simplebar-height-auto-observer"></div>
+            </div>
+            <div class="simplebar-mask">
+               <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                  <div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content"
+                     style="height: 100%; overflow: hidden;">
+                     <div class="simplebar-content" style="padding: 8px 0px 80px;"> <!-- Start::nav -->
+                        <nav class="main-menu-container nav nav-pills flex-column sub-open open active">
+                           <ul class="main-menu" style="display: block; margin-left: 0; margin-right: 0px;"> 
+                              <!-- Start::slide -->
+                              <li class="slide has-sub active"> 
+                                 <a href="/dashboard" class="side-menu__item active"> 
+                                    <i class="bx bx-home side-menu__icon"></i> 
+                                    <span class="side-menu__label" style="margin-right: 14px;">Dashboards</span> 
+                                    <i class="fe fe-chevron-right side-menu__angle"></i> 
+                                 </a>
+                                 <ul class="slide-menu child1 active" style="position: relative; left: 0px; top: 0px; margin: 0px; display: none; box-sizing: border-box; transform: translate(135px, 108px);" data-popper-placement="bottom" data-popper-escaped="">
+                                    <li class="slide side-menu__label1"> <a>Dashboards</a> </li>
+                                    <li class="slide"> <a href="" class="side-menu__item">Financeiro</a> </li>
+                                 </ul>
+                              </li> <!-- End::slide --> 
+                           </ul>
+                        </nav>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="simplebar-placeholder" style="width: auto; height: 169px;"></div>
+         </div>
+
+         <div class="simplebar-track simplebar-horizontal" style="visibility: visible;">
+            <div class="simplebar-scrollbar" style="width: 0px; display: block;"></div>
+         </div>
+
+         <div class="simplebar-track simplebar-vertical" style="visibility: hidden;">
+            <div class="simplebar-scrollbar" style="height: 0px; transform: translate3d(0px, 0px, 0px); display: none;"></div>
+         </div>
+      </div>
+      <!-- End::main-sidebar -->
+   </aside>
+   <!-- End::app-sidebar -->
+
+
+   <div class="main-content app-content">
+      <div class="container-fluid">
+         <!-- Page Header -->
+         <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
+            <h1 class="page-title fw-semibold fs-18 mb-0">Meta Financeira</h1>
+            <div class="ms-md-1 ms-0">
+               <nav>
+                  <ol class="breadcrumb mb-0">
+                     <li class="breadcrumb-item" style="color: var(--primary-color); cursor: pointer;"><a href="/dashboard">Dashboards</a></li>
+                     <li class="breadcrumb-item active" aria-current="page">Meta Financeira</li>
+                  </ol>
+               </nav>
+            </div>
+         </div>
+         <!-- Page Header Close -->
+
+         <!-- DASHBOARD -->
          <div class="row">
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12" style="height: 160px;">
-               <div class="card custom-card overflow-hidden" style="height: 85%;">
-                  <div class="card-body mb-3">
-                     <div class="d-flex align-items-center justify-content-between">
-                        <div>
-                           <h6 class="fw-semibold text-primary mb-3">Meta Anual</h6> 
-                           <span class="fs-25 d-flex align-items-center" id="cardMetaAnual">--.--%</span>
+            <div class="col-xl-4">
+               <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12" style="height: 160px;">
+                     <div class="card custom-card overflow-hidden" style="height: 85%;">
+                        <div class="card-body mb-3">
+                           <div class="d-flex align-items-center justify-content-between">
+                              <div>
+                                 <h6 class="fw-semibold text-primary mb-3">Meta Anual</h6> 
+                                 <span class="fs-25 d-flex align-items-center" id="cardMetaAnual">--.--%</span>
+                              </div>
+                           </div>
+                        </div>
+                        <div id="meta_anual_grafico_card" style="margin-top: -60px; margin-bottom: -30px;">
+
                         </div>
                      </div>
                   </div>
-                  <div id="meta_anual_grafico_card" style="margin-top: -60px; margin-bottom: -30px;">
 
-                  </div>
-               </div>
-            </div>
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12" style="height: 160px;">
-               <div class="card custom-card overflow-hidden" style="height: 85%;">
-                  <div class="card-body mb-3">
-                     <div class="d-flex align-items-center justify-content-between">
-                        <div>
-                           <h6 class="fw-semibold text-primary mb-3">Meta Hoje</h6> 
-                           <span class="fs-25 d-flex align-items-center" id="cardMetaHoje">--.--%</span>
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12" style="height: 160px;">
+                     <div class="card custom-card overflow-hidden" style="height: 85%;">
+                        <div class="card-body mb-3">
+                           <div class="d-flex align-items-center justify-content-between">
+                              <div>
+                                 <h6 class="fw-semibold text-primary mb-3">Meta Hoje</h6> 
+                                 <span class="fs-25 d-flex align-items-center" id="cardMetaHoje">--.--%</span>
+                              </div>
+                           </div>
+                        </div>
+                        <div id="meta_hoje_grafico_card" style="margin-top: -60px; margin-bottom: -30px;">
+
                         </div>
                      </div>
                   </div>
-                  <div id="meta_hoje_grafico_card" style="margin-top: -60px; margin-bottom: -30px;">
 
+                  <div class="col-xxl-12 col-xl-12">
+                     <div class="card custom-card" style="height: 465px;">
+                        <div class="card-header justify-content-between">
+                           <div class="card-title"> Participação por modal </div>
+                        </div>
+                        <div class="card-body my-2 py-4" id="modais" style="margin: 0 auto;">
+         
+                        </div>
+                        <div class="card-footer p-0">
+                           <div class="row row-cols-12 justify-content-center">
+                              <div class="col pe-0 text-center">
+                                 <div class="p-sm-3 p-2 "> <span class="text-muted fs-11">IM</span> <span
+                                       class="d-block fs-16 fw-semibold" id="porcentagem_IM">--.--%</span> </div>
+                              </div>
+                              <div class="col px-0 text-center">
+                                 <div class="p-sm-3 p-2 "> <span class="text-muted fs-11">EM</span> <span
+                                       class="d-block fs-16 fw-semibold" id="porcentagem_EM">--.--%</span> </div>
+                              </div>
+                              <div class="col px-0 text-center">
+                                 <div class="p-sm-3 p-2 "> <span class="text-muted fs-11">IA</span> <span
+                                       class="d-block fs-16 fw-semibold" id="porcentagem_IA">--.--%</span> </div>
+                              </div>
+                              <div class="col ps-0 text-center">
+                                 <div class="p-sm-3 p-2"> <span class="text-muted fs-11">EA</span> <span
+                                       class="d-block fs-16 fw-semibold" id="porcentagem_EA">--.--%</span> </div>
+                              </div>
+                              <div class="col ps-0 text-center">
+                                 <div class="p-sm-3 p-2"> <span class="text-muted fs-11">OUTROS</span> <span
+                                       class="d-block fs-16 fw-semibold" id="porcentagem_OUTROS">--.--%</span> </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
                   </div>
                </div>
             </div>
 
-            <div class="col-xxl-12 col-xl-12">
-               <div class="card custom-card" style="height: 465px;">
-                  <div class="card-header justify-content-between">
-                     <div class="card-title"> Participação por modal </div>
+            <!-- Grafico Mensal -->
+            <div class="col-xl-8">
+               <div class="row">
+                  <div class="col-xl-12">
+                     <div class="card custom-card" style="height: 624px">
+                        <div class="card-header justify-content-between">
+                           <div class="card-title"> Grafico Mensal </div>
+                        </div>
+                        <div class="card-body">
+                           <div id="meta-mes-a-mes">
+                              <!-- GRAFICO AQUI -->
+                           </div>
+                        </div>
+                     </div>
                   </div>
-                  <div class="card-body my-2 py-4" id="modais" style="margin: 0 auto;">
+               </div>
+            </div>
+            <!-- Fim Grafico Mensal -->
+         </div>
+         <!-- FIM DASHBOARD -->
    
-                  </div>
-                  <div class="card-footer p-0">
-                     <div class="row row-cols-12 justify-content-center">
-                        <div class="col pe-0 text-center">
-                           <div class="p-sm-3 p-2 "> <span class="text-muted fs-11">IM</span> <span
-                                 class="d-block fs-16 fw-semibold" id="porcentagem_IM">--.--%</span> </div>
-                        </div>
-                        <div class="col px-0 text-center">
-                           <div class="p-sm-3 p-2 "> <span class="text-muted fs-11">EM</span> <span
-                                 class="d-block fs-16 fw-semibold" id="porcentagem_EM">--.--%</span> </div>
-                        </div>
-                        <div class="col px-0 text-center">
-                           <div class="p-sm-3 p-2 "> <span class="text-muted fs-11">IA</span> <span
-                                 class="d-block fs-16 fw-semibold" id="porcentagem_IA">--.--%</span> </div>
-                        </div>
-                        <div class="col ps-0 text-center">
-                           <div class="p-sm-3 p-2"> <span class="text-muted fs-11">EA</span> <span
-                                 class="d-block fs-16 fw-semibold" id="porcentagem_EA">--.--%</span> </div>
-                        </div>
-                        <div class="col ps-0 text-center">
-                           <div class="p-sm-3 p-2"> <span class="text-muted fs-11">OUTROS</span> <span
-                                 class="d-block fs-16 fw-semibold" id="porcentagem_OUTROS">--.--%</span> </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-
-      <div class="col-xl-8">
-         <div class="row">
-            <div class="col-xl-12">
-               <div class="card custom-card">
-                  <div class="card-header justify-content-between">
-                     <div class="card-title"> Grafico Mensal </div>
-                  </div>
-                  <div class="card-body" style="height: 75vh;">
-                     <div id="meta-mes-a-mes">
-                        <!-- GRAFICO AQUI -->
-                     </div>
-                  </div>
-               </div>
-            </div>
-
-         </div>
       </div>
    </div>
-   <!--End::row-1 -->
 
-   <!-- Apex Charts JS -->
+   <!-- Footer Start -->
+   <footer class="footer mt-auto py-3 bg-white text-center">
+      <div class="container">
+         <span class="text-muted"> Copyright © <span id="year"><!-- Ano Atual --></span>
+            <a href="http://conlinebr.com.br" class="text-dark fw-semibold">Conline</a>.
+            <span class="bi bi-heart-fill text-danger"></span>
+            Todos os direitos reservado
+         </span>
+      </div>
+   </footer>
+   <!-- Footer End -->
+   <div id="responsive-overlay"></div>
+
+   <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+   <script src="/assets/js/custom.js"></script>
    <script src="/assets/libs/apexcharts/apexcharts.min.js"></script>
    <script type="module" src="/assets/js/financeiro.js"></script>
-
-   <script>
-      
-   </script>
 </body>
 </html>
