@@ -9,8 +9,6 @@
    <meta name="Description" content="Metas Conline">
    <!-- Favicon -->
    <link rel="icon" href="/assets/images/brand-logos/icon-redondo.png" type="image/x-icon" />
-   <!-- Main Theme Js -->
-   <script src="/assets/js/main.js"></script>
    <!-- Bootstrap Css -->
    <link id="style" href="/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
    <!-- Style Css -->
@@ -31,7 +29,7 @@
             <!-- Start::header-element -->
             <div class="header-element">
                <div class="horizontal-logo">
-                  <a href="https://www.conlinebr.com.br" target="_blank" class="header-logo">
+                  <a href="/dashboard" class="header-logo">
                      <img src="/assets/images/brand-logos/logo.png" alt="logo" class="desktop-logo"
                         style="height: 1.5rem">
                      <img src="../assets/images/brand-logos/logo-mycon.png" alt="logo" class="toggle-logo">
@@ -116,7 +114,9 @@
             <div class="simplebar-height-auto-observer-wrapper">
                <div class="simplebar-height-auto-observer"></div>
             </div>
+
             <div class="simplebar-mask">
+
                <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
                   <div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content"
                      style="height: 100%; overflow: hidden;">
@@ -133,6 +133,7 @@
                                  <ul class="slide-menu child1 active" style="position: relative; left: 0px; top: 0px; margin: 0px; display: none; box-sizing: border-box; transform: translate(135px, 108px);" data-popper-placement="bottom" data-popper-escaped="">
                                     <li class="slide side-menu__label1"> <a>Dashboards</a> </li>
                                     <li class="slide"> <a href="/financeiro" class="side-menu__item">Financeiro</a> </li>
+                                    <li class="slide"> <a href="/processos" class="side-menu__item">Processos</a> </li>
                                  </ul>
                               </li> <!-- End::slide --> 
                            </ul>
@@ -140,8 +141,11 @@
                      </div>
                   </div>
                </div>
+
             </div>
+
             <div class="simplebar-placeholder" style="width: auto; height: 169px;"></div>
+
          </div>
 
          <div class="simplebar-track simplebar-horizontal" style="visibility: visible;">
@@ -195,6 +199,25 @@
                         </a>
                      </div>
 
+                     <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <a href="/processos">
+                           <div class="card custom-card team-member-card" style="cursor: pointer;">
+                              <div class="card-body p-0">
+                                 <div class="d-flex flex-wrap align-item-center mt-sm-0 mt-5 justify-content-between border-bottom border-block-end-dashed p-3">
+                                    <div class="team-member-details flex-fill" style="padding: 0;">
+                                       <img src="/assets/images/dashboards/financeiro.png" alt="" style="width: 100%; filter: blur(5px);">
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="card-footer border-block-start-dashed text-center">
+                                 <div class="btn-list">
+                                    <div class="btn-list"><p class="mb-0 fw-semibold fs-16 text-truncate">Meta Processos</p></div>
+                                 </div>
+                              </div>
+                           </div>
+                        </a>
+                     </div>
+
                   </div>
                </div>
             </div>
@@ -217,6 +240,9 @@
    <div id="responsive-overlay"></div>
 
    </div>
+
+   <!-- Main Theme Js -->
+   <script src="/assets/js/main.js"></script>
    <!-- Bootstrap JS -->
    <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
    <!-- Custom -->
