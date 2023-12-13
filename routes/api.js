@@ -28,6 +28,28 @@ router.get('/ano-atual', async (req, res, next) => {
     }
 });
 
+router.get('/processos-ano-anterior', async (req, res, next) => {
+    try {
+        const result = await helpers.processos_ano_anterior();
+
+        res.status(200).json(result)
+    } catch (error) {
+
+        res.status(404).json('Erro')   
+    }
+});
+
+router.get('/processos-ano-atual', async (req, res, next) => {
+    try {
+        const result = await helpers.processos_ano_atual();
+
+        res.status(200).json(result)
+    } catch (error) {
+
+        res.status(404).json('Erro')   
+    }
+});
+
 
 
 
