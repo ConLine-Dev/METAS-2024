@@ -1,10 +1,12 @@
-const conversao = {
-   get_mes:  function(number) {
-      const mesAno = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set', 'Out','Nov','Dez']
+const funcoesExportadas = {
+   remover_loading: async function () {
+      let corpoDashboard = document.querySelector('.corpo-dashboard');
+      let loading = document.querySelector('.loading');
 
-      return mesAno[number];
+      loading.style.display = 'none';
+      corpoDashboard.style.display = 'block'
    },
 }
 
 
-export default conversao;
+export default funcoesExportadas;
