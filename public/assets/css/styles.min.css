@@ -7348,6 +7348,7 @@
 .btn-loader .loading {
  margin-inline-end: 0.75rem;
 }
+
 .btn-loader i {
  animation: loader 1s infinite linear;
  position: absolute !important;
@@ -12636,7 +12637,7 @@ button {
 }
 @media (min-width: 992px) {
  .footer {
-  padding-inline-start: 15rem;
+  /* padding-inline-start: 15rem; */
  }
 }
 .footer {
