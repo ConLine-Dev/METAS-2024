@@ -1,5 +1,4 @@
-import conversao from "./helper-functions.js";
-// console.log(conversao.get_mes(0));
+import funcoesExportadas from "./helper-functions.js";
 
 const fluxo_ano_anterior = await Thefetch('/api/ano-anterior');
 const fluxo_ano_atual = await Thefetch('/api/ano-atual')
@@ -326,7 +325,6 @@ async function grafico_financeiro_mes_mes() {
       }
    }
    
-
    var chart = new ApexCharts(document.querySelector("#meta-mes-a-mes"), options);
    chart.render();
 
@@ -391,6 +389,11 @@ async function grafico_modais() {
     chart.render();
 }
 
-cardMetasAnuais();
-grafico_financeiro_mes_mes();
-grafico_modais();
+async function main() {
+   await cardMetasAnuais();
+   await grafico_financeiro_mes_mes();
+   await grafico_modais();
+   await funcoesExportadas.remover_loading();
+}
+
+main()
