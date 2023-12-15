@@ -9,15 +9,11 @@ const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'O
 
 // Apresenta o valor total por ano
 async function total_ano(consulta) {
-   let somaPorAno = 0;
+  const somaPorAno = consulta.reduce((acumulador, item) => {
+    return acumulador + item.VALOR_CONVERTIDO_REAL;
+  }, 0);
 
-   for (let index = 0; index < consulta.length; index++) {
-      const item = consulta[index];
-      
-      somaPorAno += item.VALOR_CONVERTIDO_REAL
-   }
-
-   return somaPorAno;
+  return somaPorAno;
 }
 
 // Resultado Mes a Mes
@@ -46,62 +42,46 @@ async function soma_mes_a_mes(consulta) {
 
 // Soma os valores até o dia atual separando por mes e dia
 async function somarValoresAteDiaAtual(dados) {
-   // Obtém a data atual
    const dataAtual = new Date();
-   const diaAtual = dataAtual.getDate(); // Obtém o dia atual
+   const diaAtual = dataAtual.getDate();
  
-   // Inicializa um objeto para armazenar a soma por dia
    const somaPorDia = {};
  
    for (const item of dados) {
-      // Converte a data do pagamento para um objeto Date
-      const dataPagamento = new Date(item.Data_Pagamento);
-    
-      // Verifica se a data do pagamento é até a data atual e não posterior ao dia atual do mês atual
-      if (
-        dataPagamento.getFullYear() < dataAtual.getFullYear() ||
-        (dataPagamento.getFullYear() === dataAtual.getFullYear() &&
-          dataPagamento.getMonth() < dataAtual.getMonth()) ||
-        (dataPagamento.getFullYear() === dataAtual.getFullYear() &&
-          dataPagamento.getMonth() === dataAtual.getMonth() &&
-          dataPagamento.getDate() <= diaAtual )
-      ) {
-        // Obtém a chave para o dia (ignorando ano)
-        const chaveDia = `${dataPagamento.getMonth() + 1}-${dataPagamento.getDate()}`;
-    
-        // Verifica se a data do pagamento é anterior ao dia atual do mês atual
-        if (
-          (dataPagamento.getMonth() < dataAtual.getMonth() ||
-            (dataPagamento.getMonth() === dataAtual.getMonth() &&
-              dataPagamento.getDate() <= diaAtual ))
-        ) {
-          // Inicializa a soma para o dia, se ainda não existir
-          somaPorDia[chaveDia] = somaPorDia[chaveDia] || 0;
-    
-          // Soma o valor convertido em real para o dia
-          somaPorDia[chaveDia] += item.VALOR_CONVERTIDO_REAL;
-        }
-      }
-    }
+     const dataPagamento = new Date(item.Data_Pagamento);
+ 
+     const isDataAnterior =
+       dataPagamento.getFullYear() < dataAtual.getFullYear() ||
+       (dataPagamento.getFullYear() === dataAtual.getFullYear() &&
+         dataPagamento.getMonth() < dataAtual.getMonth()) ||
+       (dataPagamento.getFullYear() === dataAtual.getFullYear() &&
+         dataPagamento.getMonth() === dataAtual.getMonth() &&
+         dataPagamento.getDate() <= diaAtual);
+ 
+     if (isDataAnterior) {
+       const chaveDia = `${dataPagamento.getMonth() + 1}-${dataPagamento.getDate()}`;
+ 
+       const isDataAnteriorMesAtual =
+         dataPagamento.getMonth() < dataAtual.getMonth() ||
+         (dataPagamento.getMonth() === dataAtual.getMonth() && dataPagamento.getDate() <= diaAtual);
+ 
+       if (isDataAnteriorMesAtual) {
+         somaPorDia[chaveDia] = (somaPorDia[chaveDia] || 0) + item.VALOR_CONVERTIDO_REAL;
+       }
+     }
+   }
  
    return somaPorDia;
 }
-
+ 
 // Função para somar o total dos valores do ano anterior ate o dia atual
 async function total_valores_ate_dia_atual_ano_anterior(consulta) {
-   // Chama a função e obtém os valores somados
-   const resultadoSomaPorDia = await somarValoresAteDiaAtual(consulta)
-
-   // Inicializa a variável para armazenar a soma total
-   let somaTotal = 0;
-
-   // Itera sobre os valores somados e acumula a soma total
-   for (const chaveDia in resultadoSomaPorDia) {
-      somaTotal += resultadoSomaPorDia[chaveDia];
-   }
-
+   const resultadoSomaPorDia = await somarValoresAteDiaAtual(consulta);
+ 
+   const somaTotal = Object.values(resultadoSomaPorDia).reduce((total, valor) => total + valor, 0);
+ 
    return somaTotal;
-}
+} 
 
 // Cards de META ANUAL, MEGA META ANUAL, META HOJE, MEGA META HOJE
 async function cardMetasAnuais() {
