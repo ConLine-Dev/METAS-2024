@@ -122,7 +122,7 @@
                      <ul class="main-menu" style="display: block; margin-left: 0; margin-right: 0px;"> 
                         <!-- Start::slide -->
                         <li class="slide has-sub active"> 
-                           <a href="/dashboard" class="side-menu__item active"> 
+                           <a href="#" class="side-menu__item active"> 
                               <i class="bx bx-home side-menu__icon"></i> 
                               <span class="side-menu__label" style="margin-right: 14px;">Dashboards</span> 
                               <i class="fe fe-chevron-right side-menu__angle"></i> 
@@ -148,11 +148,11 @@
 
 <div class="main-content app-content" style="position: relative;">
 
-   <!-- <div class="loading"> <img src="../assets/images/media/loader.svg" alt="" style="display: block;"> </div> -->
+   <div class="loading"> <img src="../assets/images/media/loader.svg" alt="" style="display: block;"> </div>
 
 
    <!-- DASHBOARD -->
-   <div class="container-fluid corpo-dashboard" style="display: block;">
+   <div class="container-fluid corpo-dashboard" style="display: none;">
       <!-- Page Header -->
       <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
          <h1 class="page-title fw-semibold fs-18 mb-0">Meta Processos</h1>
@@ -176,12 +176,12 @@
                         <div class="d-flex align-items-center justify-content-between">
                            <div>
                               <h6 class="fw-semibold text-primary mb-3">Importação Maritíma</h6> 
-                              <span class="fs-25 d-flex align-items-center" id="cardMetaAnual">--.--%</span>
+                              <span class="fs-25 d-flex align-items-center" id="card-IM">--.--%</span>
                            </div>
                         </div>
                      </div>
 
-                     <div id="meta_anual_grafico_card" style="margin-top: -60px; margin-bottom: -30px;"></div>
+                     <div id="grafico_card_IM" style="margin-top: -60px; margin-bottom: -30px;"></div>
                   </div>
                </div>
 
@@ -191,12 +191,12 @@
                         <div class="d-flex align-items-center justify-content-between">
                            <div>
                               <h6 class="fw-semibold text-primary mb-3">Importação Aérea</h6> 
-                              <span class="fs-25 d-flex align-items-center" id="cardMetaHoje">--.--%</span>
+                              <span class="fs-25 d-flex align-items-center" id="card-IA">--.--%</span>
                            </div>
                         </div>
                      </div>
 
-                     <div id="meta_hoje_grafico_card" style="margin-top: -60px; margin-bottom: -30px;"></div>
+                     <div id="grafico_card_IA" style="margin-top: -60px; margin-bottom: -30px;"></div>
                   </div>
                </div>
 
@@ -206,12 +206,12 @@
                         <div class="d-flex align-items-center justify-content-between">
                            <div>
                               <h6 class="fw-semibold text-primary mb-3">Exportação Marítima</h6> 
-                              <span class="fs-25 d-flex align-items-center" id="cardMetaHoje">--.--%</span>
+                              <span class="fs-25 d-flex align-items-center" id="card-EM">--.--%</span>
                            </div>
                         </div>
                      </div>
 
-                     <div id="meta_hoje_grafico_card" style="margin-top: -60px; margin-bottom: -30px;"></div>
+                     <div id="grafico_card_EM" style="margin-top: -60px; margin-bottom: -30px;"></div>
                   </div>
                </div>
 
@@ -221,12 +221,12 @@
                         <div class="d-flex align-items-center justify-content-between">
                            <div>
                               <h6 class="fw-semibold text-primary mb-3">Exportação Aérea</h6> 
-                              <span class="fs-25 d-flex align-items-center" id="cardMetaHoje">--.--%</span>
+                              <span class="fs-25 d-flex align-items-center" id="card-EA">--.--%</span>
                            </div>
                         </div>
                      </div>
 
-                     <div id="meta_hoje_grafico_card" style="margin-top: -60px; margin-bottom: -30px;"></div>
+                     <div id="grafico_card_EA" style="margin-top: -60px; margin-bottom: -30px;"></div>
                   </div>
                </div>
 
@@ -236,12 +236,12 @@
                         <div class="d-flex align-items-center justify-content-between">
                            <div>
                               <h6 class="fw-semibold text-primary mb-3">Clientes Ativos</h6> 
-                              <span class="fs-25 d-flex align-items-center" id="cardMetaHoje">--.--%</span>
+                              <span class="fs-25 d-flex align-items-center" id="card-CLI">--.--%</span>
                            </div>
                         </div>
                      </div>
 
-                     <div id="meta_hoje_grafico_card" style="margin-top: -60px; margin-bottom: -30px;"></div>
+                     <div id="grafico_card_CLIENTE" style="margin-top: -60px; margin-bottom: -30px;"></div>
                   </div>
                </div>
             </div>
@@ -252,8 +252,11 @@
             <div class="row">
                <div class="col-xl col-lg col-md col-sm-12">
                   <div class="card custom-card" style="height: 54vh">
-                     <div class="card-body">
-                        <div id="meta-mes-a-mes">
+                     <div class="card-header justify-content-between" style="padding: 10px 26px;"> 
+                        <div class="card-title"> Importação Marítima </div> 
+                     </div>
+                     <div class="card-body" style="padding: 0; padding-right: 15px; margin-top: -18px;">
+                        <div id="IM">
                            <!-- GRAFICO AQUI -->
                         </div>
                      </div>
@@ -262,8 +265,11 @@
 
                <div class="col-xl col-lg col-md col-sm-12">
                   <div class="card custom-card" style="height: 54vh">
-                     <div class="card-body">
-                        <div id="meta-mes-a-mes">
+                     <div class="card-header justify-content-between" style="padding: 10px 26px;"> 
+                        <div class="card-title"> Importação Aérea </div> 
+                     </div>
+                     <div class="card-body" style="padding: 0; padding-right: 15px; margin-top: -18px;">
+                        <div id="IA">
                            <!-- GRAFICO AQUI -->
                         </div>
                      </div>
@@ -272,8 +278,11 @@
 
                <div class="col-xl col-lg col-md col-sm-12">
                   <div class="card custom-card" style="height: 54vh">
-                     <div class="card-body">
-                        <div id="meta-mes-a-mes">
+                     <div class="card-header justify-content-between" style="padding: 10px 26px;"> 
+                        <div class="card-title"> Exportação Marítima </div> 
+                     </div>
+                     <div class="card-body" style="padding: 0; padding-right: 15px; margin-top: -18px;">
+                        <div id="EM">
                            <!-- GRAFICO AQUI -->
                         </div>
                      </div>
@@ -282,8 +291,11 @@
 
                <div class="col-xl col-lg col-md col-sm-12">
                   <div class="card custom-card" style="height: 54vh">
-                     <div class="card-body">
-                        <div id="meta-mes-a-mes">
+                     <div class="card-header justify-content-between" style="padding: 10px 26px;"> 
+                        <div class="card-title"> Exportação Aérea </div> 
+                     </div>
+                     <div class="card-body" style="padding: 0; padding-right: 15px; margin-top: -18px;">
+                        <div id="EA">
                            <!-- GRAFICO AQUI -->
                         </div>
                      </div>
@@ -292,8 +304,11 @@
 
                <div class="col-xl col-lg col-md col-sm-12">
                   <div class="card custom-card" style="height: 54vh">
-                     <div class="card-body">
-                        <div id="meta-mes-a-mes">
+                     <div class="card-header justify-content-between" style="padding: 10px 26px;"> 
+                        <div class="card-title"> Clientes Ativos </div> 
+                     </div>
+                     <div class="card-body" style="padding: 0; padding-right: 15px; margin-top: -18px;">
+                        <div id="CLIENTES">
                            <!-- GRAFICO AQUI -->
                         </div>
                      </div>
@@ -318,10 +333,13 @@
       </div>
    </footer>
 
+   <div id="responsive-overlay"></div>
+
    <script src="/assets/js/main.js"></script>
    <script type="module" src="/assets/js/processos.js"></script>
    <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
    <script src="/assets/js/custom.js"></script>
+   <script src="/assets/js/defaultmenu.min.js"></script>
    <script src="/assets/libs/apexcharts/apexcharts.min.js"></script>
 </body>
 </html>
