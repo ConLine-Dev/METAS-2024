@@ -81,9 +81,9 @@ function Thefetch(url, method, options = {}) { // Função Thefetch com 3 parâm
                 clearNavDropdown();
             }, 5000);
             html.setAttribute('data-nav-style', 'menu-click');
-            setTimeout(() => {
-                checkHoriMenu();
-            }, 5000);
+            // setTimeout(() => {
+            //     checkHoriMenu();
+            // }, 5000);
         }
         if (localStorage.ynexverticalstyles) {
             let html = document.querySelector('html');
