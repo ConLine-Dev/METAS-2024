@@ -25,6 +25,18 @@ const helpers = {
       return result;
    },
 
+   teus_tons_ano_anterior: async function() {
+      const result = await executeQuerySQL(`SELECT * FROM vis_Metas_Tons_Teus_Nova WHERE ANO = 2022`);
+
+      return result;
+   },
+
+   teus_tons_ano_atual: async function() {
+      const result = await executeQuerySQL(`SELECT * FROM vis_Metas_Tons_Teus_Nova WHERE ANO = 2023`);
+
+      return result;
+   },
+
 }
 
 
