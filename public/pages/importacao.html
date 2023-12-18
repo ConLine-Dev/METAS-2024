@@ -1,0 +1,690 @@
+<html lang="en" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="light" data-toggled="close" loader="disable" data-nav-style="menu-hover">
+
+<head>
+   <!-- Meta Data -->
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <title>Conline - financeiro</title>
+   <meta name="Description" content="Metas Conline">
+   <!-- Favicon -->
+   <link rel="icon" href="/assets/images/brand-logos/icon-redondo.png" type="image/x-icon" />
+   <!-- Bootstrap Css -->
+   <link id="style" href="/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+   <!-- Style Css -->
+   <link href="/assets/css/styles.min.css" rel="stylesheet">
+   <!-- Icons Css -->
+   <link href="/assets/css/icons.css" rel="stylesheet">
+   <!-- Verificação Login -->
+   <!-- <script src="/assets/js/back-login-page.js"></script> -->
+</head>
+<body>
+   <!-- header -->
+   <header class="app-header">
+      <!-- Start::main-header-container -->
+      <div class="main-header-container container-fluid">
+         <!-- Start::header-content-left -->
+         <div class="header-content-left">
+            <!-- Start::header-element -->
+            <div class="header-element">
+               <div class="horizontal-logo">
+                  <a href="/dashboard" class="header-logo">
+                     <img src="/assets/images/brand-logos/logo.png" alt="logo" class="desktop-logo"
+                     style="height: 1.5rem">
+                     <img src="../assets/images/brand-logos/logo-mycon.png" alt="logo" class="toggle-logo">
+                     <img src="../assets/images/brand-logos/logo-mycon-light.png" alt="logo" class="toggle-dark">
+                     <img src="/assets/images/brand-logos/logo-light.png" alt="logo" class="desktop-dark"
+                     style="height: 1.5rem">
+                  </a>
+               </div>
+            </div>
+            <!-- End::header-element -->
+            <!-- Start::header-element -->
+            <div class="header-element">
+               <!-- Start::header-link -->
+               <a aria-label="Hide Sidebar"
+               class="sidemenu-toggle header-link animated-arrow hor-toggle horizontal-navtoggle"
+               data-bs-toggle="sidebar" href="javascript:void(0);">
+               <span></span>
+            </a>
+            <!-- End::header-link -->
+         </div>
+         <!-- End::header-element -->
+      </div>
+      <!-- End::header-content-left -->
+      <!-- Start::header-content-right -->
+      <div class="header-content-right">
+         <!-- Start::header-element -->
+         <div class="header-element header-theme-mode">
+            <!-- Start::header-link|layout-setting -->
+            <a href="javascript:void(0);" class="header-link layout-setting">
+               <span class="light-layout">
+                  <!-- Start::header-link-icon -->
+                  <i class="bx bx-moon header-link-icon"></i>
+                  <!-- End::header-link-icon -->
+               </span> <span class="dark-layout">
+                  <!-- Start::header-link-icon -->
+                  <i class="bx bx-sun header-link-icon"></i>
+                  <!-- End::header-link-icon -->
+               </span>
+            </a>
+            <!-- End::header-link|layout-setting -->
+         </div>
+         <!-- End::header-element -->
+         <!-- Start::header-element -->
+         <div class="header-element">
+            <!-- Start::header-link|dropdown-toggle -->
+            <a href="javascript:void(0);" class="header-link dropdown-toggle" id="mainHeaderProfile"
+            data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+            <div class="d-flex align-items-center">
+               <div class="me-sm-2 me-0">
+                  <img src="/assets/images/brand-logos/avatar-do-usuario.png" alt="img" width="32" height="32"
+                  class="rounded-circle" id="fotoUsuario">
+               </div>
+               <div class="d-sm-block d-none">
+                  <p class="fw-semibold mb-0 lh-1" id="nameUser">Nome Usuário</p>
+               </div>
+            </div>
+         </a> <!-- End::header-link|dropdown-toggle -->
+         <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end"
+         aria-labelledby="mainHeaderProfile">
+         <li>
+            <a class="dropdown-item d-flex" onclick="logout(this)" href="/" style="cursor: pointer;">
+               <i class="ti ti-logout fs-18 me-2 op-7"></i>
+               Sair
+            </a>
+         </li>
+      </ul>
+   </div>
+   <!-- End::header-element -->
+</div>
+<!-- End::header-content-right -->
+</div>
+   <!-- End::main-header-container -->
+   </header>
+   <!-- /header -->
+
+   <!-- sidebar -->
+   <aside class="app-sidebar sticky sticky-pin" id="sidebar">
+      <!-- Start::main-sidebar -->
+      <div class="main-sidebar" id="sidebar-scroll" data-simplebar="init">
+         
+         <div class="simplebar-wrapper" style="margin: 0px;">
+            <div class="simplebar-height-auto-observer-wrapper">
+               <div class="simplebar-height-auto-observer"></div>
+            </div>
+            <div class="simplebar-mask">
+               <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                  <div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content"
+                  style="height: 100%; overflow: hidden;">
+                  <div class="simplebar-content" style="padding: 8px 0px 80px;"> <!-- Start::nav -->
+                     <nav class="main-menu-container nav nav-pills flex-column sub-open open active">
+                        <ul class="main-menu" style="display: block; margin-left: 0; margin-right: 0px;"> 
+                           <!-- Start::slide -->
+                           <li class="slide has-sub active"> 
+                              <a href="#" class="side-menu__item active"> 
+                                 <i class="bx bx-home side-menu__icon"></i> 
+                                 <span class="side-menu__label" style="margin-right: 14px;">Dashboards</span> 
+                                 <i class="fe fe-chevron-right side-menu__angle"></i> 
+                              </a>
+                              <ul class="slide-menu child1" style="position: relative; left: 0px; top: 0px; margin: 0px; display: block; box-sizing: border-box; transform: translate(135px, 108px);" data-popper-placement="bottom" data-popper-escaped="">
+                                 <li class="slide side-menu__label1"> <a>Dashboards</a> </li>
+                                 <li class="slide"> <a href="/financeiro" class="side-menu__item">Financeiro</a> </li>
+                                 <li class="slide"> <a href="/processos" class="side-menu__item">Processos</a> </li>
+                                 <li class="slide"> <a href="" class="side-menu__item">importacao</a> </li>
+                              </ul>
+                           </li> <!-- End::slide --> 
+                        </ul>
+                     </nav>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="simplebar-placeholder" style="width: auto; height: 169px;"></div>
+      </div>
+   </div>
+   <!-- End::main-sidebar -->
+   </aside>
+   <!-- /sidebar -->
+
+   <!-- Dashboard -->
+   <div class="main-content app-content" style="position: relative;">
+
+      <div class="loading"> <img src="../assets/images/media/loader.svg" alt="" style="display: block;"> </div>
+
+      <div class="container-fluid corpo-dashboard" style="display: none;">
+         <!-- Page Header -->
+         <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
+            <h1 class="page-title fw-semibold fs-18 mb-0">Meta Importação</h1>
+            <div class="ms-md-1 ms-0">
+               <nav>
+                  <ol class="breadcrumb mb-0">
+                     <li class="breadcrumb-item" style="color: var(--primary-color); cursor: pointer;"><a href="/dashboard">Dashboards</a></li>
+                     <li class="breadcrumb-item active" aria-current="page">Meta Importação</li>
+                  </ol>
+               </nav>
+            </div>
+         </div>
+         <!-- Page Header Close -->
+         
+         <div class="row">
+            <div class="col-xxl-12 col-xl-12">
+               <div class="row">
+                  <div class="col-xl-12">
+                     <div class="row">
+                        <div class="col-xxl-4 col-lg-4 col-md-4">
+                           <div class="card custom-card overflow-hidden">
+                              <div class="card-body">
+                                 <div class="d-flex align-items-top justify-content-between">
+                                    <div> 
+                                       <span class="avatar avatar-md avatar-rounded bg-success" style="background-color: var(--primary-color) !important;"> 
+                                          <i class="ti ti-ship fs-16"></i> 
+                                       </span> 
+                                    </div>
+                                    <div class="flex-fill ms-3">
+                                       <div class="d-flex align-items-center justify-content-between flex-wrap">
+                                          <div>
+                                             <p class="text-muted mb-0">Importação Marítima - FCL</p>
+                                             <h4 class="fw-semibold mt-1" id="meta-anual-FCL-IM">--.--%</h4>
+                                          </div>
+                                          <div id="crm-conversion-ratio" style="min-height: 40px;">
+                                             <div id="apexchartsdnfnplip"
+                                                class="apexcharts-canvas apexchartsdnfnplip apexcharts-theme-light"
+                                                style="width: 100px; height: 40px;"><svg id="SvgjsSvg4393" width="100"
+                                                   height="40" xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                                   xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev"
+                                                   class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, 0)"
+                                                   style="background: transparent;">
+                                                   <foreignObject x="0" y="0" width="100" height="40">
+                                                      <div class="apexcharts-legend" xmlns="http://www.w3.org/1999/xhtml"
+                                                         style="max-height: 20px;"></div>
+                                                   </foreignObject>
+                                                   <rect id="SvgjsRect4397" width="0" height="0" x="0" y="0" rx="0" ry="0"
+                                                      opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0"
+                                                      fill="#fefefe"></rect>
+                                                   <g id="SvgjsG4440" class="apexcharts-yaxis" rel="0"
+                                                      transform="translate(-18, 0)"></g>
+                                                   <g id="SvgjsG4395" class="apexcharts-inner apexcharts-graphical"
+                                                      transform="translate(0, 0)">
+                                                      <defs id="SvgjsDefs4394">
+                                                         <clipPath id="gridRectMaskdnfnplip">
+                                                            <rect id="SvgjsRect4399" width="105.5" height="41.5" x="-2.75"
+                                                               y="-0.75" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none"
+                                                               stroke-dasharray="0" fill="#fff"></rect>
+                                                         </clipPath>
+                                                         <clipPath id="forecastMaskdnfnplip"></clipPath>
+                                                         <clipPath id="nonForecastMaskdnfnplip"></clipPath>
+                                                         <clipPath id="gridRectMarkerMaskdnfnplip">
+                                                            <rect id="SvgjsRect4400" width="104" height="44" x="-2" y="-2" rx="0"
+                                                               ry="0" opacity="1" stroke-width="0" stroke="none"
+                                                               stroke-dasharray="0" fill="#fff"></rect>
+                                                         </clipPath>
+                                                         <linearGradient id="SvgjsLinearGradient4405" x1="0" y1="1" x2="1"
+                                                            y2="1">
+                                                            <stop id="SvgjsStop4406" stop-opacity="0.9"
+                                                               stop-color="rgba(19,96,74,0.9)" offset="0"></stop>
+                                                            <stop id="SvgjsStop4407" stop-opacity="0.9"
+                                                               stop-color="rgba(38,191,148,0.9)" offset="0.98"></stop>
+                                                            <stop id="SvgjsStop4408" stop-opacity="0.9"
+                                                               stop-color="rgba(38,191,148,0.9)" offset="1"></stop>
+                                                         </linearGradient>
+                                                      </defs>
+                                                      <line id="SvgjsLine4398" x1="0" y1="0" x2="0" y2="40" stroke="#b6b6b6"
+                                                         stroke-dasharray="3" stroke-linecap="butt"
+                                                         class="apexcharts-xcrosshairs" x="0" y="0" width="1" height="40"
+                                                         fill="#b1b9c4" filter="none" fill-opacity="0.9" stroke-width="1"></line>
+                                                      <g id="SvgjsG4410" class="apexcharts-grid">
+                                                         <g id="SvgjsG4411" class="apexcharts-gridlines-horizontal"
+                                                            style="display: none;">
+                                                            <line id="SvgjsLine4414" x1="0" y1="0" x2="100" y2="0"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4415" x1="0" y1="4" x2="100" y2="4"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4416" x1="0" y1="8" x2="100" y2="8"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4417" x1="0" y1="12" x2="100" y2="12"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4418" x1="0" y1="16" x2="100" y2="16"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4419" x1="0" y1="20" x2="100" y2="20"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4420" x1="0" y1="24" x2="100" y2="24"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4421" x1="0" y1="28" x2="100" y2="28"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4422" x1="0" y1="32" x2="100" y2="32"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4423" x1="0" y1="36" x2="100" y2="36"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4424" x1="0" y1="40" x2="100" y2="40"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                         </g>
+                                                         <g id="SvgjsG4412" class="apexcharts-gridlines-vertical"
+                                                            style="display: none;"></g>
+                                                         <line id="SvgjsLine4426" x1="0" y1="40" x2="100" y2="40"
+                                                            stroke="transparent" stroke-dasharray="0" stroke-linecap="butt">
+                                                         </line>
+                                                         <line id="SvgjsLine4425" x1="0" y1="1" x2="0" y2="40"
+                                                            stroke="transparent" stroke-dasharray="0" stroke-linecap="butt">
+                                                         </line>
+                                                      </g>
+                                                      <g id="SvgjsG4413" class="apexcharts-grid-borders" style="display: none;">
+                                                      </g>
+                                                      <g id="SvgjsG4401" class="apexcharts-line-series apexcharts-plot-series">
+                                                         <g id="SvgjsG4402" class="apexcharts-series" seriesName="Value"
+                                                            data:longestSeries="true" rel="1" data:realIndex="0">
+                                                            <path id="SvgjsPath4409"
+                                                               d="M 0 8C 4.375 8 8.125 8 12.5 8C 16.875 8 20.625 4.799999999999997 25 4.799999999999997C 29.375 4.799999999999997 33.125 25.6 37.5 25.6C 41.875 25.6 45.625 17.6 50 17.6C 54.375 17.6 58.125 9.600000000000001 62.5 9.600000000000001C 66.875 9.600000000000001 70.625 24 75 24C 79.375 24 83.125 0 87.5 0C 91.875 0 95.625 20.8 100 20.8"
+                                                               fill="none" fill-opacity="1"
+                                                               stroke="url(#SvgjsLinearGradient4405)" stroke-opacity="1"
+                                                               stroke-linecap="butt" stroke-width="1.5" stroke-dasharray="0"
+                                                               class="apexcharts-line" index="0"
+                                                               clip-path="url(#gridRectMaskdnfnplip)"
+                                                               pathTo="M 0 8C 4.375 8 8.125 8 12.5 8C 16.875 8 20.625 4.799999999999997 25 4.799999999999997C 29.375 4.799999999999997 33.125 25.6 37.5 25.6C 41.875 25.6 45.625 17.6 50 17.6C 54.375 17.6 58.125 9.600000000000001 62.5 9.600000000000001C 66.875 9.600000000000001 70.625 24 75 24C 79.375 24 83.125 0 87.5 0C 91.875 0 95.625 20.8 100 20.8"
+                                                               pathFrom="M -1 40 L -1 40 L 12.5 40 L 25 40 L 37.5 40 L 50 40 L 62.5 40 L 75 40 L 87.5 40 L 100 40"
+                                                               fill-rule="evenodd"></path>
+                                                            <g id="SvgjsG4403"
+                                                               class="apexcharts-series-markers-wrap apexcharts-hidden-element-shown"
+                                                               data:realIndex="0"></g>
+                                                         </g>
+                                                         <g id="SvgjsG4404" class="apexcharts-datalabels" data:realIndex="0"></g>
+                                                      </g>
+                                                      <line id="SvgjsLine4427" x1="0" y1="0" x2="100" y2="0" stroke="#b6b6b6"
+                                                         stroke-dasharray="0" stroke-width="1" stroke-linecap="butt"
+                                                         class="apexcharts-ycrosshairs"></line>
+                                                      <line id="SvgjsLine4428" x1="0" y1="0" x2="100" y2="0" stroke-dasharray="0"
+                                                         stroke-width="0" stroke-linecap="butt"
+                                                         class="apexcharts-ycrosshairs-hidden"></line>
+                                                      <g id="SvgjsG4429" class="apexcharts-xaxis" transform="translate(0, 0)">
+                                                         <g id="SvgjsG4430" class="apexcharts-xaxis-texts-g"
+                                                            transform="translate(0, -4)"></g>
+                                                      </g>
+                                                      <g id="SvgjsG4441" class="apexcharts-yaxis-annotations"></g>
+                                                      <g id="SvgjsG4442" class="apexcharts-xaxis-annotations"></g>
+                                                      <g id="SvgjsG4443" class="apexcharts-point-annotations"></g>
+                                                   </g>
+                                                </svg></div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="col-xxl-4 col-lg-4 col-md-4">
+                           <div class="card custom-card overflow-hidden">
+                              <div class="card-body">
+                                 <div class="d-flex align-items-top justify-content-between">
+                                    <div> 
+                                       <span class="avatar avatar-md avatar-rounded bg-success" style="background-color: var(--primary-color) !important;"> 
+                                          <i class="ti ti-ship fs-16"></i> 
+                                       </span> 
+                                    </div>
+                                    <div class="flex-fill ms-3">
+                                       <div class="d-flex align-items-center justify-content-between flex-wrap">
+                                          <div>
+                                             <p class="text-muted mb-0">Importação Marítima - LCL</p>
+                                             <h4 class="fw-semibold mt-1" id="meta-anual-LCL-IM">--.--%</h4>
+                                          </div>
+                                          <div id="crm-conversion-ratio" style="min-height: 40px;">
+                                             <div id="apexchartsdnfnplip"
+                                                class="apexcharts-canvas apexchartsdnfnplip apexcharts-theme-light"
+                                                style="width: 100px; height: 40px;"><svg id="SvgjsSvg4393" width="100"
+                                                   height="40" xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                                   xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev"
+                                                   class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, 0)"
+                                                   style="background: transparent;">
+                                                   <foreignObject x="0" y="0" width="100" height="40">
+                                                      <div class="apexcharts-legend" xmlns="http://www.w3.org/1999/xhtml"
+                                                         style="max-height: 20px;"></div>
+                                                   </foreignObject>
+                                                   <rect id="SvgjsRect4397" width="0" height="0" x="0" y="0" rx="0" ry="0"
+                                                      opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0"
+                                                      fill="#fefefe"></rect>
+                                                   <g id="SvgjsG4440" class="apexcharts-yaxis" rel="0"
+                                                      transform="translate(-18, 0)"></g>
+                                                   <g id="SvgjsG4395" class="apexcharts-inner apexcharts-graphical"
+                                                      transform="translate(0, 0)">
+                                                      <defs id="SvgjsDefs4394">
+                                                         <clipPath id="gridRectMaskdnfnplip">
+                                                            <rect id="SvgjsRect4399" width="105.5" height="41.5" x="-2.75"
+                                                               y="-0.75" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none"
+                                                               stroke-dasharray="0" fill="#fff"></rect>
+                                                         </clipPath>
+                                                         <clipPath id="forecastMaskdnfnplip"></clipPath>
+                                                         <clipPath id="nonForecastMaskdnfnplip"></clipPath>
+                                                         <clipPath id="gridRectMarkerMaskdnfnplip">
+                                                            <rect id="SvgjsRect4400" width="104" height="44" x="-2" y="-2" rx="0"
+                                                               ry="0" opacity="1" stroke-width="0" stroke="none"
+                                                               stroke-dasharray="0" fill="#fff"></rect>
+                                                         </clipPath>
+                                                         <linearGradient id="SvgjsLinearGradient4405" x1="0" y1="1" x2="1"
+                                                            y2="1">
+                                                            <stop id="SvgjsStop4406" stop-opacity="0.9"
+                                                               stop-color="rgba(19,96,74,0.9)" offset="0"></stop>
+                                                            <stop id="SvgjsStop4407" stop-opacity="0.9"
+                                                               stop-color="rgba(38,191,148,0.9)" offset="0.98"></stop>
+                                                            <stop id="SvgjsStop4408" stop-opacity="0.9"
+                                                               stop-color="rgba(38,191,148,0.9)" offset="1"></stop>
+                                                         </linearGradient>
+                                                      </defs>
+                                                      <line id="SvgjsLine4398" x1="0" y1="0" x2="0" y2="40" stroke="#b6b6b6"
+                                                         stroke-dasharray="3" stroke-linecap="butt"
+                                                         class="apexcharts-xcrosshairs" x="0" y="0" width="1" height="40"
+                                                         fill="#b1b9c4" filter="none" fill-opacity="0.9" stroke-width="1"></line>
+                                                      <g id="SvgjsG4410" class="apexcharts-grid">
+                                                         <g id="SvgjsG4411" class="apexcharts-gridlines-horizontal"
+                                                            style="display: none;">
+                                                            <line id="SvgjsLine4414" x1="0" y1="0" x2="100" y2="0"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4415" x1="0" y1="4" x2="100" y2="4"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4416" x1="0" y1="8" x2="100" y2="8"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4417" x1="0" y1="12" x2="100" y2="12"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4418" x1="0" y1="16" x2="100" y2="16"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4419" x1="0" y1="20" x2="100" y2="20"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4420" x1="0" y1="24" x2="100" y2="24"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4421" x1="0" y1="28" x2="100" y2="28"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4422" x1="0" y1="32" x2="100" y2="32"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4423" x1="0" y1="36" x2="100" y2="36"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4424" x1="0" y1="40" x2="100" y2="40"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                         </g>
+                                                         <g id="SvgjsG4412" class="apexcharts-gridlines-vertical"
+                                                            style="display: none;"></g>
+                                                         <line id="SvgjsLine4426" x1="0" y1="40" x2="100" y2="40"
+                                                            stroke="transparent" stroke-dasharray="0" stroke-linecap="butt">
+                                                         </line>
+                                                         <line id="SvgjsLine4425" x1="0" y1="1" x2="0" y2="40"
+                                                            stroke="transparent" stroke-dasharray="0" stroke-linecap="butt">
+                                                         </line>
+                                                      </g>
+                                                      <g id="SvgjsG4413" class="apexcharts-grid-borders" style="display: none;">
+                                                      </g>
+                                                      <g id="SvgjsG4401" class="apexcharts-line-series apexcharts-plot-series">
+                                                         <g id="SvgjsG4402" class="apexcharts-series" seriesName="Value"
+                                                            data:longestSeries="true" rel="1" data:realIndex="0">
+                                                            <path id="SvgjsPath4409"
+                                                               d="M 0 8C 4.375 8 8.125 8 12.5 8C 16.875 8 20.625 4.799999999999997 25 4.799999999999997C 29.375 4.799999999999997 33.125 25.6 37.5 25.6C 41.875 25.6 45.625 17.6 50 17.6C 54.375 17.6 58.125 9.600000000000001 62.5 9.600000000000001C 66.875 9.600000000000001 70.625 24 75 24C 79.375 24 83.125 0 87.5 0C 91.875 0 95.625 20.8 100 20.8"
+                                                               fill="none" fill-opacity="1"
+                                                               stroke="url(#SvgjsLinearGradient4405)" stroke-opacity="1"
+                                                               stroke-linecap="butt" stroke-width="1.5" stroke-dasharray="0"
+                                                               class="apexcharts-line" index="0"
+                                                               clip-path="url(#gridRectMaskdnfnplip)"
+                                                               pathTo="M 0 8C 4.375 8 8.125 8 12.5 8C 16.875 8 20.625 4.799999999999997 25 4.799999999999997C 29.375 4.799999999999997 33.125 25.6 37.5 25.6C 41.875 25.6 45.625 17.6 50 17.6C 54.375 17.6 58.125 9.600000000000001 62.5 9.600000000000001C 66.875 9.600000000000001 70.625 24 75 24C 79.375 24 83.125 0 87.5 0C 91.875 0 95.625 20.8 100 20.8"
+                                                               pathFrom="M -1 40 L -1 40 L 12.5 40 L 25 40 L 37.5 40 L 50 40 L 62.5 40 L 75 40 L 87.5 40 L 100 40"
+                                                               fill-rule="evenodd"></path>
+                                                            <g id="SvgjsG4403"
+                                                               class="apexcharts-series-markers-wrap apexcharts-hidden-element-shown"
+                                                               data:realIndex="0"></g>
+                                                         </g>
+                                                         <g id="SvgjsG4404" class="apexcharts-datalabels" data:realIndex="0"></g>
+                                                      </g>
+                                                      <line id="SvgjsLine4427" x1="0" y1="0" x2="100" y2="0" stroke="#b6b6b6"
+                                                         stroke-dasharray="0" stroke-width="1" stroke-linecap="butt"
+                                                         class="apexcharts-ycrosshairs"></line>
+                                                      <line id="SvgjsLine4428" x1="0" y1="0" x2="100" y2="0" stroke-dasharray="0"
+                                                         stroke-width="0" stroke-linecap="butt"
+                                                         class="apexcharts-ycrosshairs-hidden"></line>
+                                                      <g id="SvgjsG4429" class="apexcharts-xaxis" transform="translate(0, 0)">
+                                                         <g id="SvgjsG4430" class="apexcharts-xaxis-texts-g"
+                                                            transform="translate(0, -4)"></g>
+                                                      </g>
+                                                      <g id="SvgjsG4441" class="apexcharts-yaxis-annotations"></g>
+                                                      <g id="SvgjsG4442" class="apexcharts-xaxis-annotations"></g>
+                                                      <g id="SvgjsG4443" class="apexcharts-point-annotations"></g>
+                                                   </g>
+                                                </svg></div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="col-xxl-4 col-lg-4 col-md-4">
+                           <div class="card custom-card overflow-hidden">
+                              <div class="card-body">
+                                 <div class="d-flex align-items-top justify-content-between">
+                                    <div> 
+                                       <span class="avatar avatar-md avatar-rounded bg-success" style="background-color: var(--primary-color) !important;"> 
+                                          <i class="ti ti-plane-inflight fs-16"></i> 
+                                       </span> 
+                                    </div>
+                                    <div class="flex-fill ms-3">
+                                       <div class="d-flex align-items-center justify-content-between flex-wrap">
+                                          <div>
+                                             <p class="text-muted mb-0">Importação Aérea</p>
+                                             <h4 class="fw-semibold mt-1" id="meta-anual-AÉREO-IA">--.--%</h4>
+                                          </div>
+                                          <div id="crm-conversion-ratio" style="min-height: 40px;">
+                                             <div id="apexchartsdnfnplip"
+                                                class="apexcharts-canvas apexchartsdnfnplip apexcharts-theme-light"
+                                                style="width: 100px; height: 40px;"><svg id="SvgjsSvg4393" width="100"
+                                                   height="40" xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                                   xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev"
+                                                   class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, 0)"
+                                                   style="background: transparent;">
+                                                   <foreignObject x="0" y="0" width="100" height="40">
+                                                      <div class="apexcharts-legend" xmlns="http://www.w3.org/1999/xhtml"
+                                                         style="max-height: 20px;"></div>
+                                                   </foreignObject>
+                                                   <rect id="SvgjsRect4397" width="0" height="0" x="0" y="0" rx="0" ry="0"
+                                                      opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0"
+                                                      fill="#fefefe"></rect>
+                                                   <g id="SvgjsG4440" class="apexcharts-yaxis" rel="0"
+                                                      transform="translate(-18, 0)"></g>
+                                                   <g id="SvgjsG4395" class="apexcharts-inner apexcharts-graphical"
+                                                      transform="translate(0, 0)">
+                                                      <defs id="SvgjsDefs4394">
+                                                         <clipPath id="gridRectMaskdnfnplip">
+                                                            <rect id="SvgjsRect4399" width="105.5" height="41.5" x="-2.75"
+                                                               y="-0.75" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none"
+                                                               stroke-dasharray="0" fill="#fff"></rect>
+                                                         </clipPath>
+                                                         <clipPath id="forecastMaskdnfnplip"></clipPath>
+                                                         <clipPath id="nonForecastMaskdnfnplip"></clipPath>
+                                                         <clipPath id="gridRectMarkerMaskdnfnplip">
+                                                            <rect id="SvgjsRect4400" width="104" height="44" x="-2" y="-2" rx="0"
+                                                               ry="0" opacity="1" stroke-width="0" stroke="none"
+                                                               stroke-dasharray="0" fill="#fff"></rect>
+                                                         </clipPath>
+                                                         <linearGradient id="SvgjsLinearGradient4405" x1="0" y1="1" x2="1"
+                                                            y2="1">
+                                                            <stop id="SvgjsStop4406" stop-opacity="0.9"
+                                                               stop-color="rgba(19,96,74,0.9)" offset="0"></stop>
+                                                            <stop id="SvgjsStop4407" stop-opacity="0.9"
+                                                               stop-color="rgba(38,191,148,0.9)" offset="0.98"></stop>
+                                                            <stop id="SvgjsStop4408" stop-opacity="0.9"
+                                                               stop-color="rgba(38,191,148,0.9)" offset="1"></stop>
+                                                         </linearGradient>
+                                                      </defs>
+                                                      <line id="SvgjsLine4398" x1="0" y1="0" x2="0" y2="40" stroke="#b6b6b6"
+                                                         stroke-dasharray="3" stroke-linecap="butt"
+                                                         class="apexcharts-xcrosshairs" x="0" y="0" width="1" height="40"
+                                                         fill="#b1b9c4" filter="none" fill-opacity="0.9" stroke-width="1"></line>
+                                                      <g id="SvgjsG4410" class="apexcharts-grid">
+                                                         <g id="SvgjsG4411" class="apexcharts-gridlines-horizontal"
+                                                            style="display: none;">
+                                                            <line id="SvgjsLine4414" x1="0" y1="0" x2="100" y2="0"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4415" x1="0" y1="4" x2="100" y2="4"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4416" x1="0" y1="8" x2="100" y2="8"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4417" x1="0" y1="12" x2="100" y2="12"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4418" x1="0" y1="16" x2="100" y2="16"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4419" x1="0" y1="20" x2="100" y2="20"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4420" x1="0" y1="24" x2="100" y2="24"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4421" x1="0" y1="28" x2="100" y2="28"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4422" x1="0" y1="32" x2="100" y2="32"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4423" x1="0" y1="36" x2="100" y2="36"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine4424" x1="0" y1="40" x2="100" y2="40"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                         </g>
+                                                         <g id="SvgjsG4412" class="apexcharts-gridlines-vertical"
+                                                            style="display: none;"></g>
+                                                         <line id="SvgjsLine4426" x1="0" y1="40" x2="100" y2="40"
+                                                            stroke="transparent" stroke-dasharray="0" stroke-linecap="butt">
+                                                         </line>
+                                                         <line id="SvgjsLine4425" x1="0" y1="1" x2="0" y2="40"
+                                                            stroke="transparent" stroke-dasharray="0" stroke-linecap="butt">
+                                                         </line>
+                                                      </g>
+                                                      <g id="SvgjsG4413" class="apexcharts-grid-borders" style="display: none;">
+                                                      </g>
+                                                      <g id="SvgjsG4401" class="apexcharts-line-series apexcharts-plot-series">
+                                                         <g id="SvgjsG4402" class="apexcharts-series" seriesName="Value"
+                                                            data:longestSeries="true" rel="1" data:realIndex="0">
+                                                            <path id="SvgjsPath4409"
+                                                               d="M 0 8C 4.375 8 8.125 8 12.5 8C 16.875 8 20.625 4.799999999999997 25 4.799999999999997C 29.375 4.799999999999997 33.125 25.6 37.5 25.6C 41.875 25.6 45.625 17.6 50 17.6C 54.375 17.6 58.125 9.600000000000001 62.5 9.600000000000001C 66.875 9.600000000000001 70.625 24 75 24C 79.375 24 83.125 0 87.5 0C 91.875 0 95.625 20.8 100 20.8"
+                                                               fill="none" fill-opacity="1"
+                                                               stroke="url(#SvgjsLinearGradient4405)" stroke-opacity="1"
+                                                               stroke-linecap="butt" stroke-width="1.5" stroke-dasharray="0"
+                                                               class="apexcharts-line" index="0"
+                                                               clip-path="url(#gridRectMaskdnfnplip)"
+                                                               pathTo="M 0 8C 4.375 8 8.125 8 12.5 8C 16.875 8 20.625 4.799999999999997 25 4.799999999999997C 29.375 4.799999999999997 33.125 25.6 37.5 25.6C 41.875 25.6 45.625 17.6 50 17.6C 54.375 17.6 58.125 9.600000000000001 62.5 9.600000000000001C 66.875 9.600000000000001 70.625 24 75 24C 79.375 24 83.125 0 87.5 0C 91.875 0 95.625 20.8 100 20.8"
+                                                               pathFrom="M -1 40 L -1 40 L 12.5 40 L 25 40 L 37.5 40 L 50 40 L 62.5 40 L 75 40 L 87.5 40 L 100 40"
+                                                               fill-rule="evenodd"></path>
+                                                            <g id="SvgjsG4403"
+                                                               class="apexcharts-series-markers-wrap apexcharts-hidden-element-shown"
+                                                               data:realIndex="0"></g>
+                                                         </g>
+                                                         <g id="SvgjsG4404" class="apexcharts-datalabels" data:realIndex="0"></g>
+                                                      </g>
+                                                      <line id="SvgjsLine4427" x1="0" y1="0" x2="100" y2="0" stroke="#b6b6b6"
+                                                         stroke-dasharray="0" stroke-width="1" stroke-linecap="butt"
+                                                         class="apexcharts-ycrosshairs"></line>
+                                                      <line id="SvgjsLine4428" x1="0" y1="0" x2="100" y2="0" stroke-dasharray="0"
+                                                         stroke-width="0" stroke-linecap="butt"
+                                                         class="apexcharts-ycrosshairs-hidden"></line>
+                                                      <g id="SvgjsG4429" class="apexcharts-xaxis" transform="translate(0, 0)">
+                                                         <g id="SvgjsG4430" class="apexcharts-xaxis-texts-g"
+                                                            transform="translate(0, -4)"></g>
+                                                      </g>
+                                                      <g id="SvgjsG4441" class="apexcharts-yaxis-annotations"></g>
+                                                      <g id="SvgjsG4442" class="apexcharts-xaxis-annotations"></g>
+                                                      <g id="SvgjsG4443" class="apexcharts-point-annotations"></g>
+                                                   </g>
+                                                </svg></div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div class="col-xl-12">
+                     <div class="row">
+                        <div class="col-xxl-4 col-lg-4 col-md-4">
+                           <div class="card custom-card">
+                              <div class="card-header justify-content-between">
+                                 <div class="card-title"> Importação Marítima - FCL </div>
+                              </div>
+                              <div class="card-body">
+                                 <div class="content-wrapper" style="min-height: 428px;"> </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="col-xxl-4 col-lg-4 col-md-4">
+                           <div class="card custom-card">
+                              <div class="card-header justify-content-between">
+                                 <div class="card-title"> Importação Marítima - LCL</div>
+                              </div>
+                              <div class="card-body">
+                                 <div class="content-wrapper" style="min-height: 425px;"> </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="col-xxl-4 col-lg-4 col-md-4">
+                           <div class="card custom-card">
+                              <div class="card-header justify-content-between">
+                                 <div class="card-title"> Importação Aérea </div>
+                              </div>
+                              <div class="card-body">
+                                 <div class="content-wrapper" style="min-height: 425px;"> </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         </div>
+         </div>
+   <!-- Dashboard -->
+
+   <!-- Footer Start -->
+   <footer class="footer mt-auto py-3 bg-white text-center">
+      <div class="container">
+         <span class="text-muted"> Copyright © <span id="year"><!-- Ano Atual --></span>
+            <a href="http://conlinebr.com.br" class="text-dark fw-semibold">Conline</a>.
+            <span class="bi bi-heart-fill text-danger"></span>
+            Todos os direitos reservado
+         </span>
+      </div>
+   </footer>
+   <!-- Footer End -->
+
+   <div id="responsive-overlay"></div>
+
+   <script src="/assets/js/main.js"></script>
+   <script type="module" src="/assets/js/importacao.js"></script>
+   <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+   <script src="/assets/js/custom.js"></script>
+   <script src="/assets/js/defaultmenu.min.js"></script>
+   <script src="/assets/libs/apexcharts/apexcharts.min.js"></script>
+</body>
+</html>
