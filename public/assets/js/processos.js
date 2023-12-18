@@ -2,7 +2,6 @@ import funcoesExportadas from "./helper-functions.js";
 
 const processos_ano_anterior = await Thefetch('/api/processos-ano-anterior');
 const processos_ano_atual = await Thefetch('/api/processos-ano-atual')
-console.log(processos_ano_anterior);
 const meta = 1.15;
 
 const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
