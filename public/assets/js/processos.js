@@ -266,9 +266,6 @@ async function grafico_mensais_cliente() {
       const item1 = cliente_ano_atual[i];
       const item2 = meta_cliente[i];
 
-      console.log(item1, 'atual');
-      console.log(item2, 'meta');
-
       // Calcular porcentagem  e adicionar ao array de porcentagens
       const porcentagem = (item1 / item2) * 100;
       porcentagens.push(porcentagem.toFixed(2));
