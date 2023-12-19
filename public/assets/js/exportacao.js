@@ -22,7 +22,7 @@ async function soma_dados_mes_mes(consulta, modalidade, tipoCarga, campo) {
 
    // Apresenta somente duas casas decimais em cada item
    for (let i = 0; i < soma_por_mes.length; i++) {
-      soma_por_mes[i] = parseInt(soma_por_mes[i])
+      soma_por_mes[i] = Number(soma_por_mes[i].toFixed(2))
    }
 
    return soma_por_mes;
@@ -46,7 +46,7 @@ async function cards_anuais(modalidade, tipoCarga, campo) {
 
    // Multiplica os valores do ano anterior com o valor da meta para termos a meta
    const meta_por_modal = dados_modal_ano_anterior * meta;
-   
+
    // Divide o total até agora pela meta para termos a porcentagem
    const porcentagem_resultado_alcançado = (dados_modal_ano_atual / meta_por_modal) * 100;
    const porcentagem = porcentagem_resultado_alcançado.toFixed(2) + '%'
@@ -61,7 +61,7 @@ async function graficos_mensais(modalidade, tipoCarga, campo) {
    const dados_ano_anterior = await soma_dados_mes_mes(teus_tons_ano_anterior, modalidade, tipoCarga, campo);
    const dados_ano_atual = await soma_dados_mes_mes(teus_tons_ano_atual, modalidade, tipoCarga, campo);
 
-   const meta_modal_campo = dados_ano_anterior.map(valor => parseInt(valor * meta));
+   const meta_modal_campo = dados_ano_anterior.map(valor => Math.max(Number((valor * meta).toFixed(2)), 1));
 
    // Armazena as porcentagem do atingido da meta até hoje
    const porcentagens = [];
