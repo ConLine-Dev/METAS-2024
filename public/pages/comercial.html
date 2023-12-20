@@ -152,10 +152,10 @@
    <!-- Dashboard -->
    <div class="main-content app-content" style="position: relative;">
 
-      <!-- <div class="loading"> <img src="../assets/images/media/loader.svg" alt="" style="display: block;"> </div> -->
+      <div class="loading"> <img src="../assets/images/media/loader.svg" alt="" style="display: block;"> </div>
 
 
-      <div class="container-fluid corpo-dashboard" style="display: block;">
+      <div class="container-fluid corpo-dashboard" style="display: none;">
          <!-- Page Header -->
          <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
             <h1 class="page-title fw-semibold fs-18 mb-0">Meta Comerical</h1>
@@ -169,9 +169,367 @@
             </div>
          </div>
          <!-- Page Header Close -->
+
+         <div class="row">
+            <div class="col-xxl-6 col-xl-12">
+               <div class="row row-cols-12">
+                  <div class="col">
+                     <div class="card custom-card">
+                        <div class="card-body">
+                           <div class="d-flex align-items-top">
+                              <div class="me-3"> 
+                                 <span class="avatar avatar-md p-2 bg-primary"> 
+                                    <i class="ti ti-ship fs-16"></i> 
+                                 </span> 
+                              </div>
+                              <div class="flex-fill">
+                                 <div class="d-flex mb-1 align-items-top justify-content-between">
+                                    <h5 class="fw-semibold mb-0 lh-1" id="card-IM">--,--%</h5>
+                                 </div>
+                                 <p class="mb-0 fs-10 op-7 text-muted fw-semibold">IMPO MARÍTIMA</p>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col">
+                     <div class="card custom-card">
+                        <div class="card-body">
+                           <div class="d-flex align-items-top">
+                              <div class="me-3"> 
+                                 <span class="avatar avatar-md p-2" style="background-color: #3F2021 !important;"> 
+                                    <i class="ti ti-ship fs-16"></i> 
+                                 </span> </div>
+                              <div class="flex-fill">
+                                 <div class="d-flex mb-1 align-items-top justify-content-between">
+                                    <h5 class="fw-semibold mb-0 lh-1" id="card-EM">--,--%</h5>
+                                 </div>
+                                 <p class="mb-0 fs-10 op-7 text-muted fw-semibold">EXPO MARÍTIMA</p>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col">
+                     <div class="card custom-card">
+                        <div class="card-body">
+                           <div class="d-flex align-items-top">
+                              <div class="me-3"> 
+                                 <span class="avatar avatar-md p-2" style="background-color: #23b7e5;">
+                                    <i class="ti ti-plane-inflight fs-16"></i> 
+                                 </span> 
+                              </div>
+                              <div class="flex-fill">
+                                 <div class="d-flex mb-1 align-items-top justify-content-between">
+                                    <h5 class="fw-semibold mb-0 lh-1" id="card-IA">--,--%</h5>
+                                 </div>
+                                 <p class="mb-0 fs-10 op-7 text-muted fw-semibold">IMPO AÉREA</p>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col">
+                     <div class="card custom-card">
+                        <div class="card-body">
+                           <div class="d-flex align-items-top">
+                              <div class="me-3"> 
+                                 <span class="avatar avatar-md p-2" style="background-color: #26bf94 !important;"> 
+                                    <i class="ti ti-plane-inflight fs-16"></i> 
+                                 </span> 
+                              </div>
+                              <div class="flex-fill">
+                                 <div class="d-flex mb-1 align-items-top justify-content-between">
+                                    <h5 class="fw-semibold mb-0 lh-1" id="card-EA">--,--%</h5>
+                                 </div>
+                                 <p class="mb-0 fs-10 op-7 text-muted fw-semibold">EXPO AÉREA</p>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xl-12">
+                     <div class="card custom-card overflow-hidden">
+                        <div class="card-header justify-content-between">
+                           <div class="card-title">Fechamentos Mensais</div>
+                        </div>
+                        <div class="card-body" id="grafico-mensal" style="height: 490px; padding: 0 10px 0 0 !important;">
+                           <!-- GRAFICO MENSAL -->
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-xxl-6 col-xl-12">
+               <div class="row">
+                  <div class="col-xxl-6 col-xl-6">
+                     <div class="card custom-card overflow-hidden" style="height: 650px;">
+                        <div class="card-header justify-content-between">
+                           <div class="card-title">Fechamentos recentes</div>
+                        </div>
+                        <div class="card-body p-0">
+                           <ul class="list-group list-group-flush" id="recent-jobs" data-simplebar="init">
+                              <div class="simplebar-wrapper" style="margin: 0px;">
+                                 <div class="simplebar-height-auto-observer-wrapper">
+                                    <div class="simplebar-height-auto-observer"></div>
+                                 </div>
+                                 <div class="simplebar-mask" style="height: 650px;">
+                                    <div class="simplebar-offset" style="height: 650px;right: 0px;bottom: 0px;">
+                                       <div class="simplebar-content-wrapper" tabindex="0" role="region"
+                                          aria-label="scrollable content" style="height: 650px;overflow: hidden scroll;">
+                                          <div class="simplebar-content" style="min-height: 653px !important;padding: 0px;">
+                                             <li class="list-group-item border-top-0 border-start-0 border-end-0"> 
+                                                <div class="d-flex align-items-center">
+                                                   <div class="me-2 lh-1"> 
+                                                      <span class="avatar avatar-md avatar-rounded bg-primary-transparent">RM</span>
+                                                   </div>
+                                                   <div class="flex-fill">
+                                                      <p class="mb-0 fw-semibold">Rafael Magalhes</p>
+                                                      <p class="fs-12 text-muted mb-0">Alex de Oliveira</p>
+                                                   </div>
+                                                   <div class="text-end">
+                                                      <p class="mb-0 fs-12">IM0000-23</p>
+                                                      <span class="badge bg-success-transparent">20/12/2023 11:36</span>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             <li class="list-group-item border-top-0 border-start-0 border-end-0"> 
+                                                <div class="d-flex align-items-center">
+                                                   <div class="me-2 lh-1"> 
+                                                      <span class="avatar avatar-md avatar-rounded bg-primary-transparent">RM</span>
+                                                   </div>
+                                                   <div class="flex-fill">
+                                                      <p class="mb-0 fw-semibold">Rafael Magalhes</p>
+                                                      <p class="fs-12 text-muted mb-0">Alex de Oliveira</p>
+                                                   </div>
+                                                   <div class="text-end">
+                                                      <p class="mb-0 fs-12">IM0000-23</p>
+                                                      <span class="badge bg-success-transparent">20/12/2023 11:36</span>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             <li class="list-group-item border-top-0 border-start-0 border-end-0"> 
+                                                <div class="d-flex align-items-center">
+                                                   <div class="me-2 lh-1"> 
+                                                      <span class="avatar avatar-md avatar-rounded bg-primary-transparent">RM</span>
+                                                   </div>
+                                                   <div class="flex-fill">
+                                                      <p class="mb-0 fw-semibold">Rafael Magalhes</p>
+                                                      <p class="fs-12 text-muted mb-0">Alex de Oliveira</p>
+                                                   </div>
+                                                   <div class="text-end">
+                                                      <p class="mb-0 fs-12">IM0000-23</p>
+                                                      <span class="badge bg-success-transparent">20/12/2023 11:36</span>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             <li class="list-group-item border-top-0 border-start-0 border-end-0"> 
+                                                <div class="d-flex align-items-center">
+                                                   <div class="me-2 lh-1"> 
+                                                      <span class="avatar avatar-md avatar-rounded bg-primary-transparent">RM</span>
+                                                   </div>
+                                                   <div class="flex-fill">
+                                                      <p class="mb-0 fw-semibold">Rafael Magalhes</p>
+                                                      <p class="fs-12 text-muted mb-0">Alex de Oliveira</p>
+                                                   </div>
+                                                   <div class="text-end">
+                                                      <p class="mb-0 fs-12">IM0000-23</p>
+                                                      <span class="badge bg-success-transparent">20/12/2023 11:36</span>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             <li class="list-group-item border-top-0 border-start-0 border-end-0"> 
+                                                <div class="d-flex align-items-center">
+                                                   <div class="me-2 lh-1"> 
+                                                      <span class="avatar avatar-md avatar-rounded bg-primary-transparent">RM</span>
+                                                   </div>
+                                                   <div class="flex-fill">
+                                                      <p class="mb-0 fw-semibold">Rafael Magalhes</p>
+                                                      <p class="fs-12 text-muted mb-0">Alex de Oliveira</p>
+                                                   </div>
+                                                   <div class="text-end">
+                                                      <p class="mb-0 fs-12">IM0000-23</p>
+                                                      <span class="badge bg-success-transparent">20/12/2023 11:36</span>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             <li class="list-group-item border-top-0 border-start-0 border-end-0"> 
+                                                <div class="d-flex align-items-center">
+                                                   <div class="me-2 lh-1"> 
+                                                      <span class="avatar avatar-md avatar-rounded bg-primary-transparent">RM</span>
+                                                   </div>
+                                                   <div class="flex-fill">
+                                                      <p class="mb-0 fw-semibold">Rafael Magalhes</p>
+                                                      <p class="fs-12 text-muted mb-0">Alex de Oliveira</p>
+                                                   </div>
+                                                   <div class="text-end">
+                                                      <p class="mb-0 fs-12">IM0000-23</p>
+                                                      <span class="badge bg-success-transparent">20/12/2023 11:36</span>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             <li class="list-group-item border-top-0 border-start-0 border-end-0"> 
+                                                <div class="d-flex align-items-center">
+                                                   <div class="me-2 lh-1"> 
+                                                      <span class="avatar avatar-md avatar-rounded bg-primary-transparent">RM</span>
+                                                   </div>
+                                                   <div class="flex-fill">
+                                                      <p class="mb-0 fw-semibold">Rafael Magalhes</p>
+                                                      <p class="fs-12 text-muted mb-0">Alex de Oliveira</p>
+                                                   </div>
+                                                   <div class="text-end">
+                                                      <p class="mb-0 fs-12">IM0000-23</p>
+                                                      <span class="badge bg-success-transparent">20/12/2023 11:36</span>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             <li class="list-group-item border-top-0 border-start-0 border-end-0"> 
+                                                <div class="d-flex align-items-center">
+                                                   <div class="me-2 lh-1"> 
+                                                      <span class="avatar avatar-md avatar-rounded bg-primary-transparent">RM</span>
+                                                   </div>
+                                                   <div class="flex-fill">
+                                                      <p class="mb-0 fw-semibold">Rafael Magalhes</p>
+                                                      <p class="fs-12 text-muted mb-0">Alex de Oliveira</p>
+                                                   </div>
+                                                   <div class="text-end">
+                                                      <p class="mb-0 fs-12">IM0000-23</p>
+                                                      <span class="badge bg-success-transparent">20/12/2023 11:36</span>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             <li class="list-group-item border-top-0 border-start-0 border-end-0"> 
+                                                <div class="d-flex align-items-center">
+                                                   <div class="me-2 lh-1"> 
+                                                      <span class="avatar avatar-md avatar-rounded bg-primary-transparent">RM</span>
+                                                   </div>
+                                                   <div class="flex-fill">
+                                                      <p class="mb-0 fw-semibold">Rafael Magalhes</p>
+                                                      <p class="fs-12 text-muted mb-0">Alex de Oliveira</p>
+                                                   </div>
+                                                   <div class="text-end">
+                                                      <p class="mb-0 fs-12">IM0000-23</p>
+                                                      <span class="badge bg-success-transparent">20/12/2023 11:36</span>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="simplebar-placeholder" style="width: 423px; height: 653px;"></div>
+                              </div>
+                              <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
+                                 <div class="simplebar-scrollbar" style="width: 0px; display: none;"></div>
+                              </div>
+                              <div class="simplebar-track simplebar-vertical" style="visibility: visible;">
+                                 <div class="simplebar-scrollbar"
+                                    style="height: 198px; transform: translate3d(0px, 0px, 0px); display: block;"></div>
+                              </div>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xxl-6 col-xl-6">
+                     <div class="card custom-card overflow-hidden" style="
+             height: 650px;
+         ">
+                        <div class="card-header justify-content-between">
+                           <div class="card-title">Ultimos Fechamentos por Modal</div>
+                        </div>
+                        <div class="card-body p-0">
+                           <ul class="list-group list-group-flush" id="recent-jobs" data-simplebar="init">
+                              <div class="simplebar-wrapper" style="margin: 0px;">
+                                 <div class="simplebar-height-auto-observer-wrapper">
+                                    <div class="simplebar-height-auto-observer"></div>
+                                 </div>
+                                 <div class="simplebar-mask">
+                                    <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                                       <div class="simplebar-content-wrapper" tabindex="0" role="region"
+                                          aria-label="scrollable content" style="height: auto; overflow: hidden scroll;">
+                                          <div class="simplebar-content" style="padding: 0px;">
+                                             <li class="list-group-item border-top-0 border-start-0 border-end-0"> 
+                                                <div class="d-flex align-items-center">
+                                                   <div class="me-2 lh-1"> 
+                                                      <span class="avatar avatar-md avatar-rounded bg-primary-transparent">RM</span>
+                                                   </div>
+                                                   <div class="flex-fill">
+                                                      <p class="mb-0 fw-semibold">Rafael Magalhes</p>
+                                                      <p class="fs-12 text-muted mb-0">Alex de Oliveira</p>
+                                                   </div>
+                                                   <div class="text-end">
+                                                      <p class="mb-0 fs-12">IM0000-23</p>
+                                                      <span class="badge bg-success-transparent">20/12/2023 11:36</span>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             <li class="list-group-item border-top-0 border-start-0 border-end-0"> 
+                                                <div class="d-flex align-items-center">
+                                                   <div class="me-2 lh-1"> 
+                                                      <span class="avatar avatar-md avatar-rounded bg-primary-transparent">RM</span>
+                                                   </div>
+                                                   <div class="flex-fill">
+                                                      <p class="mb-0 fw-semibold">Rafael Magalhes</p>
+                                                      <p class="fs-12 text-muted mb-0">Alex de Oliveira</p>
+                                                   </div>
+                                                   <div class="text-end">
+                                                      <p class="mb-0 fs-12">IM0000-23</p>
+                                                      <span class="badge bg-success-transparent">20/12/2023 11:36</span>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             <li class="list-group-item border-top-0 border-start-0 border-end-0"> 
+                                                <div class="d-flex align-items-center">
+                                                   <div class="me-2 lh-1"> 
+                                                      <span class="avatar avatar-md avatar-rounded bg-primary-transparent">RM</span>
+                                                   </div>
+                                                   <div class="flex-fill">
+                                                      <p class="mb-0 fw-semibold">Rafael Magalhes</p>
+                                                      <p class="fs-12 text-muted mb-0">Alex de Oliveira</p>
+                                                   </div>
+                                                   <div class="text-end">
+                                                      <p class="mb-0 fs-12">IM0000-23</p>
+                                                      <span class="badge bg-success-transparent">20/12/2023 11:36</span>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             <li class="list-group-item border-top-0 border-start-0 border-end-0"> 
+                                                <div class="d-flex align-items-center">
+                                                   <div class="me-2 lh-1"> 
+                                                      <span class="avatar avatar-md avatar-rounded bg-primary-transparent">RM</span>
+                                                   </div>
+                                                   <div class="flex-fill">
+                                                      <p class="mb-0 fw-semibold">Rafael Magalhes</p>
+                                                      <p class="fs-12 text-muted mb-0">Alex de Oliveira</p>
+                                                   </div>
+                                                   <div class="text-end">
+                                                      <p class="mb-0 fs-12">IM0000-23</p>
+                                                      <span class="badge bg-success-transparent">20/12/2023 11:36</span>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="simplebar-placeholder" style="width: auto; height: 389px;"></div>
+                              </div>
+                              <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
+                                 <div class="simplebar-scrollbar" style="width: 0px; display: none;"></div>
+                              </div>
+                              <div class="simplebar-track simplebar-vertical" style="visibility: visible;">
+                                 <div class="simplebar-scrollbar"
+                                    style="height: 333px; transform: translate3d(0px, 0px, 0px); display: block;"></div>
+                              </div>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
       </div>
          
-
    </div>
    <!-- Dashboard -->
 
