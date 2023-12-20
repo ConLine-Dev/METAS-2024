@@ -14,13 +14,13 @@ const helpers = {
    },
 
    processos_ano_anterior: async function() {
-      const result = await executeQuerySQL(`SELECT * FROM vis_Metas_Processo_Nova WHERE ANO = 2022 AND Numero_Processo NOT LIKE '%DEMU%'`);
+      const result = await executeQuerySQL(`SELECT * FROM vis_Metas_Processo_Nova WHERE ANO = 2022`);
 
       return result;
    },
 
    processos_ano_atual: async function() {
-      const result = await executeQuerySQL(`SELECT * FROM vis_Metas_Processo_Nova WHERE ANO = 2023 AND Numero_Processo NOT LIKE '%DEMU%'`);
+      const result = await executeQuerySQL(`SELECT * FROM vis_Metas_Processo_Nova WHERE ANO = 2023`);
 
       return result;
    },
@@ -35,7 +35,7 @@ const helpers = {
       const result = await executeQuerySQL(`SELECT * FROM vis_Metas_Tons_Teus_Nova WHERE ANO = 2023`);
 
       return result;
-   },
+   }
 
 }
 
