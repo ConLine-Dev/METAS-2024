@@ -1,7 +1,8 @@
 import funcoesExportadas from "./helper-functions.js";
 
 const processos_ano_anterior = await Thefetch('/api/processos-ano-anterior');
-const processos_ano_atual = await Thefetch('/api/processos-ano-atual')
+const processos_ano_atual = await Thefetch('/api/processos-ano-atual');
+const ultimos_9_processos = await Thefetch('/api/ultimos_9_processos');
 const meta = 1.15;
 
 const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
@@ -168,10 +169,156 @@ async function graficos_mensais() {
    chart.render();
 }
 
+async function ultimos_processos() {
+   const cards_ultimos_processos = document.querySelector('.cards_ultimos_processos');
+
+   // Array para armazenar as strings HTML
+   const itemsHTML = [];
+
+   // Passando sobre cada objeto do array
+   for (let i = 0; i < ultimos_9_processos.length; i++) {
+      const item = ultimos_9_processos[i];
+
+      // Cor que seja inserido nos itens do innerHTML
+      let cor = '';
+      let background = '';
+
+      if(item.MODALIDADE === 'IM') {
+         cor = '#f9423a'
+         background = 'rgba(249, 66, 58, 0.2)'
+      } else if (item.MODALIDADE === 'EM') {
+         cor = '#3F2021'
+         background = 'rgba(63, 32, 33, 0.2)'
+      } else if (item.MODALIDADE === 'IA') {
+         cor = '#23b7e5'
+         background = 'rgba(35, 183, 229, 0.2)'
+      } else {
+         cor = '#26bf94'
+         background = 'rgba(38, 191, 148, 0.2)'
+      }
+
+      // Criação da string HTML para cada item
+      const item_html = `<li class="list-group-item border-top-0 border-start-0 border-end-0"> 
+                        <div class="d-flex align-items-center">
+                           <div class="me-2 lh-1"> 
+                              <span class="avatar avatar-md avatar-rounded bg-primary-transparent"></span>
+                           </div>
+                           <div class="flex-fill">
+                              <p class="mb-0 fw-semibold">${item.VENDEDOR}</p>
+                              <p class="fs-12 text-muted mb-0">${item.INSIDE_SALES}</p>
+                           </div>
+                           <div class="text-end">
+                              <p class="mb-0 fs-12">${item.Numero_Processo}</p>
+                              <span class="badge" style="color: ${cor} !important; background-color: ${background};">${item.Data_Abertura_Processo}</span>
+                           </div>
+                        </div>
+                     </li>`;
+
+      // Adiciona a string HTML ao array
+      itemsHTML.push(item_html);
+   }
+
+   // Junta as strings HTML e as insere no innerHTML
+   cards_ultimos_processos.innerHTML = itemsHTML.join('');
+}
+
+
+async function obterUltimoProcessoPorModal(modalidade) {
+   const url = `/api/ultimo_processo_por_modal/${modalidade}`;
+   return await Thefetch(url);
+}
+
+function obterCoresPorModalidade(modalidade) {
+   switch (modalidade) {
+      case 'IM':
+         return { cor: '#f9423a', background: 'rgba(249, 66, 58, 0.2)' };
+      case 'EM':
+         return { cor: '#3F2021', background: 'rgba(63, 32, 33, 0.2)' };
+      case 'IA':
+         return { cor: '#23b7e5', background: 'rgba(35, 183, 229, 0.2)' };
+      default:
+         return { cor: '#26bf94', background: 'rgba(38, 191, 148, 0.2)' };
+   }
+}
+
+async function ultimo_fechamento_modal(modalidade) {
+   const ultimo_processo_por_modal = await obterUltimoProcessoPorModal(modalidade);
+   const cards_ultimo_fechamento_modal = document.querySelector('.cards_ultimo_fechamento_modal');
+
+   // Array para armazenar as strings HTML
+   const itemsHTML = [];
+
+   // Passando sobre cada objeto do array
+   for (let i = 0; i < ultimo_processo_por_modal.length; i++) {
+      const item = ultimo_processo_por_modal[i];
+
+      // Obter cores com base na modalidade
+      const { cor, background } = obterCoresPorModalidade(item.MODALIDADE);
+
+      // Criação da string HTML para cada item
+      const item_html = `<div class="card custom-card overflow-hidden" style="height: 145px;">
+                           <div class="card-header justify-content-between">
+                              <div class="card-title">Ultimo Fechamento - ${modalidade}</div>
+                           </div>
+                           <div class="card-body p-0">
+                              <ul class="list-group list-group-flush" data-simplebar="init">
+                                 <div class="simplebar-wrapper" style="margin: 0px;">
+                                    <div class="simplebar-height-auto-observer-wrapper">
+                                       <div class="simplebar-height-auto-observer"></div>
+                                    </div>
+                                    <div class="simplebar-mask">
+                                       <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                                          <div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: auto; overflow: hidden scroll;">
+                                             <div class="simplebar-content" style="padding: 0px;">
+                                                <li class="list-group-item border-top-0 border-start-0 border-end-0"> 
+                                                   <div class="d-flex align-items-center">
+                                                      <div class="me-2 lh-1"> 
+                                                         <span class="avatar avatar-md avatar-rounded bg-primary-transparent"></span>
+                                                      </div>
+                                                      <div class="flex-fill">
+                                                         <p class="mb-0 fw-semibold">${item.VENDEDOR}</p>
+                                                         <p class="fs-12 text-muted mb-0">${item.INSIDE_SALES}</p>
+                                                      </div>
+                                                      <div class="text-end">
+                                                         <p class="mb-0 fs-12">${item.Numero_Processo}</p>
+                                                         <span class="badge" style="color: ${cor}; background-color: ${background};">${item.Data_Abertura_Processo}</span>
+                                                      </div>
+                                                   </div>
+                                                </li>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="simplebar-placeholder" style="width: auto; height: 389px;"></div>
+                                 </div>
+                                 <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
+                                    <div class="simplebar-scrollbar" style="width: 0px; display: none;"></div>
+                                 </div>
+                                 <div class="simplebar-track simplebar-vertical" style="visibility: visible;">
+                                    <div class="simplebar-scrollbar" style="height: 333px; transform: translate3d(0px, 0px, 0px); display: block;"></div>
+                                 </div>
+                              </ul>
+                           </div>
+                        </div>`;
+
+      // Adiciona a string HTML ao array
+      itemsHTML.push(item_html);
+   }
+
+   // Junta as strings HTML e as insere no innerHTML
+   cards_ultimo_fechamento_modal.insertAdjacentHTML('beforeend', itemsHTML.join(''));
+}
+
+
 // Função para agrupar as outras e executar cada uma na hora certa
 async function main() {
    await cards_anuais();
    await graficos_mensais();
+   await ultimos_processos();
+   await ultimo_fechamento_modal('IM');
+   await ultimo_fechamento_modal('EM');
+   await ultimo_fechamento_modal('IA');
+   await ultimo_fechamento_modal('EA');
    await funcoesExportadas.remover_loading();
 }
 
