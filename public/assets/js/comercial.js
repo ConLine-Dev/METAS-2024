@@ -169,6 +169,19 @@ async function graficos_mensais() {
    chart.render();
 }
 
+function obter_cores_por_modalidade(modalidade) {
+   switch (modalidade) {
+      case 'IM':
+         return { cor: '#f9423a', background: 'rgba(249, 66, 58, 0.2)' };
+      case 'EM':
+         return { cor: '#3F2021', background: 'rgba(63, 32, 33, 0.2)' };
+      case 'IA':
+         return { cor: '#23b7e5', background: 'rgba(35, 183, 229, 0.2)' };
+      default:
+         return { cor: '#26bf94', background: 'rgba(38, 191, 148, 0.2)' };
+   }
+}
+
 async function ultimos_processos() {
    const cards_ultimos_processos = document.querySelector('.cards_ultimos_processos');
 
@@ -179,29 +192,16 @@ async function ultimos_processos() {
    for (let i = 0; i < ultimos_9_processos.length; i++) {
       const item = ultimos_9_processos[i];
 
-      // Cor que seja inserido nos itens do innerHTML
-      let cor = '';
-      let background = '';
-
-      if(item.MODALIDADE === 'IM') {
-         cor = '#f9423a'
-         background = 'rgba(249, 66, 58, 0.2)'
-      } else if (item.MODALIDADE === 'EM') {
-         cor = '#3F2021'
-         background = 'rgba(63, 32, 33, 0.2)'
-      } else if (item.MODALIDADE === 'IA') {
-         cor = '#23b7e5'
-         background = 'rgba(35, 183, 229, 0.2)'
-      } else {
-         cor = '#26bf94'
-         background = 'rgba(38, 191, 148, 0.2)'
-      }
+      // Obter cores com base na modalidade
+      const { cor, background } = obter_cores_por_modalidade(item.MODALIDADE);
 
       // Criação da string HTML para cada item
       const item_html = `<li class="list-group-item border-top-0 border-start-0 border-end-0"> 
                         <div class="d-flex align-items-center">
                            <div class="me-2 lh-1"> 
-                              <span class="avatar avatar-md avatar-rounded bg-primary-transparent"></span>
+                              <span class="avatar avatar-md avatar-rounded bg-primary-transparent">
+                              <img src="https://cdn.conlinebr.com.br/colaboradores/${item.ID_VENDEDOR}" alt="foto colaborador">
+                              </span>
                            </div>
                            <div class="flex-fill">
                               <p class="mb-0 fw-semibold">${item.VENDEDOR}</p>
@@ -222,27 +222,13 @@ async function ultimos_processos() {
    cards_ultimos_processos.innerHTML = itemsHTML.join('');
 }
 
-
-async function obterUltimoProcessoPorModal(modalidade) {
+async function obter_ultimo_processo_por_modal(modalidade) {
    const url = `/api/ultimo_processo_por_modal/${modalidade}`;
    return await Thefetch(url);
 }
 
-function obterCoresPorModalidade(modalidade) {
-   switch (modalidade) {
-      case 'IM':
-         return { cor: '#f9423a', background: 'rgba(249, 66, 58, 0.2)' };
-      case 'EM':
-         return { cor: '#3F2021', background: 'rgba(63, 32, 33, 0.2)' };
-      case 'IA':
-         return { cor: '#23b7e5', background: 'rgba(35, 183, 229, 0.2)' };
-      default:
-         return { cor: '#26bf94', background: 'rgba(38, 191, 148, 0.2)' };
-   }
-}
-
 async function ultimo_fechamento_modal(modalidade) {
-   const ultimo_processo_por_modal = await obterUltimoProcessoPorModal(modalidade);
+   const ultimo_processo_por_modal = await obter_ultimo_processo_por_modal(modalidade);
    const cards_ultimo_fechamento_modal = document.querySelector('.cards_ultimo_fechamento_modal');
 
    // Array para armazenar as strings HTML
@@ -253,7 +239,7 @@ async function ultimo_fechamento_modal(modalidade) {
       const item = ultimo_processo_por_modal[i];
 
       // Obter cores com base na modalidade
-      const { cor, background } = obterCoresPorModalidade(item.MODALIDADE);
+      const { cor, background } = obter_cores_por_modalidade(item.MODALIDADE);
 
       // Criação da string HTML para cada item
       const item_html = `<div class="card custom-card overflow-hidden" style="height: 145px;">
@@ -273,7 +259,9 @@ async function ultimo_fechamento_modal(modalidade) {
                                                 <li class="list-group-item border-top-0 border-start-0 border-end-0"> 
                                                    <div class="d-flex align-items-center">
                                                       <div class="me-2 lh-1"> 
-                                                         <span class="avatar avatar-md avatar-rounded bg-primary-transparent"></span>
+                                                         <span class="avatar avatar-md avatar-rounded bg-primary-transparent">
+                                                         <img src="https://cdn.conlinebr.com.br/colaboradores/${item.ID_VENDEDOR}" alt="foto colaborador">
+                                                         </span>
                                                       </div>
                                                       <div class="flex-fill">
                                                          <p class="mb-0 fw-semibold">${item.VENDEDOR}</p>

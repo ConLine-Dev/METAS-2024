@@ -3,8 +3,14 @@ const localMetas = JSON.parse(metasUserLocal);
 
 // Inserindo nome do usuario
 const nomeUsuarioLogado = localMetas.name;
+const fotoUsuarioLogado = localMetas.picture;
+
 const nomeUsuarioSemConline = nomeUsuarioLogado.replace(' - ConLine', '')
 nameUser.textContent = nomeUsuarioSemConline;
+
+// Adiciona a foto que o usuario tem no email
+const fotoUsuario = document.getElementById('fotoUsuario');
+fotoUsuario.src = fotoUsuarioLogado;
 
 
 // Logout
@@ -19,12 +25,12 @@ function logout(element) {
 
   /* page loader */
   
-  function hideLoader() {
-    const loader = document.getElementById("loader");
-    loader.classList.add("d-none")
-  }
+  // function hideLoader() {
+  //   const loader = document.getElementById("loader");
+  //   loader.classList.add("d-none")
+  // }
 
-  window.addEventListener("load", hideLoader);
+  // window.addEventListener("load", hideLoader);
   /* page loader */
 
   /* tooltip */
@@ -89,7 +95,7 @@ function logout(element) {
 
     button.addEventListener("click", () => {
       const el = document.createElement("p");
-      pickrContainerPrimary.appendChild(el);
+      // pickrContainerPrimary.appendChild(el);
 
       /* Delete previous instance */
       if (nanoPickr) {
@@ -102,39 +108,39 @@ function logout(element) {
       }
 
       /* Create fresh instance */
-      nanoPickr = new Pickr(
-        Object.assign(
-          {
-            el,
-            theme,
-            default: "#845adf",
-          },
-          config
-        )
-      );
+      // nanoPickr = new Pickr(
+      //   Object.assign(
+      //     {
+      //       el,
+      //       theme,
+      //       default: "#845adf",
+      //     },
+      //     config
+      //   )
+      // );
 
       /* Set events */
-      nanoPickr.on("changestop", (source, instance) => {
-        let color = instance.getColor().toRGBA();
-        let html = document.querySelector("html");
-        html.style.setProperty(
-          "--primary-rgb",
-          `${Math.floor(color[0])}, ${Math.floor(color[1])}, ${Math.floor(
-            color[2]
-          )}`
-        );
-        /* theme color picker */
-        localStorage.setItem(
-          "primaryRGB",
-          `${Math.floor(color[0])}, ${Math.floor(color[1])}, ${Math.floor(
-            color[2]
-          )}`
-        );
-        updateColors();
-      });
+      // nanoPickr.on("changestop", (source, instance) => {
+      //   let color = instance.getColor().toRGBA();
+      //   let html = document.querySelector("html");
+      //   html.style.setProperty(
+      //     "--primary-rgb",
+      //     `${Math.floor(color[0])}, ${Math.floor(color[1])}, ${Math.floor(
+      //       color[2]
+      //     )}`
+      //   );
+      //   /* theme color picker */
+      //   localStorage.setItem(
+      //     "primaryRGB",
+      //     `${Math.floor(color[0])}, ${Math.floor(color[1])}, ${Math.floor(
+      //       color[2]
+      //     )}`
+      //   );
+      //   updateColors();
+      // });
     });
 
-    themeContainerPrimary.appendChild(button);
+    // themeContainerPrimary.appendChild(button);
   }
   nanoButtons[0].click();
   /* for theme primary */
@@ -171,7 +177,7 @@ function logout(element) {
 
     button.addEventListener("click", () => {
       const el = document.createElement("p");
-      pickrContainerBackground.appendChild(el);
+      // pickrContainerBackground.appendChild(el);
 
       /* Delete previous instance */
       if (nanoPickr1) {
@@ -184,60 +190,60 @@ function logout(element) {
       }
 
       /* Create fresh instance */
-      nanoPickr1 = new Pickr(
-        Object.assign(
-          {
-            el,
-            theme,
-            default: "#845adf",
-          },
-          config
-        )
-      );
+      // nanoPickr1 = new Pickr(
+      //   Object.assign(
+      //     {
+      //       el,
+      //       theme,
+      //       default: "#845adf",
+      //     },
+      //     config
+      //   )
+      // );
 
       /* Set events */
-      nanoPickr1.on("changestop", (source, instance) => {
-        let color = instance.getColor().toRGBA();
-        let html = document.querySelector("html");
-        html.style.setProperty(
-          "--body-bg-rgb",
-          `${color[0]}, ${color[1]}, ${color[2]}`
-        );
-        document
-          .querySelector("html")
-          .style.setProperty(
-            "--body-bg-rgb2",
-            `${color[0] + 14}, ${color[1] + 14}, ${color[2] + 14}`
-          );
-        document
-          .querySelector("html")
-          .style.setProperty(
-            "--light-rgb",
-            `${color[0] + 14}, ${color[1] + 14}, ${color[2] + 14}`
-          );
-        document
-          .querySelector("html")
-          .style.setProperty(
-            "--form-control-bg",
-            `rgb(${color[0] + 14}, ${color[1] + 14}, ${color[2] + 14})`
-          );
-        localStorage.removeItem("bgtheme");
-        updateColors();
-        html.setAttribute("data-theme-mode", "dark");
-        html.setAttribute("data-menu-styles", "dark");
-        html.setAttribute("data-header-styles", "dark");
-        document.querySelector("#switcher-dark-theme").checked = true;
-        localStorage.setItem(
-          "bodyBgRGB",
-          `${color[0]}, ${color[1]}, ${color[2]}`
-        );
-        localStorage.setItem(
-          "bodylightRGB",
-          `${color[0] + 14}, ${color[1] + 14}, ${color[2] + 14}`
-        );
-      });
+      // nanoPickr1.on("changestop", (source, instance) => {
+      //   let color = instance.getColor().toRGBA();
+      //   let html = document.querySelector("html");
+      //   html.style.setProperty(
+      //     "--body-bg-rgb",
+      //     `${color[0]}, ${color[1]}, ${color[2]}`
+      //   );
+      //   document
+      //     .querySelector("html")
+      //     .style.setProperty(
+      //       "--body-bg-rgb2",
+      //       `${color[0] + 14}, ${color[1] + 14}, ${color[2] + 14}`
+      //     );
+      //   document
+      //     .querySelector("html")
+      //     .style.setProperty(
+      //       "--light-rgb",
+      //       `${color[0] + 14}, ${color[1] + 14}, ${color[2] + 14}`
+      //     );
+      //   document
+      //     .querySelector("html")
+      //     .style.setProperty(
+      //       "--form-control-bg",
+      //       `rgb(${color[0] + 14}, ${color[1] + 14}, ${color[2] + 14})`
+      //     );
+      //   localStorage.removeItem("bgtheme");
+      //   updateColors();
+      //   html.setAttribute("data-theme-mode", "dark");
+      //   html.setAttribute("data-menu-styles", "dark");
+      //   html.setAttribute("data-header-styles", "dark");
+      //   document.querySelector("#switcher-dark-theme").checked = true;
+      //   localStorage.setItem(
+      //     "bodyBgRGB",
+      //     `${color[0]}, ${color[1]}, ${color[2]}`
+      //   );
+      //   localStorage.setItem(
+      //     "bodylightRGB",
+      //     `${color[0] + 14}, ${color[1] + 14}, ${color[2] + 14}`
+      //   );
+      // });
     });
-    themeContainerBackground.appendChild(button);
+    // themeContainerBackground.appendChild(button);
   }
   nanoButtons1[0].click();
   /* for theme background */
@@ -328,9 +334,9 @@ function logout(element) {
   document.getElementById("year").innerHTML = new Date().getFullYear();
   /* footer year */
 
-  /* node waves */
-  Waves.attach(".btn-wave", ["waves-light"]);
-  Waves.init();
+  // /* node waves */
+  // Waves.attach(".btn-wave", ["waves-light"]);
+  // Waves.init();
   /* node waves */
 
   /* card with close button */

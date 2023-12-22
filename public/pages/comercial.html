@@ -16,7 +16,7 @@
    <!-- Icons Css -->
    <link href="/assets/css/icons.css" rel="stylesheet">
    <!-- Verificação Login -->
-   <!-- <script src="/assets/js/back-login-page.js"></script> -->
+   <script src="/assets/js/back-login-page.js"></script>
 </head>
 <body>
    <!-- header -->
@@ -132,8 +132,8 @@
                                  <li class="slide"> <a href="/financeiro" class="side-menu__item">Financeiro</a> </li>
                                  <li class="slide"> <a href="/processos" class="side-menu__item">Processos</a> </li>
                                  <li class="slide"> <a href="/importacao" class="side-menu__item">Importação</a> </li>
-                                 <li class="slide"> <a href="/emportacao" class="side-menu__item">Exportação</a> </li>
-                                 <li class="slide"> <a href="/" class="side-menu__item">Comercial</a> </li>
+                                 <li class="slide"> <a href="/exportacao" class="side-menu__item">Exportação</a> </li>
+                                 <li class="slide"> <a href="" class="side-menu__item">Comercial</a> </li>
                               </ul>
                            </li> <!-- End::slide --> 
                         </ul>
@@ -152,158 +152,160 @@
    <!-- Dashboard -->
    <div class="main-content app-content" style="position: relative;">
 
-      <div class="loading"> <img src="../assets/images/media/loader.svg" alt="" style="display: block;"> </div>
+         <div class="loading"> <img src="../assets/images/media/loader.svg" alt="" style="display: block;"> </div>
 
 
-      <div class="container-fluid corpo-dashboard" style="display: none;">
-         <!-- Page Header -->
-         <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
-            <h1 class="page-title fw-semibold fs-18 mb-0">Meta Comerical</h1>
-            <div class="ms-md-1 ms-0">
-               <nav>
-                  <ol class="breadcrumb mb-0">
-                     <li class="breadcrumb-item" style="color: var(--primary-color); cursor: pointer;"><a href="/dashboard">Dashboards</a></li>
-                     <li class="breadcrumb-item active" aria-current="page">Meta Comercial</li>
-                  </ol>
-               </nav>
+         <div class="container-fluid corpo-dashboard" style="display: none;">
+
+            <!-- Page Header -->
+            <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
+               <h1 class="page-title fw-semibold fs-18 mb-0">Meta Comerical</h1>
+               <div class="ms-md-1 ms-0">
+                  <nav>
+                     <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item" style="color: var(--primary-color); cursor: pointer;"><a href="/dashboard">Dashboards</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Meta Comercial</li>
+                     </ol>
+                  </nav>
+               </div>
             </div>
-         </div>
-         <!-- Page Header Close -->
+            <!-- Page Header Close -->
 
-         <div class="row">
-            <div class="col-xxl-6 col-xl-12">
-               <div class="row row-cols-12">
-                  <div class="col">
-                     <div class="card custom-card">
-                        <div class="card-body">
-                           <div class="d-flex align-items-top">
-                              <div class="me-3"> 
-                                 <span class="avatar avatar-md p-2 bg-primary"> 
-                                    <i class="ti ti-ship fs-16"></i> 
-                                 </span> 
-                              </div>
-                              <div class="flex-fill">
-                                 <div class="d-flex mb-1 align-items-top justify-content-between">
-                                    <h5 class="fw-semibold mb-0 lh-1" id="card-IM">--,--%</h5>
+            <div class="row">
+               <div class="col-xxl-6 col-xl-12">
+                  <div class="row row-cols-12">
+                     <div class="col">
+                        <div class="card custom-card">
+                           <div class="card-body">
+                              <div class="d-flex align-items-top">
+                                 <div class="me-3"> 
+                                    <span class="avatar avatar-md p-2 bg-primary"> 
+                                       <i class="ti ti-ship fs-16"></i> 
+                                    </span> 
                                  </div>
-                                 <p class="mb-0 fs-10 op-7 text-muted fw-semibold">IMPO MARÍTIMA</p>
+                                 <div class="flex-fill">
+                                    <div class="d-flex mb-1 align-items-top justify-content-between">
+                                       <h5 class="fw-semibold mb-0 lh-1" id="card-IM">--,--%</h5>
+                                    </div>
+                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">IMPO MARÍTIMA</p>
+                                 </div>
                               </div>
                            </div>
                         </div>
                      </div>
-                  </div>
-                  <div class="col">
-                     <div class="card custom-card">
-                        <div class="card-body">
-                           <div class="d-flex align-items-top">
-                              <div class="me-3"> 
-                                 <span class="avatar avatar-md p-2" style="background-color: #3F2021 !important;"> 
-                                    <i class="ti ti-ship fs-16"></i> 
-                                 </span> </div>
-                              <div class="flex-fill">
-                                 <div class="d-flex mb-1 align-items-top justify-content-between">
-                                    <h5 class="fw-semibold mb-0 lh-1" id="card-EM">--,--%</h5>
+                     <div class="col">
+                        <div class="card custom-card">
+                           <div class="card-body">
+                              <div class="d-flex align-items-top">
+                                 <div class="me-3"> 
+                                    <span class="avatar avatar-md p-2" style="background-color: #3F2021 !important;"> 
+                                       <i class="ti ti-ship fs-16"></i> 
+                                    </span> </div>
+                                 <div class="flex-fill">
+                                    <div class="d-flex mb-1 align-items-top justify-content-between">
+                                       <h5 class="fw-semibold mb-0 lh-1" id="card-EM">--,--%</h5>
+                                    </div>
+                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">EXPO MARÍTIMA</p>
                                  </div>
-                                 <p class="mb-0 fs-10 op-7 text-muted fw-semibold">EXPO MARÍTIMA</p>
                               </div>
                            </div>
                         </div>
                      </div>
-                  </div>
-                  <div class="col">
-                     <div class="card custom-card">
-                        <div class="card-body">
-                           <div class="d-flex align-items-top">
-                              <div class="me-3"> 
-                                 <span class="avatar avatar-md p-2" style="background-color: #23b7e5;">
-                                    <i class="ti ti-plane-inflight fs-16"></i> 
-                                 </span> 
-                              </div>
-                              <div class="flex-fill">
-                                 <div class="d-flex mb-1 align-items-top justify-content-between">
-                                    <h5 class="fw-semibold mb-0 lh-1" id="card-IA">--,--%</h5>
+                     <div class="col">
+                        <div class="card custom-card">
+                           <div class="card-body">
+                              <div class="d-flex align-items-top">
+                                 <div class="me-3"> 
+                                    <span class="avatar avatar-md p-2" style="background-color: #23b7e5;">
+                                       <i class="ti ti-plane-inflight fs-16"></i> 
+                                    </span> 
                                  </div>
-                                 <p class="mb-0 fs-10 op-7 text-muted fw-semibold">IMPO AÉREA</p>
+                                 <div class="flex-fill">
+                                    <div class="d-flex mb-1 align-items-top justify-content-between">
+                                       <h5 class="fw-semibold mb-0 lh-1" id="card-IA">--,--%</h5>
+                                    </div>
+                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">IMPO AÉREA</p>
+                                 </div>
                               </div>
                            </div>
                         </div>
                      </div>
-                  </div>
-                  <div class="col">
-                     <div class="card custom-card">
-                        <div class="card-body">
-                           <div class="d-flex align-items-top">
-                              <div class="me-3"> 
-                                 <span class="avatar avatar-md p-2" style="background-color: #26bf94 !important;"> 
-                                    <i class="ti ti-plane-inflight fs-16"></i> 
-                                 </span> 
-                              </div>
-                              <div class="flex-fill">
-                                 <div class="d-flex mb-1 align-items-top justify-content-between">
-                                    <h5 class="fw-semibold mb-0 lh-1" id="card-EA">--,--%</h5>
+                     <div class="col">
+                        <div class="card custom-card">
+                           <div class="card-body">
+                              <div class="d-flex align-items-top">
+                                 <div class="me-3"> 
+                                    <span class="avatar avatar-md p-2" style="background-color: #26bf94 !important;"> 
+                                       <i class="ti ti-plane-inflight fs-16"></i> 
+                                    </span> 
                                  </div>
-                                 <p class="mb-0 fs-10 op-7 text-muted fw-semibold">EXPO AÉREA</p>
+                                 <div class="flex-fill">
+                                    <div class="d-flex mb-1 align-items-top justify-content-between">
+                                       <h5 class="fw-semibold mb-0 lh-1" id="card-EA">--,--%</h5>
+                                    </div>
+                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">EXPO AÉREA</p>
+                                 </div>
                               </div>
                            </div>
                         </div>
                      </div>
-                  </div>
-                  <div class="col-xl-12">
-                     <div class="card custom-card overflow-hidden">
-                        <div class="card-header justify-content-between">
-                           <div class="card-title">Fechamentos Mensais</div>
-                        </div>
-                        <div class="card-body" id="grafico-mensal" style="height: 490px; padding: 0 10px 0 0 !important;">
-                           <!-- GRAFICO MENSAL -->
+                     <div class="col-xl-12">
+                        <div class="card custom-card overflow-hidden">
+                           <div class="card-header justify-content-between">
+                              <div class="card-title">Fechamentos Mensais</div>
+                           </div>
+                           <div class="card-body" id="grafico-mensal" style="height: 490px; padding: 0 10px 0 0 !important;">
+                              <!-- GRAFICO MENSAL -->
+                           </div>
                         </div>
                      </div>
                   </div>
                </div>
-            </div>
-            <div class="col-xxl-6 col-xl-12">
-               <div class="row">
-                  <div class="col-xxl-6 col-xl-6">
-                     <div class="card custom-card overflow-hidden" style="height: 650px;">
-                        <div class="card-header justify-content-between">
-                           <div class="card-title">Fechamentos recentes</div>
-                        </div>
-                        <div class="card-body p-0">
-                           <ul class="list-group list-group-flush" id="recent-jobs" data-simplebar="init">
-                              <div class="simplebar-wrapper" style="margin: 0px;">
-                                 <div class="simplebar-height-auto-observer-wrapper">
-                                    <div class="simplebar-height-auto-observer"></div>
-                                 </div>
-                                 <div class="simplebar-mask" style="height: 650px;">
-                                    <div class="simplebar-offset" style="height: 650px;right: 0px;bottom: 0px;">
-                                       <div class="simplebar-content-wrapper" tabindex="0" role="region"
-                                          aria-label="scrollable content" style="height: 650px;overflow: hidden scroll;">
-                                          <div class="simplebar-content cards_ultimos_processos" style="min-height: 653px !important;padding: 0px;">
-                                             <!-- CARDS AQUI -->
+               <div class="col-xxl-6 col-xl-12">
+                  <div class="row">
+                     <div class="col-xxl-6 col-xl-6">
+                        <div class="card custom-card overflow-hidden" style="height: 660px;">
+                           <div class="card-header justify-content-between">
+                              <div class="card-title">Fechamentos recentes</div>
+                           </div>
+                           <div class="card-body p-0">
+                              <ul class="list-group list-group-flush" id="recent-jobs" data-simplebar="init">
+                                 <div class="simplebar-wrapper" style="margin: 0px;">
+                                    <div class="simplebar-height-auto-observer-wrapper">
+                                       <div class="simplebar-height-auto-observer"></div>
+                                    </div>
+                                    <div class="simplebar-mask" style="height: 650px;">
+                                       <div class="simplebar-offset" style="height: 650px;right: 0px;bottom: 0px;">
+                                          <div class="simplebar-content-wrapper" tabindex="0" role="region"
+                                             aria-label="scrollable content" style="height: 650px;overflow: hidden;">
+                                             <div class="simplebar-content cards_ultimos_processos" style="min-height: 653px !important;padding: 0px;">
+                                                <!-- CARDS AQUI -->
+                                             </div>
                                           </div>
                                        </div>
                                     </div>
+                                    <div class="simplebar-placeholder" style="width: 423px; height: 653px;"></div>
                                  </div>
-                                 <div class="simplebar-placeholder" style="width: 423px; height: 653px;"></div>
-                              </div>
-                              <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
-                                 <div class="simplebar-scrollbar" style="width: 0px; display: none;"></div>
-                              </div>
-                              <div class="simplebar-track simplebar-vertical" style="visibility: visible;">
-                                 <div class="simplebar-scrollbar"
-                                    style="height: 198px; transform: translate3d(0px, 0px, 0px); display: block;"></div>
-                              </div>
-                           </ul>
+                                 <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
+                                    <div class="simplebar-scrollbar" style="width: 0px; display: none;"></div>
+                                 </div>
+                                 <div class="simplebar-track simplebar-vertical" style="visibility: visible;">
+                                    <div class="simplebar-scrollbar"
+                                       style="height: 198px; transform: translate3d(0px, 0px, 0px); display: block;"></div>
+                                 </div>
+                              </ul>
+                           </div>
                         </div>
                      </div>
-                  </div>
 
-                  <div class="col-xxl-6 col-xl-6 cards_ultimo_fechamento_modal">
-                     <!-- CARDS AQUI -->
+                     <div class="col-xxl-6 col-xl-6 cards_ultimo_fechamento_modal">
+                        <!-- CARDS AQUI -->
+                  </div>
                </div>
             </div>
          </div>
+            
       </div>
-         
    </div>
    <!-- Dashboard -->
 

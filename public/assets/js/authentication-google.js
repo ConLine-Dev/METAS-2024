@@ -1,5 +1,6 @@
 function handleCredentialResponse(response) {
    const data = jwt_decode(response.credential);
+   console.log(data);
    if(data.email_verified) {
       localStorage.setItem('metasUser', JSON.stringify(data));
       window.location.href = '/dashboard'
