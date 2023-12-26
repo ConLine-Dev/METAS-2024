@@ -51,8 +51,9 @@ async function ultimo_processo() {
    const modaldemo8 = document.querySelector('#modaldemo8');
    setTimeout(() => {
       modaldemo8.classList.remove('effect-scale', 'show');
+      modaldemo8.style.display = 'none';
       audio_palmas.pause()
-   }, 4000);
+   }, 5000);
 }
 
 async function main() {
