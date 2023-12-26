@@ -17,10 +17,7 @@ async function ultimo_processo() {
    // Adiciona um event listener para o clique
    document.addEventListener('click', () => {
       // Inicia a reprodução do áudio ao clicar
-      audio_palmas.play().catch(error => {
-         // Trata o erro se a reprodução automática for bloqueada
-         console.error("Reprodução automática bloqueada:", error.message);
-      });
+      audio_palmas.play()
    });
 
    const ultimo_processo_gerado = await Thefetch('/api/ultimo_processo_gerado');
@@ -48,6 +45,14 @@ async function ultimo_processo() {
    
    const sale_img = document.querySelector('#sale_img');
    sale_img.setAttribute('src', `https://cdn.conlinebr.com.br/colaboradores/${ultimo_processo_gerado[0].ID_VENDEDOR}`);
+
+
+   // remover o modal depois de 4 segundos
+   const modaldemo8 = document.querySelector('#modaldemo8');
+   setTimeout(() => {
+      modaldemo8.classList.remove('effect-scale', 'show');
+      audio_palmas.pause()
+   }, 4000);
 }
 
 async function main() {
