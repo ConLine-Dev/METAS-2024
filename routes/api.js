@@ -93,4 +93,15 @@ router.get('/teus_tons_ano_atual', async (req, res, next) => {
     }
 });
 
+router.get('/ultimo_processo_gerado', async (req, res, next) => {
+    try {
+        const result = await helpers.ultimo_processo_gerado();
+
+        res.status(200).json(result)
+    } catch (error) {
+
+        res.status(404).json('Erro')   
+    }
+});
+
 module.exports = router;

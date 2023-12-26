@@ -140,7 +140,6 @@ async function grafico_financeiro_mes_mes() {
       
       // Adicionar a meta mensal ajustada no array
       metas_mensais.push(meta_mensal_ajustada);
-      console.log(meta_mensal_ajustada, 'meta');
       
       // Calcular a porcentagem em relação à meta para o mês atual
       const valor_arrecadado = soma_mes_mes_atual[i].VALOR_CONVERTIDO_REAL;
@@ -149,7 +148,6 @@ async function grafico_financeiro_mes_mes() {
       const porcentagem_em_relacao_a_meta = meta_mensal_ajustada !== 0 ? (valor_arrecadado / meta_mensal_ajustada) * 100 : 0;
       // Armazenar a porcentagem no array
       porcentagens_meta.push(porcentagem_em_relacao_a_meta.toFixed(2));
-      // console.log(porcentagem_em_relacao_a_meta, 'aqui');
    }
 
 
