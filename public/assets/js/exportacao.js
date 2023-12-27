@@ -1,4 +1,4 @@
-import funcoesExportadas from "./helper-functions.js";
+const funcoesExportadas = require('./helper-functions.js');
 
 const teus_tons_ano_anterior = await Thefetch('/api/teus_tons_ano_anterior');
 const teus_tons_ano_atual = await Thefetch('/api/teus_tons_ano_atual');

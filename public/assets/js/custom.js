@@ -313,7 +313,7 @@ function logout(element) {
     }
   }
   let layoutSetting = document.querySelector(".layout-setting");
-  layoutSetting.addEventListener("click", toggleTheme);
+  layoutSetting?.addEventListener("click", toggleTheme);
   /* header theme toggle */
 
   /* Choices JS */

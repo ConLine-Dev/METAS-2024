@@ -4,9 +4,8 @@ const funcoesExportadas = {
       let loading = document.querySelector('.loading');
 
       loading.style.display = 'none';
-      corpoDashboard.style.display = 'block'
+      corpoDashboard.style.display = 'block';
    },
-}
+};
 
-
-export default funcoesExportadas;
+module.exports = funcoesExportadas;
