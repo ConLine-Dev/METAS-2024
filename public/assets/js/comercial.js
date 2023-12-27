@@ -244,7 +244,7 @@ async function ultimo_fechamento_modal(modalidade) {
       // Criação da string HTML para cada item
       const item_html = `<div class="card custom-card overflow-hidden" style="height: 145px;">
                            <div class="card-header justify-content-between">
-                              <div class="card-title">Ultimo Fechamento - ${modalidade}</div>
+                              <div class="card-title">Último Fechamento - ${modalidade}</div>
                            </div>
                            <div class="card-body p-0">
                               <ul class="list-group list-group-flush" data-simplebar="init">
