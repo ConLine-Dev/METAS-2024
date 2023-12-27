@@ -1,3 +1,4 @@
+// helper-functions.js
 const funcoesExportadas = {
    remover_loading: async function () {
       let corpoDashboard = document.querySelector('.corpo-dashboard');
@@ -8,4 +9,4 @@ const funcoesExportadas = {
    },
 };
 
-module.exports = funcoesExportadas;
+export default funcoesExportadas;
