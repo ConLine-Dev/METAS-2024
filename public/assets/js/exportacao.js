@@ -86,7 +86,7 @@ async function graficos_mensais(modalidade, tipoCarga, campo) {
 
       chart: {
          type: 'bar',
-         height: 450,
+         height: 380,
          toolbar: {
             show: false
          },
