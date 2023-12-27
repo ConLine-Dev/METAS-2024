@@ -1,7 +1,6 @@
 const fluxo_ano_anterior = await Thefetch('/api/ano-anterior');
 const fluxo_ano_atual = await Thefetch('/api/ano-atual')
 const meta = 1.15;
-// const megaMeta = 1.3;
 
 const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
 
