@@ -125,8 +125,8 @@ async function grafico_financeiro_mes_mes() {
    
    // Armazena o que foi arrecadado a cada mês
    let arrecadacao_acumulada = 0;
-   
-   const valor_arrecadado_meta = [soma_mes_mes_atual[0].VALOR_CONVERTIDO_REAL]; // Adicionado valor arrecadado em janeiro
+
+   const valor_arrecadado_meta = [Math.max(soma_mes_mes_atual[0].VALOR_CONVERTIDO_REAL, 0)]; // Adicionado valor arrecadado em janeiro
    const porcentagem_em_relacao_a_meta_janeiro = meta_janeiro !== 0 ? (valor_arrecadado_meta[0] / meta_janeiro) * 100 : 0; // Calculado a porcentagem para janeiro
    const porcentagens_meta = [porcentagem_em_relacao_a_meta_janeiro.toFixed(2)]; // Adicionado a porcentagem de janeiro
    
@@ -143,7 +143,7 @@ async function grafico_financeiro_mes_mes() {
       
       // Calcular a porcentagem em relação à meta para o mês atual
       const valor_arrecadado = soma_mes_mes_atual[i].VALOR_CONVERTIDO_REAL;
-      valor_arrecadado_meta.push(valor_arrecadado)
+      valor_arrecadado_meta.push(Math.max(valor_arrecadado, 0)); // Replace negative values with zero
 
       const porcentagem_em_relacao_a_meta = meta_mensal_ajustada !== 0 ? (valor_arrecadado / meta_mensal_ajustada) * 100 : 0;
       // Armazenar a porcentagem no array
@@ -210,7 +210,8 @@ async function grafico_financeiro_mes_mes() {
          enabled: true,
          enabledOnSeries: [0],
          formatter: function (val, opts) {
-            return porcentagens_meta[opts.dataPointIndex] + "%";
+            const percentage = porcentagens_meta[opts.dataPointIndex];
+            return Math.max(percentage, 0) + "%";
           },
          offsetY: -15,
          style: {
