@@ -1,5 +1,3 @@
-import funcoesExportadas from './helper-functions.js';
-
 const fluxo_ano_anterior = await Thefetch('/api/ano-anterior');
 const fluxo_ano_atual = await Thefetch('/api/ano-atual')
 const meta = 1.15;
@@ -368,11 +366,19 @@ async function grafico_modais() {
     chart.render();
 }
 
+async function remover_loading () {
+   let corpoDashboard = document.querySelector('.corpo-dashboard');
+   let loading = document.querySelector('.loading');
+
+   loading.style.display = 'none';
+   corpoDashboard.style.display = 'block';
+}
+
 async function main() {
    await cardMetasAnuais();
    await grafico_financeiro_mes_mes();
    await grafico_modais();
-   await funcoesExportadas.remover_loading();
+   await remover_loading();
 }
 
 main()

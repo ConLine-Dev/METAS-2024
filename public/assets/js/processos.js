@@ -1,5 +1,3 @@
-import funcoesExportadas from './helper-functions.js';
-
 const processos_ano_anterior = await Thefetch('/api/processos-ano-anterior');
 const processos_ano_atual = await Thefetch('/api/processos-ano-atual')
 const meta = 1.15;
@@ -61,7 +59,6 @@ async function cards_anuais() {
    const card_CLI = document.querySelector('#card-CLI');
    card_CLI.textContent = CLI_porcentagem.toFixed(2) + '%';
 }
-
 
 // Função que obtem a quantidade de processo, por modal e por mes
 async function contagem_processos_mes(consulta, modalidade) {
@@ -392,6 +389,15 @@ async function grafico_mensais_cliente() {
    var meta_anual_grafico_card = new ApexCharts(document.getElementById('grafico_card_CLIENTE'), grafico_meta_anual);
    meta_anual_grafico_card.render();
 }
+
+async function remover_loading () {
+   let corpoDashboard = document.querySelector('.corpo-dashboard');
+   let loading = document.querySelector('.loading');
+
+   loading.style.display = 'none';
+   corpoDashboard.style.display = 'block';
+}
+
 // Função para organizar a execução das demais
 async function main() {
    await cards_anuais();
@@ -400,7 +406,7 @@ async function main() {
    await graficos_mensais('EM')
    await graficos_mensais('EA')
    await grafico_mensais_cliente()
-   await funcoesExportadas.remover_loading();
+   await remover_loading();
 }
 
 main()

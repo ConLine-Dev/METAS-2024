@@ -1,5 +1,3 @@
-import funcoesExportadas from './helper-functions.js';
-
 const teus_tons_ano_anterior = await Thefetch('/api/teus_tons_ano_anterior');
 const teus_tons_ano_atual = await Thefetch('/api/teus_tons_ano_atual');
 const meta = 1.15;
@@ -211,6 +209,14 @@ async function graficos_mensais(modalidade, tipoCarga, campo) {
    grafico_anual.render();
 }
 
+async function remover_loading () {
+   let corpoDashboard = document.querySelector('.corpo-dashboard');
+   let loading = document.querySelector('.loading');
+
+   loading.style.display = 'none';
+   corpoDashboard.style.display = 'block';
+}
+
 async function main() {
    await cards_anuais('EM', 'FCL', 'TEUS');
    await cards_anuais('EM', 'LCL', 'TONS');
@@ -218,7 +224,7 @@ async function main() {
    await graficos_mensais('EM', 'FCL', 'TEUS')
    await graficos_mensais('EM', 'LCL', 'TONS')
    await graficos_mensais('EA', 'AÉREO', 'TONS')
-   await funcoesExportadas.remover_loading();
+   await remover_loading();
 }
 
 main();

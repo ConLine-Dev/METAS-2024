@@ -1,5 +1,3 @@
-import funcoesExportadas from './helper-functions.js';
-
 const processos_ano_anterior = await Thefetch('/api/processos-ano-anterior');
 const processos_ano_atual = await Thefetch('/api/processos-ano-atual');
 const ultimos_9_processos = await Thefetch('/api/ultimos_9_processos');
@@ -297,6 +295,14 @@ async function ultimo_fechamento_modal(modalidade) {
    cards_ultimo_fechamento_modal.insertAdjacentHTML('beforeend', itemsHTML.join(''));
 }
 
+async function remover_loading () {
+   let corpoDashboard = document.querySelector('.corpo-dashboard');
+   let loading = document.querySelector('.loading');
+
+   loading.style.display = 'none';
+   corpoDashboard.style.display = 'block';
+}
+
 
 // Função para agrupar as outras e executar cada uma na hora certa
 async function main() {
@@ -307,7 +313,7 @@ async function main() {
    await ultimo_fechamento_modal('EM');
    await ultimo_fechamento_modal('IA');
    await ultimo_fechamento_modal('EA');
-   await funcoesExportadas.remover_loading();
+   await remover_loading();
 }
 
 main();
