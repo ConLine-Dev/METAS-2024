@@ -13,14 +13,13 @@ async function total_ano(consulta) {
   return somaPorAno;
 }
 
-// Resultado Mes a Mes
+// // Resultado Mes a Mes
 async function soma_mes_a_mes(consulta) {
-   const somaPorMes = []; // Armazena o valor total por mes
+   const somaPorMes = [];
 
-   // Soma de valores por mes
    for (let index = 0; index < consulta.length; index++) {
       const item = consulta[index];
-      const mesExistente = somaPorMes.find(mes => mes.MES === item.MES); // Verifica se no array ja existe o mes da consulta
+      const mesExistente = somaPorMes.find(mes => mes.MES === item.MES);
 
       if(mesExistente) {
          mesExistente.VALOR_CONVERTIDO_REAL += item.VALOR_CONVERTIDO_REAL;
@@ -32,20 +31,30 @@ async function soma_mes_a_mes(consulta) {
       }
    }
 
-   // Ordena os meses usando a função de comparação
    somaPorMes.sort((a, b) => a.MES - b.MES);
-   return somaPorMes
+   return somaPorMes;
 }
 
-// Soma os valores até o dia atual separando por mes e dia
+// Soma os valores do ano passado até o dia atual
 async function somarValoresAteDiaAtual(dados) {
    const dataAtual = new Date();
    const diaAtual = dataAtual.getDate();
  
    const somaPorDia = {};
  
+   // Inicializa todos os dias do ano até o dia atual com 0
+   for (let mes = 1; mes <= dataAtual.getMonth() + 1; mes++) {
+     for (let dia = 1; dia <= 31; dia++) {
+       if (mes === dataAtual.getMonth() + 1 && dia > diaAtual) {
+         break;
+       }
+       somaPorDia[`${mes}-${dia}`] = 0;
+     }
+   }
+ 
    for (const item of dados) {
-     const dataPagamento = new Date(item.Data_Pagamento);
+     const dataPagamentoParts = item.Data_Pagamento.split('T')[0].split('-');
+     const dataPagamento = new Date(dataPagamentoParts[0], dataPagamentoParts[1] - 1, dataPagamentoParts[2]);
  
      const isDataAnterior =
        dataPagamento.getFullYear() < dataAtual.getFullYear() ||
@@ -63,7 +72,7 @@ async function somarValoresAteDiaAtual(dados) {
          (dataPagamento.getMonth() === dataAtual.getMonth() && dataPagamento.getDate() <= diaAtual);
  
        if (isDataAnteriorMesAtual) {
-         somaPorDia[chaveDia] = (somaPorDia[chaveDia] || 0) + item.VALOR_CONVERTIDO_REAL;
+         somaPorDia[chaveDia] += item.VALOR_CONVERTIDO_REAL;
        }
      }
    }
@@ -80,7 +89,7 @@ async function total_valores_ate_dia_atual_ano_anterior(consulta) {
    return somaTotal;
 } 
 
-// Cards de META ANUAL, MEGA META ANUAL, META HOJE, MEGA META HOJE
+// Cards de META ANUAL, META HOJE
 async function cardMetasAnuais() {
    const total_ano_anterior = await total_ano(fluxo_ano_anterior);
    const total_ano_atual = await total_ano(fluxo_ano_atual);
@@ -90,8 +99,6 @@ async function cardMetasAnuais() {
    const meta_anual = ((total_ano_atual) / (total_ano_anterior * meta)) * 100;
    // const mega_meta_anual = ((total_ano_atual) / (total_ano_anterior * megaMeta)) * 100;
    const meta_hoje = ((total_ano_atual) / (total_ano_anterior_ate_hoje * meta)) * 100;
-   // const mega_meta_hoje = ((total_ano_atual) / (total_ano_anterior_ate_hoje * megaMeta)) * 100;
-
 
    const card_meta_anual = document.querySelector('#cardMetaAnual');
    // const card_mega_meta_anual = document.querySelector('#cardMegaMetaAnual');
@@ -104,65 +111,84 @@ async function cardMetasAnuais() {
    // card_mega_meta_hoje.textContent = mega_meta_hoje.toFixed(2) + '%';
 }
 
+async function metas_mes() {
+   const total_ano_anterior = await total_ano(fluxo_ano_anterior);
+   // Meta para o ano todo
+   const meta_anual = total_ano_anterior * meta;
+
+   // Calcular meta de janeiro
+   const meta_por_mes = meta_anual / 12;
+
+   const metas_mensais = Array(12).fill(meta_por_mes);
+
+   return metas_mensais;
+}
+
+// Pega o valor arrecadado do mes atual e vai acrescentando ou diminuindo a meta do proximo mes
+async function ajustarMetasComBaseEmResultadosAutomatico(metasMensais, resultadosMensais) {
+   for (let i = 0; i < resultadosMensais.length; i++) {
+      const valorArrecadado = resultadosMensais[i].VALOR_CONVERTIDO_REAL;
+
+      if (valorArrecadado > metasMensais[i]) {
+         const excedente = valorArrecadado - metasMensais[i];
+
+         if (i < metasMensais.length - 1) {
+         metasMensais[i + 1] -= excedente;
+         }
+      } else {
+         if (i < metasMensais.length - 1) {
+         metasMensais[i + 1] += metasMensais[i] - valorArrecadado;
+         }
+      }
+   }
+
+   return metasMensais;
+}
+ 
+
 // Cria o grafico mes a mes
 async function grafico_financeiro_mes_mes() {
    const total_ano_anterior = await total_ano(fluxo_ano_anterior);
    const total_ano_atual = await total_ano(fluxo_ano_atual);
    const soma_mes_mes_anterior = await soma_mes_a_mes(fluxo_ano_anterior);
    const soma_mes_mes_atual = await soma_mes_a_mes(fluxo_ano_atual);
-   
+
+   // Obtenha os resultados mensais usando a sua função
+   const resultadosMensais = await soma_mes_a_mes(fluxo_ano_atual);
+
    // Meta para o ano todo
    const meta_anual = total_ano_anterior * meta;
    
-   // Calcular meta de janeiro
-   const meta_janeiro = meta_anual / 12;
-   
-   // Inicializar um array para armazenar as metas mensais
-   const metas_mensais = [meta_janeiro];
-   
-   // Armazena o que foi arrecadado a cada mês
-   let arrecadacao_acumulada = 0;
+   // Meta por mes
+   const meta_por_mes = meta_anual / 12;
 
-   const valor_arrecadado_meta = [Math.max(soma_mes_mes_atual[0].VALOR_CONVERTIDO_REAL, 0)]; // Adicionado valor arrecadado em janeiro
-   const porcentagem_em_relacao_a_meta_janeiro = meta_janeiro !== 0 ? (valor_arrecadado_meta[0] / meta_janeiro) * 100 : 0; // Calculado a porcentagem para janeiro
-   const porcentagens_meta = [porcentagem_em_relacao_a_meta_janeiro.toFixed(2)]; // Adicionado a porcentagem de janeiro
-   
-   // Calcular as metas mensais para os meses restantes
-   for (let i = 1; i < 12; i++) {
-      // Adicionar a arrecadação do mês anterior à arrecadação acumulada
-      arrecadacao_acumulada += soma_mes_mes_atual[i -1].VALOR_CONVERTIDO_REAL;
-      
-      // Calcular a meta mensal ajustada para o mês atual
-      const meta_mensal_ajustada = i === 0 ? meta_janeiro : (meta_anual - arrecadacao_acumulada) / (12 - i);
-      
-      // Adicionar a meta mensal ajustada no array
-      metas_mensais.push(meta_mensal_ajustada);
-      
-      // Calcular a porcentagem em relação à meta para o mês atual
-      const valor_arrecadado = soma_mes_mes_atual[i].VALOR_CONVERTIDO_REAL;
-      valor_arrecadado_meta.push(Math.max(valor_arrecadado, 0)); // Replace negative values with zero
+   // Cria um array de 12 linhas com o mesmo valor de meta para cada mes
+   let metasMensais = Array(12).fill(meta_por_mes);
 
-      const porcentagem_em_relacao_a_meta = meta_mensal_ajustada !== 0 ? (valor_arrecadado / meta_mensal_ajustada) * 100 : 0;
-      // Armazenar a porcentagem no array
-      porcentagens_meta.push(porcentagem_em_relacao_a_meta.toFixed(2));
-   }
+   // Ajusta a meta para o proximo mes de acordo com o valor arrecadado no mes atual
+   metasMensais = await ajustarMetasComBaseEmResultadosAutomatico(metasMensais, resultadosMensais);
 
+   // Extrai apenas os valores de VALOR_CONVERTIDO_REAL
+   const valores_arrecadados = soma_mes_mes_atual.map(item => item.VALOR_CONVERTIDO_REAL);
 
-   const newSomaMesAnterior = []
-   for (let index = 0; index < soma_mes_mes_anterior.length; index++) {
-      const element = soma_mes_mes_anterior[index];
-      newSomaMesAnterior.push(element.VALOR_CONVERTIDO_REAL)
-   }
+   const porcentagens = metasMensais.map((meta, index) => {
+      const valorArrecadado = valores_arrecadados[index];
+
+      // Evita a divisão por zero
+      const porcentagem = meta !== 0 ? (valorArrecadado / meta) * 100 : 0;
+
+      return Number(porcentagem.toFixed(2))
+   })
 
    var options = {
       series: [{
          name: 'Ano Atual',
          type: 'bar',
-         data: valor_arrecadado_meta
+         data: valores_arrecadados
       }, {
          name: 'Meta',
          type: 'area',
-         data: metas_mensais
+         data: metasMensais
       }],
 
       colors: ['#F9423A', '#3F2021'],
@@ -207,7 +233,7 @@ async function grafico_financeiro_mes_mes() {
          enabled: true,
          enabledOnSeries: [0],
          formatter: function (val, opts) {
-            const percentage = porcentagens_meta[opts.dataPointIndex];
+            const percentage = porcentagens[opts.dataPointIndex];
             return Math.max(percentage, 0) + "%";
           },
          offsetY: -15,
@@ -248,67 +274,9 @@ async function grafico_financeiro_mes_mes() {
          enabled: false,
       }
    }
-
-   var grafico_meta_anual = {
-      series: [{
-         data: valor_arrecadado_meta
-      }],
-   
-      colors: ['rgba(249, 66, 58, 0.1)'],
-   
-      chart: {
-         height: 80,
-         type: 'line',
-         stacked: false,
-         toolbar: {
-            show: false
-          },
-      },
-   
-      stroke: {
-         curve: 'smooth',
-         width: 2
-      },
-   
-
-   
-       dataLabels: {
-         enabled: false
-       },
-   
-       xaxis: {
-         labels: {
-            show: false,
-         },
-         axisBorder: {
-            show: false,
-         },
-         axisTicks: {
-            show: false,
-         },
-       },
-   
-      yaxis: {
-         show: false,
-      },
-   
-      grid: {
-         show: false,
-      },
-   
-      tooltip: {
-         enabled: false,
-      }
-   }
    
    var chart = new ApexCharts(document.querySelector("#meta-mes-a-mes"), options);
    chart.render();
-
-   var meta_anual_grafico_card = new ApexCharts(document.querySelector("#meta_anual_grafico_card"), grafico_meta_anual);
-   meta_anual_grafico_card.render();
-
-   var meta_hoje_grafico_card = new ApexCharts(document.querySelector("#meta_hoje_grafico_card"), grafico_meta_anual);
-   meta_hoje_grafico_card.render();
 }
 
 // Cria grafico de participação por modal
@@ -325,11 +293,27 @@ async function grafico_modais() {
    const total_valores_ano_atual = await total_ano(fluxo_ano_atual);
 
    // Calcular porcentagem para cada modalidade
-   const porcentagens = [];
+   let porcentagens = [];
+   let totalPorcentagem = 0;
    for (const modalidade in total_valores_modais) {
-      const valor_modalidade = total_valores_modais[modalidade];
+      let valor_modalidade = total_valores_modais[modalidade];
+      
+      // Se o valor for indefinido ou menor que zero, defina como zero
+      if (!valor_modalidade || valor_modalidade < 0) {
+         valor_modalidade = 0;
+      }
+      
       const porcentagem = (valor_modalidade / total_valores_ano_atual) * 100;
-      porcentagens[modalidade] = Number(porcentagem.toFixed(2));
+      porcentagens[modalidade] = Math.max(Number(porcentagem.toFixed(2)), 0);
+      totalPorcentagem += porcentagens[modalidade];
+   }
+
+   // Ajustar as porcentagens se a soma total exceder 100%
+   if (totalPorcentagem > 100) {
+      const fatorAjuste = totalPorcentagem / 100;
+      for (const modalidade in porcentagens) {
+         porcentagens[modalidade] = Number((porcentagens[modalidade] / fatorAjuste).toFixed(2));
+      }
    }
    
    // Tirando o modal e deixando somente os valores do objeto
@@ -339,30 +323,35 @@ async function grafico_modais() {
    const porcentagem_EM = document.querySelector('#porcentagem_EM');
    const porcentagem_IA = document.querySelector('#porcentagem_IA');
    const porcentagem_EA = document.querySelector('#porcentagem_EA');
-   const porcentagem_OUTROS = document.querySelector('#porcentagem_OUTROS');
+   // const porcentagem_OUTROS = document.querySelector('#porcentagem_OUTROS');
 
    porcentagem_IM.textContent = porcentagens_somente_numero[0] + '%'
    porcentagem_EM.textContent = porcentagens_somente_numero[1] + '%'
    porcentagem_IA.textContent = porcentagens_somente_numero[2] + '%'
    porcentagem_EA.textContent = porcentagens_somente_numero[3] + '%'
-   porcentagem_OUTROS.textContent = porcentagens_somente_numero[4] + '%'
+   // porcentagem_OUTROS.textContent = porcentagens_somente_numero[4] + '%'
 
    var options = {
       series: porcentagens_somente_numero,
       chart: {
-      type: 'donut',
-      width: '123%',
-    },
-    labels: ['IM', 'EM', 'IA', 'EA', 'OUTROS'],
-    legend: {
-      show: true,
-      position: 'bottom',
-    },
-    
-    };
-
-    var chart = new ApexCharts(document.querySelector("#modais"), options);
-    chart.render();
+         type: 'donut',
+         width: '123%',
+      },
+      labels: ['IM', 'EM', 'IA', 'EA'],
+      legend: {
+         show: true,
+         position: 'bottom',
+      },
+      dataLabels: {
+         formatter: function(val, opts) {
+            return opts.w.config.series[opts.seriesIndex].toFixed(2) + '%';
+         }
+      }
+   };
+   
+   var chart = new ApexCharts(document.querySelector("#modais"), options);
+   chart.render();
+   
 }
 
 async function remover_loading () {
