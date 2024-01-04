@@ -16,13 +16,13 @@ const server = http.createServer(app); // Replace 'app' with your Express app in
 
 
 // Import routes pages
-const socket = require('./routes/socketIO');
+const WebSocket = require('./routes/socketIO');
 const listApp = require('./routes/app');
 const api = require('./routes/api');
 
 // Configuração do Socket.IO
 const io = socketIO(server);
-socket.Init(io)
+WebSocket.Init(io)
 
 
 
