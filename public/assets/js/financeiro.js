@@ -273,14 +273,20 @@ async function grafico_modais() {
    const total_valores_modais = await soma_valores_modais(fluxo_ano_atual);
    const total_valores_ano_atual = await total_ano(fluxo_ano_atual);
 
+   // Verifique se a modalidade "OUTROS" existe, caso contrário, defina como zero
+   if (!total_valores_modais['OUTROS']) {
+      total_valores_modais['OUTROS'] = 0;
+   }
+
    // Calcular porcentagem para cada modalidade
    let porcentagens = [];
    let totalPorcentagem = 0;
    for (const modalidade in total_valores_modais) {
       let valor_modalidade = total_valores_modais[modalidade];
+
       
       // Se o valor for indefinido ou menor que zero, defina como zero
-      if (!valor_modalidade || valor_modalidade < 0) {
+      if (valor_modalidade < 0) {
          valor_modalidade = 0;
       }
       

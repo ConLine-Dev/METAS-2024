@@ -22,36 +22,29 @@
    <!-- MODAl -->
    <div class="modal fade effect-scale show" id="modaldemo8" style="display: none; background-color: rgba(0, 0, 0, 0.3); z-index: 99999;" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered text-center" role="document">
-         <div class="modal-content modal-content-demo">
+         <div class="modal-content modal-content-demo" style="padding-bottom: 23px;">
             <div class="modal-header" style="margin: 0 auto;">
                <h6 class="modal-title">Novo Processo</h6>
             </div>
             <div class="modal-body text-start" style="padding: 0px 20px;">
-               <div class="card custom-card team-member-card">
-                  <div class="teammember-cover-image" style="margin-top: 18px;"> 
-                     <span class="avatar avatar-xl avatar-rounded"> 
-                        <img id="sale_img" src="/assets/images/brand-logos/avatar-do-usuario.png" alt="">
-                     </span> 
+               <div class="d-flex align-items-center">
+                  <div class="me-2 lh-1"> 
+                     <div class="avatar-list-stacked">
+                        <span class="avatar avatar-rounded modal-avatar-vendedor">
+                        <img src="/assets/images/brand-logos/avatar-do-usuario.png" alt="img">
+                        </span>
+                        <span class="avatar avatar-rounded modal-avatar-inside">
+                        <img src="/assets/images/brand-logos/avatar-do-usuario.png" alt="img">
+                        </span>
+                     </div>
                   </div>
-                  <div class="card-body p-0" style="margin-top: 20p;">
-                     <div class="d-flex flex-wrap align-item-center mt-sm-0 mt-5 justify-content-between border-bottom border-block-end-dashed p-3">
-                        <div class="team-member-details flex-fill">
-                           <p class="mb-0 fw-semibold fs-16 text-truncate" id="sale_name">---------------</p>
-                           <p class="mb-0 fs-12 text-muted text-break" id="inside_sales_name">--------------</p>
-                        </div>
-                        <div class="dropdown"> 
-                           <div class="btn btn-sm btn-icon btn-light btn-wave waves-effect waves-light" id="back_modal" style="scale: 1.3;"> 
-                              <i class="ti" style="color: #FFF;"></i> 
-                           </div>
-                        </div>
-                     </div>
-                     <div class="team-member-stats d-sm-flex justify-content-evenly">
-                        <div class="text-center p-3 my-auto">
-                           <p class="fw-semibold mb-0" id="modal_id">---------</p>
-                           <span class="fs-12" id="date_open_modal" style="border-radius: 4px;padding: 0 3px;">-- --- ---- --:--:--:----
-                           </span>
-                        </div>
-                     </div>
+                  <div class="flex-fill">
+                     <p class="mb-0 fw-semibold modal-nome-vendedor">-------------</p>
+                     <p class="fs-12 text-muted mb-0 modal-nome-inside">-------------</p>
+                  </div>
+                  <div class="text-end">
+                     <p class="mb-0 fs-12 modal-processo">-------------</p>
+                     <span class="badge modal-data" style="color: #f9423a !important; background-color: rgba(249, 66, 58, 0.2);">-------------</span>
                   </div>
                </div>
             </div>
