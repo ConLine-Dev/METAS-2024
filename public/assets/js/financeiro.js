@@ -90,38 +90,20 @@ async function total_valores_ate_dia_atual_ano_anterior(consulta) {
 } 
 
 // Cards de META ANUAL, META HOJE
-async function cardMetasAnuais() {
+async function card_metas_anuais() {
    const total_ano_anterior = await total_ano(fluxo_ano_anterior);
    const total_ano_atual = await total_ano(fluxo_ano_atual);
 
    const total_ano_anterior_ate_hoje = await total_valores_ate_dia_atual_ano_anterior(fluxo_ano_anterior)
 
-   const meta_anual = ((total_ano_atual) / (total_ano_anterior * meta)) * 100;
-   // const mega_meta_anual = ((total_ano_atual) / (total_ano_anterior * megaMeta)) * 100;
-   const meta_hoje = ((total_ano_atual) / (total_ano_anterior_ate_hoje * meta)) * 100;
+   const meta_anual = Math.max(((total_ano_atual) / (total_ano_anterior * meta)) * 100, 0);
+   const meta_hoje = Math.max(((total_ano_atual) / (total_ano_anterior_ate_hoje * meta)) * 100, 0);
 
    const card_meta_anual = document.querySelector('#cardMetaAnual');
-   // const card_mega_meta_anual = document.querySelector('#cardMegaMetaAnual');
    const card_meta_hoje = document.querySelector('#cardMetaHoje');
-   // const card_mega_meta_hoje = document.querySelector('#cardMegaMetaHoje');
 
    card_meta_anual.textContent = meta_anual.toFixed(2) + '%';
-   // card_mega_meta_anual.textContent = mega_meta_anual.toFixed(2) + '%';
    card_meta_hoje.textContent = meta_hoje.toFixed(2) + '%';
-   // card_mega_meta_hoje.textContent = mega_meta_hoje.toFixed(2) + '%';
-}
-
-async function metas_mes() {
-   const total_ano_anterior = await total_ano(fluxo_ano_anterior);
-   // Meta para o ano todo
-   const meta_anual = total_ano_anterior * meta;
-
-   // Calcular meta de janeiro
-   const meta_por_mes = meta_anual / 12;
-
-   const metas_mensais = Array(12).fill(meta_por_mes);
-
-   return metas_mensais;
 }
 
 // Pega o valor arrecadado do mes atual e vai acrescentando ou diminuindo a meta do proximo mes
@@ -144,7 +126,6 @@ async function ajustarMetasComBaseEmResultadosAutomatico(metasMensais, resultado
 
    return metasMensais;
 }
- 
 
 // Cria o grafico mes a mes
 async function grafico_financeiro_mes_mes() {
@@ -169,7 +150,7 @@ async function grafico_financeiro_mes_mes() {
    metasMensais = await ajustarMetasComBaseEmResultadosAutomatico(metasMensais, resultadosMensais);
 
    // Extrai apenas os valores de VALOR_CONVERTIDO_REAL
-   const valores_arrecadados = soma_mes_mes_atual.map(item => item.VALOR_CONVERTIDO_REAL);
+   const valores_arrecadados = soma_mes_mes_atual.map(item => Math.max(item.VALOR_CONVERTIDO_REAL, 0));
 
    const porcentagens = metasMensais.map((meta, index) => {
       const valorArrecadado = valores_arrecadados[index];
@@ -329,7 +310,7 @@ async function grafico_modais() {
    porcentagem_EM.textContent = porcentagens_somente_numero[1] + '%'
    porcentagem_IA.textContent = porcentagens_somente_numero[2] + '%'
    porcentagem_EA.textContent = porcentagens_somente_numero[3] + '%'
-   // porcentagem_OUTROS.textContent = porcentagens_somente_numero[4] + '%'
+   porcentagem_OUTROS.textContent = porcentagens_somente_numero[4] + '%'
 
    var options = {
       series: porcentagens_somente_numero,
@@ -337,7 +318,7 @@ async function grafico_modais() {
          type: 'donut',
          width: '123%',
       },
-      labels: ['IM', 'EM', 'IA', 'EA'],
+      labels: ['IM', 'EM', 'IA', 'EA', 'OUTROS'],
       legend: {
          show: true,
          position: 'bottom',
@@ -354,6 +335,13 @@ async function grafico_modais() {
    
 }
 
+async function mostrar_loading() {
+   let img = document.getElementById('loading-img');
+
+   // Define o caminho do gif
+   img.src = "/assets/images/brand-logos/SLOGAN VERMELHO.gif";
+}
+
 async function remover_loading () {
    let corpoDashboard = document.querySelector('.corpo-dashboard');
    let loading = document.querySelector('.loading');
@@ -363,7 +351,8 @@ async function remover_loading () {
 }
 
 async function main() {
-   await cardMetasAnuais();
+   await mostrar_loading();
+   await card_metas_anuais();
    await grafico_financeiro_mes_mes();
    await grafico_modais();
    await remover_loading();

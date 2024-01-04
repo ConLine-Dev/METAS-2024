@@ -194,12 +194,18 @@ async function ultimos_processos() {
       const { cor, background } = obter_cores_por_modalidade(item.MODALIDADE);
 
       // Criação da string HTML para cada item
-      const item_html = `<li class="list-group-item border-top-0 border-start-0 border-end-0"> 
+      const item_html =                     
+                     `<li class="list-group-item border-top-0 border-start-0 border-end-0"> 
                         <div class="d-flex align-items-center">
                            <div class="me-2 lh-1"> 
-                              <span class="avatar avatar-md avatar-rounded bg-primary-transparent">
-                              <img src="https://cdn.conlinebr.com.br/colaboradores/${item.ID_VENDEDOR}" alt="foto colaborador">
-                              </span>
+                              <div class="avatar-list-stacked">
+                                 <span class="avatar avatar-rounded">
+                                 <img src="https://cdn.conlinebr.com.br/colaboradores/${item.ID_VENDEDOR}" alt="img">
+                                 </span>
+                                 <span class="avatar avatar-rounded">
+                                 <img src="https://cdn.conlinebr.com.br/colaboradores/${item.ID_INSIDE_SALES}" alt="img">
+                                 </span>
+                              </div>
                            </div>
                            <div class="flex-fill">
                               <p class="mb-0 fw-semibold">${item.VENDEDOR}</p>
@@ -257,9 +263,14 @@ async function ultimo_fechamento_modal(modalidade) {
                                                 <li class="list-group-item border-top-0 border-start-0 border-end-0"> 
                                                    <div class="d-flex align-items-center">
                                                       <div class="me-2 lh-1"> 
-                                                         <span class="avatar avatar-md avatar-rounded bg-primary-transparent">
-                                                         <img src="https://cdn.conlinebr.com.br/colaboradores/${item.ID_VENDEDOR}" alt="foto colaborador">
-                                                         </span>
+                                                         <div class="avatar-list-stacked">
+                                                            <span class="avatar avatar-rounded">
+                                                            <img src="https://cdn.conlinebr.com.br/colaboradores/${item.ID_VENDEDOR}" alt="img">
+                                                            </span>
+                                                            <span class="avatar avatar-rounded">
+                                                            <img src="https://cdn.conlinebr.com.br/colaboradores/${item.ID_INSIDE_SALES}" alt="img">
+                                                            </span>
+                                                         </div>
                                                       </div>
                                                       <div class="flex-fill">
                                                          <p class="mb-0 fw-semibold">${item.VENDEDOR}</p>
@@ -267,7 +278,7 @@ async function ultimo_fechamento_modal(modalidade) {
                                                       </div>
                                                       <div class="text-end">
                                                          <p class="mb-0 fs-12">${item.Numero_Processo}</p>
-                                                         <span class="badge" style="color: ${cor}; background-color: ${background};">${item.Data_Abertura_Processo}</span>
+                                                         <span class="badge" style="color: ${cor} !important; background-color: ${background};">${item.Data_Abertura_Processo}</span>
                                                       </div>
                                                    </div>
                                                 </li>

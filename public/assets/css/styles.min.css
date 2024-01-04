@@ -139,13 +139,42 @@
    position: absolute;
    top: 0;
    left: 0;
-   width: 100vw;
-   height: 100vh;
+   width: 100%;
+   height: 100%;
    background-color: var(--custom-white);
    display: flex;
    justify-content: center;
    align-items: center;
    z-index: 999
+}
+
+#loading-icon {
+   position: fixed;
+   width: 100%;
+   height: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   z-index: 9999;
+   animation: disappear 2s linear ease-in-out;
+}
+
+#loading-img {
+   position: fixed;
+   width: 15%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   z-index: 9999;
+   margin-bottom: 145px;
+}
+
+.loadingio-spinner-eclipse-jj809cj2h7 {
+   width: 237px;
+   height: 237px;
+   display: inline-block;
+   overflow: hidden;
+   background: none;
 }
 
 [data-theme-mode="dark"]
