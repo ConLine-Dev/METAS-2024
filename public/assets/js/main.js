@@ -10,9 +10,7 @@ function Thefetch(url, method, options = {}) { // Função Thefetch com 3 parâm
         .then(data => resolve(data)) // Se a conversão para JSON for bem sucedida, chama a função de callback resolve com os dados
         .catch(error => reject(error)); // Se ocorrer algum erro, chama a função de callback reject com o erro
     });
-  }
-
-
+}
 
 
 

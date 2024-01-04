@@ -269,6 +269,8 @@ async function soma_valores_modais(dados) {
    }, {});
 }
 
+let testechart = [];
+
 async function grafico_modais() {
    const total_valores_modais = await soma_valores_modais(fluxo_ano_atual);
    const total_valores_ano_atual = await total_ano(fluxo_ano_atual);
@@ -335,9 +337,22 @@ async function grafico_modais() {
          }
       }
    };
+
+   if (testechart.ohYeahThisChartHasBeenRendered) {
+      testechart.updateSeries([{
+         data: [
+            10,
+            50,
+            40,
+            0,
+            0
+        ] // Substitua isso pela sua nova série de dados
+      }]);
+    } else {
+       testechart = new ApexCharts(document.querySelector("#modais"), options);
+       testechart.render().then(() => testechart.ohYeahThisChartHasBeenRendered = true);
+    }
    
-   var chart = new ApexCharts(document.querySelector("#modais"), options);
-   chart.render();
    
 }
 
@@ -365,3 +380,13 @@ async function main() {
 }
 
 main()
+
+
+
+// Escurta um novo processo
+const socket = io();
+
+socket.on('NewProcess', function(msg){
+    console.log(msg)
+    main();
+});

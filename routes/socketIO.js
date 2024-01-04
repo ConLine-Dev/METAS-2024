@@ -15,7 +15,7 @@ const WebSocket = {
             });
 
 
-            setTimeout(async () => {
+            setInterval(async () => {
                 const id = await WebSocket.toListen();
                 if(id != WebSocket.lastId){
                     WebSocket.lastId = id;
