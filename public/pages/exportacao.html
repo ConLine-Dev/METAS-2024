@@ -20,7 +20,7 @@
 </head>
 <body>
    <!-- MODAl -->
-   <div class="modal fade effect-scale show" id="modaldemo8" style="display: none; background-color: rgba(0, 0, 0, 0.3); z-index: 99999;" aria-hidden="true">
+   <div class="modal fade" id="modaldemo8" style="display: none; background-color: rgba(0, 0, 0, 0.3); z-index: 99999;" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered text-center" role="document">
          <div class="modal-content modal-content-demo" style="padding-bottom: 23px;">
             <div class="modal-header" style="margin: 0 auto;">
@@ -31,20 +31,20 @@
                   <div class="me-2 lh-1"> 
                      <div class="avatar-list-stacked">
                         <span class="avatar avatar-rounded modal-avatar-vendedor">
-                        <img src="/assets/images/brand-logos/avatar-do-usuario.png" alt="img">
+                        <img id="sale_img" src="/assets/images/brand-logos/avatar-do-usuario.png" alt="img">
                         </span>
                         <span class="avatar avatar-rounded modal-avatar-inside">
-                        <img src="/assets/images/brand-logos/avatar-do-usuario.png" alt="img">
+                        <img id="inside_img" src="/assets/images/brand-logos/avatar-do-usuario.png" alt="img">
                         </span>
                      </div>
                   </div>
                   <div class="flex-fill">
-                     <p class="mb-0 fw-semibold modal-nome-vendedor">-------------</p>
-                     <p class="fs-12 text-muted mb-0 modal-nome-inside">-------------</p>
+                     <p class="mb-0 fw-semibold" id="sale_name" style="white-space: nowrap; max-width: 19ch; overflow: hidden;">-------------</p>
+                     <p class="fs-12 text-muted mb-0" id="inside_sales_name" style="white-space: nowrap; max-width: 19ch; overflow: hidden;">-------------</p>
                   </div>
                   <div class="text-end">
-                     <p class="mb-0 fs-12 modal-processo">-------------</p>
-                     <span class="badge modal-data" style="color: #f9423a !important; background-color: rgba(249, 66, 58, 0.2);">-------------</span>
+                     <p class="mb-0 fs-12" id="modal_id">-------------</p>
+                     <span class="badge" style="color: #f9423a !important; background-color: rgba(249, 66, 58, 0.2);" id="date_open_modal">-------------</span>
                   </div>
                </div>
             </div>
@@ -170,7 +170,7 @@
    <!-- /sidebar -->
 
    <!-- Dashboard -->
-   <div class="main-content app-content" style="position: relative;">
+   <div class="main-content app-content" style="position: relative; display: flex; align-items: center;">
 
       <button class="btn btn-icon btn-warning btn-wave me-5 waves-effect waves-light" style="position: fixed; right: -46px; top: 236px;"> 
          <i class="fe fe-help-circle" title="Dúvidas sobre a meta?"></i> 
@@ -333,7 +333,7 @@
    <div id="responsive-overlay"></div>
 
    <script src="/assets/js/main.js"></script>
-   <!-- <script src="/assets/js/modal.js"></script> -->
+   <script src="/assets/js/socket.io.min.js"></script>
    <script type="module" src="/assets/js/exportacao.js"></script>
    <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
    <script src="/assets/js/custom.js"></script>
