@@ -1,6 +1,7 @@
-const fluxo_ano_anterior = await Thefetch('/api/ano-anterior');
-const fluxo_ano_atual = await Thefetch('/api/ano-atual')
 const meta = 1.15;
+const time_new_process = 8000
+let new_process = false;
+
 
 const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
 
@@ -90,7 +91,7 @@ async function total_valores_ate_dia_atual_ano_anterior(consulta) {
 } 
 
 // Cards de META ANUAL, META HOJE
-async function card_metas_anuais() {
+async function card_metas_anuais(fluxo_ano_anterior, fluxo_ano_atual) {
    const total_ano_anterior = await total_ano(fluxo_ano_anterior);
    const total_ano_atual = await total_ano(fluxo_ano_atual);
 
@@ -127,11 +128,10 @@ async function ajustarMetasComBaseEmResultadosAutomatico(metasMensais, resultado
    return metasMensais;
 }
 
+let atualizacao_chart = null;
 // Cria o grafico mes a mes
-async function grafico_financeiro_mes_mes() {
+async function grafico_financeiro_mes_mes(fluxo_ano_anterior, fluxo_ano_atual) {
    const total_ano_anterior = await total_ano(fluxo_ano_anterior);
-   const total_ano_atual = await total_ano(fluxo_ano_atual);
-   const soma_mes_mes_anterior = await soma_mes_a_mes(fluxo_ano_anterior);
    const soma_mes_mes_atual = await soma_mes_a_mes(fluxo_ano_atual);
 
    // Obtenha os resultados mensais usando a sua função
@@ -150,7 +150,8 @@ async function grafico_financeiro_mes_mes() {
    metasMensais = await ajustarMetasComBaseEmResultadosAutomatico(metasMensais, resultadosMensais);
 
    // Extrai apenas os valores de VALOR_CONVERTIDO_REAL
-   const valores_arrecadados = soma_mes_mes_atual.map(item => Math.max(item.VALOR_CONVERTIDO_REAL, 0));
+   // const valores_arrecadados = soma_mes_mes_atual.map(item => Math.max(item.VALOR_CONVERTIDO_REAL, 0));
+   const valores_arrecadados = soma_mes_mes_atual.map(item => item.VALOR_CONVERTIDO_REAL);
 
    const porcentagens = metasMensais.map((meta, index) => {
       const valorArrecadado = valores_arrecadados[index];
@@ -215,7 +216,8 @@ async function grafico_financeiro_mes_mes() {
          enabledOnSeries: [0],
          formatter: function (val, opts) {
             const percentage = porcentagens[opts.dataPointIndex];
-            return Math.max(percentage, 0) + "%";
+            // return Math.max(percentage, 0) + "%";
+            return percentage + "%";
           },
          offsetY: -15,
          style: {
@@ -255,9 +257,23 @@ async function grafico_financeiro_mes_mes() {
          enabled: false,
       }
    }
-   
-   var chart = new ApexCharts(document.querySelector("#meta-mes-a-mes"), options);
-   chart.render();
+
+   // Verifique se o gráfico já existe
+   if (atualizacao_chart) {
+      // Atualize as porcentagens
+      options.dataLabels.formatter = function (val, opts) {
+         const percentage = porcentagens[opts.dataPointIndex];
+         // return Math.max(percentage, 0) + "%";
+         return percentage + "%";
+      };
+      // Se existir, atualize os dados e renderize novamente
+      atualizacao_chart.updateOptions(options);
+   } else {
+      // Se não existir, crie um novo gráfico
+      atualizacao_chart = new ApexCharts(document.querySelector("#meta-mes-a-mes"), options);
+      atualizacao_chart.render();
+   }
+
 }
 
 // Cria grafico de participação por modal
@@ -269,9 +285,9 @@ async function soma_valores_modais(dados) {
    }, {});
 }
 
-let testechart = [];
+let atualizacao_chart_2 = null;
 
-async function grafico_modais() {
+async function grafico_modais(fluxo_ano_atual) {
    const total_valores_modais = await soma_valores_modais(fluxo_ano_atual);
    const total_valores_ano_atual = await total_ano(fluxo_ano_atual);
 
@@ -312,7 +328,7 @@ async function grafico_modais() {
    const porcentagem_EM = document.querySelector('#porcentagem_EM');
    const porcentagem_IA = document.querySelector('#porcentagem_IA');
    const porcentagem_EA = document.querySelector('#porcentagem_EA');
-   // const porcentagem_OUTROS = document.querySelector('#porcentagem_OUTROS');
+   const porcentagem_OUTROS = document.querySelector('#porcentagem_OUTROS');
 
    porcentagem_IM.textContent = porcentagens_somente_numero[0] + '%'
    porcentagem_EM.textContent = porcentagens_somente_numero[1] + '%'
@@ -337,21 +353,20 @@ async function grafico_modais() {
          }
       }
    };
-
-   if (testechart.ohYeahThisChartHasBeenRendered) {
-      testechart.updateSeries([{
-         data: [
-            10,
-            50,
-            40,
-            0,
-            0
-        ] // Substitua isso pela sua nova série de dados
-      }]);
-    } else {
-       testechart = new ApexCharts(document.querySelector("#modais"), options);
-       testechart.render().then(() => testechart.ohYeahThisChartHasBeenRendered = true);
-    }
+   // Verifique se o gráfico já existe
+   if (atualizacao_chart_2) {
+      // Se existir, atualize os dados e renderize novamente
+      atualizacao_chart_2.updateSeries(porcentagens_somente_numero);
+      porcentagem_IM.textContent = porcentagens_somente_numero[0] + '%'
+      porcentagem_EM.textContent = porcentagens_somente_numero[1] + '%'
+      porcentagem_IA.textContent = porcentagens_somente_numero[2] + '%'
+      porcentagem_EA.textContent = porcentagens_somente_numero[3] + '%'
+      porcentagem_OUTROS.textContent = porcentagens_somente_numero[4] + '%'
+   } else {
+      // Se não existir, crie um novo gráfico
+      atualizacao_chart_2 = new ApexCharts(document.querySelector("#modais"), options);
+      atualizacao_chart_2.render();
+   }
    
    
 }
@@ -371,22 +386,101 @@ async function remover_loading () {
    corpoDashboard.style.display = 'block';
 }
 
+
+// GEra o modal
+function obter_cores_icone_por_modalidade(modalidade) {
+   switch (modalidade) {
+      case 'IM':
+         return { cor: '#f9423a', background: 'rgba(249, 66, 58, 0.2)', icon: 'ti-ship' };
+      case 'EM':
+         return { cor: '#3F2021', background: 'rgba(63, 32, 33, 0.2)', icon: 'ti-ship'};
+      case 'IA':
+         return { cor: '#23b7e5', background: 'rgba(35, 183, 229, 0.2)', icon: 'ti-plane-inflight' };
+      default:
+         return { cor: '#26bf94', background: 'rgba(38, 191, 148, 0.2)', icon: 'ti-plane-inflight' };
+   }
+}
+
+function ultimo_processo_modal(data) {
+   const audio_palmas = new Audio('/assets/audios/palmas.mp3');
+
+   // Adiciona um event listener para o clique
+   document.addEventListener('click', () => {
+      // Inicia a reprodução do áudio ao clicar
+      audio_palmas.play()
+   });
+
+   // const ultimo_processo_gerado = await Thefetch('/api/ultimo_processo_gerado');
+
+   const sale_name = document.querySelector('#sale_name');
+   const inside_sales_name = document.querySelector('#inside_sales_name');
+   const modal_id = document.querySelector('#modal_id');
+   const date_open_modal = document.querySelector('#date_open_modal');
+   
+   sale_name.textContent = data.VENDEDOR;
+   inside_sales_name.textContent = data.INSIDE_SALES;
+   modal_id.textContent = data.Numero_Processo;
+   date_open_modal.textContent = data.Data_Abertura_Processo;
+
+   // Obter cores com base na modalidade
+   const { cor, background, icon } = obter_cores_icone_por_modalidade(data.MODALIDADE);
+   date_open_modal.style.color = cor;
+   date_open_modal.style.background = background;
+
+   const sale_img = document.querySelector('#sale_img');
+   const inside_img = document.querySelector('#inside_img');
+   sale_img.setAttribute('src', `https://cdn.conlinebr.com.br/colaboradores/${data.ID_VENDEDOR}`);
+   inside_img.setAttribute('src', `https://cdn.conlinebr.com.br/colaboradores/${data.ID_INSIDE_SALES}`);
+
+
+   // adiciona o modal
+   const modaldemo8 = document.querySelector('#modaldemo8');
+   modaldemo8.classList.add('effect-scale', 'show');
+   modaldemo8.style.display = 'block';
+
+   setTimeout(() => {
+      modaldemo8.classList.remove('effect-scale', 'show');
+      modaldemo8.style.display = 'none';
+      audio_palmas.pause()
+      new_process = false;
+   }, time_new_process);
+}
+
+
 async function main() {
+   const fluxo_ano_anterior = await Thefetch('/api/ano-anterior');
+   const fluxo_ano_atual = await Thefetch('/api/ano-atual')
    await mostrar_loading();
-   await card_metas_anuais();
-   await grafico_financeiro_mes_mes();
-   await grafico_modais();
+   await card_metas_anuais(fluxo_ano_anterior, fluxo_ano_atual);
+   await grafico_financeiro_mes_mes(fluxo_ano_anterior, fluxo_ano_atual);
+   await grafico_modais(fluxo_ano_atual);
    await remover_loading();
 }
 
-main()
+await main();
 
 
 
 // Escurta um novo processo
 const socket = io();
 
-socket.on('NewProcess', function(msg){
-    console.log(msg)
-    main();
+const lista_fechamento = []
+
+socket.on('NewProcess', async function(msg){
+   // console.log(msg)
+   main();
+   lista_fechamento.push(msg)
 });
+
+socket.on('NewInvoice', async function(msg){
+   // console.log(msg)
+   main();
+});
+
+setInterval(() => {
+   if(lista_fechamento.length > 0 && new_process == false) {
+      new_process = true;
+      ultimo_processo_modal(lista_fechamento[0]);
+      lista_fechamento.splice(0, 1);
+   }
+}, 1000);
