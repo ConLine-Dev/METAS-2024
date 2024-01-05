@@ -1,6 +1,6 @@
-const teus_tons_ano_anterior = await Thefetch('/api/teus_tons_ano_anterior');
-const teus_tons_ano_atual = await Thefetch('/api/teus_tons_ano_atual');
 const meta = 1.15;
+const time_new_process = 8000
+let new_process = false;
 
 const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
 
@@ -20,7 +20,7 @@ async function soma_dados_mes_mes(consulta, modalidade, tipoCarga, campo) {
 
    // Apresenta somente duas casas decimais em cada item
    for (let i = 0; i < soma_por_mes.length; i++) {
-      soma_por_mes[i] = parseInt(soma_por_mes[i])
+      soma_por_mes[i] = Number(soma_por_mes[i].toFixed(2))
    }
 
    return soma_por_mes;
@@ -38,7 +38,7 @@ async function soma_dados_modalidade(consulta, modalidade, tipoCarga, campo) {
 }
 
 // Função que insere os valores nos cards anuais
-async function cards_anuais(modalidade, tipoCarga, campo) {
+async function cards_anuais(teus_tons_ano_anterior, teus_tons_ano_atual, modalidade, tipoCarga, campo) {
    const dados_modal_ano_anterior = await soma_dados_modalidade(teus_tons_ano_anterior, modalidade, tipoCarga, campo);
    const dados_modal_ano_atual = await soma_dados_modalidade(teus_tons_ano_atual, modalidade, tipoCarga, campo);
 
@@ -55,7 +55,8 @@ async function cards_anuais(modalidade, tipoCarga, campo) {
 }
 
 // Função que trás os resultados mes a mes
-async function graficos_mensais(modalidade, tipoCarga, campo) {
+let graficosMensais = {}; // Objeto para armazenar os gráficos mensais
+async function graficos_mensais(teus_tons_ano_anterior, teus_tons_ano_atual, modalidade, tipoCarga, campo) {
    const dados_ano_anterior = await soma_dados_mes_mes(teus_tons_ano_anterior, modalidade, tipoCarga, campo);
    const dados_ano_atual = await soma_dados_mes_mes(teus_tons_ano_atual, modalidade, tipoCarga, campo);
 
@@ -202,29 +203,143 @@ async function graficos_mensais(modalidade, tipoCarga, campo) {
       }
    }
 
-   var chart = new ApexCharts(document.getElementById('grafico-mes-' + modalidade + '-' + tipoCarga), options);
-   chart.render();
+   const grafico_mensal_id = 'grafico-mes-' + modalidade + '-' + tipoCarga;
+   const grafico_anual_id = 'grafico-anual-' + modalidade + '-' + tipoCarga;
 
-   var grafico_anual = new ApexCharts(document.querySelector('.grafico-anual-' + modalidade + '-' + tipoCarga), grafico_meta_anual);
-   grafico_anual.render();
+   // Crie instâncias separadas para gráficos mensais e anuais
+   const chartMensal = new ApexCharts(document.querySelector('#' + grafico_mensal_id), options);
+   const chartAnual = new ApexCharts(document.querySelector('.' + grafico_anual_id), grafico_meta_anual);
+   // Renderize os gráficos
+   chartMensal.render();
+   chartAnual.render();
+
+   // Atribua as instâncias dos gráficos ao objeto usando a combinação de modalidade e tipoCarga como chave
+   graficosMensais[`${modalidade}-${tipoCarga}`] = {
+      chartMensal,
+      chartAnual,
+   };
+
+   const modalidadeTipoCargaKey = `${modalidade}-${tipoCarga}`;
+   const graficosMensaisExistem = graficosMensais[modalidadeTipoCargaKey];
+
+   if (graficosMensaisExistem) {
+      // Atualize as porcentagens
+      options.dataLabels.formatter = function (val, opts) {
+         const percentage = porcentagens[opts.dataPointIndex];
+         return percentage + "%";
+      };
+      // Se existir, atualize os dados e renderize novamente
+      graficosMensais[modalidadeTipoCargaKey].chartMensal.updateOptions(options);
+      graficosMensais[modalidadeTipoCargaKey].chartAnual.updateOptions(grafico_meta_anual);
+   }
+}
+
+// Gera o modal
+function obter_cores_icone_por_modalidade(modalidade) {
+   switch (modalidade) {
+      case 'IM':
+         return { cor: '#f9423a', background: 'rgba(249, 66, 58, 0.2)', icon: 'ti-ship' };
+      case 'EM':
+         return { cor: '#3F2021', background: 'rgba(63, 32, 33, 0.2)', icon: 'ti-ship'};
+      case 'IA':
+         return { cor: '#23b7e5', background: 'rgba(35, 183, 229, 0.2)', icon: 'ti-plane-inflight' };
+      default:
+         return { cor: '#26bf94', background: 'rgba(38, 191, 148, 0.2)', icon: 'ti-plane-inflight' };
+   }
+}
+
+function ultimo_processo_modal(data) {
+   const audio_palmas = new Audio('/assets/audios/palmas.mp3');
+
+   // Inicia a reprodução do áudio ao clicar
+   audio_palmas.play()
+
+   // const ultimo_processo_gerado = await Thefetch('/api/ultimo_processo_gerado');
+
+   const sale_name = document.querySelector('#sale_name');
+   const inside_sales_name = document.querySelector('#inside_sales_name');
+   const modal_id = document.querySelector('#modal_id');
+   const date_open_modal = document.querySelector('#date_open_modal');
+   
+   sale_name.textContent = data.VENDEDOR;
+   inside_sales_name.textContent = data.INSIDE_SALES;
+   modal_id.textContent = data.Numero_Processo;
+   date_open_modal.textContent = data.Data_Abertura_Processo;
+
+   // Obter cores com base na modalidade
+   const { cor, background, icon } = obter_cores_icone_por_modalidade(data.MODALIDADE);
+   date_open_modal.style.color = cor;
+   date_open_modal.style.background = background;
+
+   const sale_img = document.querySelector('#sale_img');
+   const inside_img = document.querySelector('#inside_img');
+   sale_img.setAttribute('src', `https://cdn.conlinebr.com.br/colaboradores/${data.ID_VENDEDOR}`);
+   inside_img.setAttribute('src', `https://cdn.conlinebr.com.br/colaboradores/${data.ID_INSIDE_SALES}`);
+
+
+   // adiciona o modal
+   const modaldemo8 = document.querySelector('#modaldemo8');
+   modaldemo8.classList.add('effect-scale', 'show');
+   modaldemo8.style.display = 'block';
+
+   setTimeout(() => {
+      modaldemo8.classList.remove('effect-scale', 'show');
+      modaldemo8.style.display = 'none';
+      audio_palmas.pause()
+      new_process = false;
+   }, time_new_process);
+}
+
+async function mostrar_loading() {
+   let img = document.getElementById('loading-img');
+
+   // Define o caminho do gif
+   img.src = "/assets/images/brand-logos/SLOGAN VERMELHO.gif";
 }
 
 async function remover_loading () {
    let corpoDashboard = document.querySelector('.corpo-dashboard');
    let loading = document.querySelector('.loading');
 
-   loading.style.display = 'none';
    corpoDashboard.style.display = 'block';
+   setTimeout(() => {
+      loading.style.display = 'none';
+   }, 1000);
 }
 
 async function main() {
-   await cards_anuais('IM', 'FCL', 'TEUS');
-   await cards_anuais('IM', 'LCL', 'TONS');
-   await cards_anuais('IA', 'AÉREO', 'TONS');
-   await graficos_mensais('IM', 'FCL', 'TEUS')
-   await graficos_mensais('IM', 'LCL', 'TONS')
-   await graficos_mensais('IA', 'AÉREO', 'TONS')
+   const teus_tons_ano_anterior = await Thefetch('/api/teus_tons_ano_anterior');
+   const teus_tons_ano_atual = await Thefetch('/api/teus_tons_ano_atual');
+   await mostrar_loading();
+   await cards_anuais(teus_tons_ano_anterior, teus_tons_ano_atual, 'IM', 'FCL', 'TEUS');
+   await cards_anuais(teus_tons_ano_anterior, teus_tons_ano_atual, 'IM', 'LCL', 'TONS');
+   await cards_anuais(teus_tons_ano_anterior, teus_tons_ano_atual, 'IA', 'AÉREO', 'TONS');
+   await graficos_mensais(teus_tons_ano_anterior, teus_tons_ano_atual, 'IM', 'FCL', 'TEUS')
+   await graficos_mensais(teus_tons_ano_anterior, teus_tons_ano_atual, 'IM', 'LCL', 'TONS')
+   await graficos_mensais(teus_tons_ano_anterior, teus_tons_ano_atual, 'IA', 'AÉREO', 'TONS')
    await remover_loading();
 }
 
-main();
+
+await main();
+
+
+
+// Escurta um novo processo
+const socket = io();
+
+const lista_fechamento = []
+
+socket.on('NewProcess', async function(msg){
+   // console.log(msg)
+   await main();
+   lista_fechamento.push(msg)
+});
+
+setInterval(() => {
+   if(lista_fechamento.length > 0 && new_process == false) {
+      new_process = true;
+      ultimo_processo_modal(lista_fechamento[0]);
+      lista_fechamento.splice(0, 1);
+   }
+}, 1000);
