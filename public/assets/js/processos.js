@@ -1,12 +1,12 @@
-const processos_ano_anterior = await Thefetch('/api/processos-ano-anterior');
-const processos_ano_atual = await Thefetch('/api/processos-ano-atual')
 const meta = 1.15;
+const time_new_process = 8000
+let new_process = false;
 
 const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
 
 
 // Função que insere os cards anuais
-async function cards_anuais() {
+async function cards_anuais(processos_ano_anterior, processos_ano_atual) {
    // Dados ano anterior
    const IM_ano_anterior = processos_ano_anterior.filter(palavra => palavra.MODALIDADE === 'IM');
    const EM_ano_anterior = processos_ano_anterior.filter(palavra => palavra.MODALIDADE === 'EM');
@@ -87,7 +87,8 @@ async function contagem_processos_mes(consulta, modalidade) {
 }
 
 // Função que cria os graficos
-async function graficos_mensais(modalidade) {
+let graficosMensais = {}; // Objeto para armazenar os gráficos mensais
+async function graficos_mensais(processos_ano_anterior, processos_ano_atual, modalidade) {
    const processos_anterior = await contagem_processos_mes(processos_ano_anterior, modalidade);
    const processos_atual = await contagem_processos_mes(processos_ano_atual, modalidade);
 
@@ -174,7 +175,7 @@ async function graficos_mensais(modalidade) {
          data: processos_atual
       }],
    
-      colors: ['rgba(249, 66, 58, 0.1)'],
+      colors: ['rgba(249, 66, 58)'],
    
       chart: {
          height: 80,
@@ -221,11 +222,35 @@ async function graficos_mensais(modalidade) {
       }
    }
 
-   var chart = new ApexCharts(document.getElementById(modalidade), options);
-   chart.render();
+   const grafico_mensal_id = modalidade;
+   const grafico_anual_id = 'grafico_card_' + modalidade;
 
-   var meta_anual_grafico_card = new ApexCharts(document.getElementById('grafico_card_' + modalidade), grafico_meta_anual);
-   meta_anual_grafico_card.render();
+   // Crie instâncias separadas para gráficos mensais e anuais
+   const chartMensal = new ApexCharts(document.querySelector('#' + grafico_mensal_id), options);
+   const chartAnual = new ApexCharts(document.querySelector('#' + grafico_anual_id), grafico_meta_anual);
+   // Renderize os gráficos
+   chartMensal.render();
+   chartAnual.render();
+
+   // Atribua as instâncias dos gráficos ao objeto usando a combinação de modalidade e tipoCarga como chave
+   graficosMensais[`${modalidade}`] = {
+      chartMensal,
+      chartAnual,
+   };
+
+   const modalidadeTipoCargaKey = `${modalidade}`;
+   const graficosMensaisExistem = graficosMensais[modalidadeTipoCargaKey];
+
+   if (graficosMensaisExistem) {
+      // Atualize as porcentagens
+      options.dataLabels.formatter = function (val, opts) {
+         const percentage = porcentagens[opts.dataPointIndex];
+         return percentage + "%";
+      };
+      // Se existir, atualize os dados e renderize novamente
+      graficosMensais[modalidadeTipoCargaKey].chartMensal.updateOptions(options);
+      graficosMensais[modalidadeTipoCargaKey].chartAnual.updateOptions(grafico_meta_anual);
+   }
 }
 
 // Função que pega a quantidade de cliente por mes
@@ -250,11 +275,26 @@ async function quantidade_clientes_por_mes(consulta) {
    return array_cliente;
 }
 
+// Função que cria os graficos
+let graficosMensaisCliente = {}; // Objeto para armazenar os gráficos mensais
 // Função que insere os graficos de clientes
-async function grafico_mensais_cliente() {
+async function grafico_mensais_cliente(processos_ano_anterior, processos_ano_atual) {
    const clientes_ano_anterior = await quantidade_clientes_por_mes(processos_ano_anterior);
-   const cliente_ano_atual = await quantidade_clientes_por_mes(processos_ano_atual);
+   let cliente_ano_atual = await quantidade_clientes_por_mes(processos_ano_atual);
 
+   // Verifique se o array cliente_ano_atual tem menos de 12 itens
+   if (cliente_ano_atual.length < 12) {
+      // Preencha o array com zeros até ter 12 itens
+      const zerosToAdd = 12 - cliente_ano_atual.length;
+      const zerosArray = Array(zerosToAdd).fill(0);
+      
+      // Combine os zeros com os itens existentes
+      cliente_ano_atual = cliente_ano_atual.concat(zerosArray);
+   } else if (cliente_ano_atual.length > 12) {
+      // Se tiver mais de 12 itens, mantenha apenas os primeiros 12
+      cliente_ano_atual = cliente_ano_atual.slice(0, 12);
+   }
+ 
    const meta_cliente = clientes_ano_anterior.map(valor => parseInt(valor * meta));
 
    const porcentagens = [];
@@ -336,7 +376,7 @@ async function grafico_mensais_cliente() {
          data: cliente_ano_atual
       }],
    
-      colors: ['rgba(249, 66, 58, 0.1)'],
+      colors: ['rgba(249, 66, 58)'],
    
       chart: {
          height: 80,
@@ -351,24 +391,23 @@ async function grafico_mensais_cliente() {
          curve: 'smooth',
          width: 2
       },
-   
 
    
-       dataLabels: {
-         enabled: false
-       },
-   
-       xaxis: {
-         labels: {
-            show: false,
-         },
-         axisBorder: {
-            show: false,
-         },
-         axisTicks: {
-            show: false,
-         },
-       },
+      dataLabels: {
+      enabled: false
+      },
+
+      xaxis: {
+      labels: {
+         show: false,
+      },
+      axisBorder: {
+         show: false,
+      },
+      axisTicks: {
+         show: false,
+      },
+      },
    
       yaxis: {
          show: false,
@@ -383,30 +422,139 @@ async function grafico_mensais_cliente() {
       }
    }
 
-   var chart = new ApexCharts(document.getElementById('CLIENTES'), options);
-   chart.render();
+   // Crie instâncias separadas para gráficos mensais e anuais
+   const chartMensal = new ApexCharts(document.querySelector('#CLIENTES'), options);
+   const chartAnual = new ApexCharts(document.querySelector('#grafico_card_CLIENTE'), grafico_meta_anual);
+   // Renderize os gráficos
+   chartMensal.render();
+   chartAnual.render();
 
-   var meta_anual_grafico_card = new ApexCharts(document.getElementById('grafico_card_CLIENTE'), grafico_meta_anual);
-   meta_anual_grafico_card.render();
+   // Atribua as instâncias dos gráficos ao objeto usando a combinação de modalidade e tipoCarga como chave
+   graficosMensais = {
+      chartMensal,
+      chartAnual,
+   };
+
+   const graficosMensaisExistem = graficosMensais;
+
+   if (graficosMensaisExistem) {
+      // Atualize as porcentagens
+      options.dataLabels.formatter = function (val, opts) {
+         const percentage = porcentagens[opts.dataPointIndex];
+         return percentage + "%";
+      };
+      // Se existir, atualize os dados e renderize novamente
+      graficosMensais.chartMensal.updateOptions(options);
+      graficosMensais.chartAnual.updateOptions(grafico_meta_anual);
+   }
+}
+
+// Gera o modal
+function obter_cores_icone_por_modalidade(modalidade) {
+   switch (modalidade) {
+      case 'IM':
+         return { cor: '#f9423a', background: 'rgba(249, 66, 58, 0.2)', icon: 'ti-ship' };
+      case 'EM':
+         return { cor: '#3F2021', background: 'rgba(63, 32, 33, 0.2)', icon: 'ti-ship'};
+      case 'IA':
+         return { cor: '#23b7e5', background: 'rgba(35, 183, 229, 0.2)', icon: 'ti-plane-inflight' };
+      default:
+         return { cor: '#26bf94', background: 'rgba(38, 191, 148, 0.2)', icon: 'ti-plane-inflight' };
+   }
+}
+
+function ultimo_processo_modal(data) {
+   const audio_palmas = new Audio('/assets/audios/palmas.mp3');
+
+   // Inicia a reprodução do áudio ao clicar
+   audio_palmas.play()
+
+   // const ultimo_processo_gerado = await Thefetch('/api/ultimo_processo_gerado');
+
+   const sale_name = document.querySelector('#sale_name');
+   const inside_sales_name = document.querySelector('#inside_sales_name');
+   const modal_id = document.querySelector('#modal_id');
+   const date_open_modal = document.querySelector('#date_open_modal');
+   
+   sale_name.textContent = data.VENDEDOR;
+   inside_sales_name.textContent = data.INSIDE_SALES;
+   modal_id.textContent = data.Numero_Processo;
+   date_open_modal.textContent = data.Data_Abertura_Processo;
+
+   // Obter cores com base na modalidade
+   const { cor, background, icon } = obter_cores_icone_por_modalidade(data.MODALIDADE);
+   date_open_modal.style.color = cor;
+   date_open_modal.style.background = background;
+
+   const sale_img = document.querySelector('#sale_img');
+   const inside_img = document.querySelector('#inside_img');
+   sale_img.setAttribute('src', `https://cdn.conlinebr.com.br/colaboradores/${data.ID_VENDEDOR}`);
+   inside_img.setAttribute('src', `https://cdn.conlinebr.com.br/colaboradores/${data.ID_INSIDE_SALES}`);
+
+
+   // adiciona o modal
+   const modaldemo8 = document.querySelector('#modaldemo8');
+   modaldemo8.classList.add('effect-scale', 'show');
+   modaldemo8.style.display = 'block';
+
+   setTimeout(() => {
+      modaldemo8.classList.remove('effect-scale', 'show');
+      modaldemo8.style.display = 'none';
+      audio_palmas.pause()
+      new_process = false;
+   }, time_new_process);
+}
+
+async function mostrar_loading() {
+   let img = document.getElementById('loading-img');
+
+   // Define o caminho do gif
+   img.src = "/assets/images/brand-logos/SLOGAN VERMELHO.gif";
 }
 
 async function remover_loading () {
    let corpoDashboard = document.querySelector('.corpo-dashboard');
    let loading = document.querySelector('.loading');
 
-   loading.style.display = 'none';
    corpoDashboard.style.display = 'block';
+   setTimeout(() => {
+      loading.style.display = 'none';
+   }, 1000);
 }
 
 // Função para organizar a execução das demais
 async function main() {
-   await cards_anuais();
-   await graficos_mensais('IM')
-   await graficos_mensais('IA')
-   await graficos_mensais('EM')
-   await graficos_mensais('EA')
-   await grafico_mensais_cliente()
+   const processos_ano_anterior = await Thefetch('/api/processos-ano-anterior');
+   const processos_ano_atual = await Thefetch('/api/processos-ano-atual')
+   await mostrar_loading();
+   await cards_anuais(processos_ano_anterior, processos_ano_atual);
+   await graficos_mensais(processos_ano_anterior, processos_ano_atual, 'IM')
+   await graficos_mensais(processos_ano_anterior, processos_ano_atual, 'IA')
+   await graficos_mensais(processos_ano_anterior, processos_ano_atual, 'EM')
+   await graficos_mensais(processos_ano_anterior, processos_ano_atual, 'EA')
+   await grafico_mensais_cliente(processos_ano_anterior, processos_ano_atual)
    await remover_loading();
 }
 
-main()
+await main();
+
+
+
+// Escurta um novo processo
+const socket = io();
+
+const lista_fechamento = []
+
+socket.on('NewProcess', async function(msg){
+   // console.log(msg)
+   await main();
+   lista_fechamento.push(msg)
+});
+
+setInterval(() => {
+   if(lista_fechamento.length > 0 && new_process == false) {
+      new_process = true;
+      ultimo_processo_modal(lista_fechamento[0]);
+      lista_fechamento.splice(0, 1);
+   }
+}, 1000);
