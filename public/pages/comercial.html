@@ -20,7 +20,7 @@
 </head>
 <body>
    <!-- MODAl -->
-   <div class="modal fade effect-scale show" id="modaldemo8" style="display: none; background-color: rgba(0, 0, 0, 0.3); z-index: 99999;" aria-hidden="true">
+   <div class="modal fade" id="modaldemo8" style="display: none; background-color: rgba(0, 0, 0, 0.3); z-index: 99999;" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered text-center" role="document">
          <div class="modal-content modal-content-demo" style="padding-bottom: 23px;">
             <div class="modal-header" style="margin: 0 auto;">
@@ -31,20 +31,20 @@
                   <div class="me-2 lh-1"> 
                      <div class="avatar-list-stacked">
                         <span class="avatar avatar-rounded modal-avatar-vendedor">
-                        <img src="/assets/images/brand-logos/avatar-do-usuario.png" alt="img">
+                        <img id="sale_img" src="/assets/images/brand-logos/avatar-do-usuario.png" alt="img">
                         </span>
                         <span class="avatar avatar-rounded modal-avatar-inside">
-                        <img src="/assets/images/brand-logos/avatar-do-usuario.png" alt="img">
+                        <img id="inside_img" src="/assets/images/brand-logos/avatar-do-usuario.png" alt="img">
                         </span>
                      </div>
                   </div>
                   <div class="flex-fill">
-                     <p class="mb-0 fw-semibold modal-nome-vendedor">-------------</p>
-                     <p class="fs-12 text-muted mb-0 modal-nome-inside">-------------</p>
+                     <p class="mb-0 fw-semibold" id="sale_name" style="white-space: nowrap; max-width: 19ch; overflow: hidden;">-------------</p>
+                     <p class="fs-12 text-muted mb-0" id="inside_sales_name" style="white-space: nowrap; max-width: 19ch; overflow: hidden;">-------------</p>
                   </div>
                   <div class="text-end">
-                     <p class="mb-0 fs-12 modal-processo">-------------</p>
-                     <span class="badge modal-data" style="color: #f9423a !important; background-color: rgba(249, 66, 58, 0.2);">-------------</span>
+                     <p class="mb-0 fs-12" id="modal_id">-------------</p>
+                     <span class="badge" style="color: #f9423a !important; background-color: rgba(249, 66, 58, 0.2);" id="date_open_modal">-------------</span>
                   </div>
                </div>
             </div>
@@ -170,7 +170,7 @@
    <!-- /sidebar -->
 
    <!-- Dashboard -->
-   <div class="main-content app-content" style="position: relative;">
+   <div class="main-content app-content" style="position: relative; display: flex; align-items: center;">
 
       <button class="btn btn-icon btn-warning btn-wave me-5 waves-effect waves-light" style="position: fixed; right: -46px; top: 236px;"> 
          <i class="fe fe-help-circle" title="Dúvidas sobre a meta?"></i> 
@@ -328,6 +328,214 @@
 
                      <div class="col-xxl-6 col-xl-6 cards_ultimo_fechamento_modal">
                         <!-- CARDS AQUI -->
+                        <div class="card custom-card overflow-hidden" style="height: 145px;">
+                           <div class="card-header justify-content-between">
+                              <div class="card-title">Último Fechamento - IM</div>
+                           </div>
+                           <div class="card-body p-0">
+                              <ul class="list-group list-group-flush" data-simplebar="init">
+                                 <div class="simplebar-wrapper" style="margin: 0px;">
+                                    <div class="simplebar-height-auto-observer-wrapper">
+                                       <div class="simplebar-height-auto-observer"></div>
+                                    </div>
+                                    <div class="simplebar-mask">
+                                       <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                                          <div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: auto; overflow: hidden scroll;">
+                                             <div class="simplebar-content" style="padding: 0px;">
+                                                <li class="list-group-item border-top-0 border-start-0 border-end-0"> 
+                                                   <div class="d-flex align-items-center">
+                                                      <div class="me-2 lh-1"> 
+                                                         <div class="avatar-list-stacked">
+                                                            <span class="avatar avatar-rounded">
+                                                            <img id="img_sale_IM" src="" alt="img">
+                                                            </span>
+                                                            <span class="avatar avatar-rounded">
+                                                            <img id="img_inside_IM" src="" alt="img">
+                                                            </span>
+                                                         </div>
+                                                      </div>
+                                                      <div class="flex-fill">
+                                                         <p class="mb-0 fw-semibold" id="sale_IM" style="white-space: nowrap; max-width: 19ch; overflow: hidden;">-------------</p>
+                                                         <p class="fs-12 text-muted mb-0" id="inside_IM">-------------</p>
+                                                      </div>
+                                                      <div class="text-end">
+                                                         <p class="mb-0 fs-12" id="processo_IM" style="white-space: nowrap; max-width: 19ch; overflow: hidden;">-------------</p>
+                                                         <span class="badge" id="data_IM" style="color: #f9423a !important; background-color: rgba(249, 66, 58, 0.2);">-------------</span>
+                                                      </div>
+                                                   </div>
+                                                </li>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="simplebar-placeholder" style="width: auto; height: 389px;"></div>
+                                 </div>
+                                 <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
+                                    <div class="simplebar-scrollbar" style="width: 0px; display: none;"></div>
+                                 </div>
+                                 <div class="simplebar-track simplebar-vertical" style="visibility: visible;">
+                                    <div class="simplebar-scrollbar" style="height: 333px; transform: translate3d(0px, 0px, 0px); display: block;"></div>
+                                 </div>
+                              </ul>
+                           </div>
+                        </div>
+
+                        <div class="card custom-card overflow-hidden" style="height: 145px;">
+                           <div class="card-header justify-content-between">
+                              <div class="card-title">Último Fechamento - EM</div>
+                           </div>
+                           <div class="card-body p-0">
+                              <ul class="list-group list-group-flush" data-simplebar="init">
+                                 <div class="simplebar-wrapper" style="margin: 0px;">
+                                    <div class="simplebar-height-auto-observer-wrapper">
+                                       <div class="simplebar-height-auto-observer"></div>
+                                    </div>
+                                    <div class="simplebar-mask">
+                                       <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                                          <div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: auto; overflow: hidden scroll;">
+                                             <div class="simplebar-content" style="padding: 0px;">
+                                                <li class="list-group-item border-top-0 border-start-0 border-end-0"> 
+                                                   <div class="d-flex align-items-center">
+                                                      <div class="me-2 lh-1"> 
+                                                         <div class="avatar-list-stacked">
+                                                            <span class="avatar avatar-rounded">
+                                                            <img id="img_sale_EM" src="" alt="img">
+                                                            </span>
+                                                            <span class="avatar avatar-rounded">
+                                                            <img id="img_inside_EM" src="" alt="img">
+                                                            </span>
+                                                         </div>
+                                                      </div>
+                                                      <div class="flex-fill">
+                                                         <p class="mb-0 fw-semibold" id="sale_EM" style="white-space: nowrap; max-width: 19ch; overflow: hidden;">-------------</p>
+                                                         <p class="fs-12 text-muted mb-0" id="inside_EM" style="white-space: nowrap; max-width: 19ch; overflow: hidden;">-------------</p>
+                                                      </div>
+                                                      <div class="text-end">
+                                                         <p class="mb-0 fs-12" id="processo_EM">-------------</p>
+                                                         <span class="badge" id="data_EM" style="color: #3F2021 !important; background-color: rgba(63, 32, 33, 0.2);">-------------</span>
+                                                      </div>
+                                                   </div>
+                                                </li>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="simplebar-placeholder" style="width: auto; height: 389px;"></div>
+                                 </div>
+                                 <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
+                                    <div class="simplebar-scrollbar" style="width: 0px; display: none;"></div>
+                                 </div>
+                                 <div class="simplebar-track simplebar-vertical" style="visibility: visible;">
+                                    <div class="simplebar-scrollbar" style="height: 333px; transform: translate3d(0px, 0px, 0px); display: block;"></div>
+                                 </div>
+                              </ul>
+                           </div>
+                        </div>
+
+                        <div class="card custom-card overflow-hidden" style="height: 145px;">
+                           <div class="card-header justify-content-between">
+                              <div class="card-title">Último Fechamento - IA</div>
+                           </div>
+                           <div class="card-body p-0">
+                              <ul class="list-group list-group-flush" data-simplebar="init">
+                                 <div class="simplebar-wrapper" style="margin: 0px;">
+                                    <div class="simplebar-height-auto-observer-wrapper">
+                                       <div class="simplebar-height-auto-observer"></div>
+                                    </div>
+                                    <div class="simplebar-mask">
+                                       <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                                          <div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: auto; overflow: hidden scroll;">
+                                             <div class="simplebar-content" style="padding: 0px;">
+                                                <li class="list-group-item border-top-0 border-start-0 border-end-0"> 
+                                                   <div class="d-flex align-items-center">
+                                                      <div class="me-2 lh-1"> 
+                                                         <div class="avatar-list-stacked">
+                                                            <span class="avatar avatar-rounded">
+                                                            <img id="img_sale_IA" src="" alt="img">
+                                                            </span>
+                                                            <span class="avatar avatar-rounded">
+                                                            <img id="img_inside_IA" src="" alt="img">
+                                                            </span>
+                                                         </div>
+                                                      </div>
+                                                      <div class="flex-fill">
+                                                         <p class="mb-0 fw-semibold" id="sale_IA" style="white-space: nowrap; max-width: 19ch; overflow: hidden;">-------------</p>
+                                                         <p class="fs-12 text-muted mb-0" id="inside_IA" style="white-space: nowrap; max-width: 19ch; overflow: hidden;">-------------</p>
+                                                      </div>
+                                                      <div class="text-end">
+                                                         <p class="mb-0 fs-12" id="processo_IA">-------------</p>
+                                                         <span class="badge" id="data_IA" style="color: #23b7e5 !important; background-color: rgba(35, 183, 229, 0.2);">-------------</span>
+                                                      </div>
+                                                   </div>
+                                                </li>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="simplebar-placeholder" style="width: auto; height: 389px;"></div>
+                                 </div>
+                                 <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
+                                    <div class="simplebar-scrollbar" style="width: 0px; display: none;"></div>
+                                 </div>
+                                 <div class="simplebar-track simplebar-vertical" style="visibility: visible;">
+                                    <div class="simplebar-scrollbar" style="height: 333px; transform: translate3d(0px, 0px, 0px); display: block;"></div>
+                                 </div>
+                              </ul>
+                           </div>
+                        </div>
+                        
+                        <div class="card custom-card overflow-hidden" style="height: 145px;">
+                           <div class="card-header justify-content-between">
+                              <div class="card-title">Último Fechamento - EA</div>
+                           </div>
+                           <div class="card-body p-0">
+                              <ul class="list-group list-group-flush" data-simplebar="init">
+                                 <div class="simplebar-wrapper" style="margin: 0px;">
+                                    <div class="simplebar-height-auto-observer-wrapper">
+                                       <div class="simplebar-height-auto-observer"></div>
+                                    </div>
+                                    <div class="simplebar-mask">
+                                       <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                                          <div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: auto; overflow: hidden scroll;">
+                                             <div class="simplebar-content" style="padding: 0px;">
+                                                <li class="list-group-item border-top-0 border-start-0 border-end-0"> 
+                                                   <div class="d-flex align-items-center">
+                                                      <div class="me-2 lh-1"> 
+                                                         <div class="avatar-list-stacked">
+                                                            <span class="avatar avatar-rounded">
+                                                            <img id="img_sale_EA" src="" alt="img">
+                                                            </span>
+                                                            <span class="avatar avatar-rounded">
+                                                            <img id="img_inside_EA" src="" alt="img">
+                                                            </span>
+                                                         </div>
+                                                      </div>
+                                                      <div class="flex-fill">
+                                                         <p class="mb-0 fw-semibold" id="sale_EA" style="white-space: nowrap; max-width: 19ch; overflow: hidden;">-------------</p>
+                                                         <p class="fs-12 text-muted mb-0" id="inside_EA" style="white-space: nowrap; max-width: 19ch; overflow: hidden;">-------------</p>
+                                                      </div>
+                                                      <div class="text-end">
+                                                         <p class="mb-0 fs-12" id="processo_EA">-------------</p>
+                                                         <span class="badge" id="data_EA" style="color: #26bf94 !important; background-color: rgba(38, 191, 148, 0.2);">-------------</span>
+                                                      </div>
+                                                   </div>
+                                                </li>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="simplebar-placeholder" style="width: auto; height: 389px;"></div>
+                                 </div>
+                                 <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
+                                    <div class="simplebar-scrollbar" style="width: 0px; display: none;"></div>
+                                 </div>
+                                 <div class="simplebar-track simplebar-vertical" style="visibility: visible;">
+                                    <div class="simplebar-scrollbar" style="height: 333px; transform: translate3d(0px, 0px, 0px); display: block;"></div>
+                                 </div>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
                   </div>
                </div>
             </div>
@@ -352,7 +560,7 @@
    <div id="responsive-overlay"></div>
 
    <script src="/assets/js/main.js"></script>
-   <!-- <script src="/assets/js/modal.js"></script> -->
+   <script src="/assets/js/socket.io.min.js"></script>
    <script type="module" src="/assets/js/comercial.js"></script>
    <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
    <script src="/assets/js/custom.js"></script>

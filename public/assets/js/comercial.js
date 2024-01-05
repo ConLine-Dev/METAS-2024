@@ -1,12 +1,11 @@
-const processos_ano_anterior = await Thefetch('/api/processos-ano-anterior');
-const processos_ano_atual = await Thefetch('/api/processos-ano-atual');
-const ultimos_9_processos = await Thefetch('/api/ultimos_9_processos');
 const meta = 1.15;
+const time_new_process = 8000
+let new_process = false;
 
 const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
 
 // Função insere os valores nos cards anuais
-async function cards_anuais() {
+async function cards_anuais(processos_ano_anterior, processos_ano_atual) {
    // Dados ano anterior
    const IM_ano_anterior = processos_ano_anterior.filter(item => item.MODALIDADE === 'IM');
    const EM_ano_anterior = processos_ano_anterior.filter(item => item.MODALIDADE === 'EM');
@@ -66,7 +65,8 @@ async function contagem_processos_mes(consulta) {
    return contagem_total_por_mes;
 }
 
-async function graficos_mensais() {
+let atualizacao_chart = null;
+async function graficos_mensais(processos_ano_anterior, processos_ano_atual) {
    const processos_anterior = await contagem_processos_mes(processos_ano_anterior);
    const processos_atual = await contagem_processos_mes(processos_ano_atual);
 
@@ -162,9 +162,22 @@ async function graficos_mensais() {
          enabled: false,
       }
    };
-   
-   var chart = new ApexCharts(document.getElementById('grafico-mensal'), options);
-   chart.render();
+
+   // Verifique se o gráfico já existe
+   if (atualizacao_chart) {
+      // Atualize as porcentagens
+      options.dataLabels.formatter = function (val, opts) {
+         const percentage = porcentagens[opts.dataPointIndex];
+         // return Math.max(percentage, 0) + "%";
+         return percentage + "%";
+      };
+      // Se existir, atualize os dados e renderize novamente
+      atualizacao_chart.updateOptions(options);
+   } else {
+      // Se não existir, crie um novo gráfico
+      atualizacao_chart = new ApexCharts(document.querySelector("#grafico-mensal"), options);
+      atualizacao_chart.render();
+   }
 }
 
 function obter_cores_por_modalidade(modalidade) {
@@ -180,7 +193,7 @@ function obter_cores_por_modalidade(modalidade) {
    }
 }
 
-async function ultimos_processos() {
+async function ultimos_processos(ultimos_9_processos) {
    const cards_ultimos_processos = document.querySelector('.cards_ultimos_processos');
 
    // Array para armazenar as strings HTML
@@ -208,8 +221,8 @@ async function ultimos_processos() {
                               </div>
                            </div>
                            <div class="flex-fill">
-                              <p class="mb-0 fw-semibold">${item.VENDEDOR}</p>
-                              <p class="fs-12 text-muted mb-0">${item.INSIDE_SALES}</p>
+                              <p class="mb-0 fw-semibold" style="white-space: nowrap; max-width: 19ch; overflow: hidden;">${item.VENDEDOR}</p>
+                              <p class="fs-12 text-muted mb-0" style="white-space: nowrap; max-width: 19ch; overflow: hidden;">${item.INSIDE_SALES}</p>
                            </div>
                            <div class="text-end">
                               <p class="mb-0 fs-12">${item.Numero_Processo}</p>
@@ -231,79 +244,86 @@ async function obter_ultimo_processo_por_modal(modalidade) {
    return await Thefetch(url);
 }
 
+// Busca o ultimo processo fechado do processo que for inserido no parametro
 async function ultimo_fechamento_modal(modalidade) {
    const ultimo_processo_por_modal = await obter_ultimo_processo_por_modal(modalidade);
-   const cards_ultimo_fechamento_modal = document.querySelector('.cards_ultimo_fechamento_modal');
 
-   // Array para armazenar as strings HTML
-   const itemsHTML = [];
+   const sale = document.getElementById(`sale_${modalidade}`);
+   const inside = document.getElementById(`inside_${modalidade}`);
+   const img_sale = document.getElementById(`img_sale_${modalidade}`);
+   const img_inside = document.getElementById(`img_inside_${modalidade}`);
+   const processo = document.getElementById(`processo_${modalidade}`);
+   const data = document.getElementById(`data_${modalidade}`);
 
-   // Passando sobre cada objeto do array
-   for (let i = 0; i < ultimo_processo_por_modal.length; i++) {
-      const item = ultimo_processo_por_modal[i];
+   sale.textContent = ultimo_processo_por_modal[0].VENDEDOR;
+   inside.textContent = ultimo_processo_por_modal[0].INSIDE_SALES;
+   img_sale.src = `https://cdn.conlinebr.com.br/colaboradores/${ultimo_processo_por_modal[0].ID_VENDEDOR}`;
+   img_inside.src = `https://cdn.conlinebr.com.br/colaboradores/${ultimo_processo_por_modal[0].ID_INSIDE_SALES}`;
+   processo.textContent = ultimo_processo_por_modal[0].Numero_Processo;
+   data.textContent = ultimo_processo_por_modal[0].Data_Abertura_Processo;
+}
 
-      // Obter cores com base na modalidade
-      const { cor, background } = obter_cores_por_modalidade(item.MODALIDADE);
-
-      // Criação da string HTML para cada item
-      const item_html = `<div class="card custom-card overflow-hidden" style="height: 145px;">
-                           <div class="card-header justify-content-between">
-                              <div class="card-title">Último Fechamento - ${modalidade}</div>
-                           </div>
-                           <div class="card-body p-0">
-                              <ul class="list-group list-group-flush" data-simplebar="init">
-                                 <div class="simplebar-wrapper" style="margin: 0px;">
-                                    <div class="simplebar-height-auto-observer-wrapper">
-                                       <div class="simplebar-height-auto-observer"></div>
-                                    </div>
-                                    <div class="simplebar-mask">
-                                       <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
-                                          <div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: auto; overflow: hidden scroll;">
-                                             <div class="simplebar-content" style="padding: 0px;">
-                                                <li class="list-group-item border-top-0 border-start-0 border-end-0"> 
-                                                   <div class="d-flex align-items-center">
-                                                      <div class="me-2 lh-1"> 
-                                                         <div class="avatar-list-stacked">
-                                                            <span class="avatar avatar-rounded">
-                                                            <img src="https://cdn.conlinebr.com.br/colaboradores/${item.ID_VENDEDOR}" alt="img">
-                                                            </span>
-                                                            <span class="avatar avatar-rounded">
-                                                            <img src="https://cdn.conlinebr.com.br/colaboradores/${item.ID_INSIDE_SALES}" alt="img">
-                                                            </span>
-                                                         </div>
-                                                      </div>
-                                                      <div class="flex-fill">
-                                                         <p class="mb-0 fw-semibold">${item.VENDEDOR}</p>
-                                                         <p class="fs-12 text-muted mb-0">${item.INSIDE_SALES}</p>
-                                                      </div>
-                                                      <div class="text-end">
-                                                         <p class="mb-0 fs-12">${item.Numero_Processo}</p>
-                                                         <span class="badge" style="color: ${cor} !important; background-color: ${background};">${item.Data_Abertura_Processo}</span>
-                                                      </div>
-                                                   </div>
-                                                </li>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="simplebar-placeholder" style="width: auto; height: 389px;"></div>
-                                 </div>
-                                 <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
-                                    <div class="simplebar-scrollbar" style="width: 0px; display: none;"></div>
-                                 </div>
-                                 <div class="simplebar-track simplebar-vertical" style="visibility: visible;">
-                                    <div class="simplebar-scrollbar" style="height: 333px; transform: translate3d(0px, 0px, 0px); display: block;"></div>
-                                 </div>
-                              </ul>
-                           </div>
-                        </div>`;
-
-      // Adiciona a string HTML ao array
-      itemsHTML.push(item_html);
+// Gera o modal
+function obter_cores_icone_por_modalidade(modalidade) {
+   switch (modalidade) {
+      case 'IM':
+         return { cor: '#f9423a', background: 'rgba(249, 66, 58, 0.2)', icon: 'ti-ship' };
+      case 'EM':
+         return { cor: '#3F2021', background: 'rgba(63, 32, 33, 0.2)', icon: 'ti-ship'};
+      case 'IA':
+         return { cor: '#23b7e5', background: 'rgba(35, 183, 229, 0.2)', icon: 'ti-plane-inflight' };
+      default:
+         return { cor: '#26bf94', background: 'rgba(38, 191, 148, 0.2)', icon: 'ti-plane-inflight' };
    }
+}
 
-   // Junta as strings HTML e as insere no innerHTML
-   cards_ultimo_fechamento_modal.insertAdjacentHTML('beforeend', itemsHTML.join(''));
+function ultimo_processo_modal(data) {
+   const audio_palmas = new Audio('/assets/audios/palmas.mp3');
+
+   // Inicia a reprodução do áudio ao clicar
+   audio_palmas.play()
+
+   // const ultimo_processo_gerado = await Thefetch('/api/ultimo_processo_gerado');
+
+   const sale_name = document.querySelector('#sale_name');
+   const inside_sales_name = document.querySelector('#inside_sales_name');
+   const modal_id = document.querySelector('#modal_id');
+   const date_open_modal = document.querySelector('#date_open_modal');
+   
+   sale_name.textContent = data.VENDEDOR;
+   inside_sales_name.textContent = data.INSIDE_SALES;
+   modal_id.textContent = data.Numero_Processo;
+   date_open_modal.textContent = data.Data_Abertura_Processo;
+
+   // Obter cores com base na modalidade
+   const { cor, background, icon } = obter_cores_icone_por_modalidade(data.MODALIDADE);
+   date_open_modal.style.color = cor;
+   date_open_modal.style.background = background;
+
+   const sale_img = document.querySelector('#sale_img');
+   const inside_img = document.querySelector('#inside_img');
+   sale_img.setAttribute('src', `https://cdn.conlinebr.com.br/colaboradores/${data.ID_VENDEDOR}`);
+   inside_img.setAttribute('src', `https://cdn.conlinebr.com.br/colaboradores/${data.ID_INSIDE_SALES}`);
+
+
+   // adiciona o modal
+   const modaldemo8 = document.querySelector('#modaldemo8');
+   modaldemo8.classList.add('effect-scale', 'show');
+   modaldemo8.style.display = 'block';
+
+   setTimeout(() => {
+      modaldemo8.classList.remove('effect-scale', 'show');
+      modaldemo8.style.display = 'none';
+      audio_palmas.pause()
+      new_process = false;
+   }, time_new_process);
+}
+
+async function mostrar_loading() {
+   let img = document.getElementById('loading-img');
+
+   // Define o caminho do gif
+   img.src = "/assets/images/brand-logos/SLOGAN VERMELHO.gif";
 }
 
 async function remover_loading () {
@@ -317,9 +337,13 @@ async function remover_loading () {
 
 // Função para agrupar as outras e executar cada uma na hora certa
 async function main() {
-   await cards_anuais();
-   await graficos_mensais();
-   await ultimos_processos();
+   const processos_ano_anterior = await Thefetch('/api/processos-ano-anterior');
+   const processos_ano_atual = await Thefetch('/api/processos-ano-atual');
+   const ultimos_9_processos = await Thefetch('/api/ultimos_9_processos');
+   await mostrar_loading();
+   await cards_anuais(processos_ano_anterior, processos_ano_atual);
+   await graficos_mensais(processos_ano_anterior, processos_ano_atual);
+   await ultimos_processos(ultimos_9_processos);
    await ultimo_fechamento_modal('IM');
    await ultimo_fechamento_modal('EM');
    await ultimo_fechamento_modal('IA');
@@ -327,4 +351,24 @@ async function main() {
    await remover_loading();
 }
 
-main();
+await main();
+
+
+// Escurta um novo processo
+const socket = io();
+
+const lista_fechamento = []
+
+socket.on('NewProcess', async function(msg){
+   // console.log(msg)
+   await main();
+   lista_fechamento.push(msg)
+});
+
+setInterval(() => {
+   if(lista_fechamento.length > 0 && new_process == false) {
+      new_process = true;
+      ultimo_processo_modal(lista_fechamento[0]);
+      lista_fechamento.splice(0, 1);
+   }
+}, 1000);
