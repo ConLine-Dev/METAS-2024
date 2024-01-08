@@ -23,6 +23,18 @@
    <script src="https://accounts.google.com/gsi/client" async></script>
    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
    <script src="/assets/js/authentication-google.js"></script>
+   <!-- Redirecionamento de pagina se existe localStorage -->
+   <script>
+      const metasUser = localStorage.getItem('metasUser');
+      const verification = JSON.parse(metasUser);
+
+      // Verifique se o usuário está na página de login antes de redirecionar
+      if (!metasUser && window.location.pathname !== "/") {
+         window.location.href = "/";
+      } else if (metasUser && window.location.pathname !== "/dashboard") {
+         window.location.href = "/dashboard";
+      }
+   </script>
 
 </head>
 <body class="bg-white">
