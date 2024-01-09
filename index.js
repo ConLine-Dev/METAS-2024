@@ -3,12 +3,9 @@ const express = require('express');
 const http = require('http'); // Add this line
 const path = require('path');
 const socketIO = require('socket.io');
-const cors = require('cors')
 
 // Middlewares
 const app = express();
-cors({credentials: true, origin: true})
-app.use(cors())
 app.use(express.json());
 
 
