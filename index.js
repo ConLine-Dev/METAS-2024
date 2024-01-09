@@ -3,21 +3,14 @@ const express = require('express');
 const http = require('http'); // Add this line
 const path = require('path');
 const socketIO = require('socket.io');
-// const cors = require('cors')
+const cors = require('cors')
 
 // Middlewares
 const app = express();
-// app.use(cors())
+app.use(cors())
 app.use(express.json());
 
 
-app.use((req, res, next) => {
-  // Set Content Security Policy header
-  res.setHeader('Content-Security-Policy', 'strict-origin-when-cross-origin');
-
-  // Continue to the next middleware
-  next();
-});
 
 
 // Create an HTTP server using the Express app
