@@ -355,7 +355,7 @@ await main();
 
 
 // Escurta um novo processo
-const socket = io();
+const socket = io('wss://dashboard.conlinebr.com.br');
 
 const lista_fechamento = []
 
