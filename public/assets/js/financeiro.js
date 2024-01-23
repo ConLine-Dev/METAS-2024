@@ -216,7 +216,7 @@ async function grafico_financeiro_mes_mes(fluxo_ano_anterior, fluxo_ano_atual) {
             return Math.max(percentage, 0) + "%";
             // return percentage + "%";
           },
-         offsetY: 140,
+         offsetY: 155,
          style: {
            fontSize: '12px',
            colors: ["#F9423A"],
