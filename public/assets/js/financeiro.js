@@ -148,12 +148,12 @@ async function grafico_financeiro_mes_mes(fluxo_ano_anterior, fluxo_ano_atual) {
 
    // Ajusta a meta para o proximo mes de acordo com o valor arrecadado no mes atual
    metasMensais = await ajustarMetasComBaseEmResultadosAutomatico(metasMensais, resultadosMensais);
-   console.log(metasMensais);
+   // console.log(metasMensais);
 
    // Extrai apenas os valores de VALOR_CONVERTIDO_REAL
    // const valores_arrecadados = soma_mes_mes_atual.map(item => Math.max(item.VALOR_CONVERTIDO_REAL, 0));
    const valores_arrecadados = soma_mes_mes_atual.map(item => item.VALOR_CONVERTIDO_REAL);
-   console.log(valores_arrecadados);
+   // console.log(valores_arrecadados);
 
    const porcentagens = metasMensais.map((meta, index) => {
       const valorArrecadado = valores_arrecadados[index];
@@ -180,11 +180,6 @@ async function grafico_financeiro_mes_mes(fluxo_ano_anterior, fluxo_ano_atual) {
       chart: {
          height: 500,
          type: 'bar',
-      },
-
-      chart: {
-         height: 500,
-         type: 'area',
          stacked: false,
          toolbar: {
             show: false
@@ -218,10 +213,10 @@ async function grafico_financeiro_mes_mes(fluxo_ano_anterior, fluxo_ano_atual) {
          enabledOnSeries: [0],
          formatter: function (val, opts) {
             const percentage = porcentagens[opts.dataPointIndex];
-            // return Math.max(percentage, 0) + "%";
-            return percentage + "%";
+            return Math.max(percentage, 0) + "%";
+            // return percentage + "%";
           },
-         offsetY: -15,
+         offsetY: 140,
          style: {
            fontSize: '12px',
            colors: ["#F9423A"],
