@@ -5864,6 +5864,7 @@
 }
 .badge {
  padding: 0.25rem 0.45rem;
+ font-size: 12px;
  font-weight: 600;
  border-radius: 0.25rem;
 }
@@ -7794,7 +7795,7 @@
 .card.custom-card .card-footer {
  background-color: transparent !important;
  border-block-start: 1px solid var(--default-border);
- padding: 1rem 1.25rem;
+ padding: 1.2rem 1.25rem;
  font-size: 0.813rem;
 }
 .card.custom-card .card-body {
@@ -15313,7 +15314,7 @@ hr {
  }
 }
 #leads-source {
- height: 18rem !important;
+ height: 15rem !important;
  width: auto !important;
 }
 .crm-deals-status li {

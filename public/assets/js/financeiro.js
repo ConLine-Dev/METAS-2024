@@ -187,14 +187,14 @@ async function grafico_financeiro_mes_mes(fluxo_ano_anterior, fluxo_ano_atual) {
       },
 
       stroke: {
-         width: [0, 2],
+         width: [1, 2],
          curve: 'smooth'
       },
 
       plotOptions: {
          bar: {
             borderRadius: 7,
-            columnWidth: '25%',
+            columnWidth: '35%',
          },
       },
 
@@ -202,7 +202,7 @@ async function grafico_financeiro_mes_mes(fluxo_ano_anterior, fluxo_ano_atual) {
          type: ['solid', 'gradient'],
          gradient: {
            shadeIntensity: 1,
-           opacityFrom: 0.5,
+           opacityFrom: 0.2,
            opacityTo: 0.0,
            stops: [0, 100]
          }
