@@ -211,17 +211,18 @@ async function grafico_financeiro_mes_mes(fluxo_ano_anterior, fluxo_ano_atual) {
        dataLabels: {
          enabled: true,
          enabledOnSeries: [0],
+         // offsetY: 0, // Ajuste este valor conforme necessário
          formatter: function (val, opts) {
             const percentage = porcentagens[opts.dataPointIndex];
             return Math.max(percentage, 0) + "%";
-            // return percentage + "%";
-          },
-         offsetY: 155,
+         },
          style: {
            fontSize: '12px',
-           colors: ["#F9423A"],
+           fontWeight: 'bold',
+           colors: ["#3F2021"],
          },
-       },
+      },
+      
 
        xaxis: {
          categories: meses,
