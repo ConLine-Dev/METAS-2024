@@ -174,56 +174,53 @@ async function grafico_financeiro_mes_mes(fluxo_ano_anterior, fluxo_ano_atual) {
          type: 'area',
          data: metasMensais
       }],
-
       colors: ['#F9423A', '#3F2021'],
-
       chart: {
          height: 500,
          type: 'bar',
+      },
+
+      chart: {
+         height: 500,
+         type: 'area',
          stacked: false,
          toolbar: {
             show: false
           },
       },
-
       stroke: {
-         width: [1, 2],
+         width: [0, 2],
          curve: 'smooth'
       },
-
       plotOptions: {
          bar: {
             borderRadius: 7,
-            columnWidth: '35%',
+            columnWidth: '25%',
          },
       },
-
       fill: {
          type: ['solid', 'gradient'],
          gradient: {
            shadeIntensity: 1,
-           opacityFrom: 0.2,
+           opacityFrom: 0.5,
            opacityTo: 0.0,
            stops: [0, 100]
          }
        },
-
        dataLabels: {
          enabled: true,
          enabledOnSeries: [0],
-         // offsetY: 0, // Ajuste este valor conforme necessário
          formatter: function (val, opts) {
             const percentage = porcentagens[opts.dataPointIndex];
-            return Math.max(percentage, 0) + "%";
-         },
+            // return Math.max(percentage, 0) + "%";
+            return percentage + "%";
+          },
+         offsetY: -15,
          style: {
            fontSize: '12px',
-           fontWeight: 'bold',
-           colors: ["#3F2021"],
+           colors: ["#F9423A"],
          },
-      },
-      
-
+       },
        xaxis: {
          categories: meses,
          position: 'bottom',
@@ -246,11 +243,9 @@ async function grafico_financeiro_mes_mes(fluxo_ano_anterior, fluxo_ano_atual) {
            }
          },
        },
-
       yaxis: {
          show: false,
       },
-
       tooltip: {
          enabled: false,
       }
