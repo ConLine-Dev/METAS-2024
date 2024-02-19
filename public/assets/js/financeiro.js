@@ -144,19 +144,20 @@ async function grafico_financeiro_mes_mes(fluxo_ano_anterior, fluxo_ano_atual) {
    const meta_por_mes = meta_anual / 12;
 
    // Cria um array de 12 linhas com o mesmo valor de meta para cada mes
-   let metasMensais = Array(12).fill(meta_por_mes);
+   let metas_mensais = Array(12).fill(meta_por_mes);
 
    // Ajusta a meta para o proximo mes de acordo com o valor arrecadado no mes atual
-   metasMensais = await ajustarMetasComBaseEmResultadosAutomatico(metasMensais, resultadosMensais);
-   // console.log(metasMensais);
+   metas_mensais = await ajustarMetasComBaseEmResultadosAutomatico(metas_mensais, resultadosMensais);
+   console.log(metas_mensais, 'metas_mensais');
 
    // Extrai apenas os valores de VALOR_CONVERTIDO_REAL
    // const valores_arrecadados = soma_mes_mes_atual.map(item => Math.max(item.VALOR_CONVERTIDO_REAL, 0));
    const valores_arrecadados = soma_mes_mes_atual.map(item => item.VALOR_CONVERTIDO_REAL);
-   // console.log(valores_arrecadados);
+   console.log(valores_arrecadados, 'valores_arrecadados');
 
-   const porcentagens = metasMensais.map((meta, index) => {
+   const porcentagens = metas_mensais.map((meta, index) => {
       const valorArrecadado = valores_arrecadados[index];
+      console.log(valorArrecadado);
 
       // Evita a divisão por zero
       const porcentagem = meta !== 0 ? (valorArrecadado / meta) * 100 : 0;
@@ -167,18 +168,19 @@ async function grafico_financeiro_mes_mes(fluxo_ano_anterior, fluxo_ano_atual) {
    var options = {
       series: [{
          name: 'Ano Atual',
-         type: 'bar',
+         type: 'column',
          data: valores_arrecadados
       }, {
          name: 'Meta',
          type: 'area',
-         data: metasMensais
+         data: metas_mensais
       }],
       colors: ['#F9423A', '#3F2021'],
-      chart: {
-         height: 500,
-         type: 'bar',
-      },
+
+      // chart: {
+      //    height: 500,
+      //    type: 'column',
+      // },
 
       chart: {
          height: 500,
@@ -188,16 +190,19 @@ async function grafico_financeiro_mes_mes(fluxo_ano_anterior, fluxo_ano_atual) {
             show: false
           },
       },
+      
       stroke: {
          width: [0, 2],
          curve: 'smooth'
       },
+
       plotOptions: {
          bar: {
             borderRadius: 7,
             columnWidth: '25%',
          },
       },
+      
       fill: {
          type: ['solid', 'gradient'],
          gradient: {
@@ -207,6 +212,7 @@ async function grafico_financeiro_mes_mes(fluxo_ano_anterior, fluxo_ano_atual) {
            stops: [0, 100]
          }
        },
+       
        dataLabels: {
          enabled: true,
          enabledOnSeries: [0],
@@ -221,6 +227,7 @@ async function grafico_financeiro_mes_mes(fluxo_ano_anterior, fluxo_ano_atual) {
            colors: ["#F9423A"],
          },
        },
+
        xaxis: {
          categories: meses,
          position: 'bottom',
@@ -242,10 +249,24 @@ async function grafico_financeiro_mes_mes(fluxo_ano_anterior, fluxo_ano_atual) {
              }
            }
          },
-       },
-      yaxis: {
-         show: false,
       },
+
+      // yaxis: {
+      //    show: false,
+      // },
+      
+      yaxis: [
+         {
+            seriesName: 'Ano Atual',
+            opposite: true,
+            show: false
+         },
+         {
+            seriesName: 'Meta',
+            show: false
+         }
+      ],
+
       tooltip: {
          enabled: false,
       }

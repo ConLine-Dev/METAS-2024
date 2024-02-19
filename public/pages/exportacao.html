@@ -56,71 +56,63 @@
    
    <!-- header -->
    <header class="app-header">
-      <!-- Start::main-header-container -->
       <div class="main-header-container container-fluid">
-         <!-- Start::header-content-left -->
+
          <div class="header-content-left">
-            <!-- Start::header-element -->
+            <!-- LOGO -->
             <div class="header-element">
                <div class="horizontal-logo">
                   <a href="/dashboard" class="header-logo">
                      <img src="/assets/images/brand-logos/logo.png" alt="logo" class="desktop-logo"
-                     style="height: 1.5rem">
+                        style="height: 1.5rem">
                      <img src="../assets/images/brand-logos/logo-mycon.png" alt="logo" class="toggle-logo">
                      <img src="../assets/images/brand-logos/logo-mycon-light.png" alt="logo" class="toggle-dark">
                      <img src="/assets/images/brand-logos/logo-light.png" alt="logo" class="desktop-dark"
-                     style="height: 1.5rem">
+                        style="height: 1.5rem">
                   </a>
                </div>
             </div>
-            <!-- End::header-element -->
-            <!-- Start::header-element -->
-            <div class="header-element">
-               <!-- Start::header-link -->
-               <a aria-label="Hide Sidebar"
-               class="sidemenu-toggle header-link animated-arrow hor-toggle horizontal-navtoggle"
-               data-bs-toggle="sidebar" href="javascript:void(0);">
-               <span></span>
-            </a>
-            <!-- End::header-link -->
+            <!-- LOGO -->
          </div>
-         <!-- End::header-element -->
-      </div>
-      <!-- End::header-content-left -->
-      <!-- Start::header-content-right -->
-      <div class="header-content-right">
 
-         <!-- End::header-element -->
-         <!-- Start::header-element -->
-         <div class="header-element">
-            <!-- Start::header-link|dropdown-toggle -->
-            <a href="javascript:void(0);" class="header-link dropdown-toggle" id="mainHeaderProfile"
-            data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-            <div class="d-flex align-items-center">
-               <div class="me-sm-2 me-0">
-                  <img src="/assets/images/brand-logos/avatar-do-usuario.png" alt="img" width="32" height="32"
-                  class="rounded-circle" id="fotoUsuario">
-               </div>
-               <div class="d-sm-block d-none">
-                  <p class="fw-semibold mb-0 lh-1" id="nameUser">Nome Usuário</p>
-               </div>
+         <div class="header-content-right">
+            <!-- FULL SCREEN -->
+            <div class="header-element header-fullscreen"> 
+               <a onclick="openFullscreen()" href="javascript:void(0);" class="header-link"> 
+                  <i class="bx bx-fullscreen full-screen-open header-link-icon"></i>
+                  <i class="bx bx-exit-fullscreen full-screen-close header-link-icon d-none"></i> 
+               </a>
             </div>
-         </a> <!-- End::header-link|dropdown-toggle -->
-         <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end"
-         aria-labelledby="mainHeaderProfile">
-         <li>
-            <a class="dropdown-item d-flex" onclick="logout(this)" href="/" style="cursor: pointer;">
-               <i class="ti ti-logout fs-18 me-2 op-7"></i>
-               Sair
-            </a>
-         </li>
-      </ul>
-   </div>
-   <!-- End::header-element -->
-</div>
-<!-- End::header-content-right -->
-</div>
-   <!-- End::main-header-container -->
+            <!-- /FULL SCREEN -->
+
+            <!-- USUARIO LOGADO -->
+            <div class="header-element">
+               <a href="javascript:void(0);" class="header-link dropdown-toggle" id="mainHeaderProfile"
+                  data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                  <div class="d-flex align-items-center">
+                     <div class="me-sm-2 me-0">
+                        <img src="/assets/images/brand-logos/avatar-do-usuario.png" alt="img" width="32" height="32"
+                           class="rounded-circle" id="fotoUsuario">
+                     </div>
+                     <div class="d-sm-block d-none">
+                        <p class="fw-semibold mb-0 lh-1" id="nameUser">Nome Usuário</p>
+                     </div>
+                  </div>
+               </a> <!-- End::header-link|dropdown-toggle -->
+               <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end"
+                  aria-labelledby="mainHeaderProfile">
+                  <li>
+                     <a class="dropdown-item d-flex" onclick="logout(this)" href="/" style="cursor: pointer;">
+                        <i class="ti ti-logout fs-18 me-2 op-7"></i>
+                        Sair
+                     </a>
+                  </li>
+               </ul>
+            </div>
+            <!-- /USUARIO LOGADO -->
+         </div>
+         
+      </div>
    </header>
    <!-- /header -->
 
@@ -159,21 +151,19 @@
                               </li> 
                               <!-- End::slide --> 
 
-                              <!-- Start::slide -->
-                              <li class="slide has-sub"> 
+                              <!-- <li class="slide has-sub"> 
                                  <a href="/meta-pessoal-comercial" class="side-menu__item"> 
                                     <i class="bi bi-person side-menu__icon"></i> 
                                     <span class="side-menu__label" style="margin-right: 14px;">Meta Pessoal - Comercial</span> 
                                  </a>
                               </li> 
-                              <!-- End::slide --> 
 
                               <li class="slide has-sub"> 
                                  <a href="/admin-meta-pessoal" class="side-menu__item"> 
                                     <i class="ri ri-admin-line side-menu__icon" style="margin-top: -10px !important;"></i> 
                                     <span class="side-menu__label" style="margin-right: 14px;">Admin - Meta Pessoal</span> 
                                  </a>
-                              </li> 
+                              </li>  -->
                            </ul>
                         </nav>
                      </div>
