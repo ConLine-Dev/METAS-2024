@@ -138,15 +138,30 @@ async function graficos_mensais(processos_ano_anterior, processos_ano_atual, mod
       },
        dataLabels: {
          enabled: true,
-         enabledOnSeries: [0],
+         enabledOnSeries: [0, 1], // ativa os rótulos para ambas as séries
          formatter: function (val, opts) {
-            return porcentagens[opts.dataPointIndex] + "%";
-          },
-         offsetX: 35,
+            if (seriesIndex === 0 ) {
+               // Se for a primeira serie de processos do ano atual, mostra o valor correspondente
+               return processos_atual[opts.dataPointIndex];
+            } else if (seriesIndex === 1) {
+               // Se for a segunda sére (Meta), mostra o valor correspondente
+               return meta_processos[opts.dataPointIndex];
+            }
+         },
+         offsetX: 30,
          style: {
            fontSize: '12px',
-           colors: ["#3F2021"],
+           colors: ["#F9423A", "#3F2021"]
          },
+         background: {
+            enabled: true,
+            foreColor: '#fff',
+            borderRadius: 2,
+            padding: 4,
+            opacity: 0.9,
+            borderWidth: 1,
+            borderColor: '#fff'
+         }
        },
        
       stroke: {
@@ -244,8 +259,14 @@ async function graficos_mensais(processos_ano_anterior, processos_ano_atual, mod
    if (graficosMensaisExistem) {
       // Atualize as porcentagens
       options.dataLabels.formatter = function (val, opts) {
-         const percentage = porcentagens[opts.dataPointIndex];
-         return percentage + "%";
+         const seriesIndex = opts.seriesIndex;
+         if (seriesIndex === 0) {
+            // Se for a primeira série (Ano Atual), mostre o valor correspondente
+            return processos_atual[opts.dataPointIndex];
+         } else if (seriesIndex === 1) {
+            // Se for a segunda série (Meta), mostre o valor correspondente
+            return meta_processos[opts.dataPointIndex];
+         }
       };
       // Se existir, atualize os dados e renderize novamente
       graficosMensais[modalidadeTipoCargaKey].chartMensal.updateOptions(options);
@@ -339,15 +360,31 @@ async function grafico_mensais_cliente(processos_ano_anterior, processos_ano_atu
       },
        dataLabels: {
          enabled: true,
-         enabledOnSeries: [0],
+         enabledOnSeries: [0, 1], // ativa os rótulos para ambas as séreis
          formatter: function (val, opts) {
-            return porcentagens[opts.dataPointIndex] + "%";
+            if (seriesIndex === 0) {
+               // Se for a primeira serie (cliente_ano_atual), mostra o valor correspondente
+               return cliente_ano_atual[opts.dataPointIndex];
+
+            } else if (seriesIndex === 1) {
+               // Se for a primeira serie (meta_cliente), mostra o valor correspondente
+               return meta_cliente[opts.dataPointIndex];
+            }
           },
-         offsetX: 35,
+         offsetX: 30,
          style: {
-           fontSize: '12px',
-           colors: ["#3F2021"],
+            fontSize: '12px',
+            colors: ["#F9423A", "#3F2021"]
          },
+         background: {
+            enabled: true,
+            foreColor: '#fff',
+            borderRadius: 2,
+            padding: 4,
+            opacity: 0.9,
+            borderWidth: 1,
+            borderColor: '#3F2021'
+         }
        },
        
       stroke: {
@@ -440,8 +477,15 @@ async function grafico_mensais_cliente(processos_ano_anterior, processos_ano_atu
    if (graficosMensaisExistem) {
       // Atualize as porcentagens
       options.dataLabels.formatter = function (val, opts) {
-         const percentage = porcentagens[opts.dataPointIndex];
-         return percentage + "%";
+         const seriesIndex = opts.seriesIndex;
+         if (seriesIndex === 0) {
+            // Se for a primeira série (cliente_ano_atual), mostre o valor correspondente
+            return cliente_ano_atual[opts.dataPointIndex];
+            
+         } else if (seriesIndex === 1) {
+            // Se for a primeira série (meta_cliente), mostre o valor correspondente
+            return meta_cliente[opts.dataPointIndex];
+         }
       };
       // Se existir, atualize os dados e renderize novamente
       graficosMensais.chartMensal.updateOptions(options);

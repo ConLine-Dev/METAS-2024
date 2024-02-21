@@ -54,6 +54,23 @@ async function cards_anuais(teus_tons_ano_anterior, teus_tons_ano_atual, modalid
    meta_anual.textContent = porcentagem;
 }
 
+// Função que insere no card anual LCL
+async function cards_anuais_LCL(teus_tons_ano_anterior, teus_tons_ano_atual, modalidade, tipoCarga) {
+   // Dados ano anterior
+   const ano_anterior = teus_tons_ano_anterior.filter(item => item.MODALIDADE === modalidade && item.TIPO_CARGA === tipoCarga);
+   const meta_anual = parseInt(ano_anterior.length) * meta;
+
+   // Dados ano atual
+   const ano_atual = teus_tons_ano_atual.filter(item => item.MODALIDADE === modalidade && item.TIPO_CARGA === tipoCarga);
+   const total_atual = parseInt(ano_atual.length);
+
+   // Porcentagens meta anual
+   const porcentagem = (total_atual / meta_anual) * 100;
+   const card_anual = document.querySelector('#meta-anual-' + tipoCarga + '-' + modalidade);
+
+   card_anual.textContent = porcentagem.toFixed(2) + '%';
+}
+
 // Função que trás os resultados mes a mes
 let graficosMensais = {}; // Objeto para armazenar os gráficos mensais
 async function graficos_mensais(teus_tons_ano_anterior, teus_tons_ano_atual, modalidade, tipoCarga, campo) {
@@ -103,16 +120,22 @@ async function graficos_mensais(teus_tons_ano_anterior, teus_tons_ano_atual, mod
             },
          }
       },
-       dataLabels: {
+      dataLabels: {
          enabled: true,
-         enabledOnSeries: [0],
+         enabledOnSeries: [0, 1], // ativa os rótulos para ambas as séries
          formatter: function (val, opts) {
-            return porcentagens[opts.dataPointIndex] + "%";
-          },
+            if (seriesIndex === 0 ) {
+               // Se for a primeira serie de processos do ano atual, mostra o valor correspondente
+               return dados_ano_atual[opts.dataPointIndex];
+            } else if (seriesIndex === 1) {
+               // Se for a segunda sére (Meta), mostra o valor correspondente
+               return meta_modal_campo[opts.dataPointIndex];
+            }
+         },
          offsetY: -35,
          style: {
            fontSize: '12px',
-           colors: ["#F9423A"],
+           colors: ["#F9423A", "#3F2021"]
          },
          background: {
             enabled: true,
@@ -121,9 +144,9 @@ async function graficos_mensais(teus_tons_ano_anterior, teus_tons_ano_atual, mod
             padding: 4,
             opacity: 0.9,
             borderWidth: 1,
-            borderColor: '#F9423A'
-          }
-       },
+            borderColor: '#fff'
+         }
+      },
        
       stroke: {
          show: true,
@@ -225,12 +248,239 @@ async function graficos_mensais(teus_tons_ano_anterior, teus_tons_ano_atual, mod
    if (graficosMensaisExistem) {
       // Atualize as porcentagens
       options.dataLabels.formatter = function (val, opts) {
-         const percentage = porcentagens[opts.dataPointIndex];
-         return percentage + "%";
+         const seriesIndex = opts.seriesIndex;
+         if (seriesIndex === 0) {
+            // Se for a primeira série (Ano Atual), mostre o valor correspondente
+            return dados_ano_atual[opts.dataPointIndex];
+         } else if (seriesIndex === 1) {
+            // Se for a segunda série (Meta), mostre o valor correspondente
+            return meta_modal_campo[opts.dataPointIndex];
+         }
       };
       // Se existir, atualize os dados e renderize novamente
       graficosMensais[modalidadeTipoCargaKey].chartMensal.updateOptions(options);
       graficosMensais[modalidadeTipoCargaKey].chartAnual.updateOptions(grafico_meta_anual);
+   }
+}
+
+// Função que obtem a quantidade de processo, por modal e por mes
+async function contagem_processos_mes(consulta, modalidade, tipoCarga) {
+   // Inicializa um objeto para armazenar a contagem por mes
+   const contagem_por_mes = {};
+
+   // Filtra os objetos na consulta pela modalidade desejada
+   const objetos_filtrados = consulta.filter(item => item.MODALIDADE === modalidade && item.TIPO_CARGA === tipoCarga);
+
+   // Item sobre os objetos filtrados
+   for (const item of objetos_filtrados) {
+      const { MES } = item;
+
+      // Incrementa a contagem para o mes correspondente
+      contagem_por_mes[MES] = (contagem_por_mes[MES] || 0 ) + 1;
+   }
+
+   // Inicializa um array para armazenar a contagem total por mês
+   const contagem_total_por_mes = Array.from({ length: 12 }, (_, index) => {
+      const mes = index + 1;
+      // Obtém a contagem para o mês atual
+      return contagem_por_mes[mes] || 0;
+   });
+
+   return contagem_total_por_mes;
+}
+
+// Função que cria os graficos
+let graficosMensais_LCL = {}; // Objeto para armazenar os gráficos mensais
+async function graficos_mensais_LCL(processos_ano_anterior, processos_ano_atual, modalidade, tipoCarga) {
+   const processos_anterior = await contagem_processos_mes(processos_ano_anterior, modalidade, tipoCarga);
+   const processos_atual = await contagem_processos_mes(processos_ano_atual, modalidade, tipoCarga);
+
+   const meta_processos = processos_anterior.map(valor => parseInt(valor * meta));
+
+   // Porcentagem da meta
+   const porcentagens = [];
+
+   // Passado o ano atual, pois se passar o ano anterior pode dar erro ao comparar os dois, visto que no inicio do ano tem poucos meses de registro e nao os 12
+   for (let i = 0; i < processos_atual.length; i++) {
+      const item1 = processos_atual[i];
+      const item2 = meta_processos[i];
+
+
+      // Calcular porcentagem  e adicionar ao array de porcentagens
+      const porcentagem = (item1 / item2) * 100;
+      porcentagens.push(porcentagem.toFixed(2));
+   }
+
+   var options_LCL = {
+      series: [{
+         name: 'Ano Atual',
+         data: processos_atual
+      }, {
+         name: 'Meta',
+         data: meta_processos
+      }],
+
+      chart: {
+         type: 'bar',
+         height: 390,
+         toolbar: {
+            show: false
+         },
+      },
+
+      colors: ['#F9423A', '#3F2021'],
+
+      plotOptions: {
+         bar: {
+            borderRadius: 2,
+            columnWidth: '70%',
+            horizontal: false,
+            dataLabels: {
+               position: 'top',
+            },
+         }
+      },
+
+       dataLabels: {
+         enabled: true,
+         enabledOnSeries: [0, 1], // ativa os rótulos para ambas as séries
+         formatter: function (val, opts) {
+            if (seriesIndex === 0 ) {
+               // Se for a primeira serie de processos do ano atual, mostra o valor correspondente
+               return processos_atual[opts.dataPointIndex];
+            } else if (seriesIndex === 1) {
+               // Se for a segunda sére (Meta), mostra o valor correspondente
+               return meta_processos[opts.dataPointIndex];
+            }
+         },
+         offsetY: -35,
+         style: {
+           fontSize: '12px',
+           colors: ["#F9423A", "#3F2021"]
+         },
+         background: {
+            enabled: true,
+            foreColor: '#fff',
+            borderRadius: 2,
+            padding: 4,
+            opacity: 0.9,
+            borderWidth: 1,
+            borderColor: '#fff'
+          }
+       },
+       
+      stroke: {
+         show: true,
+         width: 1,
+         colors: ['#fff']
+      },
+
+      tooltip: {
+         shared: true,
+         enabled: false,
+         intersect: false
+      },
+
+      xaxis: {
+         categories: meses,
+         labels: {
+            show: false,
+         }
+      },
+
+      yaxis: {
+         show: false,
+      },
+
+   };
+
+   var grafico_meta_anual_LCL = {
+      series: [{
+         data: processos_atual
+      }],
+   
+      colors: ['#F9423A'],
+   
+      chart: {
+         height: 80,
+         width: 180,
+         type: 'line',
+         stacked: false,
+         toolbar: {
+            show: false
+          },
+      },
+   
+      stroke: {
+         curve: 'smooth',
+         width: 2
+      },
+   
+
+   
+       dataLabels: {
+         enabled: false
+       },
+   
+       xaxis: {
+         labels: {
+            show: false,
+         },
+         axisBorder: {
+            show: false,
+         },
+         axisTicks: {
+            show: false,
+         },
+       },
+   
+      yaxis: {
+         show: false,
+      },
+   
+      grid: {
+         show: false,
+      },
+   
+      tooltip: {
+         enabled: false,
+      }
+   }
+
+   const grafico_mensal_id = 'grafico-mes-' + modalidade + '-' + tipoCarga;
+   const grafico_anual_id = 'grafico-anual-' + modalidade + '-' + tipoCarga;
+
+   // Crie instâncias separadas para gráficos mensais e anuais
+   const chartMensal = new ApexCharts(document.querySelector('#' + grafico_mensal_id), options_LCL);
+   const chartAnual = new ApexCharts(document.querySelector('.' + grafico_anual_id), grafico_meta_anual_LCL);
+   // Renderize os gráficos
+   chartMensal.render();
+   chartAnual.render();
+
+   // Atribua as instâncias dos gráficos ao objeto usando a combinação de modalidade e tipoCarga como chave
+   graficosMensais[`${modalidade}-${tipoCarga}`] = {
+      chartMensal,
+      chartAnual,
+   };
+
+   const modalidadeTipoCargaKey = `${modalidade}-${tipoCarga}`;
+   const graficosMensaisExistem = graficosMensais[modalidadeTipoCargaKey];
+
+   if (graficosMensaisExistem) {
+      // Atualize as porcentagens
+      options_LCL.dataLabels.formatter = function (val, opts) {
+         const seriesIndex = opts.seriesIndex;
+         if (seriesIndex === 0) {
+            // Se for a primeira série (Ano Atual), mostre o valor correspondente
+            return processos_atual[opts.dataPointIndex];
+         } else if (seriesIndex === 1) {
+            // Se for a segunda série (Meta), mostre o valor correspondente
+            return meta_processos[opts.dataPointIndex];
+         }
+      };
+      // Se existir, atualize os dados e renderize novamente
+      graficosMensais[modalidadeTipoCargaKey].chartMensal.updateOptions(options_LCL);
+      graficosMensais[modalidadeTipoCargaKey].chartAnual.updateOptions(grafico_meta_anual_LCL);
    }
 }
 
@@ -312,10 +562,12 @@ async function main() {
    const teus_tons_ano_atual = await Thefetch('/api/teus_tons_ano_atual');
    await mostrar_loading();
    await cards_anuais(teus_tons_ano_anterior, teus_tons_ano_atual, 'IM', 'FCL', 'TEUS');
-   await cards_anuais(teus_tons_ano_anterior, teus_tons_ano_atual, 'IM', 'LCL', 'TONS');
+   // await cards_anuais(teus_tons_ano_anterior, teus_tons_ano_atual, 'IM', 'LCL', 'TONS');
+   await cards_anuais_LCL(teus_tons_ano_anterior, teus_tons_ano_atual, 'IM', 'LCL');
    await cards_anuais(teus_tons_ano_anterior, teus_tons_ano_atual, 'IA', 'AÉREO', 'TONS');
    await graficos_mensais(teus_tons_ano_anterior, teus_tons_ano_atual, 'IM', 'FCL', 'TEUS')
-   await graficos_mensais(teus_tons_ano_anterior, teus_tons_ano_atual, 'IM', 'LCL', 'TONS')
+   // await graficos_mensais(teus_tons_ano_anterior, teus_tons_ano_atual, 'IM', 'LCL', 'TONS')
+   await graficos_mensais_LCL(teus_tons_ano_anterior, teus_tons_ano_atual, 'IM', 'LCL')
    await graficos_mensais(teus_tons_ano_anterior, teus_tons_ano_atual, 'IA', 'AÉREO', 'TONS')
    await remover_loading();
 }
@@ -331,7 +583,6 @@ const socket = io();
 const lista_fechamento = []
 
 socket.on('NewProcess', async function(msg){
-   // console.log(msg)
    await main();
    lista_fechamento.push(msg)
 });

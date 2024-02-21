@@ -29,7 +29,7 @@ const helpers = {
    },
 
    ultimos_9_processos: async function() {
-      const result = await executeQuerySQL(`SELECT TOP 9 * FROM vis_Metas_Processo_Nova ORDER BY IdLogistica_House DESC`);
+      const result = await executeQuerySQL(`SET LANGUAGE Portuguese SELECT TOP 9 * FROM vis_Metas_Processo_Nova ORDER BY IdLogistica_House DESC`);
 
       return result;
    },
