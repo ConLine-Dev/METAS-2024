@@ -148,16 +148,13 @@ async function grafico_financeiro_mes_mes(fluxo_ano_anterior, fluxo_ano_atual) {
 
    // Ajusta a meta para o proximo mes de acordo com o valor arrecadado no mes atual
    metas_mensais = await ajustarMetasComBaseEmResultadosAutomatico(metas_mensais, resultadosMensais);
-   console.log(metas_mensais, 'metas_mensais');
 
    // Extrai apenas os valores de VALOR_CONVERTIDO_REAL
    // const valores_arrecadados = soma_mes_mes_atual.map(item => Math.max(item.VALOR_CONVERTIDO_REAL, 0));
    const valores_arrecadados = soma_mes_mes_atual.map(item => item.VALOR_CONVERTIDO_REAL);
-   console.log(valores_arrecadados, 'valores_arrecadados');
 
    const porcentagens = metas_mensais.map((meta, index) => {
       const valorArrecadado = valores_arrecadados[index];
-      console.log(valorArrecadado);
 
       // Evita a divisão por zero
       const porcentagem = meta !== 0 ? (valorArrecadado / meta) * 100 : 0;
@@ -176,11 +173,6 @@ async function grafico_financeiro_mes_mes(fluxo_ano_anterior, fluxo_ano_atual) {
          data: metas_mensais
       }],
       colors: ['#F9423A', '#3F2021'],
-
-      // chart: {
-      //    height: 500,
-      //    type: 'column',
-      // },
 
       chart: {
          height: 500,
@@ -218,8 +210,8 @@ async function grafico_financeiro_mes_mes(fluxo_ano_anterior, fluxo_ano_atual) {
          enabledOnSeries: [0],
          formatter: function (val, opts) {
             const percentage = porcentagens[opts.dataPointIndex];
-            // return Math.max(percentage, 0) + "%";
-            return percentage + "%";
+            return Math.max(percentage, 0) + "%";
+            // return percentage + "%";
           },
          offsetY: -15,
          style: {
@@ -250,20 +242,20 @@ async function grafico_financeiro_mes_mes(fluxo_ano_anterior, fluxo_ano_atual) {
            }
          },
       },
-
-      // yaxis: {
-      //    show: false,
-      // },
       
       yaxis: [
          {
             seriesName: 'Ano Atual',
-            opposite: true,
-            show: false
+            show: false,
+            // Define o intervalo do eixo Y para os valores arrecadados
+            min: 0,  // Defina o mínimo como 0 ou um valor específico, se necessário
+            max: Math.max(2500000)  // Ajuste o máximo para ser um pouco maior que o valor máximo dos valores arrecadados
          },
          {
             seriesName: 'Meta',
-            show: false
+            show: false,
+            min: 0, // Defina o mínimo do eixo Y para 0
+            max: Math.max(2500000), // Defina o máximo do eixo Y para o maior valor em metas_mensais
          }
       ],
 
@@ -277,8 +269,8 @@ async function grafico_financeiro_mes_mes(fluxo_ano_anterior, fluxo_ano_atual) {
       // Atualize as porcentagens
       options.dataLabels.formatter = function (val, opts) {
          const percentage = porcentagens[opts.dataPointIndex];
-         // return Math.max(percentage, 0) + "%";
-         return percentage + "%";
+         return Math.max(percentage, 0) + "%";
+         // return percentage + "%";
       };
       // Se existir, atualize os dados e renderize novamente
       atualizacao_chart.updateOptions(options);
@@ -300,7 +292,6 @@ async function soma_valores_modais(dados) {
 }
 
 let atualizacao_chart_2 = null;
-
 async function grafico_modais(fluxo_ano_atual) {
    const total_valores_modais = await soma_valores_modais(fluxo_ano_atual);
    const total_valores_ano_atual = await total_ano(fluxo_ano_atual);
