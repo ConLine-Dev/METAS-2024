@@ -245,18 +245,18 @@ async function grafico_financeiro_mes_mes(fluxo_ano_anterior, fluxo_ano_atual) {
       
       yaxis: [
          {
-            seriesName: 'Ano Atual',
+            // seriesName: 'Ano Atual',
             show: false,
             // Define o intervalo do eixo Y para os valores arrecadados
             min: 0,  // Defina o mínimo como 0 ou um valor específico, se necessário
-            max: Math.max(2500000)  // Ajuste o máximo para ser um pouco maior que o valor máximo dos valores arrecadados
+            // max: Math.max(2000000)  // Ajuste o máximo para ser um pouco maior que o valor máximo dos valores arrecadados
          },
-         {
-            seriesName: 'Meta',
-            show: false,
-            min: 0, // Defina o mínimo do eixo Y para 0
-            max: Math.max(2500000), // Defina o máximo do eixo Y para o maior valor em metas_mensais
-         }
+         // {
+         //    seriesName: 'Meta',
+         //    show: false,
+         //    min: 0, // Defina o mínimo do eixo Y para 0
+         //    // max: Math.max(2000000), // Defina o máximo do eixo Y para o maior valor em metas_mensais
+         // }
       ],
 
       tooltip: {
@@ -306,6 +306,7 @@ async function grafico_modais(fluxo_ano_atual) {
    let totalPorcentagem = 0;
    for (const modalidade in total_valores_modais) {
       let valor_modalidade = total_valores_modais[modalidade];
+      console.log(valor_modalidade);
 
       
       // Se o valor for indefinido ou menor que zero, defina como zero
@@ -336,10 +337,10 @@ async function grafico_modais(fluxo_ano_atual) {
    const porcentagem_OUTROS = document.querySelector('#porcentagem_OUTROS');
 
    porcentagem_IM.textContent = porcentagens_somente_numero[0] + '%'
-   porcentagem_EM.textContent = porcentagens_somente_numero[1] + '%'
-   porcentagem_IA.textContent = porcentagens_somente_numero[2] + '%'
+   porcentagem_OUTROS.textContent = porcentagens_somente_numero[1] + '%'
+   porcentagem_EM.textContent = porcentagens_somente_numero[2] + '%'
    porcentagem_EA.textContent = porcentagens_somente_numero[3] + '%'
-   porcentagem_OUTROS.textContent = porcentagens_somente_numero[4] + '%'
+   porcentagem_IA.textContent = porcentagens_somente_numero[4] + '%'
 
    var options = {
       series: porcentagens_somente_numero,
@@ -347,7 +348,7 @@ async function grafico_modais(fluxo_ano_atual) {
          type: 'donut',
          width: '123%',
       },
-      labels: ['IM', 'EM', 'IA', 'EA', 'OUTROS'],
+      labels: ['IM', 'OUTROS', 'EM', 'EA', 'IA'],
       legend: {
          show: true,
          position: 'bottom',
