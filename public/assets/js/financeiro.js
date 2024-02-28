@@ -364,10 +364,10 @@ async function grafico_modais(fluxo_ano_atual) {
       // Se existir, atualize os dados e renderize novamente
       atualizacao_chart_2.updateSeries(porcentagens_somente_numero);
       porcentagem_IM.textContent = porcentagens_somente_numero[0] + '%'
-      porcentagem_EM.textContent = porcentagens_somente_numero[1] + '%'
-      porcentagem_IA.textContent = porcentagens_somente_numero[2] + '%'
+      porcentagem_OUTROS.textContent = porcentagens_somente_numero[1] + '%'
+      porcentagem_EM.textContent = porcentagens_somente_numero[2] + '%'
       porcentagem_EA.textContent = porcentagens_somente_numero[3] + '%'
-      porcentagem_OUTROS.textContent = porcentagens_somente_numero[4] + '%'
+      porcentagem_IA.textContent = porcentagens_somente_numero[4] + '%'
    } else {
       // Se não existir, crie um novo gráfico
       atualizacao_chart_2 = new ApexCharts(document.querySelector("#modais"), options);
