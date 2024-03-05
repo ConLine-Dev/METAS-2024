@@ -306,8 +306,6 @@ async function grafico_modais(fluxo_ano_atual) {
    let totalPorcentagem = 0;
    for (const modalidade in total_valores_modais) {
       let valor_modalidade = total_valores_modais[modalidade];
-      console.log(valor_modalidade);
-
       
       // Se o valor for indefinido ou menor que zero, defina como zero
       if (valor_modalidade < 0) {
