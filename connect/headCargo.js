@@ -25,7 +25,7 @@ pool.on('error', err => {
   console.error(`SQL Server pool error: ${err}`);
 });
 
-const executeQuerySQL = async (query) => {
+const executeQuerySQL_HeadCargo = async (query) => {
   let attempts = 0;
   const maxAttempts = 100;
 
@@ -47,5 +47,5 @@ const executeQuerySQL = async (query) => {
 
 
 module.exports = {
-    executeQuerySQL: executeQuerySQL,
+    executeQuerySQL_HeadCargo: executeQuerySQL_HeadCargo,
 };
