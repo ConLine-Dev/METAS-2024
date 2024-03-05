@@ -2,11 +2,11 @@ const sql = require('mssql');
 require('dotenv/config');
 
 const config = {
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  server: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  port: Number(process.env.DB_PORT),
+  user: process.env.DB_USER_HEAD,
+  password: process.env.DB_PASSWORD_HEAD,
+  server: process.env.DB_HOST_HEAD,
+  database: process.env.DB_NAME_HEAD,
+  port: Number(process.env.DB_PORT_HEAD),
   options: {
     encrypt: false,
     requestTimeout: 200000 // tempo limite em milissegundos
