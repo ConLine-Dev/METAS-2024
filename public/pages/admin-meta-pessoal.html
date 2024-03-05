@@ -20,7 +20,7 @@
 </head>
 
 <body>
-   <!-- MODAl -->
+   <!-- MODAl NOVO PROCESSO -->
    <div class="modal fade" id="modaldemo8" style="display: none; background-color: rgba(0, 0, 0, 0.3); z-index: 99999;" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered text-center" role="document">
          <div class="modal-content modal-content-demo" style="padding-bottom: 23px;">
@@ -52,7 +52,24 @@
          </div>
       </div>
    </div>
-   <!-- FIM MODAl -->
+   <!-- / MODAl NOVO PROCESSO -->
+
+   <!-- MODAL CADASTRO -->
+   <div class="modal fade" id="exampleModalToggle" aria-labelledby="exampleModalToggleLabel" tabindex="-1"
+      style="display: none;" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h6 class="modal-title" id="exampleModalToggleLabel">Modal 1 </h6> <button type="button" class="btn-close"
+                  data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body"> Show a second modal and hide this one with the button below. </div>
+            <div class="modal-footer"> <button class="btn btn-primary" data-bs-target="#exampleModalToggle2"
+                  data-bs-toggle="modal">Open second modal</button> </div>
+         </div>
+      </div>
+   </div>
+   <!-- / MODAL CADASTRO -->
 
    <!-- MODAL COMERCIAL -->
    <div class="modal fade" id="exampleModalXl" tabindex="-1" aria-labelledby="exampleModalXlLabel" style="display: none;" aria-hidden="true">
@@ -444,7 +461,7 @@
          </div>
       </div>
    </div>
-   <!-- MODAL COMERCIAL -->
+   <!-- / MODAL COMERCIAL -->
    
    <!-- CABEÇALHO -->
    <header class="app-header">
@@ -618,41 +635,15 @@
                         </div>
                      </div>
 
-                     <button type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;">
-                        <div class="card custom-card team-member-card">
-               
-                           <div class="teammember-cover-image my-4">
-                              <span class="avatar avatar-xl avatar-rounded">
-                                    <img src="https://cdn.conlinebr.com.br/colaboradores/48908" alt="">
-                              </span>
-                           </div>
-               
-                           <div class="card-body p-0">
-                              <div class="d-flex flex-wrap align-item-center mt-sm-0 mt-5 justify-content-between border-bottom border-block-end-dashed p-3" style="margin-top: -25px !important;">
-                                    <div class="team-member-details flex-fill">
-                                       <p class="mb-0 fw-semibold fs-16 text-truncate">
-                                          <a href="javascript:void(0);">Adriani Silveira</a>
-                                       </p>
-                                       <p class="mb-0 fs-12 text-muted text-break">adriani.silveira@conliebr.com.br</p>
-                                    </div>
-                              </div>
-               
-                              <div class="team-member-stats d-sm-flex justify-content-evenly">
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Propostas Aprovadas</p><span class="text-muted fs-12">250</span>
-                                    </div>
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Processos</p><span class="text-muted fs-12">250</span>
-                                    </div>
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Lucro Efetivo</p><span class="text-muted fs-12">R$ 158.035,01</span>
-                                    </div>
-                              </div>
-                           </div>
+                     <div type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModalToggle" style="border: none;">
+                        <div class="card custom-card team-member-card" style="min-height: 168.39px; display: flex; align-items: center; justify-content: center;">
+                           <button aria-label="button" type="button" class="btn btn-light btn-icon rounded-pill" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Adicionar Comercial" style="scale: 1.4;">
+                              <i class="ri-add-line"></i>
+                           </button>
                         </div>
-                     </button>
+                     </div>
 
-                     <button type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;">
+                     <div type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;">
                         <div class="card custom-card team-member-card">
                
                            <div class="teammember-cover-image my-4">
@@ -684,9 +675,9 @@
                               </div>
                            </div>
                         </div>
-                     </button>
+                     </div>
 
-                     <button type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;">
+                     <div type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;">
                         <div class="card custom-card team-member-card">
                
                            <div class="teammember-cover-image my-4">
@@ -718,9 +709,9 @@
                               </div>
                            </div>
                         </div>
-                     </button>
+                     </div>
 
-                     <button type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;">
+                     <div type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;">
                         <div class="card custom-card team-member-card">
                
                            <div class="teammember-cover-image my-4">
@@ -752,9 +743,9 @@
                               </div>
                            </div>
                         </div>
-                     </button>
+                     </div>
 
-                     <button type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;">
+                     <div type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;">
                         <div class="card custom-card team-member-card">
                
                            <div class="teammember-cover-image my-4">
@@ -786,9 +777,9 @@
                               </div>
                            </div>
                         </div>
-                     </button>
+                     </div>
 
-                     <button type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;">
+                     <div type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;">
                         <div class="card custom-card team-member-card">
                
                            <div class="teammember-cover-image my-4">
@@ -820,9 +811,9 @@
                               </div>
                            </div>
                         </div>
-                     </button>
+                     </div>
 
-                     <button type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;">
+                     <div type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;">
                         <div class="card custom-card team-member-card">
                
                            <div class="teammember-cover-image my-4">
@@ -854,7 +845,7 @@
                               </div>
                            </div>
                         </div>
-                     </button>
+                     </div>
 
                   </div>
                </div>
