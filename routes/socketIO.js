@@ -1,4 +1,4 @@
-const { executeQuerySQL_HeadCargo } = require('../connect/headCargo');
+const { executeQuerySQL } = require('../connect/headCargo');
 
 
 const WebSocket = {
@@ -48,11 +48,11 @@ const WebSocket = {
 
     },
     toListen: async function(){
-        const result = await executeQuerySQL_HeadCargo(`SET LANGUAGE Portuguese SELECT TOP 1 * FROM vis_Metas_Processo_Nova ORDER BY IdLogistica_House DESC`);
+        const result = await executeQuerySQL(`SET LANGUAGE Portuguese SELECT TOP 1 * FROM vis_Metas_Processo_Nova ORDER BY IdLogistica_House DESC`);
         return result[0]
     },
     toListenInvoice: async function(){
-        const result = await executeQuerySQL_HeadCargo(`SET LANGUAGE Portuguese SELECT TOP 1 IdFatura_Financeira_Baixa FROM mov_Fatura_Financeira_Baixa ORDER BY IdFatura_Financeira_Baixa DESC`);
+        const result = await executeQuerySQL(`SET LANGUAGE Portuguese SELECT TOP 1 IdFatura_Financeira_Baixa FROM mov_Fatura_Financeira_Baixa ORDER BY IdFatura_Financeira_Baixa DESC`);
         return result[0]
     }
 }
