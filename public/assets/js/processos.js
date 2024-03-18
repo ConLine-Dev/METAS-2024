@@ -163,7 +163,7 @@ async function graficos_mensais(processos_ano_anterior, processos_ano_atual, mod
             borderColor: '#fff'
          }
        },
-       
+      
       stroke: {
          show: true,
          width: 1,
