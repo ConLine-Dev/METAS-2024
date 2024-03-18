@@ -1,0 +1,845 @@
+<html lang="pt-br" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="light" data-toggled="close" loader="disable" data-nav-style="menu-hover">
+
+<head>
+   <!-- Meta Data -->
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <title>Conline - Dashboard</title>
+   <meta name="Description" content="Metas Conline">
+   <!-- Favicon -->
+   <link rel="icon" href="/assets/images/brand-logos/icon-redondo.png" type="image/x-icon" />
+   <!-- Bootstrap Css -->
+   <link id="style" href="/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+   <!-- Style Css -->
+   <link href="/assets/css/styles.min.css" rel="stylesheet">
+   <!-- Icons Css -->
+   <link href="/assets/css/icons.css" rel="stylesheet">
+</head>
+
+<body>
+   <!-- MODAl -->
+   <div class="modal fade" id="modaldemo8" style="display: none; background-color: rgba(0, 0, 0, 0.3); z-index: 99999;" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered text-center" role="document">
+         <div class="modal-content modal-content-demo" style="padding-bottom: 23px;">
+            <div class="modal-header" style="margin: 0 auto;">
+               <h6 class="modal-title">Novo Processo</h6>
+            </div>
+            <div class="modal-body text-start" style="padding: 0px 20px;">
+               <div class="d-flex align-items-center">
+                  <div class="me-2 lh-1"> 
+                     <div class="avatar-list-stacked">
+                        <span class="avatar avatar-rounded modal-avatar-vendedor">
+                        <img id="sale_img" src="/assets/images/brand-logos/avatar-do-usuario.png" alt="img">
+                        </span>
+                        <span class="avatar avatar-rounded modal-avatar-inside">
+                        <img id="inside_img" src="/assets/images/brand-logos/avatar-do-usuario.png" alt="img">
+                        </span>
+                     </div>
+                  </div>
+                  <div class="flex-fill">
+                     <p class="mb-0 fw-semibold" id="sale_name" style="white-space: nowrap; max-width: 19ch; overflow: hidden;">-------------</p>
+                     <p class="fs-12 text-muted mb-0" id="inside_sales_name" style="white-space: nowrap; max-width: 19ch; overflow: hidden;">-------------</p>
+                  </div>
+                  <div class="text-end">
+                     <p class="mb-0 fs-12" id="modal_id">-------------</p>
+                     <span class="badge" style="color: #f9423a !important; background-color: rgba(249, 66, 58, 0.2);" id="date_open_modal">-------------</span>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- FIM MODAl -->
+
+   <!-- LOADING -->
+   <div class="loading" style="display: block;">
+      <div class="loadingio-spinner-eclipse-jj809cj2h7" id="loading-icon">
+         <img src="/assets/images/brand-logos/SLOGAN VERMELHO.gif" class="navbar-brand-img" id="loading-img" alt="main_logo">
+      </div>
+   </div>
+   <!-- /LOADING -->   
+   
+   <!-- CABEÇALHO -->
+   <header class="app-header">
+      <!-- Start::main-header-container -->
+      <div class="main-header-container container-fluid">
+         <!-- Start::header-content-left -->
+         <div class="header-content-left">
+            <!-- Start::header-element -->
+            <div class="header-element">
+               <div class="horizontal-logo">
+                  <a href="/dashboard" class="header-logo">
+                     <img src="/assets/images/brand-logos/logo.png" alt="logo" class="desktop-logo"
+                        style="height: 1.5rem">
+                     <img src="../assets/images/brand-logos/logo-mycon.png" alt="logo" class="toggle-logo">
+                     <img src="../assets/images/brand-logos/logo-mycon-light.png" alt="logo" class="toggle-dark">
+                     <img src="/assets/images/brand-logos/logo-light.png" alt="logo" class="desktop-dark"
+                        style="height: 1.5rem">
+                  </a>
+               </div>
+            </div>
+            <!-- End::header-element -->
+            <!-- Start::header-element -->
+            <div class="header-element">
+               <!-- Start::header-link -->
+               <a aria-label="Hide Sidebar"
+                  class="sidemenu-toggle header-link animated-arrow hor-toggle horizontal-navtoggle"
+                  data-bs-toggle="sidebar" href="javascript:void(0);">
+                  <span></span>
+               </a>
+               <!-- End::header-link -->
+            </div>
+            <!-- End::header-element -->
+         </div>
+         <!-- End::header-content-left -->
+         <!-- Start::header-content-right -->
+         <div class="header-content-right">
+
+            <!-- End::header-element -->
+            <!-- Start::header-element -->
+            <div class="header-element">
+               <!-- Start::header-link|dropdown-toggle -->
+               <a href="javascript:void(0);" class="header-link dropdown-toggle" id="mainHeaderProfile"
+                  data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                  <div class="d-flex align-items-center">
+                     <div class="me-sm-2 me-0">
+                        <img src="/assets/images/brand-logos/avatar-do-usuario.png" alt="img" width="32" height="32"
+                           class="rounded-circle" id="fotoUsuario">
+                     </div>
+                     <div class="d-sm-block d-none">
+                        <p class="fw-semibold mb-0 lh-1" id="nameUser">Nome Usuário</p>
+                     </div>
+                  </div>
+               </a> <!-- End::header-link|dropdown-toggle -->
+               <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end"
+                  aria-labelledby="mainHeaderProfile">
+                  <li>
+                     <a class="dropdown-item d-flex" onclick="logout(this)" href="/" style="cursor: pointer;">
+                        <i class="ti ti-logout fs-18 me-2 op-7"></i>
+                        Sair
+                     </a>
+                  </li>
+               </ul>
+            </div>
+            <!-- End::header-element -->
+         </div>
+         <!-- End::header-content-right -->
+      </div>
+      <!-- End::main-header-container -->
+   </header>
+   <!-- FIM CABEÇALHO -->
+
+   <!-- BARRA -->
+   <aside class="app-sidebar sticky sticky-pin" id="sidebar">
+      <div class="main-sidebar" id="sidebar-scroll" data-simplebar="init">
+
+         <div class="simplebar-wrapper" style="margin: 0px;">
+            <div class="simplebar-height-auto-observer-wrapper">
+               <div class="simplebar-height-auto-observer"></div>
+            </div>
+
+            <div class="simplebar-mask">
+               <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                  <div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content"
+                     style="height: 100%; overflow: hidden;">
+                     <div class="simplebar-content" style="padding: 8px 0px 80px;">
+                        <nav class="main-menu-container nav nav-pills flex-column ">
+
+                           <ul class="main-menu" style="display: block; margin-left: 0; margin-right: 0px;"> 
+
+                              <li class="slide has-sub"> 
+                                 <a href="#" class="side-menu__item"> 
+                                    <i class="bx bx-home side-menu__icon"></i> 
+                                    <span class="side-menu__label" style="margin-right: 14px;">Dashboards</span> 
+                                    <i class="fe fe-chevron-right side-menu__angle"></i> 
+                                 </a>
+
+                                 <ul class="slide-menu child1" style="position: relative; left: 0px; top: 0px; margin: 0px; display: block; box-sizing: border-box; transform: translate(135px, 108px);" data-popper-placement="bottom" data-popper-escaped="">
+                                    <li class="slide side-menu__label1"> <a>Dashboards</a> </li>
+                                    <li class="slide"> <a href="/financeiro" class="side-menu__item">Financeiro</a> </li>
+                                    <li class="slide"> <a href="/processos" class="side-menu__item">Processos</a> </li>
+                                    <li class="slide"> <a href="/importacao" class="side-menu__item">Importação</a> </li>
+                                    <li class="slide"> <a href="/exportacao" class="side-menu__item">Exportação</a> </li>
+                                    <li class="slide"> <a href="/comercial" class="side-menu__item">Comercial</a> </li>
+                                 </ul>
+                              </li> 
+
+                              <li class="slide has-sub" modulo="meta-financeira-comercial" style="display: none;"> 
+                                 <a href="/meta-financeira-comercial" class="side-menu__item"> 
+                                    <i class="bi bi-person side-menu__icon"></i> 
+                                    <span class="side-menu__label" style="margin-right: 14px;">Meta financeira - Comercial</span> 
+                                 </a>
+                              </li>
+
+                              <li class="slide has-sub" modulo="admin-meta-comercial" style="display: none;"> 
+                                 <a href="/admin-meta-comercial" class="side-menu__item"> 
+                                    <i class="bi bi-person side-menu__icon"></i> 
+                                    <span class="side-menu__label" style="margin-right: 14px;">Admin Meta - Comercial</span> 
+                                 </a>
+                              </li>
+                           </ul>
+
+                        </nav>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            <div class="simplebar-placeholder" style="width: auto; height: 169px;"></div>
+
+         </div>
+
+         <div class="simplebar-track simplebar-horizontal" style="visibility: visible;">
+            <div class="simplebar-scrollbar" style="width: 0px; display: block;"></div>
+         </div>
+
+         <div class="simplebar-track simplebar-vertical" style="visibility: hidden;">
+            <div class="simplebar-scrollbar" style="height: 0px; transform: translate3d(0px, 0px, 0px); display: none;"></div>
+         </div>
+      </div>
+   </aside>
+   <!-- FIM BARRA -->
+
+   
+   <!-- Dashboard -->
+   <div class="main-content app-content" style="position: relative; display: flex; align-items: center;">
+
+      <div class="container-fluid">
+         
+         <!-- Page Header -->
+         <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
+            <h1 class="page-title fw-semibold fs-18 mb-0">Meta Clientes</h1>
+            <div class="ms-md-1 ms-0">
+               <nav>
+                  <ol class="breadcrumb mb-0">
+                     <li class="breadcrumb-item" style="color: var(--primary-color); cursor: pointer;"><a href="/dashboard">Dashboards</a></li>
+                     <li class="breadcrumb-item active" aria-current="page">Meta Clientes</li>
+                  </ol>
+               </nav>
+            </div>
+         </div>
+         <!-- Page Header Close -->
+
+         <div class="row">
+            <div class="col-xxl-12 col-xl-12">
+               <div class="row">
+                  <div class="col-xl-2">
+                     <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="card custom-card">
+                           <div class="card-header justify-content-between">
+                              <div class="card-title">Cliente Ativos</div>
+                           </div>
+                           <div class="card-body py-3 ps-1">
+                              <div class="table-responsive">
+                                 <table class="table text-nowrap">
+                                    <tbody>
+                                       <tr>
+                                          <td>
+                                             <div class="d-flex align-items-center">
+                                                <div class="fw-semibold">Janeiro</div>
+                                             </div>
+                                          </td>
+                                          <td style="width: 115px;">
+                                             <div class="progress progress-xs">
+                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;"
+                                                   aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"> </div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td>
+                                             <div class="d-flex align-items-center">
+                                                <div class="fw-semibold">Fevereiro</div>
+                                             </div>
+                                          </td>
+                                          <td style="width: 115px;">
+                                             <div class="progress progress-xs">
+                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;"
+                                                   aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"> </div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td>
+                                             <div class="d-flex align-items-center">
+                                                <div class="fw-semibold">Março</div>
+                                             </div>
+                                          </td>
+                                          <td style="width: 115px;">
+                                             <div class="progress progress-xs">
+                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;"
+                                                   aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"> </div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td>
+                                             <div class="d-flex align-items-center">
+                                                <div class="fw-semibold">Abril</div>
+                                             </div>
+                                          </td>
+                                          <td style="width: 115px;">
+                                             <div class="progress progress-xs">
+                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;"
+                                                   aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"> </div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td>
+                                             <div class="d-flex align-items-center">
+                                                <div class="fw-semibold">Maio</div>
+                                             </div>
+                                          </td>
+                                          <td style="width: 115px;">
+                                             <div class="progress progress-xs">
+                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;"
+                                                   aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"> </div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td>
+                                             <div class="d-flex align-items-center">
+                                                <div class="fw-semibold">Junho</div>
+                                             </div>
+                                          </td>
+                                          <td style="width: 115px;">
+                                             <div class="progress progress-xs">
+                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;"
+                                                   aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"> </div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td>
+                                             <div class="d-flex align-items-center">
+                                                <div class="fw-semibold">Julho</div>
+                                             </div>
+                                          </td>
+                                          <td style="width: 115px;">
+                                             <div class="progress progress-xs">
+                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;"
+                                                   aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"> </div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td>
+                                             <div class="d-flex align-items-center">
+                                                <div class="fw-semibold">Agosto</div>
+                                             </div>
+                                          </td>
+                                          <td style="width: 115px;">
+                                             <div class="progress progress-xs">
+                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;"
+                                                   aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"> </div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td>
+                                             <div class="d-flex align-items-center">
+                                                <div class="fw-semibold">Setembro</div>
+                                             </div>
+                                          </td>
+                                          <td style="width: 115px;">
+                                             <div class="progress progress-xs">
+                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;"
+                                                   aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"> </div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td>
+                                             <div class="d-flex align-items-center">
+                                                <div class="fw-semibold">Outubro</div>
+                                             </div>
+                                          </td>
+                                          <td style="width: 115px;">
+                                             <div class="progress progress-xs">
+                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;"
+                                                   aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"> </div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td>
+                                             <div class="d-flex align-items-center">
+                                                <div class="fw-semibold">Novembro</div>
+                                             </div>
+                                          </td>
+                                          <td style="width: 115px;">
+                                             <div class="progress progress-xs">
+                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;"
+                                                   aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"> </div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td>
+                                             <div class="d-flex align-items-center">
+                                                <div class="fw-semibold">Dezembro</div>
+                                             </div>
+                                          </td>
+                                          <td style="width: 115px;">
+                                             <div class="progress progress-xs">
+                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;"
+                                                   aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"> </div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xl-7">
+                     <div class="row">
+                        <div class="col-xxl-6 col-lg-6 col-md-12">
+                           <div class="card custom-card overflow-hidden">
+                              <div class="card-body">
+                                 <div class="d-flex align-items-top justify-content-between">
+                                    <div>
+                                       <span class="avatar avatar-md avatar-rounded bg-success"
+                                          style="background-color: var(--primary-color) !important;">
+                                          <i class="ti ti-ship fs-16"></i>
+                                       </span>
+                                    </div>
+                                    <div class="flex-fill ms-3">
+                                       <div class="d-flex align-items-center justify-content-between flex-wrap">
+                                          <div>
+                                             <p class="text-muted mb-0">Volume de Prospecção</p>
+                                             <h4 class="fw-semibold mt-1" id="meta-anual-FCL-EM">123</h4>
+                                          </div>
+                                          <div id="crm-conversion-ratio" class="grafico-anual-EM-FCL"
+                                             style="min-height: 95px;">
+                                             <div id="apexchartsusn3byu3j"
+                                                class="apexcharts-canvas apexchartsusn3byu3j apexcharts-theme-light"
+                                                style="width: 180px; height: 80px;"><svg id="SvgjsSvg1058" width="180"
+                                                   height="80" xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                                   xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev"
+                                                   class="apexcharts-svg apexcharts-zoomable" xmlns:data="ApexChartsNS"
+                                                   transform="translate(0, 0)" style="background: transparent;">
+                                                   <foreignObject x="0" y="0" width="180" height="80">
+                                                      <div class="apexcharts-legend" xmlns="http://www.w3.org/1999/xhtml"
+                                                         style="max-height: 40px;"></div>
+                                                   </foreignObject>
+                                                   <rect id="SvgjsRect1062" width="0" height="0" x="0" y="0" rx="0" ry="0"
+                                                      opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0"
+                                                      fill="#fefefe"></rect>
+                                                   <g id="SvgjsG1098" class="apexcharts-yaxis" rel="0"
+                                                      transform="translate(-18, 0)"></g>
+                                                   <g id="SvgjsG1060" class="apexcharts-inner apexcharts-graphical"
+                                                      transform="translate(12, 30)">
+                                                      <defs id="SvgjsDefs1059">
+                                                         <clipPath id="gridRectMaskusn3byu3j">
+                                                            <rect id="SvgjsRect1064" width="164" height="37" x="-3" y="-1"
+                                                               rx="0" ry="0" opacity="1" stroke-width="0" stroke="none"
+                                                               stroke-dasharray="0" fill="#fff"></rect>
+                                                         </clipPath>
+                                                         <clipPath id="forecastMaskusn3byu3j"></clipPath>
+                                                         <clipPath id="nonForecastMaskusn3byu3j"></clipPath>
+                                                         <clipPath id="gridRectMarkerMaskusn3byu3j">
+                                                            <rect id="SvgjsRect1065" width="162" height="39" x="-2" y="-2"
+                                                               rx="0" ry="0" opacity="1" stroke-width="0" stroke="none"
+                                                               stroke-dasharray="0" fill="#fff"></rect>
+                                                         </clipPath>
+                                                      </defs>
+                                                      <line id="SvgjsLine1063" x1="0" y1="0" x2="0" y2="35" stroke="#b6b6b6"
+                                                         stroke-dasharray="3" stroke-linecap="butt"
+                                                         class="apexcharts-xcrosshairs" x="0" y="0" width="1" height="35"
+                                                         fill="#b1b9c4" filter="none" fill-opacity="0.9" stroke-width="1">
+                                                      </line>
+                                                      <g id="SvgjsG1071" class="apexcharts-grid">
+                                                         <g id="SvgjsG1072" class="apexcharts-gridlines-horizontal"
+                                                            style="display: none;">
+                                                            <line id="SvgjsLine1075" x1="0" y1="0" x2="158" y2="0"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine1076" x1="0" y1="8.75" x2="158" y2="8.75"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine1077" x1="0" y1="17.5" x2="158" y2="17.5"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine1078" x1="0" y1="26.25" x2="158" y2="26.25"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine1079" x1="0" y1="35" x2="158" y2="35"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                         </g>
+                                                         <g id="SvgjsG1073" class="apexcharts-gridlines-vertical"
+                                                            style="display: none;"></g>
+                                                         <line id="SvgjsLine1081" x1="0" y1="35" x2="158" y2="35"
+                                                            stroke="transparent" stroke-dasharray="0" stroke-linecap="butt">
+                                                         </line>
+                                                         <line id="SvgjsLine1080" x1="0" y1="1" x2="0" y2="35"
+                                                            stroke="transparent" stroke-dasharray="0" stroke-linecap="butt">
+                                                         </line>
+                                                      </g>
+                                                      <g id="SvgjsG1066"
+                                                         class="apexcharts-line-series apexcharts-plot-series">
+                                                         <g id="SvgjsG1067" class="apexcharts-series" seriesname="series-1"
+                                                            data:longestseries="true" rel="1" data:realindex="0">
+                                                            <path id="SvgjsPath1070"
+                                                               d="M0 2.1875C5.027272727272727 2.1875 9.336363636363638 8.96875 14.363636363636365 8.96875C19.39090909090909 8.96875 23.700000000000003 29.96875 28.72727272727273 29.96875C33.75454545454546 29.96875 38.06363636363637 35 43.09090909090909 35C48.118181818181824 35 52.42727272727273 35 57.45454545454546 35C62.48181818181819 35 66.7909090909091 35 71.81818181818183 35C76.84545454545456 35 81.15454545454546 35 86.18181818181819 35C91.20909090909092 35 95.51818181818182 35 100.54545454545455 35C105.57272727272728 35 109.88181818181819 35 114.90909090909092 35C119.93636363636365 35 124.24545454545455 35 129.27272727272728 35C134.3 35 138.60909090909092 35 143.63636363636365 35C148.66363636363639 35 152.97272727272727 35 158 35 "
+                                                               fill="none" fill-opacity="1" stroke="rgba(249,66,58,0.85)"
+                                                               stroke-opacity="1" stroke-linecap="butt" stroke-width="2"
+                                                               stroke-dasharray="0" class="apexcharts-line" index="0"
+                                                               clip-path="url(#gridRectMaskusn3byu3j)"
+                                                               pathto="M 0 2.1875C 5.027272727272727 2.1875 9.336363636363638 8.96875 14.363636363636365 8.96875C 19.39090909090909 8.96875 23.700000000000003 29.96875 28.72727272727273 29.96875C 33.75454545454546 29.96875 38.06363636363637 35 43.09090909090909 35C 48.118181818181824 35 52.42727272727273 35 57.45454545454546 35C 62.48181818181819 35 66.7909090909091 35 71.81818181818183 35C 76.84545454545456 35 81.15454545454546 35 86.18181818181819 35C 91.20909090909092 35 95.51818181818182 35 100.54545454545455 35C 105.57272727272728 35 109.88181818181819 35 114.90909090909092 35C 119.93636363636365 35 124.24545454545455 35 129.27272727272728 35C 134.3 35 138.60909090909092 35 143.63636363636365 35C 148.66363636363639 35 152.97272727272727 35 158 35"
+                                                               pathfrom="M 0 2.1875C 5.027272727272727 2.1875 9.336363636363638 8.96875 14.363636363636365 8.96875C 19.39090909090909 8.96875 23.700000000000003 29.96875 28.72727272727273 29.96875C 33.75454545454546 29.96875 38.06363636363637 35 43.09090909090909 35C 48.118181818181824 35 52.42727272727273 35 57.45454545454546 35C 62.48181818181819 35 66.7909090909091 35 71.81818181818183 35C 76.84545454545456 35 81.15454545454546 35 86.18181818181819 35C 91.20909090909092 35 95.51818181818182 35 100.54545454545455 35C 105.57272727272728 35 109.88181818181819 35 114.90909090909092 35C 119.93636363636365 35 124.24545454545455 35 129.27272727272728 35C 134.3 35 138.60909090909092 35 143.63636363636365 35C 148.66363636363639 35 152.97272727272727 35 158 35"
+                                                               fill-rule="evenodd"></path>
+                                                            <g id="SvgjsG1068"
+                                                               class="apexcharts-series-markers-wrap apexcharts-hidden-element-shown"
+                                                               data:realindex="0"></g>
+                                                         </g>
+                                                         <g id="SvgjsG1069" class="apexcharts-datalabels" data:realindex="0">
+                                                         </g>
+                                                      </g>
+                                                      <g id="SvgjsG1074" class="apexcharts-grid-borders"
+                                                         style="display: none;"></g>
+                                                      <line id="SvgjsLine1082" x1="0" y1="0" x2="158" y2="0" stroke="#b6b6b6"
+                                                         stroke-dasharray="0" stroke-width="1" stroke-linecap="butt"
+                                                         class="apexcharts-ycrosshairs"></line>
+                                                      <line id="SvgjsLine1083" x1="0" y1="0" x2="158" y2="0"
+                                                         stroke-dasharray="0" stroke-width="0" stroke-linecap="butt"
+                                                         class="apexcharts-ycrosshairs-hidden"></line>
+                                                      <g id="SvgjsG1084" class="apexcharts-xaxis" transform="translate(0, 0)">
+                                                         <g id="SvgjsG1085" class="apexcharts-xaxis-texts-g"
+                                                            transform="translate(0, -4)"></g>
+                                                      </g>
+                                                      <g id="SvgjsG1099"
+                                                         class="apexcharts-yaxis-annotations apexcharts-hidden-element-shown">
+                                                      </g>
+                                                      <g id="SvgjsG1100"
+                                                         class="apexcharts-xaxis-annotations apexcharts-hidden-element-shown">
+                                                      </g>
+                                                      <g id="SvgjsG1101"
+                                                         class="apexcharts-point-annotations apexcharts-hidden-element-shown">
+                                                      </g>
+                                                      <rect id="SvgjsRect1102" width="0" height="0" x="0" y="0" rx="0" ry="0"
+                                                         opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0"
+                                                         fill="#fefefe" class="apexcharts-zoom-rect"></rect>
+                                                      <rect id="SvgjsRect1103" width="0" height="0" x="0" y="0" rx="0" ry="0"
+                                                         opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0"
+                                                         fill="#fefefe" class="apexcharts-selection-rect"></rect>
+                                                   </g>
+                                                </svg></div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="col-xxl-6 col-lg-6 col-md-12">
+                           <div class="card custom-card overflow-hidden">
+                              <div class="card-body">
+                                 <div class="d-flex align-items-top justify-content-between">
+                                    <div>
+                                       <span class="avatar avatar-md avatar-rounded bg-success"
+                                          style="background-color: var(--primary-color) !important;">
+                                          <i class="ti ti-ship fs-16"></i>
+                                       </span>
+                                    </div>
+                                    <div class="flex-fill ms-3">
+                                       <div class="d-flex align-items-center justify-content-between flex-wrap">
+                                          <div>
+                                             <p class="text-muted mb-0">Visitas Presenciais</p>
+                                             <h4 class="fw-semibold mt-1" id="meta-anual-FCL-EM">50</h4>
+                                          </div>
+                                          <div id="crm-conversion-ratio" class="grafico-anual-EM-FCL"
+                                             style="min-height: 95px;">
+                                             <div id="apexchartsusn3byu3j"
+                                                class="apexcharts-canvas apexchartsusn3byu3j apexcharts-theme-light"
+                                                style="width: 180px; height: 80px;"><svg id="SvgjsSvg1058" width="180"
+                                                   height="80" xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                                   xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev"
+                                                   class="apexcharts-svg apexcharts-zoomable" xmlns:data="ApexChartsNS"
+                                                   transform="translate(0, 0)" style="background: transparent;">
+                                                   <foreignObject x="0" y="0" width="180" height="80">
+                                                      <div class="apexcharts-legend" xmlns="http://www.w3.org/1999/xhtml"
+                                                         style="max-height: 40px;"></div>
+                                                   </foreignObject>
+                                                   <rect id="SvgjsRect1062" width="0" height="0" x="0" y="0" rx="0" ry="0"
+                                                      opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0"
+                                                      fill="#fefefe"></rect>
+                                                   <g id="SvgjsG1098" class="apexcharts-yaxis" rel="0"
+                                                      transform="translate(-18, 0)"></g>
+                                                   <g id="SvgjsG1060" class="apexcharts-inner apexcharts-graphical"
+                                                      transform="translate(12, 30)">
+                                                      <defs id="SvgjsDefs1059">
+                                                         <clipPath id="gridRectMaskusn3byu3j">
+                                                            <rect id="SvgjsRect1064" width="164" height="37" x="-3" y="-1"
+                                                               rx="0" ry="0" opacity="1" stroke-width="0" stroke="none"
+                                                               stroke-dasharray="0" fill="#fff"></rect>
+                                                         </clipPath>
+                                                         <clipPath id="forecastMaskusn3byu3j"></clipPath>
+                                                         <clipPath id="nonForecastMaskusn3byu3j"></clipPath>
+                                                         <clipPath id="gridRectMarkerMaskusn3byu3j">
+                                                            <rect id="SvgjsRect1065" width="162" height="39" x="-2" y="-2"
+                                                               rx="0" ry="0" opacity="1" stroke-width="0" stroke="none"
+                                                               stroke-dasharray="0" fill="#fff"></rect>
+                                                         </clipPath>
+                                                      </defs>
+                                                      <line id="SvgjsLine1063" x1="0" y1="0" x2="0" y2="35" stroke="#b6b6b6"
+                                                         stroke-dasharray="3" stroke-linecap="butt"
+                                                         class="apexcharts-xcrosshairs" x="0" y="0" width="1" height="35"
+                                                         fill="#b1b9c4" filter="none" fill-opacity="0.9" stroke-width="1">
+                                                      </line>
+                                                      <g id="SvgjsG1071" class="apexcharts-grid">
+                                                         <g id="SvgjsG1072" class="apexcharts-gridlines-horizontal"
+                                                            style="display: none;">
+                                                            <line id="SvgjsLine1075" x1="0" y1="0" x2="158" y2="0"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine1076" x1="0" y1="8.75" x2="158" y2="8.75"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine1077" x1="0" y1="17.5" x2="158" y2="17.5"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine1078" x1="0" y1="26.25" x2="158" y2="26.25"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                            <line id="SvgjsLine1079" x1="0" y1="35" x2="158" y2="35"
+                                                               stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                                               class="apexcharts-gridline"></line>
+                                                         </g>
+                                                         <g id="SvgjsG1073" class="apexcharts-gridlines-vertical"
+                                                            style="display: none;"></g>
+                                                         <line id="SvgjsLine1081" x1="0" y1="35" x2="158" y2="35"
+                                                            stroke="transparent" stroke-dasharray="0" stroke-linecap="butt">
+                                                         </line>
+                                                         <line id="SvgjsLine1080" x1="0" y1="1" x2="0" y2="35"
+                                                            stroke="transparent" stroke-dasharray="0" stroke-linecap="butt">
+                                                         </line>
+                                                      </g>
+                                                      <g id="SvgjsG1066"
+                                                         class="apexcharts-line-series apexcharts-plot-series">
+                                                         <g id="SvgjsG1067" class="apexcharts-series" seriesname="series-1"
+                                                            data:longestseries="true" rel="1" data:realindex="0">
+                                                            <path id="SvgjsPath1070"
+                                                               d="M0 2.1875C5.027272727272727 2.1875 9.336363636363638 8.96875 14.363636363636365 8.96875C19.39090909090909 8.96875 23.700000000000003 29.96875 28.72727272727273 29.96875C33.75454545454546 29.96875 38.06363636363637 35 43.09090909090909 35C48.118181818181824 35 52.42727272727273 35 57.45454545454546 35C62.48181818181819 35 66.7909090909091 35 71.81818181818183 35C76.84545454545456 35 81.15454545454546 35 86.18181818181819 35C91.20909090909092 35 95.51818181818182 35 100.54545454545455 35C105.57272727272728 35 109.88181818181819 35 114.90909090909092 35C119.93636363636365 35 124.24545454545455 35 129.27272727272728 35C134.3 35 138.60909090909092 35 143.63636363636365 35C148.66363636363639 35 152.97272727272727 35 158 35 "
+                                                               fill="none" fill-opacity="1" stroke="rgba(249,66,58,0.85)"
+                                                               stroke-opacity="1" stroke-linecap="butt" stroke-width="2"
+                                                               stroke-dasharray="0" class="apexcharts-line" index="0"
+                                                               clip-path="url(#gridRectMaskusn3byu3j)"
+                                                               pathto="M 0 2.1875C 5.027272727272727 2.1875 9.336363636363638 8.96875 14.363636363636365 8.96875C 19.39090909090909 8.96875 23.700000000000003 29.96875 28.72727272727273 29.96875C 33.75454545454546 29.96875 38.06363636363637 35 43.09090909090909 35C 48.118181818181824 35 52.42727272727273 35 57.45454545454546 35C 62.48181818181819 35 66.7909090909091 35 71.81818181818183 35C 76.84545454545456 35 81.15454545454546 35 86.18181818181819 35C 91.20909090909092 35 95.51818181818182 35 100.54545454545455 35C 105.57272727272728 35 109.88181818181819 35 114.90909090909092 35C 119.93636363636365 35 124.24545454545455 35 129.27272727272728 35C 134.3 35 138.60909090909092 35 143.63636363636365 35C 148.66363636363639 35 152.97272727272727 35 158 35"
+                                                               pathfrom="M 0 2.1875C 5.027272727272727 2.1875 9.336363636363638 8.96875 14.363636363636365 8.96875C 19.39090909090909 8.96875 23.700000000000003 29.96875 28.72727272727273 29.96875C 33.75454545454546 29.96875 38.06363636363637 35 43.09090909090909 35C 48.118181818181824 35 52.42727272727273 35 57.45454545454546 35C 62.48181818181819 35 66.7909090909091 35 71.81818181818183 35C 76.84545454545456 35 81.15454545454546 35 86.18181818181819 35C 91.20909090909092 35 95.51818181818182 35 100.54545454545455 35C 105.57272727272728 35 109.88181818181819 35 114.90909090909092 35C 119.93636363636365 35 124.24545454545455 35 129.27272727272728 35C 134.3 35 138.60909090909092 35 143.63636363636365 35C 148.66363636363639 35 152.97272727272727 35 158 35"
+                                                               fill-rule="evenodd"></path>
+                                                            <g id="SvgjsG1068"
+                                                               class="apexcharts-series-markers-wrap apexcharts-hidden-element-shown"
+                                                               data:realindex="0"></g>
+                                                         </g>
+                                                         <g id="SvgjsG1069" class="apexcharts-datalabels" data:realindex="0">
+                                                         </g>
+                                                      </g>
+                                                      <g id="SvgjsG1074" class="apexcharts-grid-borders"
+                                                         style="display: none;"></g>
+                                                      <line id="SvgjsLine1082" x1="0" y1="0" x2="158" y2="0" stroke="#b6b6b6"
+                                                         stroke-dasharray="0" stroke-width="1" stroke-linecap="butt"
+                                                         class="apexcharts-ycrosshairs"></line>
+                                                      <line id="SvgjsLine1083" x1="0" y1="0" x2="158" y2="0"
+                                                         stroke-dasharray="0" stroke-width="0" stroke-linecap="butt"
+                                                         class="apexcharts-ycrosshairs-hidden"></line>
+                                                      <g id="SvgjsG1084" class="apexcharts-xaxis" transform="translate(0, 0)">
+                                                         <g id="SvgjsG1085" class="apexcharts-xaxis-texts-g"
+                                                            transform="translate(0, -4)"></g>
+                                                      </g>
+                                                      <g id="SvgjsG1099"
+                                                         class="apexcharts-yaxis-annotations apexcharts-hidden-element-shown">
+                                                      </g>
+                                                      <g id="SvgjsG1100"
+                                                         class="apexcharts-xaxis-annotations apexcharts-hidden-element-shown">
+                                                      </g>
+                                                      <g id="SvgjsG1101"
+                                                         class="apexcharts-point-annotations apexcharts-hidden-element-shown">
+                                                      </g>
+                                                      <rect id="SvgjsRect1102" width="0" height="0" x="0" y="0" rx="0" ry="0"
+                                                         opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0"
+                                                         fill="#fefefe" class="apexcharts-zoom-rect"></rect>
+                                                      <rect id="SvgjsRect1103" width="0" height="0" x="0" y="0" rx="0" ry="0"
+                                                         opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0"
+                                                         fill="#fefefe" class="apexcharts-selection-rect"></rect>
+                                                   </g>
+                                                </svg></div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="col-xl-12">
+                           <div class="card custom-card">
+                              <div class="card-header justify-content-between">
+                                 <div class="card-title">Gastos por comercial</div>
+                              </div>
+                              <div class="card-body" style="
+         height: 396px;
+      ">
+                                 <div class="content-wrapper" style="
+         display: flex;
+         justify-content: center;
+      ">
+                                    <img src="https://i.imgur.com/WMRVYTd.png" style="
+         /* max-height: 100%; */
+         width: 100%;
+      ">
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xl-3">
+                     <div class="card custom-card">
+                        <div class="card-header justify-content-between">
+                           <div class="card-title">Resultado Clientes</div>
+                           <div class="d-sm-flex">
+                              <div class="me mb mb-sm-0"> <input class="form-control form-control-sm" type="text"
+                                    placeholder="Pesquisar" aria-label=".form-control-sm example"> </div>
+                           </div>
+                        </div>
+                        <div class="card-body" style="
+         padding: 0 !important;
+      ">
+                           <div class="table-responsive">
+                              <table class="table text-nowrap table-bordered">
+                                 <thead>
+                                    <tr>
+                                       <th scope="col">Cliente</th>
+                                       <th scope="col">Última Visita</th>
+      
+      
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    <tr>
+                                       <td> <span class="fw-semibold">Teste testeTeste teste</span> </td>
+      
+      
+                                       <td> <span class="">12 jan 2024</span> </td>
+                                    </tr>
+      
+      
+      
+      
+                                    <tr>
+                                       <td> <span class="fw-semibold">Teste testeTeste teste</span> </td>
+      
+      
+                                       <td> <span class="">12 jan 2024</span> </td>
+                                    </tr>
+                                    <tr>
+                                       <td> <span class="fw-semibold">Teste testeTeste teste</span> </td>
+      
+      
+                                       <td> <span class="">12 jan 2024</span> </td>
+                                    </tr>
+                                    <tr>
+                                       <td> <span class="fw-semibold">Teste testeTeste teste</span> </td>
+      
+      
+                                       <td> <span class="">12 jan 2024</span> </td>
+                                    </tr>
+                                    <tr>
+                                       <td> <span class="fw-semibold">Teste testeTeste teste</span> </td>
+      
+      
+                                       <td> <span class="">12 jan 2024</span> </td>
+                                    </tr>
+                                    <tr>
+                                       <td> <span class="fw-semibold">Teste testeTeste teste</span> </td>
+      
+      
+                                       <td> <span class="">12 jan 2024</span> </td>
+                                    </tr>
+                                    <tr>
+                                       <td> <span class="fw-semibold">Teste testeTeste teste</span> </td>
+      
+      
+                                       <td> <span class="">12 jan 2024</span> </td>
+                                    </tr>
+                                    <tr>
+                                       <td> <span class="fw-semibold">Teste testeTeste teste</span> </td>
+      
+      
+                                       <td> <span class="">12 jan 2024</span> </td>
+                                    </tr>
+                                    <tr>
+                                       <td> <span class="fw-semibold">Teste testeTeste teste</span> </td>
+      
+      
+                                       <td> <span class="">12 jan 2024</span> </td>
+                                    </tr>
+                                    <tr>
+                                       <td> <span class="fw-semibold">Teste testeTeste teste</span> </td>
+      
+      
+                                       <td> <span class="">12 jan 2024</span> </td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
+                        <div class="card-footer">
+                           <div class="d-flex align-items-center">
+                              <div class="ms-auto">
+                                 <nav aria-label="Page navigation" class="pagination-style-4">
+                                    <ul class="pagination mb-0">
+                                       <li class="page-item disabled"> <a class="page-link" href="javascript:void(0);"> Voltar
+                                          </a>
+                                       </li>
+                                       <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
+                                       <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
+                                       <li class="page-item"> <a class="page-link text-primary" href="javascript:void(0);">
+                                             Próximo
+                                          </a> </li>
+                                    </ul>
+                                 </nav>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div> <!-- End::row-1 -->
+      </div>
+   </div>
+   <!-- Dashboard -->
+
+   <!-- Footer Start -->
+   <footer class="footer mt-auto py-3 bg-white text-center">
+      <div class="container">
+         <span class="text-muted"> Copyright © <span id="year"><!-- Ano Atual --></span>
+            <a href="http://conlinebr.com.br" target="_blank" class="text-dark fw-semibold">Conline</a>.
+            <span class="bi bi-heart-fill text-danger"></span>
+            Todos os direitos reservado
+         </span>
+      </div>
+   </footer> 
+   <!-- Footer End -->
+   <div id="responsive-overlay"></div>
+   
+   <!-- Neste main tem a função THE FETCH que consulta no banco de dados -->
+   <script src="/assets/js/main.js"></script>
+   <!-- Verifica Se tem acesso ao módulo -->
+   <script type="module" src="/assets/js/verifica-modulo.js"></script>
+
+   <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+   <script src="/assets/js/custom.js"></script>
+   <script src="/assets/js/defaultmenu.min.js"></script>
+   <script src="/assets/libs/apexcharts/apexcharts.min.js"></script>
+
+</body>
+
+</html>
