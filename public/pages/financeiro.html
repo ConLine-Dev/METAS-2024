@@ -53,6 +53,13 @@
    </div>
    <!-- FIM MODAl -->
 
+   <!-- LOADING -->
+   <div class="loading" style="display: block;">
+      <div class="loadingio-spinner-eclipse-jj809cj2h7" id="loading-icon">
+         <img src="/assets/images/brand-logos/SLOGAN VERMELHO.gif" class="navbar-brand-img" id="loading-img" alt="main_logo">
+      </div>
+   </div>
+   <!-- /LOADING -->
 
    <!-- header -->
    <header class="app-header">
@@ -151,19 +158,19 @@
                               </li> 
                               <!-- End::slide --> 
 
-                              <!-- <li class="slide has-sub"> 
-                                 <a href="/meta-pessoal-comercial" class="side-menu__item"> 
+                              <li class="slide has-sub" modulo="meta-financeira-comercial" style="display: none;"> 
+                                 <a href="/meta-financeira-comercial" class="side-menu__item"> 
                                     <i class="bi bi-person side-menu__icon"></i> 
-                                    <span class="side-menu__label" style="margin-right: 14px;">Meta Pessoal - Comercial</span> 
+                                    <span class="side-menu__label" style="margin-right: 14px;">Meta financeira - Comercial</span> 
                                  </a>
-                              </li> 
+                              </li>
 
-                              <li class="slide has-sub"> 
-                                 <a href="/admin-meta-pessoal" class="side-menu__item"> 
-                                    <i class="ri ri-admin-line side-menu__icon" style="margin-top: -10px !important;"></i> 
-                                    <span class="side-menu__label" style="margin-right: 14px;">Admin - Meta Pessoal</span> 
+                              <li class="slide has-sub" modulo="admin-meta-comercial" style="display: none;"> 
+                                 <a href="/admin-meta-comercial" class="side-menu__item"> 
+                                    <i class="bi bi-person side-menu__icon"></i> 
+                                    <span class="side-menu__label" style="margin-right: 14px;">Admin Meta - Comercial</span> 
                                  </a>
-                              </li>  -->
+                              </li>
                            </ul>
                         </nav>
                      </div>
@@ -181,14 +188,6 @@
 
    <!-- Dashboard -->
    <div class="main-content app-content" style="position: relative; display: flex; align-items: center;">
-
-      <div class="loading" style="display: block;">
-         <div class="loadingio-spinner-eclipse-jj809cj2h7" id="loading-icon">
-           <img src="/assets/images/brand-logos/SLOGAN VERMELHO.gif" class="navbar-brand-img" id="loading-img" alt="main_logo">
-         </div>
-      </div>
-
-
       <div class="container-fluid corpo-dashboard" style="display: none;">
          <!-- Page Header -->
          <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
@@ -319,7 +318,11 @@
 
    <div id="responsive-overlay"></div>
 
+   <!-- Neste main tem a função THE FETCH que consulta no banco de dados -->
    <script src="/assets/js/main.js"></script>
+   <!-- Verifica Se tem acesso ao módulo -->
+   <script type="module" src="/assets/js/verifica-modulo.js"></script>
+   
    <script src="/assets/js/socket.io.min.js"></script>
    <script type="module" src="/assets/js/financeiro.js"></script>
    <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
