@@ -135,6 +135,10 @@
  }
 }
 
+
+
+/* / ESTILOS CRIADOS */
+
 .loading {
    position: absolute;
    top: 0;
@@ -176,6 +180,19 @@
    overflow: hidden;
    background: none;
 }
+
+.vendedor-selecionado {
+   outline: 0.25rem solid rgb(var(--primary-rgb)) !important;
+}
+
+/* / ESTILOS CRIADOS */
+
+
+
+
+
+
+/* ESTILOS DA TEMPLATE */
 
 [data-theme-mode="dark"]
  .app-sidebar
@@ -10174,6 +10191,7 @@ input[type="range"]::-webkit-slider-runnable-track {
  color: var(--default-text-color);
  background-color: var(--custom-white);
  border: 1px solid var(--default-border);
+ border-radius: 10px;
 }
 .page-link:focus {
  box-shadow: none;
@@ -13158,7 +13176,7 @@ button {
  padding: 0.625rem 1.25rem;
 }
 .team-member-card {
- overflow: hidden;
+ /* overflow: hidden; */
 }
 .team-member-card .avatar {
  position: absolute;
@@ -17482,6 +17500,7 @@ div.dataTables_scrollBody > table#datatable-basic {
 }
 .dataTables_filter {
  text-align: end !important;
+
 }
 .dataTables_info {
  padding-block-start: 0.625rem;
@@ -17547,6 +17566,9 @@ div.dataTables_wrapper div.dataTables_length select {
 .dataTables_wrapper .dataTables_scrollBody #datatable-basic {
  margin-block-start: -3px;
  border-block-start-color: transparent !important;
+}
+#DataTables_Table_0_wrapper{
+   position: relative;
 }
 .dataTables_wrapper
  .dataTables_scrollBody

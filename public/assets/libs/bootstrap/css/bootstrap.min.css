@@ -5477,6 +5477,9 @@ fieldset:disabled .btn {
  }
 }
 @media (min-width: 1200px) {
+  .modal-lg {
+    --bs-modal-width: 1350px;
+  }
  .modal-xl {
   --bs-modal-width: 1650px;
  }
