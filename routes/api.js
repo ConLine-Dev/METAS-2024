@@ -137,4 +137,15 @@ router.get('/meta-financeira-comercial', async (req, res, next) => {
     }
 });
 
+router.get('/proposta-meta-comercial', async (req, res, next) => {
+    try {
+        const result = await helpers.proposta_meta_comercial();
+
+        res.status(200).json(result)
+    } catch (error) {
+        
+        res.status(404).json(error)
+    }
+});
+
 module.exports = router;

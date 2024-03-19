@@ -99,6 +99,7 @@ const helpers = {
       const result = await executeQuerySQL(`
          SELECT
             Lhs.IdLogistica_House AS ID_LOGISTICA_HOUSE,
+         
             Lhs.Numero_Processo AS NUMERO_PROCESSO,
             Cli.IdPessoa AS ID_CLIENTE,
             Cli.nome AS CLIENTE,
@@ -107,9 +108,14 @@ const helpers = {
          
             DATEPART(MONTH, Lhs.Data_Abertura_Processo) AS MES,
          
+            CASE Lhs.Situacao_Agenciamento
+               WHEN 7 THEN 'CANCELADO'
+               ELSE 'PROCESSO'
+            END AS Situacao,
+         
             Lhs.IdVendedor AS ID_VENDEDOR,
             Fnc.Nome AS VENDEDOR,
-
+         
             Lmd.Total_Pagamento AS TOTAL_PAGAMENTO,
             Lmd.Total_Recebimento AS TOTAL_RECEBIMENTO,
          
@@ -129,6 +135,38 @@ const helpers = {
             AND Lhs.Numero_Processo NOT LIKE '%test%'
             AND Lhs.Numero_Processo NOT LIKE '%DEMU%'
             AND Lmd.IdMoeda = 110
+      `)
+
+      return result;
+   },
+
+   proposta_meta_comercial: async function() {
+      const result = await executeQuerySQL(`
+         SELECT
+            Pfr.IdProposta_Frete,
+
+            DATEPART(YEAR, Pfr.Data_Proposta) AS ANO,
+            DATEPART(MONTH, Pfr.Data_Proposta) AS MES,
+
+            Pfr.IdVendedor AS ID_VENDEDOR,
+            Fnc.Nome AS VENDEDOR,
+
+            CASE Pfr.Situacao
+               WHEN 1 THEN 'AGUARDANDO APROVACAO'
+               WHEN 2 THEN 'APROVADA'
+               WHEN 3 THEN 'NAO APROVADA'
+               WHEN 4 THEN 'NAO ENVIADA'
+               WHEN 5 THEN 'PRE-PROPOSTA'
+               WHEN 6 THEN 'ENVIADA'
+            END AS Situacao
+         FROM
+            mov_Proposta_Frete Pfr
+         LEFT OUTER JOIN
+            mov_Oferta_Frete Ofr ON Ofr.IdProposta_Frete = Pfr.IdProposta_Frete
+         LEFT OUTER JOIN
+            cad_Pessoa Fnc ON Fnc.IdPessoa = Pfr.IdVendedor
+         WHERE
+            DATEPART(YEAR, Pfr.Data_Proposta) = ${anoAtual}
       `)
 
       return result;
