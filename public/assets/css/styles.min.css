@@ -10192,10 +10192,13 @@ input[type="range"]::-webkit-slider-runnable-track {
  background-color: var(--custom-white);
  border: 1px solid var(--default-border);
  border-radius: 10px;
+ font-size: 0.85rem;
+ margin: 8px 5px;
+ 
 }
 .page-link:focus {
  box-shadow: none;
- background-color: rgb(var(--light-rgb));
+ background-color: rgb(var(--bs-red));
 }
 .page-link:hover {
  color: var(--primary-color);
