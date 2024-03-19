@@ -1,4 +1,5 @@
 const meta_financeira_comercial = await Thefetch('/api/meta-financeira-comercial');
+const proposta_meta_comercial = await Thefetch('/api/proposta-meta-comercial');
 const comerciais = await Thefetch('/api/comerciais');
 
 let lucro_estimado_por_processo;
@@ -33,6 +34,87 @@ async function lucro_estimado_mes_atual(consulta) {
    const html_lucro_estimado = document.getElementById('lucro-estimado');
    html_lucro_estimado.textContent = lucro_estimado.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
 }
+
+// Retorna o total de processo, proposta o que for passado na consulta, mas tem que tem o ID_VENDEDOR e o MES na consulta
+async function quantidade_itens_mes_atual(consulta, situacao) {
+   const id_usuario_logado = await usuario_logado(comerciais);
+
+   // Retorna os itens do mes atual e do usuario logado
+   const total =  consulta.filter(item => item.Situacao === situacao && id_usuario_logado === item.ID_VENDEDOR);
+
+   return total;
+}
+
+async function grafico_proposta_processo() {
+   const propostas_aprovadas = await quantidade_itens_mes_atual(proposta_meta_comercial, 'APROVADA');
+   const propostas_nao_aprovadas = await quantidade_itens_mes_atual(proposta_meta_comercial, 'NAO APROVADA');
+   const processos = await quantidade_itens_mes_atual(meta_financeira_comercial, 'PROCESSO');
+   const processos_cancelados = await quantidade_itens_mes_atual(meta_financeira_comercial, 'CANCELADO');
+
+   const propostas_aprovadas_html = document.getElementById('propostas-aprovadas');
+   const propostas_nao_aprovadas_html = document.getElementById('propostas-nao-aprovadas');
+   const processos_html = document.getElementById('processos');
+   const processos_cancelados_html = document.getElementById('processos-cancelados');
+
+   // Caso nao retorno nada, ele vai inserir zero
+   propostas_aprovadas_html.textContent = Math.max(propostas_aprovadas.length, 0);
+   propostas_nao_aprovadas_html.textContent = Math.max(propostas_nao_aprovadas.length, 0);
+   processos_html.textContent = Math.max(processos.length, 0);
+   processos_cancelados_html.textContent = Math.max(processos_cancelados.length, 0);
+
+   const dados_grafico_propostas = [
+      propostas_aprovadas.length,
+      propostas_nao_aprovadas.length,
+   ];
+
+   const dados_grafico_processos = [
+      processos.length,
+      processos_cancelados.length
+   ];
+
+   var options_propostas = {
+      series: dados_grafico_propostas,
+      chart: {
+         type: 'pie',
+         width: '100%',
+      },
+      labels: ['Prop. Aprovadas.', 'Prop. Não Aprovadas'],
+      dataLabels: {
+         formatter(val, opts) {
+           const name = opts.w.globals.labels[opts.seriesIndex]
+           return [name, val.toFixed(1) + '%']
+         }
+      },
+      legend: {
+         show: false
+      }
+   };
+
+   var options_processos = {
+      series: dados_grafico_processos,
+      chart: {
+         type: 'pie',
+         width: '100%',
+      },
+      labels: ['Processos', 'Processo Cancelados'],
+      dataLabels: {
+         formatter(val, opts) {
+           const name = opts.w.globals.labels[opts.seriesIndex]
+           return [name, val.toFixed(1) + '%']
+         }
+      },
+      legend: {
+         show: false
+      }
+   };
+
+   var grafico_propostas = new ApexCharts(document.querySelector("#grafico-propostas"), options_propostas);
+   grafico_propostas.render();
+
+   var grafico_processos = new ApexCharts(document.querySelector("#grafico-processos"), options_processos);
+   grafico_processos.render();
+
+};
 
 async function faturamento_processo(consulta) {
    const id_usuario_logado = await usuario_logado(comerciais);
@@ -121,9 +203,10 @@ async function remover_loading() {
 
 async function main() {
    await mostrar_loading();
-   await lucro_estimado_mes_atual(meta_financeira_comercial)
-   await faturamento_processo(meta_financeira_comercial)
+   await lucro_estimado_mes_atual(meta_financeira_comercial);
+   await faturamento_processo(meta_financeira_comercial);
    await eventos_cliques();
+   await grafico_proposta_processo();
    await remover_loading();
 }
 
