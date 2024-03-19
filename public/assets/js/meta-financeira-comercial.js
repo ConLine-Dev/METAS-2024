@@ -2,6 +2,8 @@ const meta_financeira_comercial = await Thefetch('/api/meta-financeira-comercial
 const proposta_meta_comercial = await Thefetch('/api/proposta-meta-comercial');
 const comerciais = await Thefetch('/api/comerciais');
 
+const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+
 let lucro_estimado_por_processo;
 
 async function usuario_logado(consulta) {
@@ -13,7 +15,7 @@ async function usuario_logado(consulta) {
          return item.IdPessoa;
       }
    }
-}
+};
 
 async function lucro_estimado_mes_atual(consulta) {
    const data_atual = new Date();
@@ -33,7 +35,7 @@ async function lucro_estimado_mes_atual(consulta) {
 
    const html_lucro_estimado = document.getElementById('lucro-estimado');
    html_lucro_estimado.textContent = lucro_estimado.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
-}
+};
 
 // Retorna o total de processo, proposta o que for passado na consulta, mas tem que tem o ID_VENDEDOR e o MES na consulta
 async function quantidade_itens_mes_atual(consulta, situacao) {
@@ -43,7 +45,7 @@ async function quantidade_itens_mes_atual(consulta, situacao) {
    const total =  consulta.filter(item => item.Situacao === situacao && id_usuario_logado === item.ID_VENDEDOR);
 
    return total;
-}
+};
 
 async function grafico_proposta_processo() {
    const propostas_aprovadas = await quantidade_itens_mes_atual(proposta_meta_comercial, 'APROVADA');
@@ -169,7 +171,109 @@ async function faturamento_processo(consulta) {
       "lengthMenu": [[8], [8]],
       "pageLenght": 8
    });
+};
+
+async function lucro_estimado_mes_a_mes(consulta) {
+   const id_usuario_logado = await usuario_logado(comerciais);
+   const soma_por_mes = [];
+
+   for (let i = 0; i < consulta.length; i++) {
+      const item = consulta[i];
+      const mes_existente = soma_por_mes.find(mes => mes.MES === item.MES); // Encontra o mes na consulta do banco e salva na variavel
+
+      if (item.ID_VENDEDOR === id_usuario_logado) {
+         if (mes_existente) {
+            mes_existente.LUCRO_ESTIMADO += item.LUCRO_ESTIMADO; // Se o mes existir na variavel ele concatena o novo valor localizado
+         } else {
+            soma_por_mes.push({
+               MES: item.MES,
+               LUCRO_ESTIMADO: item.LUCRO_ESTIMADO
+            });
+         }
+      }
+   }
+
+   soma_por_mes.sort((a, b) => a.MES - b.MES); // Ordena os meses em ordem crescendo, ou seja, de Janeiro a Dezembro.
+   return soma_por_mes
+};
+
+async function grafico_lucro_estimado(consulta) {
+   const lucro_estimado = await lucro_estimado_mes_a_mes(consulta);
+
+   const valores_arrecadados = lucro_estimado.map(item => (item.LUCRO_ESTIMADO).toFixed(2));
+   
+   const metas_mensais = [30000,35000,40000,0,0,0,0,0,0,0,0,0]
+   
+   var options = {
+      series: [{
+         name: 'Lucro Estimado',
+         data: valores_arrecadados
+      }, {
+         name: 'Meta',
+         data: metas_mensais
+      }],
+
+      chart: {
+         type: 'bar',
+         height: 200,
+         toolbar: {
+            show: false
+         },
+      },
+
+      colors: ['#F9423A', '#3F2021'],
+
+      plotOptions: {
+         bar: {
+            borderRadius: 5,
+            columnWidth: '70%',
+            horizontal: false,
+            dataLabels: {
+               position: 'top',
+            },
+         }
+      },
+      dataLabels: {
+         enabled: false,
+      },
+       
+      stroke: {
+         show: true,
+         width: 1,
+         colors: ['#fff']
+      },
+
+      tooltip: {
+         shared: true,
+         enabled: true,
+         intersect: false,
+         y: {
+           formatter: function (val) {
+             return val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+           }
+         }
+       },
+       
+
+      xaxis: {
+         categories: meses,
+         labels: {
+            show: true,
+         }
+      },
+
+      yaxis: {
+         show: false,
+      },
+
+   };
+
+   const chart = new ApexCharts(document.querySelector("#lucro-estimado-mes-a-mes"), options);
+   chart.render();
 }
+await grafico_lucro_estimado(meta_financeira_comercial)
+
+
 
 async function eventos_cliques() {
    const input_pesquisa_processo = document.querySelector('#pesquisar-processos');
@@ -181,7 +285,7 @@ async function eventos_cliques() {
    });
 
 
-}
+};
 
 
 async function mostrar_loading() {
@@ -189,7 +293,7 @@ async function mostrar_loading() {
 
    // Define o caminho do gif
    img.src = "/assets/images/brand-logos/SLOGAN VERMELHO.gif";
-}
+};
 
 async function remover_loading() {
    let corpoDashboard = document.querySelector('.corpo-dashboard');
@@ -197,7 +301,7 @@ async function remover_loading() {
 
    loading.style.display = 'none';
    corpoDashboard.style.display = 'block';
-}
+};
 
 
 
