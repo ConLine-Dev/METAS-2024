@@ -226,7 +226,7 @@ async function grafico_lucro_estimado(consulta) {
       plotOptions: {
          bar: {
             borderRadius: 5,
-            columnWidth: '70%',
+            columnWidth: '60%',
             horizontal: false,
             dataLabels: {
                position: 'top',
