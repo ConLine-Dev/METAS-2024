@@ -116,62 +116,81 @@ var nfChart = new ApexCharts(document.querySelector("#nf-chart"), options);
 
 nfChart.render();
 
-var options = options = {
-  series: [
-    {
-      data: [
-        {
-          x: 'USD',
-          y: 518.20
-        },
-        {
-          x: 'BRL',
-          y: 349.55
-        },
-        {
-          x: 'EUR',
-          y: 184.00
-        },
-        {
-          x: 'GBP',
-          y: 125.09
-        },
-      ]
+var options = {
+  series: [513.45, 554.45, 410, 171],
+  labels: ['USD', 'BRL', 'EUR', 'GBP'],
+  chart: {
+    type: 'donut',
+    width: 500
+  },
+  plotOptions: {
+    pie: {
+      expandOnClick: false
     }
-  ],
+  },
   legend: {
     show: false
-  },
-  dataLabels: {
-    enabled: true,
-    style: {
-      fontSize: '20px',
-    },
-    formatter: function (text, op) {
-      return [text, op.value]
-    }
-  },
-  chart: {
-    height: 400,
-    width: 450,
-    type: 'treemap',
-    toolbar: {
-      show: false
-    }
-  },
-  colors: [
-    '#F9423A',
-    '#3F2021',
-    '#D0CFCD',
-    '#2D2926',
-  ],
-  plotOptions: {
-    treemap: {
-      distributed: true,
-      enableShades: false
-    }
   }
 };
 
 var recompraChart = new ApexCharts(document.querySelector("#recompra-chart"), options);
+
 recompraChart.render();
+
+function iniciarPagina(){
+  var divNotaOperacional = document.getElementById('divNotaOperacional');
+  var divProcessos = document.getElementById('divProcessos');
+  var divFinanceiro = document.getElementById('divFinanceiro');
+  var divCE = document.getElementById('divCE');
+
+  var nota = 8.5;
+  var totalProcessos = 100;
+  var divergenciasFinanceiras = 5;
+  var divergenciasCE = 5;
+
+  let printNotaOperacional = '';
+  let printProcessos = '';
+  let printDivFinanceiro = '';
+  let printDivCE = '';
+
+  printNotaOperacional = `<div class="mb-2">Nota Operacional</div>
+  <div class="text-muted mb-1 fs-12"> 
+     <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${nota.toFixed(2)} </span> 
+  </div>
+  <div> 
+     <span class="fs-12 mb-0">Nota definida com base nas métricas estipuladas</span>
+  </div>`
+
+  divNotaOperacional.innerHTML = printNotaOperacional;
+
+  printProcessos = `<div class="mb-2">Processos</div>
+  <div class="text-muted mb-1 fs-12"> 
+     <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${totalProcessos} </span> 
+  </div>
+  <div> 
+     <span class="fs-12 mb-0">Número de processos abertos para coordenação</span>
+  </div>`
+
+  divProcessos.innerHTML = printProcessos;
+
+  printDivFinanceiro = `<div class="mb-2">Divergências Financeiras</div>
+  <div class="text-muted mb-1 fs-12"> 
+     <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${divergenciasFinanceiras} </span> 
+  </div>
+  <div> 
+     <span class="fs-12 mb-0">Número de divergências informadas pelo financeiro</span>
+  </div>`
+
+  divFinanceiro.innerHTML = printDivFinanceiro;
+
+  printDivCE = `<div class="mb-2">Divergências CE</div>
+  <div class="text-muted mb-1 fs-12"> <span
+        class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${divergenciasCE} </span> </div>
+  <div> 
+     <span class="fs-12 mb-0">Número de divergências no CE Mercante</span>
+  </div>`
+
+  divCE.innerHTML = printDivCE;
+}
+
+iniciarPagina();

@@ -20,6 +20,13 @@
 </head>
 
 <body>
+
+   <style>
+      .apexcharts-datalabels-group text{
+         fill: #000 !important;
+      }
+   </style>
+
    <!-- MODAl NOVO PROCESSO -->
    <div class="modal fade" id="modaldemo8" style="display: none; background-color: rgba(0, 0, 0, 0.3); z-index: 99999;" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered text-center" role="document">
@@ -227,6 +234,29 @@
                                   <div id="recompra-chart">
                                       <!-- GRAFICO AQUI -->
                                    </div>
+                              </div>
+                              <div class="card-footer p-0">
+                                 <div class="row row-cols-12 justify-content-center">
+                                    <div class="col pe-0 text-center">
+                                       <div class="p-sm-3 p-2 "> <span class="text-muted fs-11">Propostas Aprovadas</span> <span
+                                             class="d-block fs-16 fw-semibold" id="porcentagem_IM">60</span> </div>
+                                    </div>
+                                    <div class="col px-0 text-center">
+                                       <div class="p-sm-3 p-2 "> <span class="text-muted fs-11">Propostas Reprovadas</span> <span
+                                             class="d-block fs-16 fw-semibold" id="porcentagem_EM">40</span> </div>
+                                    </div>
+                                    <div class="col px-0 text-center">
+                                       <div class="p-sm-3 p-2 "> <span class="text-muted fs-11">Processos</span> <span
+                                             class="d-block fs-16 fw-semibold" id="porcentagem_IA">60</span> </div>
+                                    </div>
+                                    <div class="col ps-0 text-center">
+                                       <div class="p-sm-3 p-2"> 
+                                          <span class="text-muted fs-11">Processos Cancelados</span> 
+                                          <span class="d-block fs-16 fw-semibold"
+                                             id="porcentagem_EA">40</span> 
+                                       </div>
+                                    </div>
+                                 </div>
                               </div>
                            </div>
                         </div>

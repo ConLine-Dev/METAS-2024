@@ -163,7 +163,7 @@
                               <li class="slide has-sub active"> 
                                  <a href="" class="side-menu__item active"> 
                                     <i class="bi bi-person side-menu__icon"></i> 
-                                    <span class="side-menu__label" style="margin-right: 14px;">Meta Pessoal - Operacional</span> 
+                                    <span class="side-menu__label" style="margin-right: 14px;">Meta Pessoal - CS IM</span> 
                                  </a>
                               </li>
 
@@ -204,12 +204,12 @@
       <div class="container-fluid" style="display: block;">
          <!-- CABELHO DA PAGINA -->
          <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
-            <h1 class="page-title fw-semibold fs-18 mb-0">Meta Pessoal - Operacional</h1>
+            <h1 class="page-title fw-semibold fs-18 mb-0">Meta Pessoal - CS IM</h1>
             <div class="ms-md-1 ms-0">
                <nav>
                   <ol class="breadcrumb mb-0">
                      <li class="breadcrumb-item" style="color: var(--primary-color); cursor: pointer;"><a href="/dashboard">Dashboards</a></li>
-                     <li class="breadcrumb-item active" aria-current="page">Meta Pessoal - Operacional</li>
+                     <li class="breadcrumb-item active" aria-current="page">Meta Pessoal - CS IM</li>
                   </ol>
                </nav>
             </div>
@@ -230,14 +230,7 @@
                                         </svg>
                                     </span> 
                                  </div>
-                                 <div class="col-xxl-9 col-xl-10 col-lg-9 col-md-9 col-sm-8 col-8 px-0">
-                                    <div class="mb-2">Nota Operacional</div>
-                                    <div class="text-muted mb-1 fs-12"> 
-                                       <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> 8.50 </span> 
-                                    </div>
-                                    <div> 
-                                       <span class="fs-12 mb-0">Nota definida com base nas métricas estipuladas</span>
-                                    </div>
+                                 <div id="divNotaOperacional" class="col-xxl-9 col-xl-10 col-lg-9 col-md-9 col-sm-8 col-8 px-0">
                                  </div>
                               </div>
                            </div>
@@ -255,14 +248,7 @@
                                         </svg>
                                     </span> 
                                  </div>
-                                 <div class="col-xxl-9 col-xl-10 col-lg-9 col-md-9 col-sm-8 col-8 px-0">
-                                    <div class="mb-2">Processos</div>
-                                    <div class="text-muted mb-1 fs-12"> 
-                                       <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> 159 </span> 
-                                    </div>
-                                    <div> 
-                                       <span class="fs-12 mb-0">Número de processos abertos para coordenação</span>
-                                    </div>
+                                 <div id="divProcessos" class="col-xxl-9 col-xl-10 col-lg-9 col-md-9 col-sm-8 col-8 px-0">
                                  </div>
                               </div>
                            </div>
@@ -283,20 +269,13 @@
                                        </svg>
                                     </span> 
                                  </div>
-                                 <div class="col-xxl-9 col-xl-10 col-lg-9 col-md-9 col-sm-8 col-8 px-0">
-                                    <div class="mb-2">Divergências Financeiras</div>
-                                    <div class="text-muted mb-1 fs-12"> 
-                                       <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> 7 </span> 
-                                    </div>
-                                    <div> 
-                                       <span class="fs-12 mb-0">Número de divergências informadas pelo financeiro</span>
-                                    </div>
+                                 <div id="divFinanceiro" class="col-xxl-9 col-xl-10 col-lg-9 col-md-9 col-sm-8 col-8 px-0">
                                  </div>
                               </div>
                            </div>
                         </div>
                      </div>
-   
+
                      <div class="col-lg-3 col-sm-3 col-md-3 col-xl-3">
                         <div class="card custom-card">
                            <div class="card-body">
@@ -308,13 +287,7 @@
                                         </svg>
                                     </span> 
                                  </div>
-                                 <div class="col-xxl-9 col-xl-10 col-lg-9 col-md-9 col-sm-8 col-8 px-0">
-                                    <div class="mb-2">Divergências CE</div>
-                                    <div class="text-muted mb-1 fs-12"> <span
-                                          class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> 3 </span> </div>
-                                    <div> 
-                                       <span class="fs-12 mb-0">Número de divergências no CE Mercante</span>
-                                    </div>
+                                 <div id="divCE" class="col-xxl-9 col-xl-10 col-lg-9 col-md-9 col-sm-8 col-8 px-0">
                                  </div>
                               </div>
                            </div>
@@ -324,7 +297,7 @@
             </div>
             <div class="col-xxl-12 col-xl-12">
                 <div class="row">
-                    <div class="col-xl-2">
+                    <div class="col-xl-3">
                         <div class="card custom-card" style="height: 550px">
                            <div class="card-header justify-content-between">
                               <div class="card-title">Emails</div>
@@ -362,9 +335,17 @@
                                 <!-- GRAFICO AQUI -->
                              </div>
                         </div>
+                        <div class="card-footer p-0">
+                           <div class="row row-cols-12 justify-content-center">
+                              <div class="col pe-0 text-center">
+                                 <div class="p-sm-12 p-2 "> <span class="text-muted fs-11">Recompra Total Convertida</span> <span
+                                       class="d-block fs-16 fw-semibold" id="porcentagem_IM">BRL 154.325,60</span> </div>
+                              </div>
+                           </div>
+                        </div>
                      </div>
                   </div>
-                  <div class="col-xl-4">
+                  <div class="col-xl-3">
                     <div class="card custom-card" style="height: 550px;">
                        <div class="card-header justify-content-between">
                           <div class="card-title"> Recompras Detalhadas </div>
@@ -399,10 +380,10 @@
                                     <label class="form-label mb-0 ms-0">Moeda</label>
                                     <select class="form-control" id="tipoMoeda">
                                       <option value="NULL"> </option>
-                                      <option value="USD">USD</option>
-                                      <option value="BRL">BRL</option>
-                                      <option value="EUR">EUR</option>
-                                      <option value="GBP">GBP</option>
+                                      <option value="1">USD</option>
+                                      <option value="2">BRL</option>
+                                      <option value="3">EUR</option>
+                                      <option value="4">GBP</option>
                                     </select>
                                   </div>
                                 </div>
