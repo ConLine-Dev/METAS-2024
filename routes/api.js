@@ -148,4 +148,43 @@ router.get('/proposta-meta-comercial', async (req, res, next) => {
     }
 });
 
+router.get('/operacional_por_processo', async (req, res, next) => {
+
+    let { numero_processo, id_moeda, valor, descricao } = req.query;
+
+    try {
+        const result = await helpers.operacional_por_processo(numero_processo);
+        await helpers.cadastrar_operacional_por_processo(result[0].Numero_do_Processo, result[0].IdPessoa, id_moeda, valor, descricao);
+
+        res.status(200).json(result)
+    } catch (error) {
+
+        res.status(404).json(error)
+    }
+});
+
+router.get('/recompras_operacional', async (req, res, next) => {
+
+    try {
+        const result = await helpers.recompras_operacional();
+
+        res.status(200).json(result)
+    } catch (error) {
+
+        res.status(404).json(error)
+    }
+});
+
+router.get('/divergencias_ce_mercante', async (req, res, next) => {
+
+    try {
+        const result = await helpers.recompras_operacional();
+
+        res.status(200).json(result)
+    } catch (error) {
+
+        res.status(404).json(error)
+    }
+});
+
 module.exports = router;

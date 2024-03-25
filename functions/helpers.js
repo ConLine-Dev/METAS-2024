@@ -1,4 +1,5 @@
 const { executeQuerySQL } = require('../connect/headCargo');
+const { executeQuery } = require('../connect/mysql');
 
 let anoAtual = 2024;
 let anoAnterior = 2023
@@ -172,11 +173,72 @@ const helpers = {
       return result;
    },
 
+   operacional_por_processo: async function(numero_processo) {
+      const result = await executeQuerySQL(`
+      select lhs.Numero_Processo as 'Numero_do_Processo'
+      , pss.IdPessoa
+
+      from mov_logistica_House lhs
+
+      join mov_Projeto_Atividade_Responsavel par on par.IdProjeto_Atividade = lhs.IdProjeto_Atividade
+      join cad_Pessoa pss on pss.IdPessoa = par.IdResponsavel
+
+      where lhs.Numero_Processo like '%${numero_processo}%'
+      and par.IdPapel_Projeto = 2
+      `)
+
+      return result;
+   },
+
+   cadastrar_operacional_por_processo: async function(numero_processo, id_operacional, id_moeda, valor, descricao){
+      let query = `INSERT INTO recompra_operacional
+    (numero_processo, id_operacional, id_moeda, valor, descricao) VALUES
+    ("${numero_processo}", ${id_operacional}, ${id_moeda}, ${valor}, "${descricao}")`
+
+    await executeQuery(query);
+   },
+
+   recompras_operacional: async function () {
+      const result = await executeQuery(
+         `SELECT * FROM recompra_operacional;
+         `)
+
+      return result;
+   },
+
+   divergencias_financeiras: async function () {
+      const result = await executeQuery(
+         `SELECT
+         Lhs.IdLogistica_House,
+         Lhs.Numero_Processo,
+         Par.IdResponsavel
+      FROM
+         mov_Atividade Atv
+      LEFT OUTER JOIN
+         mov_Atividade_Historico Ath ON Ath.IdAtividade = Atv.IdAtividade
+      LEFT OUTER JOIN
+         mov_Logistica_House Lhs ON Lhs.IdProjeto_Atividade = Atv.IdProjeto_Atividade
+      LEFT OUTER JOIN
+         mov_Projeto_Atividade_Responsavel Par ON Par.IdProjeto_Atividade = Lhs.IdProjeto_Atividade
+      WHERE
+         Atv.IdTarefa = 1625 /*Conferir Valores*/
+         AND Ath.Situacao = 3 /*Paralisada*/
+         AND Par.IdPapel_Projeto = 2 /*Operacional*/;
+         `)
+
+      return result;
+   },
+
+   divergencias_ce_mercante: async function () {
+      const result = await executeQuery(
+         `vis_Divergencias_CE;
+         `)
+
+      return result;
+   }
+
 
 }
-
-
-
 
 module.exports = {
    helpers: helpers
