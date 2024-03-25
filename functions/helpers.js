@@ -207,7 +207,7 @@ const helpers = {
    },
 
    divergencias_financeiras: async function () {
-      const result = await executeQuery(
+      const result = await executeQuerySQL(
          `SELECT
          Lhs.IdLogistica_House,
          Lhs.Numero_Processo,
@@ -230,8 +230,8 @@ const helpers = {
    },
 
    divergencias_ce_mercante: async function () {
-      const result = await executeQuery(
-         `vis_Divergencias_CE;
+      const result = await executeQuerySQL(
+         `SELECT * FROM vis_Divergencias_CE;
          `)
 
       return result;
