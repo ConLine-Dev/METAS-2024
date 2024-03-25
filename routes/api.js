@@ -178,7 +178,19 @@ router.get('/recompras_operacional', async (req, res, next) => {
 router.get('/divergencias_ce_mercante', async (req, res, next) => {
 
     try {
-        const result = await helpers.recompras_operacional();
+        const result = await helpers.divergencias_ce_mercante();
+
+        res.status(200).json(result)
+    } catch (error) {
+
+        res.status(404).json(error)
+    }
+});
+
+router.get('/divergencias_financeiras', async (req, res, next) => {
+
+    try {
+        const result = await helpers.divergencias_financeiras();
 
         res.status(200).json(result)
     } catch (error) {
