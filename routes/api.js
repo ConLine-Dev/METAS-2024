@@ -104,6 +104,18 @@ router.get('/ultimo_processo_gerado', async (req, res, next) => {
     }
 });
 
+router.get('/acesso', async (req, res, next) => {
+    const { nivel, email } = req.query;
+    try {
+        const result = await helpers.nivel_acesso(nivel, email);
+
+        res.status(200).json(result)
+    } catch (error) {
+        
+        res.status(404).json(error)
+    }
+});
+
 router.get('/comerciais', async (req, res, next) => {
     try {
         const result = await helpers.comerciais();
