@@ -58,6 +58,34 @@ const helpers = {
       return result;
    },
 
+   nivel_acesso: async function(nivel, email) {
+      const id_acesso = await executeQuery(`
+         SELECT
+            *
+         FROM
+            departamento
+         WHERE
+            referencia = '${nivel}'
+      `)
+
+      const result = await executeQuerySQL(`
+         SELECT
+            Psa.IdPessoa,
+            Psa.Nome,
+            Psa.Email
+         FROM
+            cad_Equipe_Tarefa Etf
+         JOIN
+            cad_Equipe_Tarefa_Membro Etm ON Etm.IdEquipe_Tarefa = Etf.IdEquipe_Tarefa
+         JOIN
+            cad_Pessoa Psa ON Psa.IdPessoa = Etm.IdFuncionario
+         WHERE
+            Etf.IdEquipe_Tarefa = ${id_acesso[0].id_equipe_tarefa} AND Psa.Email = '${email}'`
+      )
+
+      return result;
+   },
+
    comerciais: async function() {
       const result = await executeQuerySQL(`
          SELECT
