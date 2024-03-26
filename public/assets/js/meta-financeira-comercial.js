@@ -1,14 +1,14 @@
 const meta_financeira_comercial = await Thefetch('/api/meta-financeira-comercial');
 const proposta_meta_comercial = await Thefetch('/api/proposta-meta-comercial');
 const comerciais = await Thefetch('/api/comerciais');
+const dados_login = JSON.parse(localStorage.getItem('metasUser'));
 
 const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
 
 let lucro_estimado_por_processo;
 
+// Pega o email do usuario logado e compara com a consulta do servidor para retornar o IdPessoa
 async function usuario_logado(consulta) {
-   const dados_login = JSON.parse(localStorage.getItem('metasUser'));
-
    for (let i = 0; i < consulta.length; i++) {
       const item = consulta[i];
       if (item.Email === dados_login.email) {
@@ -17,6 +17,7 @@ async function usuario_logado(consulta) {
    }
 };
 
+// Pega o lucro estimado do vendedor no mes atual
 async function lucro_estimado_mes_atual(consulta) {
    const data_atual = new Date();
    const mes_atual = data_atual.getMonth() + 1;
@@ -47,6 +48,7 @@ async function quantidade_itens_mes_atual(consulta, situacao) {
    return total;
 };
 
+// Cria o grafico com o total de propostas e processos aprovados e cancelados
 async function grafico_proposta_processo() {
    const propostas_aprovadas = await quantidade_itens_mes_atual(proposta_meta_comercial, 'APROVADA');
    const propostas_nao_aprovadas = await quantidade_itens_mes_atual(proposta_meta_comercial, 'NAO APROVADA');
@@ -118,6 +120,7 @@ async function grafico_proposta_processo() {
 
 };
 
+// Cria a tabela com os processos e o total de recebimento, pagamento e lucro de cada um
 async function faturamento_processo(consulta) {
    const id_usuario_logado = await usuario_logado(comerciais);
    const lucratividade_processos = {};
@@ -173,6 +176,7 @@ async function faturamento_processo(consulta) {
    });
 };
 
+// Retonar um array com o lucro estimado de cada mes
 async function lucro_estimado_mes_a_mes(consulta) {
    const id_usuario_logado = await usuario_logado(comerciais);
    const soma_por_mes = [];
@@ -197,6 +201,7 @@ async function lucro_estimado_mes_a_mes(consulta) {
    return soma_por_mes
 };
 
+// Cria os graficos de lucro estimado de cada mes
 async function grafico_lucro_estimado(consulta) {
    const lucro_estimado = await lucro_estimado_mes_a_mes(consulta);
 
@@ -271,10 +276,8 @@ async function grafico_lucro_estimado(consulta) {
    const chart = new ApexCharts(document.querySelector("#lucro-estimado-mes-a-mes"), options);
    chart.render();
 }
-await grafico_lucro_estimado(meta_financeira_comercial)
 
-
-
+// Nesta função crio todos os eventos de cliques como pesquisa etc
 async function eventos_cliques() {
    const input_pesquisa_processo = document.querySelector('#pesquisar-processos');
    input_pesquisa_processo.addEventListener('keyup', function (e) {
@@ -304,11 +307,11 @@ async function remover_loading() {
 };
 
 
-
 async function main() {
    await mostrar_loading();
    await lucro_estimado_mes_atual(meta_financeira_comercial);
    await faturamento_processo(meta_financeira_comercial);
+   await grafico_lucro_estimado(meta_financeira_comercial);
    await eventos_cliques();
    await grafico_proposta_processo();
    await remover_loading();
