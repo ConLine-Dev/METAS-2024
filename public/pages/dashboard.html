@@ -17,6 +17,10 @@
    <link href="/assets/css/icons.css" rel="stylesheet">
    <!-- Verificação Login -->
    <script src="/assets/js/back-login-page.js"></script>
+   <!-- Neste main tem a função THE FETCH que consulta no banco de dados -->
+   <script src="/assets/js/main.js"></script>
+   <!-- Vai mostrar ou nao ou modulos ao usuario -->
+   <script type="module" src="/assets/js/verifica-modulo.js"></script>
 </head>
 
 <body>
@@ -55,7 +59,7 @@
    <!-- FIM MODAl -->
 
    <!-- LOADING -->
-   <div class="loading" style="display: none;">
+   <div class="loading" style="display: block;">
       <div class="loadingio-spinner-eclipse-jj809cj2h7" id="loading-icon">
         <img src="/assets/images/brand-logos/SLOGAN VERMELHO.gif" class="navbar-brand-img" id="loading-img" alt="main_logo">
       </div>
@@ -367,12 +371,10 @@
       </div>
    </footer> 
    <!-- Footer End -->
+   <span class="scrollToTop" style="display: none;"></span>
    <div id="responsive-overlay"></div>
 
-   <!-- Neste main tem a função THE FETCH que consulta no banco de dados -->
-   <script src="/assets/js/main.js"></script>
    <!-- Verifica Se tem acesso ao módulo -->
-   <script type="module" src="/assets/js/verifica-modulo.js"></script>   
    <script src="/assets/js/socket.io.min.js"></script>
    <script>
       const time_new_process = 8000
@@ -452,11 +454,21 @@
          }
       }, 1000);
    </script>
+   
+   <!-- Script para remover o loading após a pagina carregada -->
+   <script>
+      const loading = document.querySelector('.loading');
 
-<script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="/assets/js/custom.js"></script>
-<script src="/assets/js/defaultmenu.min.js"></script>
-<script src="/assets/libs/apexcharts/apexcharts.min.js"></script>
+      document.addEventListener('DOMContentLoaded', function(e) {
+         setTimeout(() => {
+            loading.style.display = 'none'
+         }, 500);
+      })
+   </script>
+   <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+   <script src="/assets/js/custom.js"></script>
+   <script src="/assets/js/defaultmenu.min.js"></script>
+   <script src="/assets/libs/apexcharts/apexcharts.min.js"></script>
 
 </body>
 
