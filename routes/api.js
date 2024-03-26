@@ -211,4 +211,16 @@ router.get('/divergencias_financeiras', async (req, res, next) => {
     }
 });
 
+router.get('/quantidade_processos', async (req, res, next) => {
+
+    try {
+        const result = await helpers.quantidade_processos();
+
+        res.status(200).json(result)
+    } catch (error) {
+
+        res.status(404).json(error)
+    }
+});
+
 module.exports = router;

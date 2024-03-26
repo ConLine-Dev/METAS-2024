@@ -5,7 +5,7 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <title>Conline - Dashboard</title>
+   <title>Conline - Meta Pessoal Operacional</title>
    <meta name="Description" content="Metas Conline">
    <!-- Favicon -->
    <link rel="icon" href="/assets/images/brand-logos/icon-redondo.png" type="image/x-icon" />
@@ -17,6 +17,12 @@
    <link href="/assets/css/icons.css" rel="stylesheet">
    <!-- Verificação Login -->
    <script src="/assets/js/back-login-page.js"></script>
+   <!-- Neste main tem a função THE FETCH que consulta no banco de dados -->
+   <script src="/assets/js/main.js"></script>
+   <!-- Vai mostrar ou nao ou modulos ao usuario -->
+   <script type="module" src="/assets/js/verifica-modulo.js"></script>
+   <!-- Verifica se o usuario pode acessar uma pagina ou nao -->
+   <script src="/assets/js/verifica_acesso.js"></script>
 </head>
 
 <body>
@@ -160,14 +166,14 @@
                                  </ul>
                               </li> 
 
-                              <li class="slide has-sub active"> 
+                              <li class="slide has-sub active" modulo="meta-pessoal-operacional" style="display: none;"> 
                                  <a href="" class="side-menu__item active"> 
                                     <i class="bi bi-person side-menu__icon"></i> 
                                     <span class="side-menu__label" style="margin-right: 14px;">Meta Pessoal - CS IM</span> 
                                  </a>
                               </li>
 
-                              <li class="slide has-sub"> 
+                              <li class="slide has-sub" modulo="admin-meta-operacional" style="display: none;"> 
                                  <a href="/admin-meta-operacional" class="side-menu__item"> 
                                     <i class="ri ri-admin-line side-menu__icon" style="margin-top: -10px !important;"></i> 
                                     <span class="side-menu__label" style="margin-right: 14px;">Admin - Meta Pessoal</span> 
@@ -395,7 +401,14 @@
                                 <div class="col-12 col-md-12 ms-auto mt-3 text-start">
                                   <div>
                                     <label class="form-label mb-0 ms-0">Descrição</label>
-                                    <input class="multisteps-form__input form-control" type="text" id="campoLivre"/>
+                                    <select class="form-control" id="campoLivre">
+                                       <option value="NULL"> </option>
+                                       <option value="correcao">CORREÇÃO</option>
+                                       <option value="profit-agente">PROFIT AGENTE</option>
+                                       <option value="taxa-destino">TAXAS DE DESTINO</option>
+                                       <option value="taxa-origem">TAXAS DE ORIGEM</option>
+                                       <option value="telex-release">TELEX RELEASE</option>
+                                     </select>
                                   </div>
                                 </div>
                               </div>
@@ -479,30 +492,28 @@
    </footer> 
    <!-- Footer End -->
    <div id="responsive-overlay"></div>
+   
+   <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+   <script src="/assets/js/custom.js"></script>
+   <script src="/assets/js/defaultmenu.min.js"></script>
+   <script src="/assets/libs/apexcharts/apexcharts.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   
+   <script src="/assets/js/meta-pessoal-operacional.js"></script>
+   
+   <script>
+      var modal = document.getElementById("meuModal");
+      var btn = document.getElementById("meuBotao");
+      var span = document.getElementsByClassName("close")[0];
 
-   <script src="/assets/js/main.js"></script>
-
-<script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="/assets/js/custom.js"></script>
-<script src="/assets/js/defaultmenu.min.js"></script>
-<script src="/assets/libs/apexcharts/apexcharts.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script src="/assets/js/meta-pessoal-operacional.js"></script>
-
-<script>
-   var modal = document.getElementById("meuModal");
-   var btn = document.getElementById("meuBotao");
-   var span = document.getElementsByClassName("close")[0];
-
-   window.onclick = function (event) {
-      if (event.target == modal) {
-         modal.style.display = "none";
+      window.onclick = function (event) {
+         if (event.target == modal) {
+            modal.style.display = "none";
+         }
       }
-   }
-</script>
-
-</body>
-
-</html>
+   </script>
+   
+   </body>
+   
+   </html>

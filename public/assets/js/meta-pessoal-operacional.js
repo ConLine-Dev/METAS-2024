@@ -33,6 +33,28 @@ async function iniciarPagina(){
   const arrayRecompras = await recomprasCalculo();
   const recompraTotalConvertida = arrayRecompras.totalConvertidoBRL;
 
+  const retorno_divCE = await fetch('/api/divergencias_ce_mercante');
+  const divergencias_CE = await retorno_divCE.json();
+
+  const retorno_divFinanceiro = await fetch('/api/divergencias_financeiras');
+  const divergencias_financeiras = await retorno_divFinanceiro.json();
+
+  const retorno_processos = await fetch('/api/quantidade_processos');
+  const totalProcessos = await retorno_processos.json();
+  var totalProcessosAbertos = 0;
+
+  for (let index = 0; index < totalProcessos.length; index++) {
+    if(totalProcessos[index].situacao == 'Liberado faturamento'){
+      totalProcessosAbertos++;
+    } else if(totalProcessos[index].situacao == 'Em andamento'){
+      totalProcessosAbertos++;
+    } else if(totalProcessos[index].situacao == 'Aberto'){
+      totalProcessosAbertos++;
+    } else if(totalProcessos[index].situacao == 'Faturado'){
+      totalProcessosAbertos++;
+    }
+  }
+
   var divNotaOperacional = document.getElementById('divNotaOperacional');
   var divProcessos = document.getElementById('divProcessos');
   var divFinanceiro = document.getElementById('divFinanceiro');
@@ -40,9 +62,6 @@ async function iniciarPagina(){
   var divRecompraTotal = document.getElementById('divRecompraTotal');
 
   var nota = 8.5;
-  var totalProcessos = 100;
-  var divergenciasFinanceiras = 5;
-  var divergenciasCE = 5;
 
   let printNotaOperacional = '';
   let printProcessos = '';
@@ -62,7 +81,7 @@ async function iniciarPagina(){
 
   printProcessos = `<div class="mb-2">Processos</div>
   <div class="text-muted mb-1 fs-12"> 
-     <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${totalProcessos} </span> 
+     <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${totalProcessosAbertos} </span> 
   </div>
   <div> 
      <span class="fs-12 mb-0">Número de processos abertos para coordenação</span>
@@ -72,7 +91,7 @@ async function iniciarPagina(){
 
   printDivFinanceiro = `<div class="mb-2">Divergências Financeiras</div>
   <div class="text-muted mb-1 fs-12"> 
-     <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${divergenciasFinanceiras} </span> 
+     <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${divergencias_financeiras.length} </span> 
   </div>
   <div> 
      <span class="fs-12 mb-0">Número de divergências informadas pelo financeiro</span>
@@ -82,7 +101,7 @@ async function iniciarPagina(){
 
   printDivCE = `<div class="mb-2">Divergências CE</div>
   <div class="text-muted mb-1 fs-12"> <span
-        class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${divergenciasCE} </span> </div>
+        class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${divergencias_CE.length} </span> </div>
   <div> 
      <span class="fs-12 mb-0">Número de divergências no CE Mercante</span>
   </div>`

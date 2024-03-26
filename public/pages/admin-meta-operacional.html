@@ -17,6 +17,14 @@
    <link href="/assets/css/icons.css" rel="stylesheet">
    <!-- Verificação Login -->
    <script src="/assets/js/back-login-page.js"></script>
+
+   <!-- Neste main tem a função THE FETCH que consulta no banco de dados -->
+   <script src="/assets/js/main.js"></script>
+   <!-- Vai mostrar ou nao ou modulos ao usuario -->
+   <script type="module" src="/assets/js/verifica-modulo.js"></script>
+   <!-- Verifica se o usuario pode acessar uma pagina ou nao -->
+   <script src="/assets/js/verifica_acesso.js"></script>
+   
 </head>
 
 <body>
@@ -491,14 +499,14 @@
                                  </ul>
                               </li> 
 
-                              <li class="slide has-sub"> 
+                              <li class="slide has-sub" modulo="meta-pessoal-operacional" style="display: none;"> 
                                  <a href="/meta-pessoal-operacional" class="side-menu__item"> 
                                     <i class="bi bi-person side-menu__icon"></i> 
                                     <span class="side-menu__label" style="margin-right: 14px;">Meta Pessoal - Operacional</span> 
                                  </a>
                               </li> 
 
-                              <li class="slide has-sub active"> 
+                              <li class="slide has-sub active" modulo="admin-meta-operacional" style="display: none;"> 
                                  <a href="" class="side-menu__item active"> 
                                     <i class="ri ri-admin-line side-menu__icon" style="margin-top: -10px !important;"></i> 
                                     <span class="side-menu__label" style="margin-right: 14px;">Admin - Meta Pessoal</span> 
@@ -880,23 +888,21 @@
             <a href="http://conlinebr.com.br" target="_blank" class="text-dark fw-semibold">Conline</a>.
             <span class="bi bi-heart-fill text-danger"></span>
             Todos os direitos reservado
-         </span>
-      </div>
-   </footer> 
-   <!-- Footer End -->
-   <div id="responsive-overlay"></div>
-
-   <script src="/assets/js/main.js"></script>
-
-<script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="/assets/js/custom.js"></script>
-<script src="/assets/js/defaultmenu.min.js"></script>
-<script src="/assets/libs/apexcharts/apexcharts.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-
-<script src="/assets/js/meta-pessoal-operacional.js"></script>
-
-
-</body>
-
-</html>
+            </span>
+            </div>
+            </footer>
+            <!-- Footer End -->
+            <div id="responsive-overlay"></div>
+            
+            <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="/assets/js/custom.js"></script>
+            <script src="/assets/js/defaultmenu.min.js"></script>
+            <script src="/assets/libs/apexcharts/apexcharts.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+            
+            <script src="/assets/js/meta-pessoal-operacional.js"></script>
+            
+            
+            </body>
+            
+            </html>
