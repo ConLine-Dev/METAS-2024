@@ -1,3 +1,15 @@
+const listaOperacionais = await Thefetch('/api/operacionais');
+const dadosLogin = JSON.parse(localStorage.getItem('metasUser'));
+
+async function usuario_logado(consulta) {
+  for (let i = 0; i < consulta.length; i++) {
+     const item = consulta[i];
+     if (item.Email === dadosLogin.email) {
+        return item.IdPessoa;
+     }
+  }
+};
+
 async function recomprasCalculo(){
   const retorno_recompras = await fetch('/api/recompras_operacional');
   const recompras_operacional = await retorno_recompras.json();
@@ -29,6 +41,8 @@ async function recomprasCalculo(){
 
 async function iniciarPagina(){
 
+  const idUsuarioLogado = await usuario_logado(comerciais);
+
   recomprasCalculo();
   const arrayRecompras = await recomprasCalculo();
   const recompraTotalConvertida = arrayRecompras.totalConvertidoBRL;
@@ -44,13 +58,13 @@ async function iniciarPagina(){
   var totalProcessosAbertos = 0;
 
   for (let index = 0; index < totalProcessos.length; index++) {
-    if(totalProcessos[index].situacao == 'Liberado faturamento'){
+    if(totalProcessos[index].situacao == 'Liberado faturamento' && totalProcessos[index].IdPessoa == idUsuarioLogado){
       totalProcessosAbertos++;
-    } else if(totalProcessos[index].situacao == 'Em andamento'){
+    } else if(totalProcessos[index].situacao == 'Em andamento' && totalProcessos[index].IdPessoa == idUsuarioLogado){
       totalProcessosAbertos++;
-    } else if(totalProcessos[index].situacao == 'Aberto'){
+    } else if(totalProcessos[index].situacao == 'Aberto' && totalProcessos[index].IdPessoa == idUsuarioLogado){
       totalProcessosAbertos++;
-    } else if(totalProcessos[index].situacao == 'Faturado'){
+    } else if(totalProcessos[index].situacao == 'Faturado' && totalProcessos[index].IdPessoa == idUsuarioLogado){
       totalProcessosAbertos++;
     }
   }
@@ -276,6 +290,27 @@ async function criarGraficos(){
   recompraChart.render();
 }
 
-iniciarPagina();
 
-criarGraficos();
+async function mostrar_loading() {
+  let img = document.getElementById('loading-img');
+
+  // Define o caminho do gif
+  img.src = "/assets/images/brand-logos/SLOGAN VERMELHO.gif";
+};
+
+async function remover_loading() {
+  let corpoDashboard = document.querySelector('.corpo-dashboard');
+  let loading = document.querySelector('.loading');
+
+  loading.style.display = 'none';
+  corpoDashboard.style.display = 'block';
+};
+
+async function main(){
+  await mostrar_loading();
+  await iniciarPagina();
+  await criarGraficos();
+  await remover_loading();
+}
+
+main();

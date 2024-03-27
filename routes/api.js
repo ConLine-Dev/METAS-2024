@@ -138,6 +138,28 @@ router.get('/admin-comerciais', async (req, res, next) => {
     }
 });
 
+router.get('/operacionais', async (req, res, next) => {
+    try {
+        const result = await helpers.operacionais();
+
+        res.status(200).json(result)
+    } catch (error) {
+        
+        res.status(404).json(error)
+    }
+});
+
+router.get('/admin-operacionais', async (req, res, next) => {
+    try {
+        const result = await helpers.admin_operacionais();
+
+        res.status(200).json(result)
+    } catch (error) {
+        
+        res.status(404).json(error)
+    }
+});
+
 router.get('/meta-financeira-comercial', async (req, res, next) => {
     try {
         const result = await helpers.meta_financeira_comercial();

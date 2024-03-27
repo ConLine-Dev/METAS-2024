@@ -124,6 +124,44 @@ const helpers = {
       return result;
    },
 
+   operacionais: async function() {
+      const result = await executeQuerySQL(`
+         SELECT
+            Psa.IdPessoa,
+            Psa.Nome,
+            Psa.Email
+         FROM
+            cad_Equipe_Tarefa Etf
+         JOIN
+            cad_Equipe_Tarefa_Membro Etm ON Etm.IdEquipe_Tarefa = Etf.IdEquipe_Tarefa
+         JOIN
+            cad_Pessoa Psa ON Psa.IdPessoa = Etm.IdFuncionario
+         WHERE
+            Etf.IdEquipe_Tarefa = 80 /*OPERACIONAL*/`
+      )
+
+      return result;
+   },
+
+   admin_operacionais: async function() {
+      const result = await executeQuerySQL(`
+         SELECT
+            Psa.IdPessoa,
+            Psa.Nome,
+            Psa.Email
+         FROM
+            cad_Equipe_Tarefa Etf
+         JOIN
+            cad_Equipe_Tarefa_Membro Etm ON Etm.IdEquipe_Tarefa = Etf.IdEquipe_Tarefa
+         JOIN
+            cad_Pessoa Psa ON Psa.IdPessoa = Etm.IdFuncionario
+         WHERE
+            Etf.IdEquipe_Tarefa = 81 /*ADMIN OPERACIONAL*/`
+      )
+
+      return result;
+   },
+
    meta_financeira_comercial: async function() {
       const result = await executeQuerySQL(`
          SELECT
@@ -263,8 +301,43 @@ const helpers = {
          `)
 
       return result;
-   }
+   },
 
+   quantidade_processos: async function () {
+      const result = await executeQuerySQL(
+         `select lhs.Numero_Processo as 'processo',
+         case lhs.Situacao_Agenciamento
+         when 1 then 'Aberto'
+         when 2 then 'Em andamento'
+         when 3 then 'Liberado faturamento'
+           when 4 then 'Faturado'
+           when 5 then 'Finalizado'
+           when 6 then 'Auditado'
+           when 7 then 'Cancelado'
+           end as 'situacao',
+           fnc.IdPessoa as 'funcionario',
+             lhs.Data_Abertura_Processo as 'data'
+         from mov_Logistica_House lhs
+         
+             join cad_Pessoa pss on pss.IdPessoa = lhs.IdCliente join mov_Logistica_Master lgm on lgm.IdLogistica_Master = lhs.IdLogistica_Master
+             left outer join mov_Projeto_Atividade_Responsavel par on par.IdProjeto_Atividade = lhs.IdProjeto_Atividade and (par.IdPapel_Projeto = 2)
+             full join cad_Pessoa fnc on fnc.IdPessoa = par.IdResponsavel
+         
+         where DATEPART(year, lhs.Data_Abertura_Processo) = 2023
+         and lhs.Numero_Processo not like '%DEMU%'
+         and lhs.Numero_Processo not like '%test%'
+         and lgm.Tipo_Operacao = 2
+             and lgm.Modalidade_Processo = 2
+             
+             or DATEPART(year, lhs.Data_Abertura_Processo) = 2024
+             and lhs.Numero_Processo not like '%DEMU%'
+             and lhs.Numero_Processo not like '%test%'
+             and lgm.Tipo_Operacao = 2
+             and lgm.Modalidade_Processo = 2
+         `)
+
+      return result;
+   }
 
 }
 
