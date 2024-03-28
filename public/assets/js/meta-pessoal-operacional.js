@@ -1,5 +1,9 @@
 const listaOperacionais = await Thefetch('/api/operacionais');
 const dadosLogin = JSON.parse(localStorage.getItem('metasUser'));
+const recompras_operacional = await Thefetch('/api/recompras_operacional');
+let lucro_estimado_por_processo;
+
+var notaFinal = 0;
 
 async function usuario_logado(consulta) {
   for (let i = 0; i < consulta.length; i++) {
@@ -11,8 +15,8 @@ async function usuario_logado(consulta) {
 };
 
 async function recomprasCalculo(){
-  const retorno_recompras = await fetch('/api/recompras_operacional');
-  const recompras_operacional = await retorno_recompras.json();
+
+  const idUsuarioLogado = await usuario_logado(listaOperacionais);
   var recompraUSD = 0;
   var recompraBRL = 0;
   var recompraEUR = 0;
@@ -20,28 +24,27 @@ async function recomprasCalculo(){
   var totalConvertidoBRL = 0;
 
   for (let index = 0; index < recompras_operacional.length; index++) {
-    if(recompras_operacional[index].id_moeda == 1){
+    if(recompras_operacional[index].id_moeda == 1 && recompras_operacional[index].id_operacional == idUsuarioLogado){
       recompraUSD = recompraUSD + recompras_operacional[index].valor;
       totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor*5);
-    }else if(recompras_operacional[index].id_moeda == 2){
+    }else if(recompras_operacional[index].id_moeda == 2 && recompras_operacional[index].id_operacional == idUsuarioLogado){
       recompraBRL = recompraBRL + recompras_operacional[index].valor;
       totalConvertidoBRL = totalConvertidoBRL + recompras_operacional[index].valor;
-    }else if(recompras_operacional[index].id_moeda == 3){
+    }else if(recompras_operacional[index].id_moeda == 3 && recompras_operacional[index].id_operacional == idUsuarioLogado){
       recompraEUR = recompraEUR + recompras_operacional[index].valor;
       totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor*7);
-    }else if(recompras_operacional[index].id_moeda == 4){
+    }else if(recompras_operacional[index].id_moeda == 4 && recompras_operacional[index].id_operacional == idUsuarioLogado){
       recompraGBP = recompraGBP + recompras_operacional[index].valor;
       totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor*9);
     }
   }
 
   return {recompraUSD, recompraBRL, recompraEUR, recompraGBP, totalConvertidoBRL};
-
 }
 
 async function iniciarPagina(){
 
-  const idUsuarioLogado = await usuario_logado(comerciais);
+  const idUsuarioLogado = await usuario_logado(listaOperacionais);
 
   recomprasCalculo();
   const arrayRecompras = await recomprasCalculo();
@@ -49,24 +52,62 @@ async function iniciarPagina(){
 
   const retorno_divCE = await fetch('/api/divergencias_ce_mercante');
   const divergencias_CE = await retorno_divCE.json();
+  var totalDivergenciasCE = 0;
 
   const retorno_divFinanceiro = await fetch('/api/divergencias_financeiras');
   const divergencias_financeiras = await retorno_divFinanceiro.json();
+  var totalDivergenciasFinanceiras = 0;
 
   const retorno_processos = await fetch('/api/quantidade_processos');
   const totalProcessos = await retorno_processos.json();
   var totalProcessosAbertos = 0;
 
+  var totalNaoConformidades = 0;
+
   for (let index = 0; index < totalProcessos.length; index++) {
-    if(totalProcessos[index].situacao == 'Liberado faturamento' && totalProcessos[index].IdPessoa == idUsuarioLogado){
+    if(totalProcessos[index].situacao == 'Liberado faturamento' && totalProcessos[index].funcionario == idUsuarioLogado){
       totalProcessosAbertos++;
-    } else if(totalProcessos[index].situacao == 'Em andamento' && totalProcessos[index].IdPessoa == idUsuarioLogado){
+    } else if(totalProcessos[index].situacao == 'Em andamento' && totalProcessos[index].funcionario == idUsuarioLogado){
       totalProcessosAbertos++;
-    } else if(totalProcessos[index].situacao == 'Aberto' && totalProcessos[index].IdPessoa == idUsuarioLogado){
+    } else if(totalProcessos[index].situacao == 'Aberto' && totalProcessos[index].funcionario == idUsuarioLogado){
       totalProcessosAbertos++;
-    } else if(totalProcessos[index].situacao == 'Faturado' && totalProcessos[index].IdPessoa == idUsuarioLogado){
+    } else if(totalProcessos[index].situacao == 'Faturado' && totalProcessos[index].funcionario == idUsuarioLogado){
       totalProcessosAbertos++;
     }
+  }
+
+  for(let index = 0; index < divergencias_financeiras.length; index++){
+    if(divergencias_financeiras[index].IdResponsavel == idUsuarioLogado){
+      totalDivergenciasFinanceiras++;
+      notaFinal = notaFinal - 0.5;
+    }
+  }
+
+  for(let index = 0; index < divergencias_CE.length; index++){
+    if(divergencias_CE[index].IdResponsavel == idUsuarioLogado){
+      totalDivergenciasCE++;
+      notaFinal = notaFinal - 0.5;
+    }
+  }
+
+  if(divergencias_CE.length == 0 && divergencias_financeiras.length == 0){
+    notaFinal = notaFinal + 2;
+  }
+  if(totalNaoConformidades == 0){
+    notaFinal = notaFinal + 5;
+  }
+  if(recompraTotalConvertida > 3000){
+    notaFinal = notaFinal + 0.5;
+  }if(recompraTotalConvertida > 6000){
+    notaFinal = notaFinal + 0.5;
+  }if(recompraTotalConvertida > 9000){
+    notaFinal = notaFinal + 0.5;
+  }if(recompraTotalConvertida > 12000){
+    notaFinal = notaFinal + 0.5;
+  }if(recompraTotalConvertida > 15000){
+    notaFinal = notaFinal + 0.5;
+  }if(recompraTotalConvertida > 18000){
+    notaFinal = notaFinal + 0.5;
   }
 
   var divNotaOperacional = document.getElementById('divNotaOperacional');
@@ -74,8 +115,6 @@ async function iniciarPagina(){
   var divFinanceiro = document.getElementById('divFinanceiro');
   var divCE = document.getElementById('divCE');
   var divRecompraTotal = document.getElementById('divRecompraTotal');
-
-  var nota = 8.5;
 
   let printNotaOperacional = '';
   let printProcessos = '';
@@ -85,7 +124,7 @@ async function iniciarPagina(){
 
   printNotaOperacional = `<div class="mb-2">Nota Operacional</div>
   <div class="text-muted mb-1 fs-12"> 
-     <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${nota.toFixed(2)} </span> 
+     <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${notaFinal.toFixed(2)} </span> 
   </div>
   <div> 
      <span class="fs-12 mb-0">Nota definida com base nas métricas estipuladas</span>
@@ -105,7 +144,7 @@ async function iniciarPagina(){
 
   printDivFinanceiro = `<div class="mb-2">Divergências Financeiras</div>
   <div class="text-muted mb-1 fs-12"> 
-     <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${divergencias_financeiras.length} </span> 
+     <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${totalDivergenciasFinanceiras} </span> 
   </div>
   <div> 
      <span class="fs-12 mb-0">Número de divergências informadas pelo financeiro</span>
@@ -115,7 +154,7 @@ async function iniciarPagina(){
 
   printDivCE = `<div class="mb-2">Divergências CE</div>
   <div class="text-muted mb-1 fs-12"> <span
-        class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${divergencias_CE.length} </span> </div>
+        class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${totalDivergenciasCE} </span> </div>
   <div> 
      <span class="fs-12 mb-0">Número de divergências no CE Mercante</span>
   </div>`
@@ -290,6 +329,64 @@ async function criarGraficos(){
   recompraChart.render();
 }
 
+async function eventos_cliques() {
+  const input_pesquisa_processo = document.querySelector('#pesquisar-processos');
+  input_pesquisa_processo.addEventListener('keyup', function (e) {
+     e.preventDefault();
+
+     const valor_texto = this.value.toUpperCase();
+     lucro_estimado_por_processo.search(valor_texto).draw();
+  });
+
+};
+
+async function faturamento_processo(consulta) {
+  const idUsuarioLogado = await usuario_logado(listaOperacionais);
+  const lucratividade_processos = {};
+
+  for (let i = 0; i < consulta.length; i++) {
+     const item = consulta[i];
+     if (item.id_operacional === idUsuarioLogado) {
+        const numero_processo = item.numero_processo;
+        console.log(lucratividade_processos[numero_processo]);
+        lucratividade_processos[numero_processo] = {
+           numero_processo: item.numero_processo,
+           id_moeda: item.id_moeda,
+           valor: item.valor,
+           data: item.data
+        };
+     }
+  }
+
+  const resultados = Object.values(lucratividade_processos);
+
+  lucro_estimado_por_processo = $('.table').DataTable({
+     "data": resultados,
+     "columns": [
+           { "data": "numero_processo" },
+           {
+              "data": "id_moeda",
+              "className": "id_moeda",
+              "render": function (data, type, row) {
+                 return `<span>${data}</span>`;
+              }
+           },
+           {
+              "data": "valor",
+              "className": "valor",
+              "render": function (data, type, row) {
+                 return `<span>${data.toFixed(2).toLocaleString('pt-BR')}</span>`;
+              }
+           }
+     ],
+     "language": {
+           url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json' // Tradução para o português do Brasil
+     },
+     "order": [[0, 'desc']],
+     "lengthMenu": [[7], [7]],
+     "pageLenght": 8
+  });
+};
 
 async function mostrar_loading() {
   let img = document.getElementById('loading-img');
@@ -309,8 +406,9 @@ async function remover_loading() {
 async function main(){
   await mostrar_loading();
   await iniciarPagina();
+  await faturamento_processo(recompras_operacional);
   await criarGraficos();
   await remover_loading();
 }
 
-main();
+await main();

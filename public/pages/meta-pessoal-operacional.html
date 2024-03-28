@@ -7,6 +7,7 @@
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <title>Conline - Meta Pessoal Operacional</title>
    <meta name="Description" content="Metas Conline">
+   <link rel="stylesheet" href="/assets/libs/dataTables/dataTables.bootstrap5.min.css">
    <!-- Favicon -->
    <link rel="icon" href="/assets/images/brand-logos/icon-redondo.png" type="image/x-icon" />
    <!-- Bootstrap Css -->
@@ -361,127 +362,86 @@
                         </div>
                      </div>
                   </div>
-                  <div class="col-xl-3">
-                    <div class="card custom-card" style="height: 550px;">
-                       <div class="card-header justify-content-between">
-                          <div class="card-title"> Recompras Detalhadas </div>
-                          <div class="d-sm-flex">
-                            <nav aria-label="Page navigation" class="pagination-style-4">
-                                <ul class="pagination mb-0">
-                                   <li class="page-item active"><a class="page-link" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#meuModal">+</a></li>
-                                   <li class="page-item">
-                                    <div class="me-3 mb-3 mb-sm-0"> <input class="form-control form-control-sm" type="text"
-                                    placeholder="Pesquisar" aria-label=".form-control-sm example"> </div>
-                                </li>
-                                </ul>
-                             </nav>
-                          </div>
-                       </div>
-                       <div class="modal" tabindex="-1" id="meuModal">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title">Registro de Recompra</h5>
-                            </div>
-                            <div class="modal-body">
-                              <div class="row text-start">
-                                <div class="col-12 col-md-12 ms-auto mt-3 text-start">
-                                  <div>
-                                    <label class="form-label mb-0 ms-0">Nº do Processo</label>
-                                    <input class="multisteps-form__input form-control" type="text" id="numeroProcesso"/>
-                                  </div>
-                                </div>
-                                <div class="col-12 col-md-6 ms-auto mt-3 text-start">
-                                  <div>
-                                    <label class="form-label mb-0 ms-0">Moeda</label>
-                                    <select class="form-control" id="tipoMoeda">
-                                      <option value="NULL"> </option>
-                                      <option value="1">USD</option>
-                                      <option value="2">BRL</option>
-                                      <option value="3">EUR</option>
-                                      <option value="4">GBP</option>
-                                    </select>
-                                  </div>
-                                </div>
-                                <div class="col-12 col-md-6 ms-auto mt-3 text-start">
-                                  <div>
-                                    <label class="form-label mb-0 ms-0">Valor</label>
-                                    <input class="multisteps-form__input form-control" type="number" id="valorRecompra"/>
-                                  </div>
-                                </div>
-                                <div class="col-12 col-md-12 ms-auto mt-3 text-start">
-                                  <div>
-                                    <label class="form-label mb-0 ms-0">Descrição</label>
-                                    <select class="form-control" id="campoLivre">
-                                       <option value="NULL"> </option>
-                                       <option value="correcao">CORREÇÃO</option>
-                                       <option value="profit-agente">PROFIT AGENTE</option>
-                                       <option value="taxa-destino">TAXAS DE DESTINO</option>
-                                       <option value="taxa-origem">TAXAS DE ORIGEM</option>
-                                       <option value="telex-release">TELEX RELEASE</option>
-                                     </select>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn bg-gradient-dark ms-auto mb-0 page-item" type="button" title="Send" onclick="confirmar();
-                                $('#meuModal').modal('hide');">Enviar</button>
-                              </div>
-                          </div>
-                        </div>
-                      </div>
-                       <div class="card-body">
-                          <div class="table-responsive">
-                             <table class="table text-nowrap table-bordered">
-                                <thead>
-                                   <tr>
-                                      <th scope="col">N° Processo</th>
-                                      <th scope="col">Valor</th>
-                                   </tr>
-                                </thead>
-                                <tbody>
-                                   <tr>
-                                      <td> <span class="fw-semibold">IM0000-24</span> </td>
-                                      <td> <span class="badge bg-success-transparent" >R$ 22.411,87</span> </td>
-                                   </tr>
-                                   <tr>
-                                      <td> <span class="fw-semibold">IM0001-24</span> </td>
-                                      <td> <span class="badge bg-success-transparent" >R$ 2.822,01</span> </td>
-                                   </tr>
-                                   <tr>
-                                      <td> <span class="fw-semibold">IM0002-24</span> </td>
-                                      <td> <span class="badge bg-success-transparent" >R$ 4.357,52</span> </td>
-                                   </tr>
-                                   <tr>
-                                      <td> <span class="fw-semibold">IM0003-24</span> </td>
-                                      <td> <span class="badge bg-success-transparent" >R$ 14.602,38</span> </td>
-                                   </tr>
-                                   <tr>
-                                      <td> <span class="fw-semibold">IM0004-24</span> </td>
-                                      <td> <span class="badge bg-success-transparent" >R$ 125.001,25</span> </td>
-                                   </tr>
-                                </tbody>
-                             </table>
-                          </div>
-                       </div>
-                       <div class="card-footer">
-                          <div class="d-flex align-items-center">
-                             <div class="ms-auto">
-                                <nav aria-label="Page navigation" class="pagination-style-4">
-                                   <ul class="pagination mb-0">
-                                      <li class="page-item disabled"> <a class="page-link" href="javascript:void(0);"> Voltar </a>
-                                      </li>
-                                      <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
-                                      <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-                                      <li class="page-item"> <a class="page-link text-primary" href="javascript:void(0);"> Próximo
-                                         </a> </li>
-                                   </ul>
-                                </nav>
+                  <div class="modal" tabindex="-1" id="meuModal">
+                     <div class="modal-dialog">
+                       <div class="modal-content">
+                         <div class="modal-header">
+                           <h5 class="modal-title">Registro de Recompra</h5>
+                         </div>
+                         <div class="modal-body">
+                           <div class="row text-start">
+                             <div class="col-12 col-md-12 ms-auto mt-3 text-start">
+                               <div>
+                                 <label class="form-label mb-0 ms-0">Nº do Processo</label>
+                                 <input class="multisteps-form__input form-control" type="text" id="numeroProcesso"/>
+                               </div>
                              </div>
-                          </div>
+                             <div class="col-12 col-md-6 ms-auto mt-3 text-start">
+                               <div>
+                                 <label class="form-label mb-0 ms-0">Moeda</label>
+                                 <select class="form-control" id="tipoMoeda">
+                                   <option value="NULL"> </option>
+                                   <option value="1">USD</option>
+                                   <option value="2">BRL</option>
+                                   <option value="3">EUR</option>
+                                   <option value="4">GBP</option>
+                                 </select>
+                               </div>
+                             </div>
+                             <div class="col-12 col-md-6 ms-auto mt-3 text-start">
+                               <div>
+                                 <label class="form-label mb-0 ms-0">Valor</label>
+                                 <input class="multisteps-form__input form-control" type="number" id="valorRecompra"/>
+                               </div>
+                             </div>
+                             <div class="col-12 col-md-12 ms-auto mt-3 text-start">
+                               <div>
+                                 <label class="form-label mb-0 ms-0">Descrição</label>
+                                 <select class="form-control" id="campoLivre">
+                                    <option value="NULL"> </option>
+                                    <option value="correcao">CORREÇÃO</option>
+                                    <option value="profit-agente">PROFIT AGENTE</option>
+                                    <option value="taxa-destino">TAXAS DE DESTINO</option>
+                                    <option value="taxa-origem">TAXAS DE ORIGEM</option>
+                                    <option value="telex-release">TELEX RELEASE</option>
+                                  </select>
+                               </div>
+                             </div>
+                           </div>
+                         </div>
+                         <div class="modal-footer">
+                             <button class="btn bg-gradient-dark ms-auto mb-0 page-item" type="button" title="Send" onclick="confirmar();
+                             $('#meuModal').modal('hide');">Enviar</button>
+                           </div>
                        </div>
-                    </div>
+                     </div>
+                   </div>
+                  <div class="col-xl-3">
+                     <div class="card custom-card" style="height: 550px;">
+                        <div class="card-header justify-content-between">
+                           <div class="card-title"> Processos </div>
+                           <div class="d-sm-flex">
+                              <div class="me-3 mb-3 mb-sm-0"> 
+                                 <input class="form-control form-control-sm" id="pesquisar-processos" type="text" placeholder="Pesquisar" aria-label=".form-control-sm example"> 
+                                 </div>
+                           </div>
+                        </div>
+                        <div class="card-body">
+                           <div class="table-responsive">
+                              <table class="table text-nowrap table-bordered">
+                                 <thead>
+                                    <tr>
+                                       <th scope="col">Numero Processo</th>
+                                       <th scope="col">Moeda</th>
+                                       <th scope="col">Valor</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
                  </div>
                   </div>
                </div>
@@ -504,14 +464,16 @@
    <!-- Footer End -->
    <div id="responsive-overlay"></div>
    
+   <script type="module" src="/assets/js/meta-pessoal-operacional.js"></script>
+   
+   <script src="/assets/libs/dataTables/jquery-3.6.1.min.js"></script>
+   <script src="/assets/libs/dataTables/jquery.dataTables.min.js"></script>
+   <script src="/assets/libs/dataTables/dataTables.bootstrap5.min.js"></script>
+   
    <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
    <script src="/assets/js/custom.js"></script>
    <script src="/assets/js/defaultmenu.min.js"></script>
    <script src="/assets/libs/apexcharts/apexcharts.min.js"></script>
-   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-   
-   <script src="/assets/js/meta-pessoal-operacional.js"></script>
    
    <script>
       var modal = document.getElementById("meuModal");
