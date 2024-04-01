@@ -124,6 +124,74 @@ const helpers = {
       return result;
    },
 
+   admin_cards_comerciais: async function() {
+      const result = await executeQuerySQL(`
+         SELECT
+            Lhs.IdVendedor,
+            Ven.Nome,
+            Ven.EMail,
+            COALESCE(Lhs.Processos, 0) AS Processos,
+            COALESCE(Pfr.Propostas, 0) AS Propostas,
+            COALESCE(Lmd.Lucro_Estimado, 0) AS Lucro_Estimado
+         FROM (
+            SELECT
+               Lhs.idVendedor,
+               COUNT(Lhs.IdLogistica_House) AS Processos
+            FROM
+               mov_Logistica_House Lhs
+            WHERE
+               Lhs.Numero_Processo NOT LIKE '%test%'
+               and Lhs.Numero_Processo NOT LIKE '%DEMU%'
+               and Lhs.Situacao_Agenciamento NOT IN (7 /* CANCELADOS */)
+               and DATEPART(YEAR, Lhs.Data_Abertura_Processo) = ${anoAtual}
+            GROUP BY
+               Lhs.IdVendedor
+         ) Lhs
+         LEFT OUTER JOIN (
+            SELECT
+               Lhs.IdVendedor,
+               SUM(Lmd.Lucro_Estimado) AS Lucro_Estimado
+            FROM
+               mov_Logistica_Moeda Lmd
+            LEFT OUTER JOIN
+               mov_Logistica_House Lhs ON Lhs.IdLogistica_House = Lmd.IdLogistica_House
+            WHERE
+               Lhs.Numero_Processo NOT LIKE '%test%'
+               AND Lhs.Numero_Processo NOT LIKE '%DEMU%'
+               AND Lhs.Situacao_Agenciamento NOT IN (7 /* CANCELADOS */)
+               AND DATEPART(YEAR, Lhs.Data_Abertura_Processo) = ${anoAtual}
+               AND Lmd.IdMoeda = 110
+            GROUP BY
+               Lhs.IdVendedor
+         ) Lmd ON Lmd.IdVendedor = Lhs.IdVendedor
+         LEFT OUTER JOIN (
+            SELECT
+               Pfr.IdVendedor,
+               COUNT(Pfr.IdProposta_Frete) AS Propostas
+            FROM
+               mov_Oferta_Frete Ofr
+            LEFT OUTER JOIN
+               mov_Proposta_Frete Pfr ON Pfr.IdProposta_Frete = Ofr.IdProposta_Frete
+            WHERE
+               Pfr.Numero_Proposta NOT LIKE '%test%'
+               AND Pfr.Situacao = 2 /* APROVADA */
+               AND DATEPART(YEAR, Pfr.Data_Proposta) = ${anoAtual}
+            GROUP BY
+               Pfr.IdVendedor
+         ) Pfr ON Pfr.IdVendedor = Lhs.IdVendedor
+         LEFT OUTER JOIN
+            cad_Pessoa Ven ON Ven.IdPessoa = Lhs.IdVendedor
+         LEFT OUTER JOIN
+            cad_Equipe_Tarefa_Membro Etm ON Etm.IdFuncionario = Ven.IdPessoa
+         WHERE
+            Etm.IdEquipe_Tarefa = 75 /*COMERCIAL*/
+         ORDER BY
+            Ven.Nome`
+      )
+
+      return result;
+   },
+
    operacionais: async function() {
       const result = await executeQuerySQL(`
          SELECT
@@ -162,7 +230,9 @@ const helpers = {
       return result;
    },
 
-   meta_financeira_comercial: async function() {
+   meta_financeira_comercial: async function(IdVendedor, email) {
+      const where_vendedor = IdVendedor ? `and Lhs.IdVendedor = ${IdVendedor}` : '';
+      const where_email = email ? `and Fnc.EMail = '${email}'` : '';
       const result = await executeQuerySQL(`
          SELECT
             Lhs.IdLogistica_House AS ID_LOGISTICA_HOUSE,
@@ -182,6 +252,7 @@ const helpers = {
          
             Lhs.IdVendedor AS ID_VENDEDOR,
             Fnc.Nome AS VENDEDOR,
+            Fnc.EMail AS EMAIL_VENDEDOR,
          
             Lmd.Total_Pagamento AS TOTAL_PAGAMENTO,
             Lmd.Total_Recebimento AS TOTAL_RECEBIMENTO,
@@ -201,13 +272,18 @@ const helpers = {
             DATEPART(YEAR, Lhs.Data_Abertura_Processo) = ${anoAtual}
             AND Lhs.Numero_Processo NOT LIKE '%test%'
             AND Lhs.Numero_Processo NOT LIKE '%DEMU%'
+            AND Lhs.Situacao_Agenciamento NOT IN (7 /* CANCELADOS */)
             AND Lmd.IdMoeda = 110
+            ${where_vendedor}
+            ${where_email}
       `)
 
       return result;
    },
 
-   proposta_meta_comercial: async function() {
+   proposta_meta_comercial: async function(IdVendedor, email) {
+      const where_vendedor = IdVendedor ? `and Pfr.IdVendedor = ${IdVendedor}` : '';
+      const where_email = email ? `and Fnc.EMail = '${email}'` : '';
       const result = await executeQuerySQL(`
          SELECT
             Pfr.IdProposta_Frete,
@@ -216,6 +292,7 @@ const helpers = {
             DATEPART(MONTH, Pfr.Data_Proposta) AS MES,
 
             Pfr.IdVendedor AS ID_VENDEDOR,
+            Fnc.EMail,
             Fnc.Nome AS VENDEDOR,
 
             CASE Pfr.Situacao
@@ -234,6 +311,38 @@ const helpers = {
             cad_Pessoa Fnc ON Fnc.IdPessoa = Pfr.IdVendedor
          WHERE
             DATEPART(YEAR, Pfr.Data_Proposta) = ${anoAtual}
+            AND Pfr.Numero_Proposta NOT LIKE '%test%'
+            ${where_vendedor}
+            ${where_email}
+      `)
+
+      return result;
+   },
+
+   processos_meta_comercial: async function(IdVendedor, email) {
+      const where_vendedor = IdVendedor ? `and Lhs.IdVendedor = ${IdVendedor}` : '';
+      const where_email = email ? `and Fnc.EMail = '${email}'` : '';
+      const result = await executeQuerySQL(`
+         SELECT
+            Lhs.IdLogistica_House AS ID_LOGISTICA_HOUSE,
+            Lhs.IdVendedor AS ID_VENDEDOR,
+            Fnc.EMail,
+
+            CASE Lhs.Situacao_Agenciamento
+               WHEN 7 THEN 'CANCELADO'
+               ELSE 'PROCESSO'
+            END AS Situacao
+         
+         FROM
+            mov_Logistica_House Lhs
+         LEFT OUTER JOIN
+            cad_Pessoa Fnc ON Fnc.IdPessoa = Lhs.IdVendedor
+         WHERE
+            DATEPART(YEAR, Lhs.Data_Abertura_Processo) = ${anoAtual}
+            AND Lhs.Numero_Processo NOT LIKE '%test%'
+            AND Lhs.Numero_Processo NOT LIKE '%DEMU%'
+            ${where_vendedor}
+            ${where_email}
       `)
 
       return result;

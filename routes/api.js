@@ -138,6 +138,17 @@ router.get('/admin-comerciais', async (req, res, next) => {
     }
 });
 
+router.get('/admin-cards-comerciais', async (req, res, next) => {
+    try {
+        const result = await helpers.admin_cards_comerciais();
+
+        res.status(200).json(result)
+    } catch (error) {
+        
+        res.status(404).json(error)
+    }
+});
+
 router.get('/operacionais', async (req, res, next) => {
     try {
         const result = await helpers.operacionais();
@@ -162,7 +173,8 @@ router.get('/admin-operacionais', async (req, res, next) => {
 
 router.get('/meta-financeira-comercial', async (req, res, next) => {
     try {
-        const result = await helpers.meta_financeira_comercial();
+        const { IdVendedor, email } = req.query;
+        const result = await helpers.meta_financeira_comercial(IdVendedor, email);
 
         res.status(200).json(result)
     } catch (error) {
@@ -173,7 +185,20 @@ router.get('/meta-financeira-comercial', async (req, res, next) => {
 
 router.get('/proposta-meta-comercial', async (req, res, next) => {
     try {
-        const result = await helpers.proposta_meta_comercial();
+        const { IdVendedor, email } = req.query;
+        const result = await helpers.proposta_meta_comercial(IdVendedor, email);
+
+        res.status(200).json(result)
+    } catch (error) {
+        
+        res.status(404).json(error)
+    }
+});
+
+router.get('/processos-meta-comercial', async (req, res, next) => {
+    try {
+        const { IdVendedor, email } = req.query;
+        const result = await helpers.processos_meta_comercial(IdVendedor, email);
 
         res.status(200).json(result)
     } catch (error) {
