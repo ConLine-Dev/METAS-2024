@@ -1,34 +1,21 @@
-const meta_financeira_comercial = await Thefetch('/api/meta-financeira-comercial');
-const proposta_meta_comercial = await Thefetch('/api/proposta-meta-comercial');
-const comerciais = await Thefetch('/api/comerciais');
 const dados_login = JSON.parse(localStorage.getItem('metasUser'));
-
-const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
-
+const meta_financeira_comercial = await Thefetch(`/api/meta-financeira-comercial?email=${dados_login.email}`);
+const proposta_meta_comercial = await Thefetch(`/api/proposta-meta-comercial?email=${dados_login.email}`);
+const processos_meta_comercial = await Thefetch(`/api/processos-meta-comercial?email=${dados_login.email}`);
+const comerciais = await Thefetch('/api/comerciais');
 let lucro_estimado_por_processo;
 
-// Pega o email do usuario logado e compara com a consulta do servidor para retornar o IdPessoa
-async function usuario_logado(consulta) {
-   for (let i = 0; i < consulta.length; i++) {
-      const item = consulta[i];
-      if (item.Email === dados_login.email) {
-         return item.IdPessoa;
-      }
-   }
-};
+const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
 
 // Pega o lucro estimado do vendedor no mes atual
 async function lucro_estimado_mes_atual(consulta) {
    const data_atual = new Date();
    const mes_atual = data_atual.getMonth() + 1;
 
-   const idUsuarioLogado = await usuario_logado(comerciais);
-
-
    // Usa o reduce para somar os valores de lucro estimado do mes atual
    const lucro_estimado = consulta.reduce((total, item) => {
       // Verifica se o usuario logado é um vendedor e se existe registros de valores para o mes atual para somar
-      if (mes_atual === item.MES && idUsuarioLogado == item.ID_VENDEDOR) {
+      if (mes_atual === item.MES) {
          return total + item.LUCRO_ESTIMADO;
       }
       return total;
@@ -40,10 +27,8 @@ async function lucro_estimado_mes_atual(consulta) {
 
 // Retorna o total de processo, proposta o que for passado na consulta, mas tem que tem o ID_VENDEDOR e o MES na consulta
 async function quantidade_itens_mes_atual(consulta, situacao) {
-   const id_usuario_logado = await usuario_logado(comerciais);
-
    // Retorna os itens do mes atual e do usuario logado
-   const total =  consulta.filter(item => item.Situacao === situacao && id_usuario_logado === item.ID_VENDEDOR);
+   const total =  consulta.filter(item => item.Situacao === situacao);
 
    return total;
 };
@@ -52,8 +37,8 @@ async function quantidade_itens_mes_atual(consulta, situacao) {
 async function grafico_proposta_processo() {
    const propostas_aprovadas = await quantidade_itens_mes_atual(proposta_meta_comercial, 'APROVADA');
    const propostas_nao_aprovadas = await quantidade_itens_mes_atual(proposta_meta_comercial, 'NAO APROVADA');
-   const processos = await quantidade_itens_mes_atual(meta_financeira_comercial, 'PROCESSO');
-   const processos_cancelados = await quantidade_itens_mes_atual(meta_financeira_comercial, 'CANCELADO');
+   const processos = await quantidade_itens_mes_atual(processos_meta_comercial, 'PROCESSO');
+   const processos_cancelados = await quantidade_itens_mes_atual(processos_meta_comercial, 'CANCELADO');
 
    const propostas_aprovadas_html = document.getElementById('propostas-aprovadas');
    const propostas_nao_aprovadas_html = document.getElementById('propostas-nao-aprovadas');
@@ -122,20 +107,17 @@ async function grafico_proposta_processo() {
 
 // Cria a tabela com os processos e o total de recebimento, pagamento e lucro de cada um
 async function faturamento_processo(consulta) {
-   const id_usuario_logado = await usuario_logado(comerciais);
    const lucratividade_processos = {};
 
    for (let i = 0; i < consulta.length; i++) {
       const item = consulta[i];
-      if (item.ID_VENDEDOR === id_usuario_logado) {
-         const numero_processo = item.NUMERO_PROCESSO;
-         lucratividade_processos[numero_processo] = {
-            numero_processo: item.NUMERO_PROCESSO,
-            pagamento: item.TOTAL_PAGAMENTO,
-            recebimento: item.TOTAL_RECEBIMENTO,
-            lucro: item.LUCRO_ESTIMADO
-         };
-      }
+      const numero_processo = item.NUMERO_PROCESSO;
+      lucratividade_processos[numero_processo] = {
+         numero_processo: item.NUMERO_PROCESSO,
+         pagamento: item.TOTAL_PAGAMENTO,
+         recebimento: item.TOTAL_RECEBIMENTO,
+         lucro: item.LUCRO_ESTIMADO
+      };
    }
 
    // Converter o objeto em um array de objetos
@@ -178,22 +160,19 @@ async function faturamento_processo(consulta) {
 
 // Retonar um array com o lucro estimado de cada mes
 async function lucro_estimado_mes_a_mes(consulta) {
-   const id_usuario_logado = await usuario_logado(comerciais);
    const soma_por_mes = [];
 
    for (let i = 0; i < consulta.length; i++) {
       const item = consulta[i];
       const mes_existente = soma_por_mes.find(mes => mes.MES === item.MES); // Encontra o mes na consulta do banco e salva na variavel
 
-      if (item.ID_VENDEDOR === id_usuario_logado) {
-         if (mes_existente) {
-            mes_existente.LUCRO_ESTIMADO += item.LUCRO_ESTIMADO; // Se o mes existir na variavel ele concatena o novo valor localizado
-         } else {
-            soma_por_mes.push({
-               MES: item.MES,
-               LUCRO_ESTIMADO: item.LUCRO_ESTIMADO
-            });
-         }
+      if (mes_existente) {
+         mes_existente.LUCRO_ESTIMADO += item.LUCRO_ESTIMADO; // Se o mes existir na variavel ele concatena o novo valor localizado
+      } else {
+         soma_por_mes.push({
+            MES: item.MES,
+            LUCRO_ESTIMADO: item.LUCRO_ESTIMADO
+         });
       }
    }
 
@@ -205,7 +184,7 @@ async function lucro_estimado_mes_a_mes(consulta) {
 async function grafico_lucro_estimado(consulta) {
    const lucro_estimado = await lucro_estimado_mes_a_mes(consulta);
 
-   const valores_arrecadados = lucro_estimado.map(item => (item.LUCRO_ESTIMADO).toFixed(2));
+   const valores_arrecadados = lucro_estimado.map(item => Number((item.LUCRO_ESTIMADO).toFixed(2)));
    
    const metas_mensais = [30000,35000,40000,0,0,0,0,0,0,0,0,0]
    
@@ -249,8 +228,8 @@ async function grafico_lucro_estimado(consulta) {
       },
 
       tooltip: {
-         shared: true,
-         enabled: true,
+         shared: false,
+         enabled: false,
          intersect: false,
          y: {
            formatter: function (val) {
@@ -275,7 +254,7 @@ async function grafico_lucro_estimado(consulta) {
 
    const chart = new ApexCharts(document.querySelector("#lucro-estimado-mes-a-mes"), options);
    chart.render();
-}
+};
 
 // Nesta função crio todos os eventos de cliques como pesquisa etc
 async function eventos_cliques() {
@@ -289,7 +268,6 @@ async function eventos_cliques() {
 
 
 };
-
 
 async function mostrar_loading() {
    let img = document.getElementById('loading-img');
