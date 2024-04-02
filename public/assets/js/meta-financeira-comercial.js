@@ -150,7 +150,7 @@ async function faturamento_processo(consulta) {
             }
       ],
       "language": {
-            url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json' // Tradução para o português do Brasil
+            url: '/assets/libs/dataTables/dataTables.plugins.pt-br.json' // Tradução para o português do Brasil
       },
       "order": [[3, 'desc']],
       "lengthMenu": [[8], [8]],
@@ -265,15 +265,6 @@ async function eventos_cliques() {
       const valor_texto = this.value.toUpperCase();
       lucro_estimado_por_processo.search(valor_texto).draw();
    });
-
-
-};
-
-async function mostrar_loading() {
-   let img = document.getElementById('loading-img');
-
-   // Define o caminho do gif
-   img.src = "/assets/images/brand-logos/SLOGAN VERMELHO.gif";
 };
 
 async function remover_loading() {
@@ -284,9 +275,7 @@ async function remover_loading() {
    corpoDashboard.style.display = 'block';
 };
 
-
 async function main() {
-   await mostrar_loading();
    await lucro_estimado_mes_atual(meta_financeira_comercial);
    await faturamento_processo(meta_financeira_comercial);
    await grafico_lucro_estimado(meta_financeira_comercial);
