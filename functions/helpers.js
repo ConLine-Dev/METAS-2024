@@ -192,6 +192,87 @@ const helpers = {
       return result;
    },
 
+   admin_modal_valores_comerciais: async function(IdVendedor) {
+      const result = await executeQuerySQL(`
+         SELECT
+            Lhs.IdVendedor,
+            Lmd.Mes,
+            Ven.Nome,
+            Ven.EMail,
+            COALESCE(Lmd.Lucro_Estimado, 0) AS Lucro_Estimado,
+            COALESCE(Lmd.Lucro_Efetivo, 0) AS Lucro_Efetivo
+         FROM (
+            SELECT
+               Lhs.idVendedor,
+               COUNT(Lhs.IdLogistica_House) AS Processos
+            FROM
+               mov_Logistica_House Lhs
+            WHERE
+               Lhs.Numero_Processo NOT LIKE '%test%'
+               and Lhs.Numero_Processo NOT LIKE '%DEMU%'
+               and Lhs.Situacao_Agenciamento NOT IN (7 /* CANCELADOS */)
+               and DATEPART(YEAR, Lhs.Data_Abertura_Processo) = ${anoAtual}
+            GROUP BY
+               Lhs.IdVendedor
+         ) Lhs
+         LEFT OUTER JOIN (
+            SELECT
+               Lhs.IdVendedor,
+               CASE DATEPART(MONTH, Lhs.Data_Abertura_Processo)
+                  WHEN 1 THEN 'Janeiro'
+                  WHEN 2 THEN 'Fevereiro'
+                  WHEN 3 THEN 'Março'
+                  WHEN 4 THEN 'Abril'
+                  WHEN 5 THEN 'Maio'
+                  WHEN 6 THEN 'Junho'
+                  WHEN 7 THEN 'Julho'
+                  WHEN 8 THEN 'Agosto'
+                  WHEN 9 THEN 'Setembro'
+                  WHEN 10 THEN 'Outubro'
+                  WHEN 11 THEN 'Novembro'
+                  WHEN 12 THEN 'Dezembro'
+               END AS Mes,
+               SUM(Lmd.Lucro_Estimado) AS Lucro_Estimado,
+               SUM(Lmd.Lucro_Efetivo) AS Lucro_Efetivo
+            FROM
+               mov_Logistica_Moeda Lmd
+            LEFT OUTER JOIN
+               mov_Logistica_House Lhs ON Lhs.IdLogistica_House = Lmd.IdLogistica_House
+            WHERE
+               Lhs.Numero_Processo NOT LIKE '%test%'
+               AND Lhs.Numero_Processo NOT LIKE '%DEMU%'
+               AND Lhs.Situacao_Agenciamento NOT IN (7 /* CANCELADOS */)
+               AND DATEPART(YEAR, Lhs.Data_Abertura_Processo) = ${anoAtual}
+               AND Lmd.IdMoeda = 110
+            GROUP BY
+               Lhs.IdVendedor,
+               DATEPART(MONTH, Lhs.Data_Abertura_Processo)
+         ) Lmd ON Lmd.IdVendedor = Lhs.IdVendedor
+         LEFT OUTER JOIN
+            cad_Pessoa Ven ON Ven.IdPessoa = Lhs.IdVendedor
+         LEFT OUTER JOIN
+            cad_Equipe_Tarefa_Membro Etm ON Etm.IdFuncionario = Ven.IdPessoa
+         WHERE
+            Etm.IdEquipe_Tarefa = 75 /*COMERCIAL*/
+            AND Lhs.IdVendedor = ${IdVendedor}
+         ORDER BY
+            Ven.Nome`
+      )
+
+      return result;
+   },
+
+   inserir_meta_comercial: async function(body) {
+      const result = await executeQuery(`INSERT INTO meta_comercial 
+                              (id_comercial, nome_comercial, mes, ano, valor_meta) 
+                           VALUES (?, ?, ?, ?, ?)`, 
+                           // Passa os valores por parametros
+                           [body.id_comercial, body.nome_comercial, body.mes, body.ano, body.valor_meta]
+      )
+
+      return result
+   },
+
    operacionais: async function() {
       const result = await executeQuerySQL(`
          SELECT

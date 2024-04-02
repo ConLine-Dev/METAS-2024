@@ -149,6 +149,29 @@ router.get('/admin-cards-comerciais', async (req, res, next) => {
     }
 });
 
+router.get('/admin-modal-valores-comerciais', async (req, res, next) => {
+    try {
+        const { IdVendedor } = req.query;
+        const result = await helpers.admin_modal_valores_comerciais(IdVendedor);
+
+        res.status(200).json(result)
+    } catch (error) {
+        
+        res.status(404).json(error)
+    }
+});
+
+router.post('/inserir-meta-comercial', async (req, res, next) => {
+    try {
+        const body = req.body; // Recebe um objeto com os valores do front
+        const result = await helpers.inserir_meta_comercial(body);
+
+        res.status(200).json(result)
+    } catch (error) {
+        res.status(404).json(error)
+    }
+});
+
 router.get('/operacionais', async (req, res, next) => {
     try {
         const result = await helpers.operacionais();
