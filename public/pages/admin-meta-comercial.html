@@ -73,7 +73,7 @@
    <!-- / MODAl NOVO PROCESSO -->
 
    <!-- MODAL CADASTRO -->
-   <div class="modal fade" id="exampleModalToggle" aria-labelledby="exampleModalToggleLabel" tabindex="-1" style="display: none;" aria-hidden="true">
+   <div class="modal fade" id="exampleModalToggle" aria-labelledby="exampleModalToggleLabel" tabindex="-1" style="display: none;">
       <div class="modal-dialog modal-dialog-centered modal-lg">
          <div class="modal-content">
             <div class="modal-header">
@@ -83,48 +83,14 @@
 
             <div style="padding: 0 80px !important;">
                <!-- COMERCIAIS -->
-               <div style="display: flex;">
-                  <div class="card custom-card" style="display: flex !important; justify-content: center; align-items: center; margin-top: 2rem; box-shadow: none;">
-                     <div class="avatar avatar-xl avatar-rounded imagem-vendedores" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Adriani Silveira" style="position: relative; outline: 0.25rem solid rgba(0, 0, 0, 0.075); cursor: pointer;">
-                        <img src="https://cdn.conlinebr.com.br/colaboradores/48908" alt="">
-                     </div>
-                  </div>
+               <div class="selecionar-vendedores" style="display: flex;">
 
-                  <div class="card custom-card" style="display: flex !important; justify-content: center; align-items: center; margin-top: 2rem; box-shadow: none;">
+                  <!-- <div class="card custom-card" style="display: flex !important; justify-content: center; align-items: center; margin-top: 2rem; box-shadow: none;">
                      <div class="avatar avatar-xl avatar-rounded imagem-vendedores" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Adriani Silveira" style="position: relative; outline: 0.25rem solid rgba(0, 0, 0, 0.075); cursor: pointer;">
                         <img src="https://cdn.conlinebr.com.br/colaboradores/48908" alt="">
                      </div>
-                  </div>
+                  </div> -->
 
-                  <div class="card custom-card" style="display: flex !important; justify-content: center; align-items: center; margin-top: 2rem; box-shadow: none;">
-                     <div class="avatar avatar-xl avatar-rounded imagem-vendedores" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Adriani Silveira" style="position: relative; outline: 0.25rem solid rgba(0, 0, 0, 0.075); cursor: pointer;">
-                        <img src="https://cdn.conlinebr.com.br/colaboradores/48908" alt="">
-                     </div>
-                  </div>
-
-                  <div class="card custom-card" style="display: flex !important; justify-content: center; align-items: center; margin-top: 2rem; box-shadow: none;">
-                     <div class="avatar avatar-xl avatar-rounded imagem-vendedores" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Adriani Silveira" style="position: relative; outline: 0.25rem solid rgba(0, 0, 0, 0.075); cursor: pointer;">
-                        <img src="https://cdn.conlinebr.com.br/colaboradores/48908" alt="">
-                     </div>
-                  </div>
-
-                  <div class="card custom-card" style="display: flex !important; justify-content: center; align-items: center; margin-top: 2rem; box-shadow: none;">
-                     <div class="avatar avatar-xl avatar-rounded imagem-vendedores" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Adriani Silveira" style="position: relative; outline: 0.25rem solid rgba(0, 0, 0, 0.075); cursor: pointer;">
-                        <img src="https://cdn.conlinebr.com.br/colaboradores/48908" alt="">
-                     </div>
-                  </div>
-
-                  <div class="card custom-card" style="display: flex !important; justify-content: center; align-items: center; margin-top: 2rem; box-shadow: none;">
-                     <div class="avatar avatar-xl avatar-rounded imagem-vendedores" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Adriani Silveira" style="position: relative; outline: 0.25rem solid rgba(0, 0, 0, 0.075); cursor: pointer;">
-                        <img src="https://cdn.conlinebr.com.br/colaboradores/48908" alt="">
-                     </div>
-                  </div>
-
-                  <div class="card custom-card" style="display: flex !important; justify-content: center; align-items: center; margin-top: 2rem; box-shadow: none;">
-                     <div class="avatar avatar-xl avatar-rounded imagem-vendedores" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Adriani Silveira" style="position: relative; outline: 0.25rem solid rgba(0, 0, 0, 0.075); cursor: pointer;">
-                        <img src="https://cdn.conlinebr.com.br/colaboradores/48908" alt="">
-                     </div>
-                  </div>
                </div>
                <!-- / COMERCIAIS -->
 
@@ -143,7 +109,7 @@
                   </div>
 
                   <div class="col-xl-1 d-flex align-items-end">
-                     <button class="btn btn-success" id="adicionar-meta" style="font-size: 1.02rem;">+</button> 
+                     <button class="btn btn-success" id="adicionar-meta" style="font-size: 1.02rem;" disabled="true">+</button> 
                   </div>
                </div>
                <!-- / INPUT DE MES E VALOR DE META -->
@@ -159,25 +125,13 @@
                            <th scope="col">Meta</th>
                         </tr>
                      </thead>
-                     <tbody>
-                        <tr>
+                     <tbody class="faturamento-mes-vendedor">
+                        <!-- <tr>
                            <td> <span class="fw-semibold">Janeiro</span> </td>
                            <td> <span class="badge bg-success-transparent">R$ 10.215,17</span> </td>
                            <td> <span class="badge bg-success-transparent">R$ 22.411,87</span> </td>
                            <td> <span class="badge bg-secondary-transparent">R$ 10.000,00</span> </td>
-                        </tr>
-                        <tr>
-                           <td> <span class="fw-semibold">Fevereiro</span> </td>
-                           <td> <span class="badge bg-success-transparent">R$ 1.992,75</span> </td>
-                           <td> <span class="badge bg-success-transparent">R$ 2.822,01</span> </td>
-                           <td> <span class="badge bg-secondary-transparent">R$ 15.000,00</span> </td>
-                        </tr>
-                        <tr>
-                           <td> <span class="fw-semibold">Março</span> </td>
-                           <td> <span class="badge bg-success-transparent">R$ 2.876,37</span> </td>
-                           <td> <span class="badge bg-success-transparent">R$ 4.357,52</span> </td>
-                           <td> <span class="badge bg-secondary-transparent">R$ 5.000,00</span> </td>
-                        </tr>
+                        </tr> -->
                      </tbody>
                   </table>
                </div>
@@ -282,7 +236,7 @@
                               </div>
                               <div class="card-body">
                                  <div class="table-responsive">
-                                    <table class="table text-nowrap table-bordered" style="width: 100% !important;">
+                                    <table class="table text-nowrap table-bordered tabela-faturamento-processo" style="width: 100% !important;">
                                        <thead>
                                           <tr>
                                              <th scope="col">N° Processo</th>
@@ -576,16 +530,20 @@
    <span class="scrollToTop" style="display: none;"></span>
 
    <script type="module" src="/assets/js/admin-meta-comercial.js"></script>
-
+   
    <script src="/assets/libs/dataTables/jquery-3.6.1.min.js"></script>
    <script src="/assets/libs/dataTables/jquery.dataTables.min.js"></script>
    <script src="/assets/libs/dataTables/dataTables.bootstrap5.min.js"></script>
-
+   
    <script src="/assets/libs/cleavejs/cleave.js"></script>
    <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
    <script src="/assets/js/custom.js"></script>
    <script src="/assets/js/defaultmenu.min.js"></script>
    <script src="/assets/libs/apexcharts/apexcharts.min.js"></script>
+
+   <script>
+
+   </script>
 
 </body>
 

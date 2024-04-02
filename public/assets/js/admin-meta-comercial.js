@@ -18,8 +18,7 @@ const meses = [
 ];
 
 // Insere as opções dentro do select de meses
-const opcoes_meses = new Choices(
-   '#meses',
+const opcoes_meses = new Choices('#meses',
    {
       allowHTML: true,
       choices: meses,
@@ -36,10 +35,34 @@ new Cleave('#input-meta', {
    prefix: 'R$ ',
    numeral: true,
    numeralIntegerScale: 7,
-   numeralDecimalScale: 2,
+   numeralDecimalScale: 0,
    numeralDecimalMark: ',',
    delimiter: '.',
 });
+
+const meses_para_selecionar = document.getElementById('meses');
+const input_meta = document.getElementById('input-meta');
+const botao_adicionar_meta = document.getElementById('adicionar-meta');
+
+// Função para verificar e habilitar/desabilitar o botão
+function verificar_habilitacao() {
+   const mes_selecionado = meses_para_selecionar.options[meses_para_selecionar.selectedIndex].value;
+   const valor_numerico = input_meta.value.replace(/[R$.,]/g, '');
+   const numero_float = parseFloat(valor_numerico);
+   const vendedor_selecionado = document.querySelector('.vendedor-selecionado');
+
+   if (mes_selecionado > 0 && numero_float > 0 && vendedor_selecionado) {
+      botao_adicionar_meta.disabled = false; // Habilita o botao
+   } else {
+      botao_adicionar_meta.disabled = true; // Desablita o botao
+   }
+};
+
+// Adiciona o evento de escuta para o evento 'change' no meses_para_selecionar
+meses_para_selecionar.addEventListener('change', verificar_habilitacao);
+
+// Adiciona o evento de escuta para o evento 'input' no input_meta
+input_meta.addEventListener('input', verificar_habilitacao);
 
 // Função para inserir os vendedores
 async function vendedores(consulta) {
@@ -87,6 +110,33 @@ async function vendedores(consulta) {
       // Adiciona a string HTML ao array
       time_vendedores.insertAdjacentHTML('beforeend', card_html);
    }
+};
+
+async function selecionar_vendedores(consulta) {
+   const selecionar_vendedores = document.querySelector('.selecionar-vendedores');
+
+   for (let i = 0; i < consulta.length; i++) {
+      const item = consulta[i];
+      
+      const card_html = `<div class="card custom-card" style="display: flex !important; justify-content: center; align-items: center; margin-top: 2rem; box-shadow: none;">
+                           <div class="avatar avatar-xl avatar-rounded imagem-vendedores" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="${item.Nome}" style="position: relative; outline: 0.25rem solid rgba(0, 0, 0, 0.075); cursor: pointer;" data-IdVendedor="${item.IdVendedor}">
+                              <img src="https://cdn.conlinebr.com.br/colaboradores/${item.IdVendedor}" alt="${item.Nome}">
+                           </div>
+                        </div>`
+
+      // Adiciona a string HTML ao array
+      selecionar_vendedores.insertAdjacentHTML('beforeend', card_html);
+   }
+};
+
+async function ativar_tooltip() {
+   
+   const tooltipTriggerList = document.querySelectorAll(
+      '[data-bs-toggle="tooltip"]'
+    );
+    const tooltipList = [...tooltipTriggerList].map(
+      (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+    );
 };
 
 // Pega o lucro estimado do vendedor no mes atual
@@ -211,7 +261,7 @@ async function faturamento_processo(consulta) {
       lucro_estimado_por_processo.destroy();
    }
 
-   lucro_estimado_por_processo = $('.table').DataTable({
+   lucro_estimado_por_processo = $('.tabela-faturamento-processo').DataTable({
       "data": resultados,
       "columns": [
             { "data": "numero_processo" },
@@ -368,6 +418,66 @@ async function carrega_indicadores_comercial(IdVendedor) {
    await grafico_lucro_estimado(meta_financeira_comercial);
 };
 
+async function carrega_faturamento_mes_comercial_modal(IdVendedor) {
+   const admin_modal_valores_comerciais = await Thefetch(`/api/admin-modal-valores-comerciais?IdVendedor=${IdVendedor}`);
+
+   const faturamento_mes_vendedor = document.querySelector('.faturamento-mes-vendedor');
+   let linhas_html = [];
+
+   for (let i = 0; i < admin_modal_valores_comerciais.length; i++) {
+      const item = admin_modal_valores_comerciais[i];
+
+      const cor_lucro_efetivo = item.Lucro_Efetivo < 0 ? 'bg-danger-transparent' : 'bg-success-transparent';
+      const cor_lucro_estimado = item.Lucro_Estimado < 0 ? 'bg-danger-transparent' : 'bg-success-transparent';
+      
+      const item_html = `<tr>
+                           <td> <span class="fw-semibold">${item.Mes}</span> </td>
+                           <td> <span class="badge ${cor_lucro_efetivo}">${item.Lucro_Efetivo.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})}</span> </td>
+                           <td> <span class="badge ${cor_lucro_estimado}">${item.Lucro_Estimado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})}</span> </td>
+                           <td> <span class="badge bg-secondary-transparent">R$ -- --</span> </td>
+                        </tr>`
+      
+      linhas_html.push(item_html);
+   }
+
+   // Serve para juntar todos os itens
+   const linhas_html_completo = linhas_html.join('');
+
+   faturamento_mes_vendedor.innerHTML = linhas_html_completo;
+};
+
+async function inserir_valores() {
+   // Obtem o IdVendedor
+   const data_IdVendedor = document.querySelector('.vendedor-selecionado').getAttribute('data-IdVendedor');
+
+   // Obtem o nome do vendedor
+   const nome_vendedor = document.querySelector('.vendedor-selecionado').getAttribute('data-bs-title');
+
+   // Obtem o valor selecionado no select
+   const meses = document.getElementById('meses');
+   const mes_selecionado = meses.options[meses.selectedIndex].value;
+
+   const data = new Date();
+   const ano = data.getFullYear();
+
+   // Obtem o valor da meta digitado no input
+   const valor_meta = input_meta.value.replace(/[R$.,]/g, '');
+   const numero_float = parseFloat(valor_meta);
+
+   // Criar o objeto para enviar para a função inserir_valores
+   const body = {
+      id_comercial: data_IdVendedor,
+      nome_comercial: nome_vendedor,
+      mes: mes_selecionado,
+      ano: ano,
+      valor_meta: numero_float,
+   };
+
+   // Envia os valores do body para o servidor
+   const result = await Thefetch('/api/inserir-meta-comercial', 'POST', body) 
+   console.log(result);
+};
+
 async function limparModal() {
    // Remove todas as divs filhas da div grafico-propostas
    const graficoPropostas = document.querySelector('#grafico-propostas');
@@ -390,23 +500,27 @@ async function limparModal() {
       divFilha.remove();
    });
 
-}
+};
 
 async function eventos_cliques() {
-   // Pega todas as classes
+   // Seleciona o vendedor
    const vendedor_clicado = document.querySelectorAll('.imagem-vendedores');
-   // Faz um forEach em todas as tags capturadas
    vendedor_clicado.forEach(elemento => {
-      elemento.addEventListener('click', function() {
+      elemento.addEventListener('click', async function() {
          // Ao clicar em qualquer outro vendedor, vai remover a classe do que estava selecionado e inserir no clicado
          vendedor_clicado.forEach(selecionado => {
             selecionado.classList.remove('vendedor-selecionado')
          });
 
+         // Carrega o faturamento do vendedor
          elemento.classList.add('vendedor-selecionado')
+         const IdVendedor = this.getAttribute('data-IdVendedor');
+         await carrega_faturamento_mes_comercial_modal(IdVendedor); // Carrega o faturamento do vendedor selecionado
+         verificar_habilitacao(); // Verifica se te um vendedor selecionado para chamar a função
       })
    });
 
+   // Ao clicar no card do comercial, abre o modal do mesmo com os respectivos dados
    document.querySelectorAll('.modal-vendedor').forEach(element => {
       element.addEventListener('click', async function(e) {
          const IdVendedor = this.getAttribute('data-IdVendedor');
@@ -417,6 +531,7 @@ async function eventos_cliques() {
       })
    });
 
+   // Faz uma pesquisa dentro do dataTables
    const input_pesquisa_processo = document.querySelector('#pesquisar-processos');
    input_pesquisa_processo.addEventListener('keyup', function (e) {
    e.preventDefault();
@@ -424,6 +539,12 @@ async function eventos_cliques() {
       const valor_texto = this.value.toUpperCase();
       lucro_estimado_por_processo.search(valor_texto).draw();
    });
+
+   // Enviar os dados da meta para inserir no banco de dados
+   const botao_adicionar_meta = document.getElementById('adicionar-meta');
+   botao_adicionar_meta.addEventListener('click', function() {
+      inserir_valores();
+   })
 
 };
 
@@ -446,7 +567,9 @@ async function remover_loading() {
 
 async function main() {
    await vendedores(admin_cards_comerciais);
+   await selecionar_vendedores(admin_cards_comerciais);
    await eventos_cliques();
+   await ativar_tooltip();
    await remover_loading();
 };
 
