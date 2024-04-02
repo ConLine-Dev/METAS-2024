@@ -1,16 +1,41 @@
 // Fecth para puxar a consulta da rota/banco
-function Thefetch(url, method, options = {}) { // Função Thefetch com 3 parâmetros: url, method e options (este último com valor padrão de objeto vazio)
-    return new Promise((resolve, reject) => { // Retorna uma nova Promise com duas funções de callback: resolve e reject
-      fetch(url, { // Chama a função fetch com a url passada como parâmetro e um objeto contendo o método e um objeto headers com o tipo de conteúdo
-        method: method, // Método HTTP passado como parâmetro
-        headers: {'Content-Type': 'application/json'}, // Tipo de conteúdo: JSON
-        ...options // Opções adicionais passadas como objeto no terceiro parâmetro (se existirem)
-      })
-        .then(response => response.json()) // Se a Promise for resolvida, transforma a resposta em JSON
-        .then(data => resolve(data)) // Se a conversão para JSON for bem sucedida, chama a função de callback resolve com os dados
-        .catch(error => reject(error)); // Se ocorrer algum erro, chama a função de callback reject com o erro
-    });
-}
+// function Thefetch(url, method, options = {}) { // Função Thefetch com 3 parâmetros: url, method e options (este último com valor padrão de objeto vazio)
+//     return new Promise((resolve, reject) => { // Retorna uma nova Promise com duas funções de callback: resolve e reject
+//       fetch(url, { // Chama a função fetch com a url passada como parâmetro e um objeto contendo o método e um objeto headers com o tipo de conteúdo
+//         method: method, // Método HTTP passado como parâmetro
+//         headers: {'Content-Type': 'application/json'}, // Tipo de conteúdo: JSON
+//         ...options // Opções adicionais passadas como objeto no terceiro parâmetro (se existirem)
+//       })
+//         .then(response => response.json()) // Se a Promise for resolvida, transforma a resposta em JSON
+//         .then(data => resolve(data)) // Se a conversão para JSON for bem sucedida, chama a função de callback resolve com os dados
+//         .catch(error => reject(error)); // Se ocorrer algum erro, chama a função de callback reject com o erro
+//     });
+// }
+async function Thefetch(url, method = 'GET', body = null) {
+    const options = {
+      method,
+      headers: {
+        'Content-Type': 'application/json', // Pode ser ajustado conforme suas necessidades
+      },
+    };
+  
+    if (body) {
+      if (method === 'GET') {
+        console.warn('GET request does not support a request body.');
+      } else {
+        options.body = JSON.stringify(body);
+      }
+    }
+  
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error:', error);
+      return error;
+    }
+  }
 
 
 
