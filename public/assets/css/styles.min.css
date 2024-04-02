@@ -139,7 +139,7 @@
 
 /* / ESTILOS CRIADOS */
 
-.loading {
+.loading, .loading-modal {
    position: absolute;
    top: 0;
    left: 0;
@@ -163,7 +163,7 @@
    animation: disappear 2s linear ease-in-out;
 }
 
-#loading-img {
+#loading-img, #loading-modal-img {
    position: fixed;
    width: 15%;
    display: flex;

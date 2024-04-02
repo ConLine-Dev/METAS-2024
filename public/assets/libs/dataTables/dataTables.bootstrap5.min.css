@@ -365,8 +365,8 @@ div.dataTables_wrapper div.dataTables_length label {
    display: none;
 }
 
-#DataTables_Table_0_filter {
-   display: none;
+#DataTables_Table_0_filter, .dataTables_filter {
+   display: none !important;
 }
 
 div.dataTables_wrapper div.dataTables_length select {
