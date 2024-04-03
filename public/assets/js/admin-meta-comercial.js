@@ -429,12 +429,13 @@ async function carrega_faturamento_mes_comercial_modal(IdVendedor) {
 
       const cor_lucro_efetivo = item.Lucro_Efetivo < 0 ? 'bg-danger-transparent' : 'bg-success-transparent';
       const cor_lucro_estimado = item.Lucro_Estimado < 0 ? 'bg-danger-transparent' : 'bg-success-transparent';
+      const cor_meta = item.Meta < 0 ? 'bg-secondary-transparent' : 'bg-secondary-transparent';
       
       const item_html = `<tr>
                            <td> <span class="fw-semibold">${item.Mes}</span> </td>
                            <td> <span class="badge ${cor_lucro_efetivo}">${item.Lucro_Efetivo.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})}</span> </td>
                            <td> <span class="badge ${cor_lucro_estimado}">${item.Lucro_Estimado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})}</span> </td>
-                           <td> <span class="badge bg-secondary-transparent">R$ -- --</span> </td>
+                           <td> <span class="badge ${cor_meta}">${item.Meta.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})}</span> </td>
                         </tr>`
       
       linhas_html.push(item_html);
@@ -447,6 +448,7 @@ async function carrega_faturamento_mes_comercial_modal(IdVendedor) {
 };
 
 async function inserir_valores() {
+
    // Obtem o IdVendedor
    const data_IdVendedor = document.querySelector('.vendedor-selecionado').getAttribute('data-IdVendedor');
 
@@ -474,8 +476,22 @@ async function inserir_valores() {
    };
 
    // Envia os valores do body para o servidor
-   const result = await Thefetch('/api/inserir-meta-comercial', 'POST', body) 
-   console.log(result);
+   const result = await Thefetch('/api/inserir-meta-comercial', 'POST', body)
+   if(result.status && result.status == true) {
+      const toast_sucesso = document.querySelector('.toast-sucesso');
+      toast_sucesso.textContent = result.mensagem;
+
+      const successToast = document.getElementById('successToast');
+      const toast = new bootstrap.Toast(successToast)
+      toast.show();
+
+      // Se o resultado da consulta for true, significa que deu certo e faz um INSERT ou UPDATE
+      await carrega_faturamento_mes_comercial_modal(result.id_comercial);
+
+   } else {
+      console.log(result.mensagem)
+   }
+   
 };
 
 async function limparModal() {
