@@ -230,6 +230,18 @@ router.get('/processos-meta-comercial', async (req, res, next) => {
     }
 });
 
+router.get('/meta-mes-atual', async (req, res, next) => {
+    try {
+        const { IdVendedor} = req.query;
+        const result = await helpers.meta_mes_atual(IdVendedor);
+
+        res.status(200).json(result)
+    } catch (error) {
+        
+        res.status(404).json(error)
+    }
+});
+
 router.get('/operacional_por_processo', async (req, res, next) => {
 
     let { numero_processo, id_moeda, valor, descricao } = req.query;

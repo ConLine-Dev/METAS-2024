@@ -279,6 +279,7 @@ const helpers = {
          // Se existir meta na consulta do sirius envia para o array de objeto. Se nao envia uma meta com valor = a zero
          if (meta) {
             result_valores_comercial.push({
+               Comercial: item.Nome,
                Mes: item.Mes,
                Lucro_Efetivo: item.Lucro_Efetivo,
                Lucro_Estimado: item.Lucro_Estimado,
@@ -286,6 +287,7 @@ const helpers = {
             })
          } else {
             result_valores_comercial.push({
+               Comercial: item.Nome,
                Mes: item.Mes,
                Lucro_Efetivo: item.Lucro_Efetivo,
                Lucro_Estimado: item.Lucro_Estimado,
@@ -482,6 +484,13 @@ const helpers = {
             ${where_vendedor}
             ${where_email}
       `)
+
+      return result;
+   },
+
+   meta_mes_atual: async function(IdVendedor) {
+      const result = await executeQuery(`
+         SELECT * FROM meta_comercial WHERE id_comercial = ?`, [IdVendedor])
 
       return result;
    },
