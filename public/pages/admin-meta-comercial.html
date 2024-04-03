@@ -38,6 +38,19 @@
    </div>
    <!-- /LOADING -->
 
+   <!-- AVISO SUCESSO APOS INSERT OU UPDATE NO BANCO -->
+   <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
+      <div id="successToast" class="toast colored-toast fade hide" role="alert" aria-live="assertive" aria-atomic="true" style="background-color: #FFFFFF !important;">
+         <div class="toast-header bg-success text-fixed-white"> 
+            <img class="bd-placeholder-img rounded me-2" src="../assets/images/brand-logos/logo-mycon-light.png" alt="..." style="height: 1.15rem;"> 
+               <strong class="me-auto">Sucesso</strong> 
+               <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button> 
+         </div>
+         <div class="toast-body toast-sucesso"></div>
+      </div>
+   </div>
+   <!-- / AVISO SUCESSO APOS INSERT OU UPDATE NO BANCO -->
+
    <!-- MODAl NOVO PROCESSO -->
    <div class="modal fade" id="modaldemo8" style="display: none; background-color: rgba(0, 0, 0, 0.3); z-index: 99999;" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered text-center" role="document">
@@ -537,6 +550,7 @@
    
    <script src="/assets/libs/cleavejs/cleave.js"></script>
    <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+   <script src="/assets/libs/toasts/toasts.js"></script>
    <script src="/assets/js/custom.js"></script>
    <script src="/assets/js/defaultmenu.min.js"></script>
    <script src="/assets/libs/apexcharts/apexcharts.min.js"></script>
