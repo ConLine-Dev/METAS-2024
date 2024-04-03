@@ -193,10 +193,12 @@ const helpers = {
    },
 
    admin_modal_valores_comerciais: async function(IdVendedor) {
-      const result = await executeQuerySQL(`
+      // Consulta no banco da head
+      const result_Head = await executeQuerySQL(`
          SELECT
             Lhs.IdVendedor,
             Lmd.Mes,
+            Lmd.Mes_numero,
             Ven.Nome,
             Ven.EMail,
             COALESCE(Lmd.Lucro_Estimado, 0) AS Lucro_Estimado,
@@ -232,6 +234,7 @@ const helpers = {
                   WHEN 11 THEN 'Novembro'
                   WHEN 12 THEN 'Dezembro'
                END AS Mes,
+               DATEPART(MONTH, Lhs.Data_Abertura_Processo) AS Mes_numero,
                SUM(Lmd.Lucro_Estimado) AS Lucro_Estimado,
                SUM(Lmd.Lucro_Efetivo) AS Lucro_Efetivo
             FROM
@@ -257,20 +260,74 @@ const helpers = {
             AND Lhs.IdVendedor = ${IdVendedor}
          ORDER BY
             Ven.Nome`
-      )
+      );
 
-      return result;
+      // Consulta no banco do sirius
+      const result_meta_sirius = await executeQuery(`
+         SELECT * FROM meta_comercial WHERE id_comercial = ? AND ano = ?`, [IdVendedor, anoAtual]
+      );
+
+      // Cria um array de objeto para armazenar os processos
+      const result_valores_comercial = [];
+
+      // Faz um for na consulta da Head e um find na consulta do sirius passando mes a mes
+      for (let i = 0; i < result_Head.length; i++) {
+         const item = result_Head[i];
+
+         const meta = result_meta_sirius.find(element => element.mes == item.Mes_numero);
+
+         // Se existir meta na consulta do sirius envia para o array de objeto. Se nao envia uma meta com valor = a zero
+         if (meta) {
+            result_valores_comercial.push({
+               Mes: item.Mes,
+               Lucro_Efetivo: item.Lucro_Efetivo,
+               Lucro_Estimado: item.Lucro_Estimado,
+               Meta: meta.valor_meta
+            })
+         } else {
+            result_valores_comercial.push({
+               Mes: item.Mes,
+               Lucro_Efetivo: item.Lucro_Efetivo,
+               Lucro_Estimado: item.Lucro_Estimado,
+               Meta: 0
+            })
+         }
+      }
+
+      return result_valores_comercial;
    },
 
    inserir_meta_comercial: async function(body) {
-      const result = await executeQuery(`INSERT INTO meta_comercial 
-                              (id_comercial, nome_comercial, mes, ano, valor_meta) 
-                           VALUES (?, ?, ?, ?, ?)`, 
-                           // Passa os valores por parametros
-                           [body.id_comercial, body.nome_comercial, body.mes, body.ano, body.valor_meta]
-      )
+      // Faz uma verificação no banco do sirius para ver se localiza algum meta ja lançada para aquele mes, ano ou comercial
+      const verificacao = await executeQuery(`SELECT * FROM meta_comercial WHERE id_comercial = ? AND mes = ? AND ano = ?`, [body.id_comercial, body.mes, body.ano])
 
-      return result
+      // Se o retorno for maior ou igual a 1 significa que encontrou alguma coisa. Entao faz um UPDATE na meta que ja existe
+      if (verificacao.length >= 1) {
+         // Caso encontre alguma coisa, ele atualiza a meta
+         const result = await executeQuery(`UPDATE meta_comercial SET valor_meta = ? WHERE id_comercial = ? AND mes = ? AND ano = ?`, [body.valor_meta, body.id_comercial, body.mes, body.ano]
+         )
+         return {
+            status: true,
+            mensagem: `Meta de ${body.nome_comercial} foi atualizada com sucesso!`,
+            result: result,
+            id_comercial: body.id_comercial
+         }
+      } else {
+         // Caso não encontre nada ele faz um INSERT da nova meta
+         const result = await executeQuery(`INSERT INTO meta_comercial 
+                  (id_comercial, nome_comercial, mes, ano, valor_meta) 
+               VALUES (?, ?, ?, ?, ?)`, 
+               // Passa os valores por parametros
+               [body.id_comercial, body.nome_comercial, body.mes, body.ano, body.valor_meta]
+         )
+
+         return {
+            status: true,
+            mensagem: `Meta inserida com sucesso para o comercial ${body.nome_comercial}!`,
+            result: result,
+            id_comercial: body.id_comercial
+         }
+      }
    },
 
    operacionais: async function() {
