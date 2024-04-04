@@ -305,4 +305,28 @@ router.get('/quantidade_processos', async (req, res, next) => {
     }
 });
 
+router.get('/taxas_conversao', async (req, res, next) => {
+
+    try {
+        const result = await helpers.taxas_conversao();
+
+        res.status(200).json(result)
+    } catch (error) {
+
+        res.status(404).json(error)
+    }
+});
+
+router.get('/emails_enviados_recebidos', async (req, res, next) => {
+
+    try {
+        const result = await helpers.emails_enviados_recebidos();
+
+        res.status(200).json(result)
+    } catch (error) {
+
+        res.status(404).json(error)
+    }
+});
+
 module.exports = router;
