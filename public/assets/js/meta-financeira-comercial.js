@@ -1,14 +1,24 @@
 const dados_login = JSON.parse(localStorage.getItem('metasUser'));
+async function usuario_logado(consulta) {
+   for (let i = 0; i < consulta.length; i++) {
+      const item = consulta[i];
+      if (item.EMAIL_VENDEDOR === dados_login.email) {
+         return item.ID_VENDEDOR;
+      }
+   }
+};
 const meta_financeira_comercial = await Thefetch(`/api/meta-financeira-comercial?email=${dados_login.email}`);
 const proposta_meta_comercial = await Thefetch(`/api/proposta-meta-comercial?email=${dados_login.email}`);
 const processos_meta_comercial = await Thefetch(`/api/processos-meta-comercial?email=${dados_login.email}`);
+const id_usuario_logado = await usuario_logado(meta_financeira_comercial);
+const meta_mes_atual = await Thefetch(`/api/meta-mes-atual?IdVendedor=${id_usuario_logado}`);
 const comerciais = await Thefetch('/api/comerciais');
 let lucro_estimado_por_processo;
 
 const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
 
 // Pega o lucro estimado do vendedor no mes atual
-async function lucro_estimado_mes_atual(consulta) {
+async function card_lucro_estimado_mes_atual(consulta) {
    const data_atual = new Date();
    const mes_atual = data_atual.getMonth() + 1;
 
@@ -23,6 +33,26 @@ async function lucro_estimado_mes_atual(consulta) {
 
    const html_lucro_estimado = document.getElementById('lucro-estimado');
    html_lucro_estimado.textContent = lucro_estimado.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
+};
+
+// Pega o lucro estimado do vendedor no mes atual
+async function card_meta_comercial(consulta) {
+   const data_atual = new Date();
+   const mes_atual = data_atual.getMonth() + 1;
+
+   let valor_meta = 0; // Inicializa a variável valor_meta fora do loop
+
+   for (let i = 0; i < consulta.length; i++) {
+      const item = consulta[i];
+
+      // Verifica se o usuario logado é um vendedor e se existe registros de valores para o mes atual para somar
+      if (mes_atual === item.mes && item.id_comercial === id_usuario_logado) {
+         valor_meta = item.valor_meta
+      }
+   }
+
+   const html_valor_meta = document.getElementById('meta-mensal');
+   html_valor_meta.textContent = valor_meta.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
 };
 
 // Retorna o total de processo, proposta o que for passado na consulta, mas tem que tem o ID_VENDEDOR e o MES na consulta
@@ -180,13 +210,24 @@ async function lucro_estimado_mes_a_mes(consulta) {
    return soma_por_mes
 };
 
+async function array_metas(consulta_metas) {
+   // Inicia um array com 12 posições e com zeros em todas
+   const array_metas = new Array(12).fill(0);
+
+   consulta_metas.forEach(item => {
+      const index = item.mes - 1 // Calcula o indice correto baseado no mes (0 - base do index)
+      array_metas[index] = item.valor_meta; // Atualiza o array com o valor_meta para a posição do array respectiva ao mes
+   });
+
+   return array_metas;
+};
+
 // Cria os graficos de lucro estimado de cada mes
-async function grafico_lucro_estimado(consulta) {
+async function grafico_lucro_estimado(consulta, consulta_metas) {
    const lucro_estimado = await lucro_estimado_mes_a_mes(consulta);
+   const metas_mensais = await array_metas(consulta_metas);
 
    const valores_arrecadados = lucro_estimado.map(item => Number((item.LUCRO_ESTIMADO).toFixed(2)));
-   
-   const metas_mensais = [30000,35000,40000,0,0,0,0,0,0,0,0,0]
    
    var options = {
       series: [{
@@ -268,17 +309,16 @@ async function eventos_cliques() {
 };
 
 async function remover_loading() {
-   let corpoDashboard = document.querySelector('.corpo-dashboard');
    let loading = document.querySelector('.loading');
 
    loading.style.display = 'none';
-   corpoDashboard.style.display = 'block';
 };
 
 async function main() {
-   await lucro_estimado_mes_atual(meta_financeira_comercial);
+   await card_lucro_estimado_mes_atual(meta_financeira_comercial);
    await faturamento_processo(meta_financeira_comercial);
-   await grafico_lucro_estimado(meta_financeira_comercial);
+   await grafico_lucro_estimado(meta_financeira_comercial, meta_mes_atual);
+   await card_meta_comercial(meta_mes_atual)
    await eventos_cliques();
    await grafico_proposta_processo();
    await remover_loading();
