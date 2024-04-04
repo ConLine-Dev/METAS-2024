@@ -1,4 +1,5 @@
-<html lang="pt-br" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="light" data-toggled="close" loader="disable" data-nav-style="menu-hover">
+<html lang="pt-br" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light"
+   data-menu-styles="light" data-toggled="close" loader="disable" data-nav-style="menu-hover">
 
 <head>
    <!-- Meta Data -->
@@ -24,7 +25,7 @@
    <script type="module" src="/assets/js/verifica-modulo.js"></script>
    <!-- Verifica se o usuario pode acessar uma pagina ou nao -->
    <script src="/assets/js/verifica_acesso.js"></script>
-   
+
 </head>
 
 <body>
@@ -45,7 +46,8 @@
    </style>
 
    <!-- MODAl NOVO PROCESSO -->
-   <div class="modal fade" id="modaldemo8" style="display: none; background-color: rgba(0, 0, 0, 0.3); z-index: 99999;" aria-hidden="true">
+   <div class="modal fade" id="modaldemo8" style="display: none; background-color: rgba(0, 0, 0, 0.3); z-index: 99999;"
+      aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered text-center" role="document">
          <div class="modal-content modal-content-demo" style="padding-bottom: 23px;">
             <div class="modal-header" style="margin: 0 auto;">
@@ -53,23 +55,26 @@
             </div>
             <div class="modal-body text-start" style="padding: 0px 20px;">
                <div class="d-flex align-items-center">
-                  <div class="me-2 lh-1"> 
+                  <div class="me-2 lh-1">
                      <div class="avatar-list-stacked">
                         <span class="avatar avatar-rounded modal-avatar-vendedor">
-                        <img id="sale_img" src="/assets/images/brand-logos/avatar-do-usuario.png" alt="img">
+                           <img id="sale_img" src="/assets/images/brand-logos/avatar-do-usuario.png" alt="img">
                         </span>
                         <span class="avatar avatar-rounded modal-avatar-inside">
-                        <img id="inside_img" src="/assets/images/brand-logos/avatar-do-usuario.png" alt="img">
+                           <img id="inside_img" src="/assets/images/brand-logos/avatar-do-usuario.png" alt="img">
                         </span>
                      </div>
                   </div>
                   <div class="flex-fill">
-                     <p class="mb-0 fw-semibold" id="sale_name" style="white-space: nowrap; max-width: 19ch; overflow: hidden;">-------------</p>
-                     <p class="fs-12 text-muted mb-0" id="inside_sales_name" style="white-space: nowrap; max-width: 19ch; overflow: hidden;">-------------</p>
+                     <p class="mb-0 fw-semibold" id="sale_name"
+                        style="white-space: nowrap; max-width: 19ch; overflow: hidden;">-------------</p>
+                     <p class="fs-12 text-muted mb-0" id="inside_sales_name"
+                        style="white-space: nowrap; max-width: 19ch; overflow: hidden;">-------------</p>
                   </div>
                   <div class="text-end">
                      <p class="mb-0 fs-12" id="modal_id">-------------</p>
-                     <span class="badge" style="color: #f9423a !important; background-color: rgba(249, 66, 58, 0.2);" id="date_open_modal">-------------</span>
+                     <span class="badge" style="color: #f9423a !important; background-color: rgba(249, 66, 58, 0.2);"
+                        id="date_open_modal">-------------</span>
                   </div>
                </div>
             </div>
@@ -84,8 +89,8 @@
       <div class="modal-dialog modal-dialog-centered">
          <div class="modal-content">
             <div class="modal-header">
-               <h6 class="modal-title" id="exampleModalToggleLabel">Modal 1 </h6> <button type="button" class="btn-close"
-                  data-bs-dismiss="modal" aria-label="Close"></button>
+               <h6 class="modal-title" id="exampleModalToggleLabel">Modal 1 </h6> <button type="button"
+                  class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body"> Show a second modal and hide this one with the button below. </div>
             <div class="modal-footer"> <button class="btn btn-primary" data-bs-target="#exampleModalToggle2"
@@ -96,7 +101,8 @@
    <!-- / MODAL CADASTRO -->
 
    <!-- MODAL COMERCIAL -->
-   <div class="modal fade" id="exampleModalXl" tabindex="-1" aria-labelledby="exampleModalXlLabel" style="display: none;" aria-hidden="true">
+   <div class="modal fade" id="exampleModalXl" tabindex="-1" aria-labelledby="exampleModalXlLabel"
+      style="display: none;" aria-hidden="true">
       <div class="modal-dialog modal-xl">
          <div class="modal-content">
             <div class="modal-header">
@@ -105,296 +111,241 @@
             </div>
 
             <!-- DADOS -->
-            <div class="modal-body" style="background-color: #f3f3f3;">
+            <div class="modal-body" style="background-color: #f3f3f3;" id="divModal">
                <div class="row">
                   <div class="col-xxl-12 col-xl-12">
-                      <div class="row">
-                          <div class="col-lg-3 col-sm-3 col-md-3 col-xl-3">
-                              <div class="card custom-card">
-                                 <div class="card-body">
-                                    <div class="row">
-                                       <div class="col-xxl-3 col-xl-2 col-lg-3 col-md-3 col-sm-4 col-4 d-flex align-items-center justify-content-center ecommerce-icon secondary  px-0">
-                                          <span class="rounded p-3 bg-secondary-transparent"> 
-                                             <svg xmlns="http://www.w3.org/2000/svg" class="svg-white secondary" width="16" height="16" fill="#000000" viewBox="0 0 16 16">
-                                                <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z"/>
-                                              </svg>
-                                          </span> 
-                                       </div>
-                                       <div class="col-xxl-9 col-xl-10 col-lg-9 col-md-9 col-sm-8 col-8 px-0">
-                                          <div class="mb-2">Nota Operacional</div>
-                                          <div class="text-muted mb-1 fs-12"> 
-                                             <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> 8.50 </span> 
-                                          </div>
-                                          <div> 
-                                             <span class="fs-12 mb-0">Nota definida com base nas métricas estipuladas</span>
-                                          </div>
-                                       </div>
+                     <div class="row">
+                        <div class="col-lg-3 col-sm-3 col-md-3 col-xl-3">
+                           <div class="card custom-card">
+                              <div class="card-body">
+                                 <div class="row">
+                                    <div
+                                       class="col-xxl-3 col-xl-2 col-lg-3 col-md-3 col-sm-4 col-4 d-flex align-items-center justify-content-center ecommerce-icon secondary  px-0">
+                                       <span class="rounded p-3 bg-secondary-transparent">
+                                          <svg xmlns="http://www.w3.org/2000/svg" class="svg-white secondary" width="16"
+                                             height="16" fill="#000000" viewBox="0 0 16 16">
+                                             <path
+                                                d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z" />
+                                          </svg>
+                                       </span>
+                                    </div>
+                                    <div id="divNotaOperacional"
+                                       class="col-xxl-9 col-xl-10 col-lg-9 col-md-9 col-sm-8 col-8 px-0">
                                     </div>
                                  </div>
                               </div>
                            </div>
-         
-                           <div class="col-lg-3 col-sm-3 col-md-3 col-xl-3">
-                              <div class="card custom-card">
-                                 <div class="card-body">
-                                    <div class="row">
-                                       <div class="col-xxl-3 col-xl-2 col-lg-3 col-md-3 col-sm-4 col-4 d-flex align-items-center justify-content-center ecommerce-icon success px-0">
-                                          <span class="rounded p-3 bg-success-transparent">
-                                             <svg xmlns="http://www.w3.org/2000/svg" class="svg-white success" width="16" height="16" fill="#000000" viewBox="0 0 16 16">
-                                                <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z"/>
-                                              </svg>
-                                          </span> 
-                                       </div>
-                                       <div class="col-xxl-9 col-xl-10 col-lg-9 col-md-9 col-sm-8 col-8 px-0">
-                                          <div class="mb-2">Processos</div>
-                                          <div class="text-muted mb-1 fs-12"> 
-                                             <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> 159 </span> 
-                                          </div>
-                                          <div> 
-                                             <span class="fs-12 mb-0">Número de processos abertos para coordenação</span>
-                                          </div>
-                                       </div>
+                        </div>
+
+                        <div class="col-lg-3 col-sm-3 col-md-3 col-xl-3">
+                           <div class="card custom-card">
+                              <div class="card-body">
+                                 <div class="row">
+                                    <div
+                                       class="col-xxl-3 col-xl-2 col-lg-3 col-md-3 col-sm-4 col-4 d-flex align-items-center justify-content-center ecommerce-icon success px-0">
+                                       <span class="rounded p-3 bg-success-transparent">
+                                          <svg xmlns="http://www.w3.org/2000/svg" class="svg-white success" width="16"
+                                             height="16" fill="#000000" viewBox="0 0 16 16">
+                                             <path
+                                                d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z" />
+                                          </svg>
+                                       </span>
+                                    </div>
+                                    <div id="divProcessos"
+                                       class="col-xxl-9 col-xl-10 col-lg-9 col-md-9 col-sm-8 col-8 px-0">
                                     </div>
                                  </div>
                               </div>
                            </div>
-         
-                           <div class="col-lg-3 col-sm-3 col-md-3 col-xl-3">
-                              <div class="card custom-card">
-                                 <div class="card-body">
-                                    <div class="row">
-                                       <div class="col-xxl-3 col-xl-2 col-lg-3 col-md-3 col-sm-4 col-4 d-flex align-items-center justify-content-center ecommerce-icon px-0">
-                                          <span class="rounded p-3 bg-primary-transparent"> 
-                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="svg-white primary" viewBox="0 0 16 16">
-                                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                                                <path d="M8 13A5 5 0 1 1 8 3a5 5 0 0 1 0 10m0 1A6 6 0 1 0 8 2a6 6 0 0 0 0 12"/>
-                                                <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8"/>
-                                                <path d="M9.5 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
-                                             </svg>
-                                          </span> 
-                                       </div>
-                                       <div class="col-xxl-9 col-xl-10 col-lg-9 col-md-9 col-sm-8 col-8 px-0">
-                                          <div class="mb-2">Divergências Financeiras</div>
-                                          <div class="text-muted mb-1 fs-12"> 
-                                             <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> 7 </span> 
-                                          </div>
-                                          <div> 
-                                             <span class="fs-12 mb-0">Número de divergências informadas pelo financeiro</span>
-                                          </div>
-                                       </div>
+                        </div>
+
+                        <div class="col-lg-3 col-sm-3 col-md-3 col-xl-3">
+                           <div class="card custom-card">
+                              <div class="card-body">
+                                 <div class="row">
+                                    <div
+                                       class="col-xxl-3 col-xl-2 col-lg-3 col-md-3 col-sm-4 col-4 d-flex align-items-center justify-content-center ecommerce-icon px-0">
+                                       <span class="rounded p-3 bg-primary-transparent">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor" class="svg-white primary" viewBox="0 0 16 16">
+                                             <path
+                                                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                             <path
+                                                d="M8 13A5 5 0 1 1 8 3a5 5 0 0 1 0 10m0 1A6 6 0 1 0 8 2a6 6 0 0 0 0 12" />
+                                             <path
+                                                d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8" />
+                                             <path d="M9.5 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                                          </svg>
+                                       </span>
+                                    </div>
+                                    <div id="divFinanceiro"
+                                       class="col-xxl-9 col-xl-10 col-lg-9 col-md-9 col-sm-8 col-8 px-0">
                                     </div>
                                  </div>
                               </div>
                            </div>
-         
-                           <div class="col-lg-3 col-sm-3 col-md-3 col-xl-3">
-                              <div class="card custom-card">
-                                 <div class="card-body">
-                                    <div class="row">
-                                       <div class="col-xxl-3 col-xl-2 col-lg-3 col-md-3 col-sm-4 col-4 d-flex align-items-center justify-content-center ecommerce-icon warning px-0">
-                                          <span class="rounded p-3 bg-warning-transparent"> 
-                                             <svg xmlns="http://www.w3.org/2000/svg" class="svg-white warning" width="16" height="16" fill="#000000" viewBox="0 0 16 16">
-                                                <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z"/>
-                                              </svg>
-                                          </span> 
-                                       </div>
-                                       <div class="col-xxl-9 col-xl-10 col-lg-9 col-md-9 col-sm-8 col-8 px-0">
-                                          <div class="mb-2">Divergências CE</div>
-                                          <div class="text-muted mb-1 fs-12"> <span
-                                                class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> 3 </span> </div>
-                                          <div> 
-                                             <span class="fs-12 mb-0">Número de divergências no CE Mercante</span>
-                                          </div>
-                                       </div>
+                        </div>
+
+                        <div class="col-lg-3 col-sm-3 col-md-3 col-xl-3">
+                           <div class="card custom-card">
+                              <div class="card-body">
+                                 <div class="row">
+                                    <div
+                                       class="col-xxl-3 col-xl-2 col-lg-3 col-md-3 col-sm-4 col-4 d-flex align-items-center justify-content-center ecommerce-icon warning px-0">
+                                       <span class="rounded p-3 bg-warning-transparent">
+                                          <svg xmlns="http://www.w3.org/2000/svg" class="svg-white warning" width="16"
+                                             height="16" fill="#000000" viewBox="0 0 16 16">
+                                             <path
+                                                d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z" />
+                                          </svg>
+                                       </span>
+                                    </div>
+                                    <div id="divCE" class="col-xxl-9 col-xl-10 col-lg-9 col-md-9 col-sm-8 col-8 px-0">
                                     </div>
                                  </div>
                               </div>
                            </div>
-                          </div>
+                        </div>
+                     </div>
                   </div>
                   <div class="col-xxl-12 col-xl-12">
-                      <div class="row">
-                          <div class="col-xl-2">
-                              <div class="card custom-card" style="height: 550px">
-                                 <div class="card-header justify-content-between">
-                                    <div class="card-title">Emails</div>
-                                 </div>
-                                 <div class="card-body" style="padding-top: 0;">
-                                    <div id="earnings" style="min-height: 215px;">
-                                      <div id="mail-chart">
-                                          <!-- GRAFICO AQUI -->
-                                       </div>
+                     <div class="row">
+                        <div class="col-xl-3">
+                           <div class="card custom-card" style="height: 550px">
+                              <div class="card-header justify-content-between">
+                                 <div class="card-title">Emails</div>
+                              </div>
+                              <div class="card-body" style="padding-top: 0;">
+                                 <div id="earnings" style="min-height: 215px;">
+                                    <div id="mail-chart">
+                                       <!-- GRAFICO AQUI -->
                                     </div>
                                  </div>
                               </div>
                            </div>
-                           <div class="col-xl-2">
-                              <div class="card custom-card" style="height: 550px;">
-                                 <div class="card-header justify-content-between">
-                                    <div class="card-title">Não conformidades</div>
-                                 </div>
-                                 <div class="card-body" style="padding-top: 0;">
-                                    <div id="earnings" style="min-height: 500px;">
-                                      <div id="nf-chart">
-                                          <!-- GRAFICO AQUI -->
-                                       </div>
+                        </div>
+                        <div class="col-xl-2">
+                           <div class="card custom-card" style="height: 550px;">
+                              <div class="card-header justify-content-between">
+                                 <div class="card-title">Não conformidades</div>
+                              </div>
+                              <div class="card-body" style="padding-top: 0;">
+                                 <div id="earnings" style="min-height: 500px;">
+                                    <div id="nf-chart">
+                                       <!-- GRAFICO AQUI -->
                                     </div>
                                  </div>
                               </div>
                            </div>
+                        </div>
                         <div class="col-xl-4">
                            <div class="card custom-card" style="height: 550px;">
                               <div class="card-header justify-content-between">
                                  <div class="card-title"> Recompras Totais </div>
                               </div>
                               <div class="card-body my-2 py-4" id="modais" style="margin: 0px auto; min-height: 235px;">
-                                  <div id="recompra-chart">
-                                      <!-- GRAFICO AQUI -->
-                                   </div>
+                                 <div id="recompra-chart">
+                                    <!-- GRAFICO AQUI -->
+                                 </div>
                               </div>
                               <div class="card-footer p-0">
                                  <div class="row row-cols-12 justify-content-center">
                                     <div class="col pe-0 text-center">
-                                       <div class="p-sm-3 p-2 "> <span class="text-muted fs-11">Propostas Aprovadas</span> <span
-                                             class="d-block fs-16 fw-semibold" id="porcentagem_IM">60</span> </div>
-                                    </div>
-                                    <div class="col px-0 text-center">
-                                       <div class="p-sm-3 p-2 "> <span class="text-muted fs-11">Propostas Reprovadas</span> <span
-                                             class="d-block fs-16 fw-semibold" id="porcentagem_EM">40</span> </div>
-                                    </div>
-                                    <div class="col px-0 text-center">
-                                       <div class="p-sm-3 p-2 "> <span class="text-muted fs-11">Processos</span> <span
-                                             class="d-block fs-16 fw-semibold" id="porcentagem_IA">60</span> </div>
-                                    </div>
-                                    <div class="col ps-0 text-center">
-                                       <div class="p-sm-3 p-2"> 
-                                          <span class="text-muted fs-11">Processos Cancelados</span> 
-                                          <span class="d-block fs-16 fw-semibold"
-                                             id="porcentagem_EA">40</span> 
-                                       </div>
+                                       <div class="p-sm-12 p-2 "> <span class="text-muted fs-11"
+                                             id="divRecompraTotal">Recompra Total Convertida</span></div>
                                     </div>
                                  </div>
                               </div>
                            </div>
                         </div>
-                        <div class="col-xl-4">
-                          <div class="card custom-card" style="height: 550px;">
-                             <div class="card-header justify-content-between">
-                                <div class="card-title"> Recompras Detalhadas </div>
-                                <div class="d-sm-flex">
-                                  <nav aria-label="Page navigation" class="pagination-style-4">
-                                      <ul class="pagination mb-0">
-                                         <li class="page-item active"><a class="page-link" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#meuModal">+</a></li>
-                                         <li class="page-item">
-                                          <div class="me-3 mb-3 mb-sm-0"> <input class="form-control form-control-sm" type="text"
-                                          placeholder="Pesquisar" aria-label=".form-control-sm example"> </div>
-                                      </li>
-                                      </ul>
-                                   </nav>
-                                </div>
-                             </div>
-                             <div class="modal" tabindex="-1" id="meuModal">
-                              <div class="modal-dialog">
-                                <div class="modal-content">
-                                  <div class="modal-header">
+                        <div class="modal" tabindex="-1" id="meuModal">
+                           <div class="modal-dialog">
+                              <div class="modal-content">
+                                 <div class="modal-header">
                                     <h5 class="modal-title">Registro de Recompra</h5>
-                                  </div>
-                                  <div class="modal-body">
+                                 </div>
+                                 <div class="modal-body">
                                     <div class="row text-start">
-                                      <div class="col-12 col-md-12 ms-auto mt-3 text-start">
-                                        <div>
-                                          <label class="form-label mb-0 ms-0">Nº do Processo</label>
-                                          <input class="multisteps-form__input form-control" type="text" id="numeroProcesso"/>
-                                        </div>
-                                      </div>
-                                      <div class="col-12 col-md-6 ms-auto mt-3 text-start">
-                                        <div>
-                                          <label class="form-label mb-0 ms-0">Moeda</label>
-                                          <select class="form-control" id="tipoMoeda">
-                                            <option value="NULL"> </option>
-                                            <option value="USD">USD</option>
-                                            <option value="BRL">BRL</option>
-                                            <option value="EUR">EUR</option>
-                                            <option value="GBP">GBP</option>
-                                          </select>
-                                        </div>
-                                      </div>
-                                      <div class="col-12 col-md-6 ms-auto mt-3 text-start">
-                                        <div>
-                                          <label class="form-label mb-0 ms-0">Valor</label>
-                                          <input class="multisteps-form__input form-control" type="number" id="valorRecompra"/>
-                                        </div>
-                                      </div>
-                                      <div class="col-12 col-md-12 ms-auto mt-3 text-start">
-                                        <div>
-                                          <label class="form-label mb-0 ms-0">Descrição</label>
-                                          <input class="multisteps-form__input form-control" type="text" id="campoLivre"/>
-                                        </div>
-                                      </div>
+                                       <div class="col-12 col-md-12 ms-auto mt-3 text-start">
+                                          <div>
+                                             <label class="form-label mb-0 ms-0">Nº do Processo</label>
+                                             <input class="multisteps-form__input form-control" type="text"
+                                                id="numeroProcesso" />
+                                          </div>
+                                       </div>
+                                       <div class="col-12 col-md-6 ms-auto mt-3 text-start">
+                                          <div>
+                                             <label class="form-label mb-0 ms-0">Moeda</label>
+                                             <select class="form-control" id="tipoMoeda">
+                                                <option value="NULL"> </option>
+                                                <option value="1">USD</option>
+                                                <option value="2">BRL</option>
+                                                <option value="3">EUR</option>
+                                                <option value="4">GBP</option>
+                                             </select>
+                                          </div>
+                                       </div>
+                                       <div class="col-12 col-md-6 ms-auto mt-3 text-start">
+                                          <div>
+                                             <label class="form-label mb-0 ms-0">Valor</label>
+                                             <input class="multisteps-form__input form-control" type="number"
+                                                id="valorRecompra" />
+                                          </div>
+                                       </div>
+                                       <div class="col-12 col-md-12 ms-auto mt-3 text-start">
+                                          <div>
+                                             <label class="form-label mb-0 ms-0">Descrição</label>
+                                             <select class="form-control" id="campoLivre">
+                                                <option value="NULL"> </option>
+                                                <option value="correcao">CORREÇÃO</option>
+                                                <option value="profit-agente">PROFIT AGENTE</option>
+                                                <option value="taxa-destino">TAXAS DE DESTINO</option>
+                                                <option value="taxa-origem">TAXAS DE ORIGEM</option>
+                                                <option value="telex-release">TELEX RELEASE</option>
+                                             </select>
+                                          </div>
+                                       </div>
                                     </div>
-                                  </div>
-                                  <div class="modal-footer">
-                                      <button class="btn bg-gradient-dark ms-auto mb-0 page-item" type="button" title="Send" onclick="confirmar();
-                                      $('#meuModal').modal('hide');">Enviar</button>
-                                    </div>
-                                </div>
+                                 </div>
+                                 <div class="modal-footer">
+                                    <button class="btn bg-gradient-dark ms-auto mb-0 page-item" type="button"
+                                       title="Send" onclick="confirmar();
+                                   $('#meuModal').modal('hide');">Enviar</button>
+                                 </div>
                               </div>
-                            </div>
-                             <div class="card-body">
-                                <div class="table-responsive">
-                                   <table class="table text-nowrap table-bordered">
-                                      <thead>
-                                         <tr>
-                                            <th scope="col">N° Processo</th>
-                                            <th scope="col">Valor</th>
-                                         </tr>
-                                      </thead>
-                                      <tbody>
-                                         <tr>
-                                            <td> <span class="fw-semibold">IM0000-24</span> </td>
-                                            <td> <span class="badge bg-success-transparent" >R$ 22.411,87</span> </td>
-                                         </tr>
-                                         <tr>
-                                            <td> <span class="fw-semibold">IM0001-24</span> </td>
-                                            <td> <span class="badge bg-success-transparent" >R$ 2.822,01</span> </td>
-                                         </tr>
-                                         <tr>
-                                            <td> <span class="fw-semibold">IM0002-24</span> </td>
-                                            <td> <span class="badge bg-success-transparent" >R$ 4.357,52</span> </td>
-                                         </tr>
-                                         <tr>
-                                            <td> <span class="fw-semibold">IM0003-24</span> </td>
-                                            <td> <span class="badge bg-success-transparent" >R$ 14.602,38</span> </td>
-                                         </tr>
-                                         <tr>
-                                            <td> <span class="fw-semibold">IM0004-24</span> </td>
-                                            <td> <span class="badge bg-success-transparent" >R$ 125.001,25</span> </td>
-                                         </tr>
-                                      </tbody>
-                                   </table>
-                                </div>
-                             </div>
-                             <div class="card-footer">
-                                <div class="d-flex align-items-center">
-                                   <div class="ms-auto">
-                                      <nav aria-label="Page navigation" class="pagination-style-4">
-                                         <ul class="pagination mb-0">
-                                            <li class="page-item disabled"> <a class="page-link" href="javascript:void(0);"> Voltar </a>
-                                            </li>
-                                            <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-                                            <li class="page-item"> <a class="page-link text-primary" href="javascript:void(0);"> Próximo
-                                               </a> </li>
-                                         </ul>
-                                      </nav>
-                                   </div>
-                                </div>
-                             </div>
-                          </div>
-                       </div>
+                           </div>
+                        </div>
+                        <div class="col-xl-3">
+                           <div class="card custom-card" style="height: 550px;">
+                              <div class="card-header justify-content-between">
+                                 <div class="card-title"> Processos </div>
+                                 <div class="d-sm-flex">
+                                    <div class="me-3 mb-3 mb-sm-0">
+                                       <input class="form-control form-control-sm" id="pesquisar-processos" type="text"
+                                          placeholder="Pesquisar" aria-label=".form-control-sm example">
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="card-body">
+                                 <div class="table-responsive">
+                                    <table class="table text-nowrap table-bordered">
+                                       <thead>
+                                          <tr>
+                                             <th scope="col">Numero Processo</th>
+                                             <th scope="col">Moeda</th>
+                                             <th scope="col">Valor</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                       </tbody>
+                                    </table>
+                                 </div>
+                              </div>
+                           </div>
                         </div>
                      </div>
                   </div>
+               </div>
             </div>
             <!-- FIM DADOS -->
 
@@ -402,7 +353,7 @@
       </div>
    </div>
    <!-- / MODAL COMERCIAL -->
-   
+
    <!-- CABEÇALHO -->
    <header class="app-header">
       <!-- Start::main-header-container -->
@@ -489,36 +440,43 @@
                      <div class="simplebar-content" style="padding: 8px 0px 80px;">
                         <nav class="main-menu-container nav nav-pills flex-column ">
 
-                           <ul class="main-menu" style="display: block; margin-left: 0; margin-right: 0px;"> 
+                           <ul class="main-menu" style="display: block; margin-left: 0; margin-right: 0px;">
 
-                              <li class="slide has-sub"> 
-                                 <a href="#" class="side-menu__item"> 
-                                    <i class="bx bx-home side-menu__icon"></i> 
-                                    <span class="side-menu__label" style="margin-right: 14px;">Dashboards</span> 
-                                    <i class="fe fe-chevron-right side-menu__angle"></i> 
+                              <li class="slide has-sub">
+                                 <a href="#" class="side-menu__item">
+                                    <i class="bx bx-home side-menu__icon"></i>
+                                    <span class="side-menu__label" style="margin-right: 14px;">Dashboards</span>
+                                    <i class="fe fe-chevron-right side-menu__angle"></i>
                                  </a>
 
-                                 <ul class="slide-menu child1" style="position: relative; left: 0px; top: 0px; margin: 0px; display: block; box-sizing: border-box; transform: translate(135px, 108px);" data-popper-placement="bottom" data-popper-escaped="">
+                                 <ul class="slide-menu child1"
+                                    style="position: relative; left: 0px; top: 0px; margin: 0px; display: block; box-sizing: border-box; transform: translate(135px, 108px);"
+                                    data-popper-placement="bottom" data-popper-escaped="">
                                     <li class="slide side-menu__label1"> <a>Dashboards</a> </li>
-                                    <li class="slide"> <a href="/financeiro" class="side-menu__item">Financeiro</a> </li>
+                                    <li class="slide"> <a href="/financeiro" class="side-menu__item">Financeiro</a>
+                                    </li>
                                     <li class="slide"> <a href="/processos" class="side-menu__item">Processos</a> </li>
-                                    <li class="slide"> <a href="/importacao" class="side-menu__item">Importação</a> </li>
-                                    <li class="slide"> <a href="/exportacao" class="side-menu__item">Exportação</a> </li>
+                                    <li class="slide"> <a href="/importacao" class="side-menu__item">Importação</a>
+                                    </li>
+                                    <li class="slide"> <a href="/exportacao" class="side-menu__item">Exportação</a>
+                                    </li>
                                     <li class="slide"> <a href="/comercial" class="side-menu__item">Comercial</a> </li>
                                  </ul>
                               </li>
 
-                              <li class="slide has-sub" modulo="meta-pessoal-operacional" style="display: none;"> 
-                                 <a href="/meta-pessoal-operacional" class="side-menu__item"> 
-                                    <i class="bi bi-person side-menu__icon"></i> 
-                                    <span class="side-menu__label" style="margin-right: 14px;">Meta Pessoal - Operacional</span> 
+                              <li class="slide has-sub" modulo="meta-pessoal-operacional" style="display: none;">
+                                 <a href="/meta-pessoal-operacional" class="side-menu__item">
+                                    <i class="bi bi-person side-menu__icon"></i>
+                                    <span class="side-menu__label" style="margin-right: 14px;">Meta Pessoal -
+                                       Operacional</span>
                                  </a>
-                              </li> 
+                              </li>
 
-                              <li class="slide has-sub active" modulo="admin-meta-operacional" style="display: none;"> 
-                                 <a href="/admin-meta-operacional" class="side-menu__item active"> 
-                                    <i class="bi bi-person side-menu__icon"></i> 
-                                    <span class="side-menu__label" style="margin-right: 14px;">Admin - Meta Operacional</span> 
+                              <li class="slide has-sub active" modulo="admin-meta-operacional" style="display: none;">
+                                 <a href="/admin-meta-operacional" class="side-menu__item active">
+                                    <i class="bi bi-person side-menu__icon"></i>
+                                    <span class="side-menu__label" style="margin-right: 14px;">Admin - Meta
+                                       Operacional</span>
                                  </a>
                               </li>
 
@@ -539,18 +497,19 @@
          </div>
 
          <div class="simplebar-track simplebar-vertical" style="visibility: hidden;">
-            <div class="simplebar-scrollbar" style="height: 0px; transform: translate3d(0px, 0px, 0px); display: none;"></div>
+            <div class="simplebar-scrollbar" style="height: 0px; transform: translate3d(0px, 0px, 0px); display: none;">
+            </div>
          </div>
       </div>
    </aside>
    <!-- FIM BARRA -->
 
-   
+
    <!-- Dashboard -->
    <div class="main-content app-content" style="position: relative; display: flex; align-items: center;">
 
       <div class="container-fluid corpo-dashboard" style="display: none;">
-         
+
          <div class="row">
             <div class="col-xl-12 my-4">
                <div class="team-members" id="team-members">
@@ -562,330 +521,65 @@
                                  <div class="d-flex flex-wrap align-items-center justify-content-between">
                                     <div class="h5 fw-semibold mb-0">Operacionais</div>
                                     <div class="d-flex align-items-center">
-                                       <div class="input-group"> 
-                                          <input type="text" class="form-control bg-light border-0" placeholder="Pesquisar" aria-describedby="search-team-member"> 
+                                       <!-- <div class="input-group">
+                                          <input type="text" class="form-control bg-light border-0"
+                                             placeholder="Pesquisar" aria-describedby="search-team-member">
                                           <button class="btn btn-light" type="button" id="search-team-member">
                                              <i class="ri-search-line text-muted"></i>
-                                          </button> 
-                                       </div>
+                                          </button>
+                                       </div> -->
                                     </div>
                                  </div>
                               </div>
                            </div>
                         </div>
                      </div>
+                     <div class="col-xl-12" id="divCards">
 
-                     <div type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;">
+                        <!-- <div type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12"
+                        data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;">
                         <div class="card custom-card team-member-card">
-               
+
                            <div class="teammember-cover-image my-4">
                               <span class="avatar avatar-xl avatar-rounded">
-                                    <img src="https://cdn.conlinebr.com.br/colaboradores/48908" alt="">
+                                 <img src="https://cdn.conlinebr.com.br/colaboradores/48908" alt="">
                               </span>
                            </div>
-               
+
                            <div class="card-body p-0">
-                              <div class="d-flex flex-wrap align-item-center mt-sm-0 mt-5 justify-content-between border-bottom border-block-end-dashed p-3" style="margin-top: -25px !important;">
-                                    <div class="team-member-details flex-fill">
-                                       <p class="mb-0 fw-semibold fs-16 text-truncate">
-                                          <a href="javascript:void(0);">Adriani Silveira</a>
-                                       </p>
-                                       <p class="mb-0 fs-12 text-muted text-break">adriani.silveira@conliebr.com.br</p>
-                                    </div>
+                              <div
+                                 class="d-flex flex-wrap align-item-center mt-sm-0 mt-5 justify-content-between border-bottom border-block-end-dashed p-3"
+                                 style="margin-top: -25px !important;">
+                                 <div class="team-member-details flex-fill">
+                                    <p class="mb-0 fw-semibold fs-16 text-truncate">
+                                       <a href="javascript:void(0);">Adriani Silveira</a>
+                                    </p>
+                                    <p class="mb-0 fs-12 text-muted text-break">adriani.silveira@conliebr.com.br</p>
+                                 </div>
                               </div>
-               
+
                               <div class="team-member-stats d-sm-flex justify-content-evenly">
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Nota</p><span class="text-muted fs-12">250</span>
-                                    </div>
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Processos</p><span class="text-muted fs-12">250</span>
-                                    </div>
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Recompra Total</p><span class="text-muted fs-12">R$ 158.035,01</span>
-                                    </div>
+                                 <div class="text-center p-3 my-auto">
+                                    <p class="fw-semibold mb-0">Nota</p><span class="text-muted fs-12">250</span>
+                                 </div>
+                                 <div class="text-center p-3 my-auto">
+                                    <p class="fw-semibold mb-0">Processos</p><span class="text-muted fs-12">250</span>
+                                 </div>
+                                 <div class="text-center p-3 my-auto">
+                                    <p class="fw-semibold mb-0">Recompra Total</p><span class="text-muted fs-12">R$
+                                       158.035,01</span>
+                                 </div>
                               </div>
                            </div>
                         </div>
-                     </div>
+                     </div> -->
 
-                     <div type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;">
-                        <div class="card custom-card team-member-card">
-               
-                           <div class="teammember-cover-image my-4">
-                              <span class="avatar avatar-xl avatar-rounded">
-                                    <img src="https://cdn.conlinebr.com.br/colaboradores/48908" alt="">
-                              </span>
-                           </div>
-               
-                           <div class="card-body p-0">
-                              <div class="d-flex flex-wrap align-item-center mt-sm-0 mt-5 justify-content-between border-bottom border-block-end-dashed p-3" style="margin-top: -25px !important;">
-                                    <div class="team-member-details flex-fill">
-                                       <p class="mb-0 fw-semibold fs-16 text-truncate">
-                                          <a href="javascript:void(0);">Adriani Silveira</a>
-                                       </p>
-                                       <p class="mb-0 fs-12 text-muted text-break">adriani.silveira@conliebr.com.br</p>
-                                    </div>
-                              </div>
-               
-                              <div class="team-member-stats d-sm-flex justify-content-evenly">
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Nota</p><span class="text-muted fs-12">250</span>
-                                    </div>
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Processos</p><span class="text-muted fs-12">250</span>
-                                    </div>
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Recompra Total</p><span class="text-muted fs-12">R$ 158.035,01</span>
-                                    </div>
-                              </div>
-                           </div>
-                        </div>
                      </div>
-
-                     <div type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;">
-                        <div class="card custom-card team-member-card">
-               
-                           <div class="teammember-cover-image my-4">
-                              <span class="avatar avatar-xl avatar-rounded">
-                                    <img src="https://cdn.conlinebr.com.br/colaboradores/48908" alt="">
-                              </span>
-                           </div>
-               
-                           <div class="card-body p-0">
-                              <div class="d-flex flex-wrap align-item-center mt-sm-0 mt-5 justify-content-between border-bottom border-block-end-dashed p-3" style="margin-top: -25px !important;">
-                                    <div class="team-member-details flex-fill">
-                                       <p class="mb-0 fw-semibold fs-16 text-truncate">
-                                          <a href="javascript:void(0);">Adriani Silveira</a>
-                                       </p>
-                                       <p class="mb-0 fs-12 text-muted text-break">adriani.silveira@conliebr.com.br</p>
-                                    </div>
-                              </div>
-               
-                              <div class="team-member-stats d-sm-flex justify-content-evenly">
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Nota</p><span class="text-muted fs-12">250</span>
-                                    </div>
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Processos</p><span class="text-muted fs-12">250</span>
-                                    </div>
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Recompra Total</p><span class="text-muted fs-12">R$ 158.035,01</span>
-                                    </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-
-                     <div type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;">
-                        <div class="card custom-card team-member-card">
-               
-                           <div class="teammember-cover-image my-4">
-                              <span class="avatar avatar-xl avatar-rounded">
-                                    <img src="https://cdn.conlinebr.com.br/colaboradores/48908" alt="">
-                              </span>
-                           </div>
-               
-                           <div class="card-body p-0">
-                              <div class="d-flex flex-wrap align-item-center mt-sm-0 mt-5 justify-content-between border-bottom border-block-end-dashed p-3" style="margin-top: -25px !important;">
-                                    <div class="team-member-details flex-fill">
-                                       <p class="mb-0 fw-semibold fs-16 text-truncate">
-                                          <a href="javascript:void(0);">Adriani Silveira</a>
-                                       </p>
-                                       <p class="mb-0 fs-12 text-muted text-break">adriani.silveira@conliebr.com.br</p>
-                                    </div>
-                              </div>
-               
-                              <div class="team-member-stats d-sm-flex justify-content-evenly">
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Nota</p><span class="text-muted fs-12">250</span>
-                                    </div>
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Processos</p><span class="text-muted fs-12">250</span>
-                                    </div>
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Recompra Total</p><span class="text-muted fs-12">R$ 158.035,01</span>
-                                    </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-
-                     <div type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;">
-                        <div class="card custom-card team-member-card">
-               
-                           <div class="teammember-cover-image my-4">
-                              <span class="avatar avatar-xl avatar-rounded">
-                                    <img src="https://cdn.conlinebr.com.br/colaboradores/48908" alt="">
-                              </span>
-                           </div>
-               
-                           <div class="card-body p-0">
-                              <div class="d-flex flex-wrap align-item-center mt-sm-0 mt-5 justify-content-between border-bottom border-block-end-dashed p-3" style="margin-top: -25px !important;">
-                                    <div class="team-member-details flex-fill">
-                                       <p class="mb-0 fw-semibold fs-16 text-truncate">
-                                          <a href="javascript:void(0);">Adriani Silveira</a>
-                                       </p>
-                                       <p class="mb-0 fs-12 text-muted text-break">adriani.silveira@conliebr.com.br</p>
-                                    </div>
-                              </div>
-               
-                              <div class="team-member-stats d-sm-flex justify-content-evenly">
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Nota</p><span class="text-muted fs-12">250</span>
-                                    </div>
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Processos</p><span class="text-muted fs-12">250</span>
-                                    </div>
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Recompra Total</p><span class="text-muted fs-12">R$ 158.035,01</span>
-                                    </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-
-                     <div type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;">
-                        <div class="card custom-card team-member-card">
-               
-                           <div class="teammember-cover-image my-4">
-                              <span class="avatar avatar-xl avatar-rounded">
-                                    <img src="https://cdn.conlinebr.com.br/colaboradores/48908" alt="">
-                              </span>
-                           </div>
-               
-                           <div class="card-body p-0">
-                              <div class="d-flex flex-wrap align-item-center mt-sm-0 mt-5 justify-content-between border-bottom border-block-end-dashed p-3" style="margin-top: -25px !important;">
-                                    <div class="team-member-details flex-fill">
-                                       <p class="mb-0 fw-semibold fs-16 text-truncate">
-                                          <a href="javascript:void(0);">Adriani Silveira</a>
-                                       </p>
-                                       <p class="mb-0 fs-12 text-muted text-break">adriani.silveira@conliebr.com.br</p>
-                                    </div>
-                              </div>
-               
-                              <div class="team-member-stats d-sm-flex justify-content-evenly">
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Nota</p><span class="text-muted fs-12">250</span>
-                                    </div>
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Processos</p><span class="text-muted fs-12">250</span>
-                                    </div>
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Recompra Total</p><span class="text-muted fs-12">R$ 158.035,01</span>
-                                    </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-
-                     <div type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;">
-                        <div class="card custom-card team-member-card">
-               
-                           <div class="teammember-cover-image my-4">
-                              <span class="avatar avatar-xl avatar-rounded">
-                                    <img src="https://cdn.conlinebr.com.br/colaboradores/48908" alt="">
-                              </span>
-                           </div>
-               
-                           <div class="card-body p-0">
-                              <div class="d-flex flex-wrap align-item-center mt-sm-0 mt-5 justify-content-between border-bottom border-block-end-dashed p-3" style="margin-top: -25px !important;">
-                                    <div class="team-member-details flex-fill">
-                                       <p class="mb-0 fw-semibold fs-16 text-truncate">
-                                          <a href="javascript:void(0);">Adriani Silveira</a>
-                                       </p>
-                                       <p class="mb-0 fs-12 text-muted text-break">adriani.silveira@conliebr.com.br</p>
-                                    </div>
-                              </div>
-               
-                              <div class="team-member-stats d-sm-flex justify-content-evenly">
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Nota</p><span class="text-muted fs-12">250</span>
-                                    </div>
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Processos</p><span class="text-muted fs-12">250</span>
-                                    </div>
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Recompra Total</p><span class="text-muted fs-12">R$ 158.035,01</span>
-                                    </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-
-                     <div type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;">
-                        <div class="card custom-card team-member-card">
-               
-                           <div class="teammember-cover-image my-4">
-                              <span class="avatar avatar-xl avatar-rounded">
-                                    <img src="https://cdn.conlinebr.com.br/colaboradores/48908" alt="">
-                              </span>
-                           </div>
-               
-                           <div class="card-body p-0">
-                              <div class="d-flex flex-wrap align-item-center mt-sm-0 mt-5 justify-content-between border-bottom border-block-end-dashed p-3" style="margin-top: -25px !important;">
-                                    <div class="team-member-details flex-fill">
-                                       <p class="mb-0 fw-semibold fs-16 text-truncate">
-                                          <a href="javascript:void(0);">Adriani Silveira</a>
-                                       </p>
-                                       <p class="mb-0 fs-12 text-muted text-break">adriani.silveira@conliebr.com.br</p>
-                                    </div>
-                              </div>
-               
-                              <div class="team-member-stats d-sm-flex justify-content-evenly">
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Nota</p><span class="text-muted fs-12">250</span>
-                                    </div>
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Processos</p><span class="text-muted fs-12">250</span>
-                                    </div>
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Recompra Total</p><span class="text-muted fs-12">R$ 158.035,01</span>
-                                    </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-
-                     <div type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;">
-                        <div class="card custom-card team-member-card">
-               
-                           <div class="teammember-cover-image my-4">
-                              <span class="avatar avatar-xl avatar-rounded">
-                                    <img src="https://cdn.conlinebr.com.br/colaboradores/48908" alt="">
-                              </span>
-                           </div>
-               
-                           <div class="card-body p-0">
-                              <div class="d-flex flex-wrap align-item-center mt-sm-0 mt-5 justify-content-between border-bottom border-block-end-dashed p-3" style="margin-top: -25px !important;">
-                                    <div class="team-member-details flex-fill">
-                                       <p class="mb-0 fw-semibold fs-16 text-truncate">
-                                          <a href="javascript:void(0);">Adriani Silveira</a>
-                                       </p>
-                                       <p class="mb-0 fs-12 text-muted text-break">adriani.silveira@conliebr.com.br</p>
-                                    </div>
-                              </div>
-               
-                              <div class="team-member-stats d-sm-flex justify-content-evenly">
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Nota</p><span class="text-muted fs-12">250</span>
-                                    </div>
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Processos</p><span class="text-muted fs-12">250</span>
-                                    </div>
-                                    <div class="text-center p-3 my-auto">
-                                       <p class="fw-semibold mb-0">Recompra Total</p><span class="text-muted fs-12">R$ 158.035,01</span>
-                                    </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-
                   </div>
                </div>
             </div>
          </div>
-      
+
       </div>
    </div>
    <!-- Dashboard -->
@@ -897,21 +591,26 @@
             <a href="http://conlinebr.com.br" target="_blank" class="text-dark fw-semibold">Conline</a>.
             <span class="bi bi-heart-fill text-danger"></span>
             Todos os direitos reservado
-            </span>
-            </div>
-            </footer>
-            <!-- Footer End -->
-            <div id="responsive-overlay"></div>
-            
-            <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-            <script src="/assets/js/custom.js"></script>
-            <script src="/assets/js/defaultmenu.min.js"></script>
-            <script src="/assets/libs/apexcharts/apexcharts.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-            
-            <script src="/assets/js/meta-pessoal-operacional.js"></script>
-            
-            
-            </body>
-            
-            </html>
+         </span>
+      </div>
+   </footer>
+   <!-- Footer End -->
+   <div id="responsive-overlay"></div>
+
+   <script type="module" src="/assets/js/meta-pessoal-operacional.js"></script>
+   <script type="module" src="/assets/js/admin-meta-operacional.js"></script>
+
+   <script src="/assets/libs/dataTables/jquery-3.6.1.min.js"></script>
+   <script src="/assets/libs/dataTables/jquery.dataTables.min.js"></script>
+   <script src="/assets/libs/dataTables/dataTables.bootstrap5.min.js"></script>
+
+   <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+   <script src="/assets/js/custom.js"></script>
+   <script src="/assets/js/defaultmenu.min.js"></script>
+   <script src="/assets/libs/apexcharts/apexcharts.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+
+</body>
+
+</html>
