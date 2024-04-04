@@ -607,19 +607,16 @@ const helpers = {
    taxas_conversao: async function () {
       const result = await executeQuerySQL(
          `SELECT
-         Cmf.IdConversao_Moeda,
-         Cmf.Data,
          Cmf.IdMoeda_Origem,
-         Cmf.IdMoeda_Destino,
          Cmf.Fator
      From
          cad_Conversao_Moeda_Fator Cmf
      Where
          Cmf.IdConversao_Moeda = 2
-     and CONVERT(varchar, Cmf.Data, 103) = CONVERT(varchar, GETDATE(), 103)`
-      )
+     and CONVERT(varchar, Cmf.Data, 103) = CONVERT(varchar, GETDATE(), 103)
+     `)
+      return result;
    }
-
 }
 
 module.exports = {
