@@ -1,6 +1,8 @@
 const listaOperacionais = await Thefetch('/api/operacionais');
 const dadosLogin = JSON.parse(localStorage.getItem('metasUser'));
 const recompras_operacional = await Thefetch('/api/recompras_operacional');
+const quantidade_emails = await Thefetch('/api/emails_enviados_recebidos');
+
 let lucro_estimado_por_processo;
 
 var notaFinal = 0;
