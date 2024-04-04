@@ -127,6 +127,10 @@
                </div>
                <!-- / INPUT DE MES E VALOR DE META -->
 
+               <div class="card-body" style="display: flex; justify-content: center; margin-top: 30px; margin-bottom: -25px;">
+                  <h5 id="nome-comercial"></h5>
+               </div>
+
                <!-- TABELA DE VALORES -->
                <div class="table-responsive mt-4">
                   <table class="table text-nowrap table-bordered">
@@ -153,7 +157,7 @@
 
 
             <div class="modal-footer mt-5" style="border: none;"> 
-               <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Salvar</button> 
+               <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Fechar</button> 
             </div>
          </div>
       </div>
@@ -226,7 +230,7 @@
                                     <div class="col-xxl-9 col-xl-10 col-lg-9 col-md-9 col-sm-8 col-8 px-0">
                                        <div class="mb-2">Meta - Mensal</div>
                                        <div class="text-muted mb-1 fs-12"> 
-                                          <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> R$ --.---,-- </span> 
+                                          <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom" id="meta-mensal"> R$ --.---,-- </span> 
                                        </div>
                                        <div> 
                                           <span class="fs-12 mb-0">Lucro esperado para o mês atual</span>
@@ -448,6 +452,13 @@
                                  <a href="/meta-financeira-comercial" class="side-menu__item"> 
                                     <i class="bi bi-person side-menu__icon"></i> 
                                     <span class="side-menu__label" style="margin-right: 14px;">Meta financeira - Comercial</span> 
+                                 </a>
+                              </li>
+
+                              <li class="slide has-sub" modulo="meta-clientes-comercial" style="display: none;"> 
+                                 <a href="/meta-clientes-comercial" class="side-menu__item"> 
+                                    <i class="bi bi-person side-menu__icon"></i> 
+                                    <span class="side-menu__label" style="margin-right: 14px;">Meta cliente - Comercial</span> 
                                  </a>
                               </li>
 

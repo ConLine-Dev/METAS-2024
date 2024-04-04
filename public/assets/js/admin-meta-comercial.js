@@ -44,6 +44,18 @@ const meses_para_selecionar = document.getElementById('meses');
 const input_meta = document.getElementById('input-meta');
 const botao_adicionar_meta = document.getElementById('adicionar-meta');
 
+function limpar_inputs() {
+   const valor_atual = input_meta.value;
+   const valor_sem_numeros_pontos = valor_atual.replace(/[0-9.]/g, ''); 
+   input_meta.value = valor_sem_numeros_pontos; // Define o valor do input-meta como o valor sem números e pontos
+   opcoes_meses.setChoiceByValue(''); // Reseta a opção selecionada para a primeira opção no select
+
+   const vendedor_selecionado = document.querySelectorAll('.vendedor-selecionado');
+   vendedor_selecionado.forEach(item => {
+      item.classList.remove('vendedor-selecionado')
+   });
+}
+
 // Função para verificar e habilitar/desabilitar o botão
 function verificar_habilitacao() {
    const mes_selecionado = meses_para_selecionar.options[meses_para_selecionar.selectedIndex].value;
@@ -51,7 +63,7 @@ function verificar_habilitacao() {
    const numero_float = parseFloat(valor_numerico);
    const vendedor_selecionado = document.querySelector('.vendedor-selecionado');
 
-   if (mes_selecionado > 0 && numero_float > 0 && vendedor_selecionado) {
+   if (mes_selecionado > 0 && numero_float >= 0 && vendedor_selecionado) {
       botao_adicionar_meta.disabled = false; // Habilita o botao
    } else {
       botao_adicionar_meta.disabled = true; // Desablita o botao
@@ -140,7 +152,7 @@ async function ativar_tooltip() {
 };
 
 // Pega o lucro estimado do vendedor no mes atual
-async function lucro_estimado_mes_atual(consulta) {
+async function card_lucro_estimado_mes_atual(consulta) {
    const data_atual = new Date();
    const mes_atual = data_atual.getMonth() + 1;
 
@@ -155,6 +167,26 @@ async function lucro_estimado_mes_atual(consulta) {
 
    const html_lucro_estimado = document.getElementById('lucro-estimado');
    html_lucro_estimado.textContent = lucro_estimado.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
+};
+
+// Pega o lucro estimado do vendedor no mes atual
+async function card_meta_comercial(consulta) {
+   const data_atual = new Date();
+   const mes_atual = data_atual.getMonth() + 1;
+
+   let valor_meta = 0; // Inicializa a variável valor_meta fora do loop
+
+   for (let i = 0; i < consulta.length; i++) {
+      const item = consulta[i];
+
+      // Verifica se o usuario logado é um vendedor e se existe registros de valores para o mes atual para somar
+      if (mes_atual === item.mes) {
+         valor_meta = item.valor_meta
+      }
+   }
+
+   const html_valor_meta = document.getElementById('meta-mensal');
+   html_valor_meta.textContent = valor_meta.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
 };
 
 // Retorna o total de processo, proposta o que for passado na consulta, mas tem que tem o ID_VENDEDOR e o MES na consulta
@@ -318,13 +350,24 @@ async function lucro_estimado_mes_a_mes(consulta) {
    return soma_por_mes
 };
 
+async function array_metas(consulta_metas) {
+   // Inicia um array com 12 posições e com zeros em todas
+   const array_metas = new Array(12).fill(0);
+
+   consulta_metas.forEach(item => {
+      const index = item.mes - 1 // Calcula o indice correto baseado no mes (0 - base do index)
+      array_metas[index] = item.valor_meta; // Atualiza o array com o valor_meta para a posição do array respectiva ao mes
+   });
+
+   return array_metas;
+};
+
 // Cria os graficos de lucro estimado de cada mes
-async function grafico_lucro_estimado(consulta) {
-   const lucro_estimado = await lucro_estimado_mes_a_mes(consulta);
+async function grafico_lucro_estimado(consulta, consulta_metas) {
+   const lucro_estimado = await lucro_estimado_mes_a_mes(consulta); // Recebe a consulta do head para criar o array de lucro estimado
+   const metas_mensais = await array_metas(consulta_metas); // Recebe a consulta do Sirius para criar o array de metas
 
    const valores_arrecadados = lucro_estimado.map(item => Number((item.LUCRO_ESTIMADO).toFixed(2)));
-   
-   const metas_mensais = [30000,35000,40000,0,0,0,0,0,0,0,0,0]
    
    var options = {
       series: [{
@@ -401,12 +444,15 @@ async function carrega_indicadores_comercial(IdVendedor) {
    let meta_financeira_comercial = await Thefetch(`/api/meta-financeira-comercial?IdVendedor=${IdVendedor}`);
    let proposta_meta_comercial = await Thefetch(`/api/proposta-meta-comercial?IdVendedor=${IdVendedor}`);
    let processos_meta_comercial = await Thefetch(`/api/processos-meta-comercial?IdVendedor=${IdVendedor}`);
+   let meta_mes_atual = await Thefetch(`/api/meta-mes-atual?IdVendedor=${IdVendedor}`);
 
    // Inserir o nome do comercial no modal
    const nome_comercial = document.querySelector('.nome-comercial');
    nome_comercial.textContent = meta_financeira_comercial[0].VENDEDOR;
    // Insere o lucro estimado do mes atual
-   await lucro_estimado_mes_atual(meta_financeira_comercial);
+   await card_lucro_estimado_mes_atual(meta_financeira_comercial);
+   // Insere a meta do mes atual
+   await card_meta_comercial(meta_mes_atual);
 
    // Insere o grafico de processos e proposta
    await grafico_proposta_processo(proposta_meta_comercial, processos_meta_comercial);
@@ -414,12 +460,15 @@ async function carrega_indicadores_comercial(IdVendedor) {
    // Cria tabela com datatables com o faturamento estimado de cada processo
    await faturamento_processo(meta_financeira_comercial);
 
-   // Cria o grafico mes a mes do lucro estimado
-   await grafico_lucro_estimado(meta_financeira_comercial);
+   // Cria o grafico mes a mes do lucro estimado e metas
+   await grafico_lucro_estimado(meta_financeira_comercial, meta_mes_atual);
 };
 
 async function carrega_faturamento_mes_comercial_modal(IdVendedor) {
    const admin_modal_valores_comerciais = await Thefetch(`/api/admin-modal-valores-comerciais?IdVendedor=${IdVendedor}`);
+
+   const nome_comercial = document.getElementById('nome-comercial');
+   nome_comercial.textContent = admin_modal_valores_comerciais[0].Comercial;
 
    const faturamento_mes_vendedor = document.querySelector('.faturamento-mes-vendedor');
    let linhas_html = [];
@@ -560,6 +609,8 @@ async function eventos_cliques() {
    const botao_adicionar_meta = document.getElementById('adicionar-meta');
    botao_adicionar_meta.addEventListener('click', function() {
       inserir_valores();
+      limpar_inputs();
+      verificar_habilitacao();
    })
 
 };

@@ -15,6 +15,12 @@
    <link href="/assets/css/styles.min.css" rel="stylesheet">
    <!-- Icons Css -->
    <link href="/assets/css/icons.css" rel="stylesheet">
+   <!-- Neste main tem a função THE FETCH que consulta no banco de dados -->
+   <script src="/assets/js/main.js"></script>
+   <!-- Vai mostrar ou nao ou modulos ao usuario -->
+   <script type="module" src="/assets/js/verifica-modulo.js"></script>
+   <!-- Verifica se o usuario pode acessar uma pagina ou nao -->
+   <script src="/assets/js/verifica_acesso.js"></script>
 </head>
 
 <body>
@@ -53,7 +59,7 @@
    <!-- FIM MODAl -->
 
    <!-- LOADING -->
-   <div class="loading" style="display: block;">
+   <div class="loading" style="display: none;">
       <div class="loadingio-spinner-eclipse-jj809cj2h7" id="loading-icon">
          <img src="/assets/images/brand-logos/SLOGAN VERMELHO.gif" class="navbar-brand-img" id="loading-img" alt="main_logo">
       </div>
@@ -169,6 +175,13 @@
                                  <a href="/meta-financeira-comercial" class="side-menu__item"> 
                                     <i class="bi bi-person side-menu__icon"></i> 
                                     <span class="side-menu__label" style="margin-right: 14px;">Meta financeira - Comercial</span> 
+                                 </a>
+                              </li>
+
+                              <li class="slide has-sub" modulo="meta-clientes-comercial" style="display: none;"> 
+                                 <a href="/meta-clientes-comercial" class="side-menu__item active"> 
+                                    <i class="bi bi-person side-menu__icon"></i> 
+                                    <span class="side-menu__label" style="margin-right: 14px;">Meta cliente - Comercial</span> 
                                  </a>
                               </li>
 
@@ -830,11 +843,6 @@
    <!-- Footer End -->
    <div id="responsive-overlay"></div>
    
-   <!-- Neste main tem a função THE FETCH que consulta no banco de dados -->
-   <script src="/assets/js/main.js"></script>
-   <!-- Verifica Se tem acesso ao módulo -->
-   <script type="module" src="/assets/js/verifica-modulo.js"></script>
-
    <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
    <script src="/assets/js/custom.js"></script>
    <script src="/assets/js/defaultmenu.min.js"></script>
