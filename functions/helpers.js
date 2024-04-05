@@ -598,7 +598,18 @@ const helpers = {
 
    emails_enviados_recebidos: async function () {
       const result = await executeQuerySirius(
-         `SELECT * FROM SIRIUS.MetricasEmails;
+         `SELECT 
+               YEAR(data_consulta) AS ano,
+               MONTH(data_consulta) AS mes,
+               email,
+               SUM(enviados) AS enviados,
+               SUM(recebidos) AS recebidos
+         FROM 
+               MetricasEmails
+         GROUP BY 
+               YEAR(data_consulta),
+               MONTH(data_consulta),
+               email;
          `)
          
       return result;
@@ -616,7 +627,14 @@ const helpers = {
      and CONVERT(varchar, Cmf.Data, 103) = CONVERT(varchar, GETDATE(), 103)
      `)
       return result;
-   }
+   },
+
+   quantidade_prospeccao: async function(IdVendedor) {
+      const result = await executeQuerySQL(`
+         SELECT Cli.IdPessoa FROM cad_Cliente Cli WHERE Cli.Tipo_Cliente = 1 AND Cli.IdVendedor_Responsavel = ${IdVendedor}`);
+
+      return result;
+   },
 }
 
 module.exports = {

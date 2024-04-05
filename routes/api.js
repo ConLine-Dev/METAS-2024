@@ -329,4 +329,16 @@ router.get('/emails_enviados_recebidos', async (req, res, next) => {
     }
 });
 
+router.get('/quantidade-prospeccao', async (req, res, next) => {
+    try {
+        const { IdVendedor } = req.query;
+        const result = await helpers.quantidade_prospeccao(IdVendedor);
+
+        res.status(200).json(result)
+    } catch (error) {
+        
+        res.status(404).json(error)
+    }
+});
+
 module.exports = router;
