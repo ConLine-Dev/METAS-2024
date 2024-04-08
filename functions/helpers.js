@@ -629,9 +629,19 @@ const helpers = {
       return result;
    },
 
-   quantidade_prospeccao: async function(IdVendedor) {
+   quantidade_prospeccao: async function(emailVendedor) {
       const result = await executeQuerySQL(`
-         SELECT Cli.IdPessoa FROM cad_Cliente Cli WHERE Cli.Tipo_Cliente = 1 AND Cli.IdVendedor_Responsavel = ${IdVendedor}`);
+         SELECT 
+            Cli.IdPessoa AS IdCliente,
+            Ven.Email AS Email_Vendedor
+         FROM 
+            cad_Cliente Cli
+         LEFT OUTER JOIN
+            cad_Pessoa Ven ON Ven.IdPessoa = Cli.IdVendedor_Responsavel
+         WHERE 
+            Cli.Tipo_Cliente = 1
+            AND Ven.Email = '${emailVendedor}'`
+      );
 
       return result;
    },

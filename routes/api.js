@@ -331,8 +331,8 @@ router.get('/emails_enviados_recebidos', async (req, res, next) => {
 
 router.get('/quantidade-prospeccao', async (req, res, next) => {
     try {
-        const { IdVendedor } = req.query;
-        const result = await helpers.quantidade_prospeccao(IdVendedor);
+        const { emailVendedor } = req.query;
+        const result = await helpers.quantidade_prospeccao(emailVendedor);
 
         res.status(200).json(result)
     } catch (error) {
