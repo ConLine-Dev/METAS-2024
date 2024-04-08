@@ -47,8 +47,8 @@ async function iniciarPagina(){
             }
         }
 
-        printDivCards += `<div type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12"
-        data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;">
+        printDivCards += `<div type="button" class="btn col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12 modal-operacional"
+        data-bs-toggle="modal" data-bs-target="#exampleModalXl" style="border: none;" data-IdOperacional="${listaOperacionais[i].IdPessoa}">
         <div class="card custom-card team-member-card">
 
            <div class="teammember-cover-image my-4">
@@ -96,9 +96,34 @@ async function iniciarPagina(){
     divCards.innerHTML = printDivCards;
 }
 
-async function iniciarModal() {
+async function clickModal(){
+   document.querySelectorAll('.modal-operacional').forEach(element => {
+      element.addEventListener('click', async function(e) {
+         const IdOperacional = this.getAttribute('data-IdOperacional');
+         // await mostrar_loading_modal();
+         await iniciarModal(IdOperacional);
+         await remover_loading();
+         $('#exampleModalXl').modal('show');
+      })
+   });
+}
+
+async function remover_loading() {
+   let loading = document.querySelector('.loading');
+   let loading_modal = document.querySelector('.loading-modal');
+
+   loading.style.display = 'none';
+
+   setTimeout(() => {
+      loading_modal.style.display = 'none';   
+   }, 750);
+};
+
+async function iniciarModal(IdOperacional) {
     const divModal = document.getElementById('divModal');
     const divModalTitulo = document.getElementById('divModalTitulo');
+
+    console.log(IdOperacional);
     
     let printModal = '';
     let printModalTitulo = '';
@@ -348,7 +373,8 @@ async function iniciarModal() {
 
 async function main (){
     await iniciarPagina();
-    await iniciarModal();
+    await iniciarModal(null);
+    await clickModal();
 }
 
 await main();
