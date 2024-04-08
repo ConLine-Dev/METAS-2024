@@ -6,6 +6,8 @@ const quantidade_emails = await Thefetch('/api/emails_enviados_recebidos');
 let lucro_estimado_por_processo;
 
 var notaFinal = 0;
+let arrayEmailsEnviados = [];
+let arrayEmailsRecebidos = [];
 
 async function usuario_logado(consulta) {
   for (let i = 0; i < consulta.length; i++) {
@@ -15,6 +17,23 @@ async function usuario_logado(consulta) {
      }
   }
 };
+
+async function criarArrayEmails(){
+
+  for (let i = 0; i < quantidade_emails.length; i++) {
+    if(quantidade_emails[i].email == dadosLogin.email){
+
+      if(i == 0){
+        arrayEmailsEnviados[quantidade_emails[i].mes] = quantidade_emails[i].enviados;
+        arrayEmailsRecebidos[quantidade_emails[i].mes] = quantidade_emails[i].recebidos;
+      }
+      else if(i != 0){
+        arrayEmailsEnviados[(quantidade_emails[i].mes)-1] = quantidade_emails[i].enviados;
+        arrayEmailsRecebidos[(quantidade_emails[i].mes)-1] = quantidade_emails[i].recebidos;
+      }
+    }
+  }
+}
 
 async function recomprasCalculo(){
 
@@ -124,6 +143,10 @@ async function iniciarPagina(){
   let printDivCE = '';
   let printRecompraTotal = '';
 
+  if (notaFinal < 0) {
+    notaFinal = 0;
+  }
+
   printNotaOperacional = `<div class="mb-2">Nota Operacional</div>
   <div class="text-muted mb-1 fs-12"> 
      <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${notaFinal.toFixed(2)} </span> 
@@ -188,10 +211,10 @@ async function criarGraficos(){
   var options = {
   
     series: [{
-      data: [30, 40, 35, 50, 49, 60, 70, 91, 125, 93, 39, 56],
+      data: arrayEmailsEnviados,
       name: 'Enviados'
     }, {
-      data: [45, 60, 40, 32, 60, 90, 20, 123, 64, 84, 95, 23],
+      data: arrayEmailsRecebidos,
       name: 'Recebidos'
     }],
   
@@ -350,7 +373,6 @@ async function faturamento_processo(consulta) {
      const item = consulta[i];
      if (item.id_operacional === idUsuarioLogado) {
         const numero_processo = item.numero_processo;
-        console.log(lucratividade_processos[numero_processo]);
         lucratividade_processos[numero_processo] = {
            numero_processo: item.numero_processo,
            id_moeda: item.id_moeda,
@@ -411,6 +433,7 @@ async function main(){
   await faturamento_processo(recompras_operacional);
   await criarGraficos();
   await remover_loading();
+  await criarArrayEmails();
 }
 
 await main();
