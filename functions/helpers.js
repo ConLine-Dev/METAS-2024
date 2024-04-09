@@ -598,18 +598,7 @@ const helpers = {
 
    emails_enviados_recebidos: async function () {
       const result = await executeQuerySirius(
-         `SELECT 
-               YEAR(data_consulta) AS ano,
-               MONTH(data_consulta) AS mes,
-               email,
-               SUM(enviados) AS enviados,
-               SUM(recebidos) AS recebidos
-         FROM 
-               MetricasEmails
-         GROUP BY 
-               YEAR(data_consulta),
-               MONTH(data_consulta),
-               email;
+         `SELECT * FROM SIRIUS.email_metrics;
          `)
          
       return result;
