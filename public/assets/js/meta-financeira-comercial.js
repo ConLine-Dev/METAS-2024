@@ -269,8 +269,8 @@ async function grafico_lucro_estimado(consulta, consulta_metas) {
       },
 
       tooltip: {
-         shared: false,
-         enabled: false,
+         shared: true,
+         enabled: true,
          intersect: false,
          y: {
            formatter: function (val) {
