@@ -12,7 +12,7 @@ const dados_login = JSON.parse(localStorage.getItem('metasUser'));
 
    const acesso = await Thefetch(`/api/acesso?nivel=${ultimaParte}&email=${dados_login.email}`);
 
-   if(acesso.length == 0){
+   if(acesso && acesso.length == 0){
       window.location.href = '/erro-401'
    }
 })();
