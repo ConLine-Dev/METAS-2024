@@ -341,4 +341,16 @@ router.get('/quantidade-prospeccao', async (req, res, next) => {
     }
 });
 
+router.get('/quantidade-clientes-ativos', async (req, res, next) => {
+    try {
+        const { emailVendedor } = req.query;
+        const result = await helpers.quantidade_clientes_ativos(emailVendedor);
+
+        res.status(200).json(result)
+    } catch (error) {
+        
+        res.status(404).json(error)
+    }
+});
+
 module.exports = router;
