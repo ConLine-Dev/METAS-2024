@@ -554,7 +554,14 @@ const helpers = {
 
    divergencias_ce_mercante: async function () {
       const result = await executeQuerySQL(
-         `SELECT * FROM vis_Divergencias_CE;
+         `select dce.Divergencia, dce.Retificacao, dce.Setor, pss.Nome as 'Operacional'
+         , clt.Nome as 'Cliente', ctt.Nome as 'Armador' from vis_Divergencias_CE dce
+         
+         join cad_Pessoa pss on pss.IdPessoa = dce.IdResponsavel
+         join mov_Logistica_House lhs on lhs.IdLogistica_House = dce.IdLogistica_House
+         join cad_Pessoa clt on clt.IdPessoa = lhs.IdCliente
+         join mov_Logistica_Master lmt on lmt.IdLogistica_Master = lhs.IdLogistica_Master
+         join cad_Pessoa ctt on ctt.IdPessoa = lmt.IdCompanhia_Transporte
          `)
 
       return result;
@@ -599,6 +606,17 @@ const helpers = {
    emails_enviados_recebidos: async function () {
       const result = await executeQuerySirius(
          `SELECT * FROM SIRIUS.email_metrics;
+         `)
+         
+      return result;
+   },
+
+   total_ce_lancados: async function () {
+      const result = await executeQuerySQL(
+         `select lhs.Numero_Processo, lmm.Numero_CE, lmm.Data_CE
+         from mov_Logistica_Maritima_Master lmm
+         join mov_Logistica_House lhs on lhs.IdLogistica_Master = lmm.IdLogistica_Master
+         where DATEPART(year, lmm.Data_CE) = 2024
          `)
          
       return result;
