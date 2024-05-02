@@ -331,7 +331,6 @@ async function main() {
     await criarGraficos();
     await remover_loading();
     await faturamento_processo();
-    await calcularTempoLiberacao()
 }
 
 await main();
