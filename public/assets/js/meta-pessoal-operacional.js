@@ -272,7 +272,7 @@ async function criarGraficos(){
   var options = {
   
     series: [{
-      data: [30, 40, 35, 50, 49, 60, 70, 81, 25, 90, 85, 102]
+      data: [1, 2, 1 ,1]
     }],
   
     colors: ["#F9423A"],

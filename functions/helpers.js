@@ -636,6 +636,67 @@ const helpers = {
       return result;
    },
 
+   formato_apresentacao_MBL: async function () {
+      const result = await executeQuerySQL(
+         `SELECT
+         CASE Clv.Valor_Tipo_Fixo
+            WHEN 1 THEN 'Enviado Courrier'
+            WHEN 2 THEN 'Emissão destino'
+            WHEN 3 THEN 'e-BL'
+         END AS Valor_Tipo_Fixo,
+         Lhs.Numero_Processo,
+         Lhs.Data_Abertura_Processo
+      FROM
+         mov_Logistica_House Lhs
+      LEFT OUTER JOIN
+         mov_Logistica_Campo_Livre Lcl ON Lcl.IdLogistica_House = Lhs.IdLogistica_House
+      LEFT OUTER JOIN
+         mov_Campo_Livre Clv ON Clv.IdCampo_Livre = Lcl.IdCampo_Livre
+      LEFT OUTER JOIN
+         cad_Configuracao_Campo_Livre Cgl ON Cgl.IdConfiguracao_Campo_Livre = Clv.IdConfiguracao_Campo_Livre
+      WHERE
+         Cgl.IdConfiguracao_Campo_Livre = 162 --OMBL
+     `)
+      return result;
+   },
+
+   liberacoes_feitas: async function () {
+      const result = await executeQuerySQL(
+         `SELECT
+         Cgl.Descricao,
+         Clv.Valor_Data,
+         Lhs.Numero_Processo,
+         Lhs.Data_Abertura_Processo
+     FROM
+         mov_Logistica_House Lhs
+     LEFT OUTER JOIN
+         mov_Logistica_Campo_Livre Lcl ON Lcl.IdLogistica_House = Lhs.IdLogistica_House
+     LEFT OUTER JOIN
+         mov_Campo_Livre Clv ON Clv.IdCampo_Livre = Lcl.IdCampo_Livre
+     LEFT OUTER JOIN
+         cad_Configuracao_Campo_Livre Cgl ON Cgl.IdConfiguracao_Campo_Livre = Clv.IdConfiguracao_Campo_Livre
+     WHERE
+         Cgl.IdGrupo_Campo_Livre = 13 --Liberação CE
+     AND Lhs.Numero_Processo NOT LIKE '%DEMU%'
+     AND Lhs.Numero_Processo NOT LIKE '%test%'
+     `)
+      return result;
+   },
+
+   taxas_conversao: async function () {
+      const result = await executeQuerySQL(
+         `SELECT
+         Cmf.IdMoeda_Origem,
+         Cmf.Fator
+     From
+         cad_Conversao_Moeda_Fator Cmf
+     Where
+         Cmf.IdConversao_Moeda = 2
+     and CONVERT(varchar, Cmf.Data, 103) = CONVERT(varchar, GETDATE(), 103)
+     `)
+      return result;
+   },
+
    quantidade_prospeccao: async function(emailVendedor) {
       const result = await executeQuerySQL(`
          SELECT 
@@ -685,6 +746,8 @@ const helpers = {
 
       return result;
    },
+
+
 }
 
 module.exports = {

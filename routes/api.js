@@ -341,6 +341,30 @@ router.get('/total_ce_lancados', async (req, res, next) => {
     }
 });
 
+router.get('/formato_apresentacao_MBL', async (req, res, next) => {
+
+    try {
+        const result = await helpers.formato_apresentacao_MBL();
+
+        res.status(200).json(result)
+    } catch (error) {
+
+        res.status(404).json(error)
+    }
+});
+
+router.get('/liberacoes_feitas', async (req, res, next) => {
+
+    try {
+        const result = await helpers.liberacoes_feitas();
+
+        res.status(200).json(result)
+    } catch (error) {
+
+        res.status(404).json(error)
+    }
+});
+
 router.get('/quantidade-prospeccao', async (req, res, next) => {
     try {
         const { emailVendedor } = req.query;

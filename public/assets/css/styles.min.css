@@ -26000,3 +26000,27 @@ a:hover {
  transform: none !important;
 }
 /*# sourceMappingURL=styles.min.css.map */
+
+button.dt-button:hover:not(.disabled){
+   color: #fff !important;
+   background-color: var(--primary-color) !important;
+   border-color: var(--primary-color) !important;
+ }
+ 
+ button.dt-button:hover{
+   color: #fff !important;
+   background-color: var(--primary-color) !important;
+   border-color: var(--primary-color) !important;
+ }
+ 
+ button.dt-button.processing{
+   color: #fff !important;
+   background-color: var(--primary-color) !important;
+   border-color: var(--primary-color) !important;
+ }
+ 
+ button.dt-button{
+   color: #fff !important;
+   background-color: var(--primary-color) !important;
+   border-color: var(--primary-color) !important;
+ }
