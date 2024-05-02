@@ -35,6 +35,9 @@ async function iniciarPagina() {
         
     }
 
+
+    const mediaTempoLiberacao = await calcularTempoLiberacao();
+
     printLiberacoes = `<div class="mb-2">Liberações feitas</div>
   <div class="text-muted mb-1 fs-12"> 
      <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${totalLiberacoes} </span> 
@@ -47,7 +50,7 @@ async function iniciarPagina() {
 
     printTempoLiberacao = `<div class="mb-2">Tempo de Liberação</div>
   <div class="text-muted mb-1 fs-12"> 
-     <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ? </span> 
+     <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${mediaTempoLiberacao} </span> 
   </div>
   <div> 
      <span class="fs-12 mb-0">Média de tempo de desbloqueio de processos pagos</span>
@@ -57,34 +60,44 @@ async function iniciarPagina() {
 
 }
 
-async function calcularTempoLiberacao(){
-
-    let hora = 0;
-    let contagem = 0;
+async function calcularTempoLiberacao() {
+    let tempoLiberacao = 0;
+    let contagemProcessos = 0;
 
     for (let index = 0; index < liberacoes_feitas.length; index++) {
+        let dataAbertura = new Date(liberacoes_feitas[index].Data_Abertura_Processo);
 
-        let dataAbertura = new Date(liberacoes_feitas[index].Data_Abertura_Processo)
+        if (dataAbertura.getFullYear() == 2024) {
+            const element = liberacoes_feitas[index];
 
-        if(dataAbertura.getFullYear() == 2024){
-            console.log('teste');
-        }
-        
-        const element = liberacoes_feitas[index];
-
-        const recebimento = liberacoes_feitas.find(item => item.Descricao == "Recebimento dos Docs" && item.Numero_Processo == element.Numero_Processo);
-        const liberacao = liberacoes_feitas.find(item => item.Descricao == "Liberação" && item.Numero_Processo == element.Numero_Processo);
-        
-        if(recebimento && liberacao){
-            const diferenca = Math.abs(new Date(recebimento.Valor_Data) - new Date(liberacao.Valor_Data));
-            console.log(Math.abs(new Date(recebimento.Valor_Data)));
-            hora += diferenca;
-            contagem++;
+            const recebimento = liberacoes_feitas.find(item => item.Descricao == "Recebimento dos Docs" && item.Numero_Processo == element.Numero_Processo);
+            const liberacao = liberacoes_feitas.find(item => item.Descricao == "Liberação" && item.Numero_Processo == element.Numero_Processo);
+            
+            if (recebimento && liberacao) {
+                const diferenca = Math.abs(new Date(recebimento.Valor_Data) - new Date(liberacao.Valor_Data));
+                tempoLiberacao += diferenca;
+                contagemProcessos++;
+            }
         }
     }
-    hora = ((hora/1000) * 60 * 60)/contagem;
 
-    console.log(hora, contagem);
+    if (contagemProcessos > 0) {
+        const mediaTempoLiberacaoSegundos = tempoLiberacao / contagemProcessos;
+        // const horas = Math.floor(mediaTempoLiberacaoSegundos / 3600);
+        const horas = Math.floor((tempoLiberacao / (1000 * 60 * 60)) / contagemProcessos);
+        
+        const minutos = Math.floor((mediaTempoLiberacaoSegundos % 3600) / 60);
+        const segundos = Math.floor(mediaTempoLiberacaoSegundos % 60);
+
+
+        return `${pad(horas)}:${pad(minutos)}:${pad(segundos)}`;
+    } else {
+        return '00:00:00';
+    }
+}
+
+function pad(num) {
+    return num.toString().padStart(2, '0');
 }
 
 async function criarGraficos() {
