@@ -38,6 +38,7 @@ async function iniciarPagina() {
 
     const mediaTempoLiberacao = await calcularTempoLiberacao();
 
+
     printLiberacoes = `<div class="mb-2">Liberações feitas</div>
   <div class="text-muted mb-1 fs-12"> 
      <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${totalLiberacoes} </span> 
@@ -61,40 +62,61 @@ async function iniciarPagina() {
 }
 
 async function calcularTempoLiberacao() {
-    let tempoLiberacao = 0;
+    let tempoLiberacaoSegundos = 0;
     let contagemProcessos = 0;
+    let processos = [];
 
     for (let index = 0; index < liberacoes_feitas.length; index++) {
+        const element = liberacoes_feitas[index];
         let dataAbertura = new Date(liberacoes_feitas[index].Data_Abertura_Processo);
 
-        if (dataAbertura.getFullYear() == 2024) {
-            const element = liberacoes_feitas[index];
+        const verificaContagem = processos.find(item => item.referencia == element.Numero_Processo)
+      
 
-            const recebimento = liberacoes_feitas.find(item => item.Descricao == "Recebimento dos Docs" && item.Numero_Processo == element.Numero_Processo);
-            const liberacao = liberacoes_feitas.find(item => item.Descricao == "Liberação" && item.Numero_Processo == element.Numero_Processo);
+        if (dataAbertura.getFullYear() == 2024 && !verificaContagem) {
             
+            const recebimento = liberacoes_feitas.find(item => item.Descricao == "Recebimento dos Docs" && item.Numero_Processo == element.Numero_Processo);
+         
+            const liberacao = liberacoes_feitas.find(item => item.Descricao == "Liberação" && item.Numero_Processo == element.Numero_Processo);
+
             if (recebimento && liberacao) {
-                const diferenca = Math.abs(new Date(recebimento.Valor_Data) - new Date(liberacao.Valor_Data));
-                tempoLiberacao += diferenca;
+
+                const dataInicio = new Date(recebimento.Valor_Data);
+                const dataFim = new Date(liberacao.Valor_Data);
+
+                tempoLiberacaoSegundos += dataFim - dataInicio;
+
+
+
+                // console.log(`${horas}:${minutos}:${segundos}`);
+
+                // const diferenca = Math.abs(new Date(recebimento.Valor_Data) - new Date(liberacao.Valor_Data));
+                // tempoLiberacao += diferenca;
                 contagemProcessos++;
+
+                processos.push({
+                    referencia: element.Numero_Processo
+
+                })
             }
         }
     }
 
-    if (contagemProcessos > 0) {
-        const mediaTempoLiberacaoSegundos = tempoLiberacao / contagemProcessos;
-        // const horas = Math.floor(mediaTempoLiberacaoSegundos / 3600);
-        const horas = Math.floor((tempoLiberacao / (1000 * 60 * 60)) / contagemProcessos);
-        
-        const minutos = Math.floor((mediaTempoLiberacaoSegundos % 3600) / 60);
-        const segundos = Math.floor(mediaTempoLiberacaoSegundos % 60);
 
+    if (contagemProcessos > 0) {
+        tempoLiberacaoSegundos = tempoLiberacaoSegundos / processos.length
+        // Calculando horas, minutos e segundos
+        const segundosTotal = Math.floor(tempoLiberacaoSegundos / 1000);
+        const horas = Math.floor(segundosTotal / 3600);
+        const minutos = Math.floor((segundosTotal % 3600) / 60);
+        const segundos = segundosTotal % 60;
 
         return `${pad(horas)}:${pad(minutos)}:${pad(segundos)}`;
     } else {
         return '00:00:00';
     }
 }
+
 
 function pad(num) {
     return num.toString().padStart(2, '0');
