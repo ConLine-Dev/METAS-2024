@@ -82,18 +82,21 @@ async function iniciarPagina(){
   const retorno_processos = await fetch('/api/quantidade_processos');
   const totalProcessos = await retorno_processos.json();
   var totalProcessosAbertos = 0;
+  var totalProcessosCancelados = 0;
 
   var totalNaoConformidades = 0;
 
   for (let index = 0; index < totalProcessos.length; index++) {
     if(totalProcessos[index].situacao == 'Liberado faturamento' && totalProcessos[index].funcionario == idUsuarioLogado){
-      totalProcessosAbertos++;
+      // totalProcessosAbertos++;
     } else if(totalProcessos[index].situacao == 'Em andamento' && totalProcessos[index].funcionario == idUsuarioLogado){
       totalProcessosAbertos++;
     } else if(totalProcessos[index].situacao == 'Aberto' && totalProcessos[index].funcionario == idUsuarioLogado){
       totalProcessosAbertos++;
-    } else if(totalProcessos[index].situacao == 'Faturado' && totalProcessos[index].funcionario == idUsuarioLogado){
-      totalProcessosAbertos++;
+    // } else if(totalProcessos[index].situacao == 'Faturado' && totalProcessos[index].funcionario == idUsuarioLogado){
+    //   totalProcessosAbertos++;
+    } else if(totalProcessos[index].situacao == 'Cancelado' && totalProcessos[index].funcionario == idUsuarioLogado){
+      totalProcessosCancelados++;
     }
   }
 
@@ -130,15 +133,15 @@ async function iniciarPagina(){
   }if(recompraTotalConvertida > 18000){
     notaFinal = notaFinal + 0.5;
   }
-
-  var divNotaOperacional = document.getElementById('divNotaOperacional');
+ 
   var divProcessos = document.getElementById('divProcessos');
+  var divProcessosCancelados = document.getElementById('divProcessosCancelados');
   var divFinanceiro = document.getElementById('divFinanceiro');
   var divCE = document.getElementById('divCE');
   var divRecompraTotal = document.getElementById('divRecompraTotal');
 
-  let printNotaOperacional = '';
   let printProcessos = '';
+  let printProcessosCancelados = '';
   let printDivFinanceiro = '';
   let printDivCE = '';
   let printRecompraTotal = '';
@@ -146,16 +149,6 @@ async function iniciarPagina(){
   if (notaFinal < 0) {
     notaFinal = 0;
   }
-
-  printNotaOperacional = `<div class="mb-2">Nota Operacional</div>
-  <div class="text-muted mb-1 fs-12"> 
-     <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${notaFinal.toFixed(2)} </span> 
-  </div>
-  <div> 
-     <span class="fs-12 mb-0">Nota definida com base nas métricas estipuladas</span>
-  </div>`
-
-  divNotaOperacional.innerHTML = printNotaOperacional;
 
   printProcessos = `<div class="mb-2">Processos</div>
   <div class="text-muted mb-1 fs-12"> 
@@ -166,6 +159,16 @@ async function iniciarPagina(){
   </div>`
 
   divProcessos.innerHTML = printProcessos;
+
+  printProcessosCancelados = `<div class="mb-2">Processos Cancelados</div>
+  <div class="text-muted mb-1 fs-12"> 
+     <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${totalProcessosCancelados} </span> 
+  </div>
+  <div> 
+     <span class="fs-12 mb-0">Número de processos que foram cancelados</span>
+  </div>`
+
+  divProcessosCancelados.innerHTML = printProcessosCancelados;
 
   printDivFinanceiro = `<div class="mb-2">Divergências Financeiras</div>
   <div class="text-muted mb-1 fs-12"> 
