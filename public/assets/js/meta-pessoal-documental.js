@@ -29,7 +29,7 @@ async function iniciarPagina() {
     for (let index = 0; index < liberacoes_feitas.length; index++) {
         let data = new Date(liberacoes_feitas[index].Data_Abertura_Processo);
         let dataAno = data.getUTCFullYear();
-        if(liberacoes_feitas[index].Descricao == 'Liberação' && dataAno == '2024'){
+        if(liberacoes_feitas[index].Descricao == 'Liberação' && dataAno == 2024){
             totalLiberacoes++;
         }
         
@@ -86,12 +86,6 @@ async function calcularTempoLiberacao() {
 
                 tempoLiberacaoSegundos += dataFim - dataInicio;
 
-
-
-                // console.log(`${horas}:${minutos}:${segundos}`);
-
-                // const diferenca = Math.abs(new Date(recebimento.Valor_Data) - new Date(liberacao.Valor_Data));
-                // tempoLiberacao += diferenca;
                 contagemProcessos++;
 
                 processos.push({
@@ -144,14 +138,16 @@ async function criarGraficos() {
     var MBLdigital = 0;
 
     for (let index = 0; index < formato_apresentacao_MBL.length; index++) {
-        if (formato_apresentacao_MBL[index].Valor_Tipo_Fixo == 'Emissão destino'){
-            MBLemissao++;
-        } else if (formato_apresentacao_MBL[index].Valor_Tipo_Fixo == 'e-BL'){
-            MBLdigital++;
-        } else if(formato_apresentacao_MBL[index].Valor_Tipo_Fixo == 'Enviado Courrier'){
-            MBLcourier++;
-        }
-        
+        let dataApresentacao = new Date(formato_apresentacao_MBL[index].Data_Abertura_Processo);
+        if(dataApresentacao.getFullYear() == 2024){
+            if (formato_apresentacao_MBL[index].Valor_Tipo_Fixo == 'Emissão destino'){
+                MBLemissao++;
+            } else if (formato_apresentacao_MBL[index].Valor_Tipo_Fixo == 'e-BL'){
+                MBLdigital++;
+            } else if(formato_apresentacao_MBL[index].Valor_Tipo_Fixo == 'Enviado Courrier'){
+                MBLcourier++;
+            }
+        }  
     }
 
     var options = {
