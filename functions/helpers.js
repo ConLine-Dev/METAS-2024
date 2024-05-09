@@ -554,14 +554,14 @@ const helpers = {
 
    divergencias_ce_mercante: async function () {
       const result = await executeQuerySQL(
-         `select dce.Divergencia, dce.Retificacao, dce.Setor, pss.Nome as 'Operacional'
-         , clt.Nome as 'Cliente', ctt.Nome as 'Armador' from vis_Divergencias_CE dce
+         `select dce.Divergencia, dce.Retificacao, dce.Setor, pss.Nome as 'Operacional',
+         lhs.Numero_Processo as 'Processo' from vis_Divergencias_CE dce
          
          join cad_Pessoa pss on pss.IdPessoa = dce.IdResponsavel
          join mov_Logistica_House lhs on lhs.IdLogistica_House = dce.IdLogistica_House
-         join cad_Pessoa clt on clt.IdPessoa = lhs.IdCliente
          join mov_Logistica_Master lmt on lmt.IdLogistica_Master = lhs.IdLogistica_Master
-         join cad_Pessoa ctt on ctt.IdPessoa = lmt.IdCompanhia_Transporte
+
+         where lhs.Numero_Processo not like '%DEMU%'
          `)
 
       return result;

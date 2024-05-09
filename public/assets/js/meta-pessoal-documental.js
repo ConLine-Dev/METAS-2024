@@ -16,7 +16,7 @@ async function usuario_logado(consulta) {
     }
 };
 
-async function iniciarPagina() {
+async function iniciar_pagina() {
 
     var divLiberacoes = document.getElementById('divLiberacoes');
     var divTempoLiberacao = document.getElementById('divTempoLiberacao');
@@ -232,29 +232,25 @@ async function criarGraficos() {
     recompraChart.render();
 }
 
-async function faturamento_processo() {
+async function criar_tabela_divergencias() {
     let retificacao = '';
-    let resumoArmador = '';
+    let tipoDivergencia = '';
 
     for (let index = 0; index < divergencias_CE.length; index++) {
         if(divergencias_CE[index].Divergencias != null){
             retificacao = divergencias_CE[index].Divergencias;
+            tipoDivergencia = 'Divergência';
         } else if(divergencias_CE[index].Retificacao != null){
             retificacao = divergencias_CE[index].Retificacao;
+            tipoDivergencia = 'Retificação';
         }
-        let clienteResumido = divergencias_CE[index].Cliente.split(" ");
-        let armadorResumido = divergencias_CE[index].Armador.split(" ");
 
-        if (armadorResumido[1] == undefined){
-            resumoArmador = armadorResumido[0];
-        } else{
-            resumoArmador = armadorResumido[0] + " " + armadorResumido[1];
-        }
         totalRetificacoes[index] = {
-            cliente: clienteResumido[0] + " " + clienteResumido[1],
-            armador: resumoArmador,
+            processo: divergencias_CE[index].Processo,
+            setor: divergencias_CE[index].Setor,
             operacional: divergencias_CE[index].Operacional,
-            retificacao: retificacao
+            retificacao: retificacao,
+            tipoDivergencia: tipoDivergencia
         }
         
     }
@@ -264,10 +260,11 @@ async function faturamento_processo() {
     lucro_estimado_por_processo = $('.table').DataTable({
         "data": resultados,
         "columns": [
-            { "data": "cliente" },
-            { "data": "armador" },
+            { "data": "processo" },
+            { "data": "setor" },
             { "data": "operacional" },
-            { "data": "retificacao" }
+            { "data": "retificacao" },
+            { "data": "tipoDivergencia"}
         ],
         "language": {
             url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json' // Tradução para o português do Brasil
@@ -278,55 +275,6 @@ async function faturamento_processo() {
     });
     
 };
-
-async function criarTabelaRetificacoes() {
-
-    let retificacao = '';
-    
-    for (let index = 0; index < divergencias_CE.length; index++) {
-        if(divergencias_CE[index].Divergencias != null){
-            retificacao = divergencias_CE[index].Divergencias;
-        } else if(divergencias_CE[index].Retificacao != null){
-            retificacao = divergencias_CE[index].Retificacao;
-        }
-        totalRetificacoes[index] = {
-            cliente: divergencias_CE[index].IdLogisticaHouse,
-            armador: divergencias_CE[index].Setor,
-            operacional: divergencias_CE[index].IdResponsavel,
-            retificacao: retificacao
-        }
-        
-    }
-  
-    const resultados = Object.values(lucratividade_processos);
-  
-    totalRetificacoes = $('.table').DataTable({
-       "data": resultados,
-       "columns": [
-             { "data": "numero_processo" },
-             {
-                "data": "id_moeda",
-                "className": "id_moeda",
-                "render": function (data, type, row) {
-                   return `<span>${data}</span>`;
-                }
-             },
-             {
-                "data": "valor",
-                "className": "valor",
-                "render": function (data, type, row) {
-                   return `<span>${data.toFixed(2).toLocaleString('pt-BR')}</span>`;
-                }
-             }
-       ],
-       "language": {
-             url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json' // Tradução para o português do Brasil
-       },
-       "order": [[0, 'desc']],
-       "lengthMenu": [[7], [7]],
-       "pageLenght": 8
-    });
-  };
 
 async function mostrar_loading() {
     let img = document.getElementById('loading-img');
@@ -345,10 +293,10 @@ async function remover_loading() {
 
 async function main() {
     await mostrar_loading();
-    await iniciarPagina();
+    await iniciar_pagina();
     await criarGraficos();
     await remover_loading();
-    await faturamento_processo();
+    await criar_tabela_divergencias();
 }
 
 await main();
