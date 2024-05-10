@@ -237,8 +237,8 @@ async function criar_tabela_divergencias() {
     let tipoDivergencia = '';
 
     for (let index = 0; index < divergencias_CE.length; index++) {
-        if(divergencias_CE[index].Divergencias != null){
-            retificacao = divergencias_CE[index].Divergencias;
+        if(divergencias_CE[index].Divergencia != null){
+            retificacao = divergencias_CE[index].Divergencia;
             tipoDivergencia = 'Divergência';
         } else if(divergencias_CE[index].Retificacao != null){
             retificacao = divergencias_CE[index].Retificacao;
