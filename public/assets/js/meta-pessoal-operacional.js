@@ -13,6 +13,7 @@ async function usuario_logado(consulta) {
   for (let i = 0; i < consulta.length; i++) {
      const item = consulta[i];
      if (item.Email === dadosLogin.email) {
+      console.log(dadosLogin);
         return item.IdPessoa;
      }
   }
@@ -84,8 +85,6 @@ async function iniciarPagina(){
   var totalProcessosAbertos = 0;
   var totalProcessosCancelados = 0;
 
-  var totalNaoConformidades = 0;
-
   for (let index = 0; index < totalProcessos.length; index++) {
     if(totalProcessos[index].situacao == 'Liberado faturamento' && totalProcessos[index].funcionario == idUsuarioLogado){
       // totalProcessosAbertos++;
@@ -103,36 +102,36 @@ async function iniciarPagina(){
   for(let index = 0; index < divergencias_financeiras.length; index++){
     if(divergencias_financeiras[index].IdResponsavel == idUsuarioLogado){
       totalDivergenciasFinanceiras++;
-      notaFinal = notaFinal - 0.5;
+      // notaFinal = notaFinal - 0.5;
     }
   }
 
   for(let index = 0; index < divergencias_CE.length; index++){
     if(divergencias_CE[index].IdResponsavel == idUsuarioLogado){
       totalDivergenciasCE++;
-      notaFinal = notaFinal - 0.5;
+      // notaFinal = notaFinal - 0.5;
     }
   }
 
-  if(divergencias_CE.length == 0 && divergencias_financeiras.length == 0){
-    notaFinal = notaFinal + 2;
-  }
-  if(totalNaoConformidades == 0){
-    notaFinal = notaFinal + 5;
-  }
-  if(recompraTotalConvertida > 3000){
-    notaFinal = notaFinal + 0.5;
-  }if(recompraTotalConvertida > 6000){
-    notaFinal = notaFinal + 0.5;
-  }if(recompraTotalConvertida > 9000){
-    notaFinal = notaFinal + 0.5;
-  }if(recompraTotalConvertida > 12000){
-    notaFinal = notaFinal + 0.5;
-  }if(recompraTotalConvertida > 15000){
-    notaFinal = notaFinal + 0.5;
-  }if(recompraTotalConvertida > 18000){
-    notaFinal = notaFinal + 0.5;
-  }
+  // if(divergencias_CE.length == 0 && divergencias_financeiras.length == 0){
+  //   notaFinal = notaFinal + 2;
+  // }
+  // if(totalNaoConformidades == 0){
+  //   notaFinal = notaFinal + 5;
+  // }
+  // if(recompraTotalConvertida > 3000){
+  //   notaFinal = notaFinal + 0.5;
+  // }if(recompraTotalConvertida > 6000){
+  //   notaFinal = notaFinal + 0.5;
+  // }if(recompraTotalConvertida > 9000){
+  //   notaFinal = notaFinal + 0.5;
+  // }if(recompraTotalConvertida > 12000){
+  //   notaFinal = notaFinal + 0.5;
+  // }if(recompraTotalConvertida > 15000){
+  //   notaFinal = notaFinal + 0.5;
+  // }if(recompraTotalConvertida > 18000){
+  //   notaFinal = notaFinal + 0.5;
+  // }
  
   var divProcessos = document.getElementById('divProcessos');
   var divProcessosCancelados = document.getElementById('divProcessosCancelados');
@@ -275,7 +274,7 @@ async function criarGraficos(){
   var options = {
   
     series: [{
-      data: [1, 2, 1 ,1]
+      data: [0, 0, 0, 0, 0]
     }],
   
     colors: ["#F9423A"],
