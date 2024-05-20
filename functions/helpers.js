@@ -535,18 +535,19 @@ const helpers = {
          Lhs.IdLogistica_House,
          Lhs.Numero_Processo,
          Par.IdResponsavel
-      FROM
+     FROM
          mov_Atividade Atv
-      LEFT OUTER JOIN
+         LEFT OUTER JOIN
          mov_Atividade_Historico Ath ON Ath.IdAtividade = Atv.IdAtividade
-      LEFT OUTER JOIN
+         LEFT OUTER JOIN
          mov_Logistica_House Lhs ON Lhs.IdProjeto_Atividade = Atv.IdProjeto_Atividade
-      LEFT OUTER JOIN
+         LEFT OUTER JOIN
          mov_Projeto_Atividade_Responsavel Par ON Par.IdProjeto_Atividade = Lhs.IdProjeto_Atividade
-      WHERE
-         Atv.IdTarefa = 1625 /*Conferir Valores*/
+     WHERE
+              Atv.IdTarefa = 1625 /*Conferir Valores*/
          AND Ath.Situacao = 3 /*Paralisada*/
-         AND Par.IdPapel_Projeto = 2 /*Operacional*/;
+         AND Par.IdPapel_Projeto = 2 /*Operacional*/
+         AND DATEPART(year, Lhs.Data_Abertura_Processo) = 2024;
          `)
 
       return result;
@@ -562,6 +563,7 @@ const helpers = {
          join mov_Logistica_Master lmt on lmt.IdLogistica_Master = lhs.IdLogistica_Master
 
          where lhs.Numero_Processo not like '%DEMU%'
+         and DATEPART(year, lhs.Data_Abertura_Processo) = 2024
          `)
 
       return result;
