@@ -2,9 +2,9 @@ const listaOperacionais = await Thefetch('/api/operacionais');
 const recompras_operacional = await Thefetch('/api/recompras_operacional');
 const conversao_taxas = await Thefetch('/api/taxas_conversao');
 const quantidade_processos = await Thefetch('/api/quantidade_processos');
+const quantidade_emails = await Thefetch('/api/emails_enviados_recebidos');
 
-let arrayEmailsEnviados = [511, 718, 794, 226];
-let arrayEmailsRecebidos = [349, 272, 385, 121];
+let lucro_estimado_por_processo;
 
 let recompraUSD = 0;
 let recompraBRL = 0;
@@ -12,11 +12,23 @@ let recompraEUR = 0;
 let recompraGBP = 0;
 let totalConvertidoBRL = 0;
 let totalProcessos = 0;
+let arrayEmailsEnviados = [];
+let arrayEmailsRecebidos = [];
+const dadosOperacional = ['IdPessoa', 'Nome', 'Email'];
+var nfLista = [0, 0, 0, 0, 0, 0];
 
-async function criarArrayEmails() {
+async function criarArrayEmails(IdOperacional) {
+
+  for (let i = 0; i < listaOperacionais.length; i++) {
+    if (listaOperacionais[i].IdPessoa == IdOperacional) {
+      dadosOperacional['IdPessoa'] = listaOperacionais[i].IdPessoa;
+      dadosOperacional['Nome'] = listaOperacionais[i].Nome;
+      dadosOperacional['Email'] = listaOperacionais[i].Email;
+    }
+  }
 
   for (let i = 0; i < quantidade_emails.length; i++) {
-    if (quantidade_emails[i].email == dadosLogin.email) {
+    if (quantidade_emails[i].email == dadosOperacional['Email']) {
 
       if (i == 0) {
         arrayEmailsEnviados[quantidade_emails[i].mes] = quantidade_emails[i].enviados;
@@ -35,7 +47,7 @@ async function iniciarPagina() {
 
   let printDivCards = '';
 
-  let quantidade_NFs = 1;
+  mostrar_loading();
 
   for (let i = 0; i < listaOperacionais.length; i++) {
     for (let j = 0; j < recompras_operacional.length; j++) {
@@ -64,7 +76,8 @@ async function iniciarPagina() {
 
     for (let j = 0; j < quantidade_processos.length; j++) {
       if (quantidade_processos[j].funcionario == listaOperacionais[i].IdPessoa && quantidade_processos[j].situacao != 'Finalizado'
-        && quantidade_processos[j].situacao != 'Cancelado' && quantidade_processos[j].situacao != 'Auditado') {
+        && quantidade_processos[j].situacao != 'Cancelado' && quantidade_processos[j].situacao != 'Auditado' && quantidade_processos[j].situacao != 'Faturado'
+        && quantidade_processos[j].situacao != 'Liberado faturamento'){
         totalProcessos++;
       }
     }
@@ -116,6 +129,9 @@ async function iniciarPagina() {
 
   }
   divCards.innerHTML = printDivCards;
+
+  remover_loading();
+
 }
 
 async function recomprasCalculo(IdOperacional) {
@@ -142,8 +158,8 @@ async function recomprasCalculo(IdOperacional) {
 async function criarGraficos(IdOperacional) {
 
   const arrayRecompras = await recomprasCalculo(IdOperacional);
+  criarArrayEmails(IdOperacional);
   const graficoRecompras = [arrayRecompras.recompraUSD, arrayRecompras.recompraBRL, arrayRecompras.recompraEUR, arrayRecompras.recompraGBP];
-
   var options = {
 
     series: [{
@@ -202,13 +218,14 @@ async function criarGraficos(IdOperacional) {
   }
 
   var mailChart = new ApexCharts(document.querySelector("#mail-chart"), options);
-
   mailChart.render();
+  mailChart.updateSeries([arrayEmailsEnviados, arrayEmailsRecebidos], true);
 
   var options = {
 
     series: [{
-      data: [1, 2, 1, 1]
+      data: nfLista,
+      name: 'Não Conformidades',
     }],
 
     colors: ["#F9423A"],
@@ -259,8 +276,8 @@ async function criarGraficos(IdOperacional) {
   }
 
   var nfChart = new ApexCharts(document.querySelector("#nf-chart"), options);
-
   nfChart.render();
+  // nfChart.updateSeries(nfLista, true);
 
   var options = {
     series: graficoRecompras,
@@ -286,20 +303,30 @@ async function criarGraficos(IdOperacional) {
   };
 
   var recompraChart = new ApexCharts(document.querySelector("#recompra-chart"), options);
-
+  
   recompraChart.render();
+  recompraChart.updateSeries(graficoRecompras, true);
 }
 
 async function clickModal() {
   document.querySelectorAll('.modal-operacional').forEach(element => {
     element.addEventListener('click', async function (e) {
+      e.preventDefault();
       const IdOperacional = this.getAttribute('data-IdOperacional');
+
       await iniciarModal(IdOperacional);
       await criarGraficos(IdOperacional);
-      $('#exampleModalXl').modal('show');
+      await criarTabelaRecompras(recompras_operacional);
     })
   });
 }
+
+async function mostrar_loading() {
+  let img = document.getElementById('loading-img');
+
+  // Define o caminho do gif
+  img.src = "/assets/images/brand-logos/SLOGAN VERMELHO.gif";
+};
 
 async function remover_loading() {
   let loading = document.querySelector('.loading');
@@ -308,7 +335,6 @@ async function remover_loading() {
 
 async function iniciarModal(IdOperacional) {
   const divModalTitulo = document.getElementById('divModalTitulo');
-  const dadosOperacional = ['IdPessoa', 'Nome', 'Email'];
 
   for (let i = 0; i < listaOperacionais.length; i++) {
     if (listaOperacionais[i].IdPessoa == IdOperacional) {
@@ -318,40 +344,33 @@ async function iniciarModal(IdOperacional) {
     }
   }
 
-  var notaFinal = 5;
   var DivergenciasCE = await Thefetch('/api/divergencias_ce_mercante');
   var totalDivergenciasCE = 0;
   var DivergenciasFinanceiras = await Thefetch('/api/divergencias_financeiras');
   var totalDivergenciasFinanceiras = 0;
   var recompraTotalConvertida = 302.32;
+  var totalProcessosAbertos = 0;
+  var totalProcessosCancelados = 0;
 
-  var divNotaOperacional = document.getElementById('divNotaOperacional');
   var divProcessos = document.getElementById('divProcessos');
+  var divProcessosCancelados = document.getElementById('divProcessosCancelados');
   var divFinanceiro = document.getElementById('divFinanceiro');
   var divCE = document.getElementById('divCE');
   var divRecompraTotal = document.getElementById('divRecompraTotal');
 
-  let printNotaOperacional = '';
   let printProcessos = '';
+  let printProcessosCancelados = '';
   let printDivFinanceiro = '';
   let printDivCE = '';
   let printRecompraTotal = '';
 
-  var totalProcessosAbertos = 0;
-
-  for (let index = 0; index < quantidade_processos.length; index++) {
-    if (quantidade_processos[index].situacao == 'Em andamento' && quantidade_processos[index].funcionario == IdOperacional) {
+  for (let index = 0; index < totalProcessos.length; index++) {
+    if (totalProcessos[index].situacao == 'Em andamento' && totalProcessos[index].funcionario == IdOperacional) {
       totalProcessosAbertos++;
-    } else if (quantidade_processos[index].situacao == 'Aberto' && quantidade_processos[index].funcionario == IdOperacional) {
+    } else if (totalProcessos[index].situacao == 'Aberto' && totalProcessos[index].funcionario == IdOperacional) {
       totalProcessosAbertos++;
-    } else if (quantidade_processos[index].situacao == 'Faturado' && quantidade_processos[index].funcionario == IdOperacional) {
-      totalProcessosAbertos++;
-    }
-  }
-
-  for (let index = 0; index < DivergenciasCE.length; index++) {
-    if (DivergenciasCE[index].IdResponsavel == IdOperacional && DivergenciasCE[index].Setor == "Operacional") {
-      totalDivergenciasCE++;
+    } else if (totalProcessos[index].situacao == 'Cancelado' && totalProcessos[index].funcionario == IdOperacional) {
+      totalProcessosCancelados++;
     }
   }
 
@@ -361,46 +380,64 @@ async function iniciarModal(IdOperacional) {
     }
   }
 
-  if (notaFinal < 0) {
-    notaFinal = 0;
+  for (let index = 0; index < DivergenciasCE.length; index++) {
+    if (DivergenciasCE[index].IdResponsavel == IdOperacional) {
+      totalDivergenciasCE++;
+    }
   }
 
-  printNotaOperacional = `<div class="mb-2">Nota Operacional</div>
-    <div class="text-muted mb-1 fs-12"> 
-       <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${notaFinal.toFixed(2)} </span> 
-    </div>
-    <div> 
-       <span class="fs-12 mb-0">Nota com base nas métricas estipuladas</span>
-    </div>`
+  if (IdOperacional == 49993) {
+    totalDivergenciasFinanceiras = DivergenciasFinanceiras.length;
+    totalDivergenciasCE = DivergenciasCE.length;
 
-  divNotaOperacional.innerHTML = printNotaOperacional;
+    for (let index = 0; index < totalProcessos.length; index++) {
+      if (totalProcessos[index].situacao == 'Em andamento') {
+        totalProcessosAbertos++;
+      } else if (totalProcessos[index].situacao == 'Aberto') {
+        totalProcessosAbertos++;
+      } else if (totalProcessos[index].situacao == 'Cancelado') {
+        totalProcessosCancelados++;
+      }
+    }
+
+  }
 
   printProcessos = `<div class="mb-2">Processos</div>
-    <div class="text-muted mb-1 fs-12"> 
-       <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${totalProcessosAbertos} </span> 
-    </div>
-    <div> 
-       <span class="fs-12 mb-0">Processos em aberto para coordenação</span>
-    </div>`
+  <div class="text-muted mb-1 fs-12"> 
+     <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${totalProcessosAbertos} </span> 
+  </div>
+  <div> 
+     <span class="fs-12 mb-0">Número de processos abertos para coordenação</span>
+  </div>`
 
   divProcessos.innerHTML = printProcessos;
 
+  printProcessosCancelados = `<div class="mb-2">Processos Cancelados</div>
+  <div class="text-muted mb-1 fs-12"> 
+     <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${totalProcessosCancelados} </span> 
+  </div>
+  <div> 
+     <span class="fs-12 mb-0">Número de processos que foram cancelados</span>
+  </div>`
+
+  divProcessosCancelados.innerHTML = printProcessosCancelados;
+
   printDivFinanceiro = `<div class="mb-2">Divergências Financeiras</div>
-    <div class="text-muted mb-1 fs-12"> 
-       <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${totalDivergenciasFinanceiras} </span> 
-    </div>
-    <div> 
-       <span class="fs-12 mb-0">Divergências informadas pelo financeiro</span>
-    </div>`
+  <div class="text-muted mb-1 fs-12"> 
+     <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${totalDivergenciasFinanceiras} </span> 
+  </div>
+  <div> 
+     <span class="fs-12 mb-0">Número de divergências informadas pelo financeiro</span>
+  </div>`
 
   divFinanceiro.innerHTML = printDivFinanceiro;
 
   printDivCE = `<div class="mb-2">Divergências CE</div>
-    <div class="text-muted mb-1 fs-12"> <span
-          class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${totalDivergenciasCE} </span> </div>
-    <div> 
-       <span class="fs-12 mb-0">Divergências informadas pelo documental</span>
-    </div>`
+  <div class="text-muted mb-1 fs-12"> <span
+        class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${totalDivergenciasCE} </span> </div>
+  <div> 
+     <span class="fs-12 mb-0">Número de divergências no CE Mercante</span>
+  </div>`
 
   divCE.innerHTML = printDivCE;
 
@@ -408,20 +445,72 @@ async function iniciarModal(IdOperacional) {
 
   divRecompraTotal.innerHTML = printRecompraTotal;
 
-  let printModalTitulo = '';
-
-  printModalTitulo = `<h6 class="modal-title" id="exampleModalXlLabel">${dadosOperacional['Nome']}</h6> <button type="button"
-    class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>`;
-
-  divModalTitulo.innerHTML = printModalTitulo;
-
 }
+
+async function criarTabelaRecompras(consulta) {
+  const lucratividade_processos = {};
+
+  for (let i = 0; i < consulta.length; i++) {
+    const item = consulta[i];
+    let moeda = '';
+    if (item.id_operacional === dadosOperacional['IdPessoa']) {
+      const numero_processo = item.numero_processo;
+      if (item.id_moeda == 1) {
+        moeda = 'USD';
+      } else if (item.id_moeda == 2) {
+        moeda = 'BRL';
+      } else if (item.id_moeda == 3) {
+        moeda = 'EUR';
+      } else if (item.id_moeda == 4) {
+        moeda = 'GBP';
+      }
+      lucratividade_processos[numero_processo] = {
+        numero_processo: item.numero_processo,
+        id_moeda: moeda,
+        valor: item.valor,
+        data: item.data
+      };
+    }
+  }
+
+  const resultados = Object.values(lucratividade_processos);
+
+  if (lucro_estimado_por_processo) {
+    lucro_estimado_por_processo.destroy();
+ }
+
+  lucro_estimado_por_processo = $('.table').DataTable({
+    "data": resultados,
+    "columns": [
+      { "data": "numero_processo" },
+      {
+        "data": "id_moeda",
+        "className": "id_moeda",
+        "render": function (data, type, row) {
+          return `<span>${data}</span>`;
+        }
+      },
+      {
+        "data": "valor",
+        "className": "valor",
+        "render": function (data, type, row) {
+          return `<span>${data.toFixed(2).toLocaleString('pt-BR')}</span>`;
+        }
+      }
+    ],
+    "language": {
+      url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json' // Tradução para o português do Brasil
+    },
+    "order": [[0, 'desc']],
+    "lengthMenu": [[7], [7]],
+    "pageLenght": 8
+  });
+};
 
 async function main() {
   await iniciarPagina();
-  await iniciarModal(null);
-  await clickModal();
   await remover_loading();
+  await clickModal();
 }
 
 await main();
