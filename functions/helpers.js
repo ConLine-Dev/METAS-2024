@@ -127,67 +127,86 @@ const helpers = {
 
    admin_cards_comerciais: async function() {
       const result = await executeQuerySQL(`
-         SELECT
-            Lhs.IdVendedor,
-            Ven.Nome,
-            Ven.EMail,
-            COALESCE(Lhs.Processos, 0) AS Processos,
-            COALESCE(Pfr.Propostas, 0) AS Propostas,
-            COALESCE(Lmd.Lucro_Estimado, 0) AS Lucro_Estimado
-         FROM (
-            SELECT
-               Lhs.idVendedor,
-               COUNT(Lhs.IdLogistica_House) AS Processos
-            FROM
-               mov_Logistica_House Lhs
-            WHERE
-               Lhs.Numero_Processo NOT LIKE '%test%'
-               and Lhs.Numero_Processo NOT LIKE '%DEMU%'
-               and Lhs.Situacao_Agenciamento NOT IN (7 /* CANCELADOS */)
-               and DATEPART(YEAR, Lhs.Data_Abertura_Processo) = ${anoAtual}
-            GROUP BY
-               Lhs.IdVendedor
-         ) Lhs
-         LEFT OUTER JOIN (
+         WITH Lucro_Estimado_Vendedor AS (
             SELECT
                Lhs.IdVendedor,
-               SUM(Lmd.Lucro_Estimado) AS Lucro_Estimado
+               CASE
+                  WHEN Lms.Tipo_Operacao = 1 THEN COALESCE(Lms.Data_Embarque, Lms.Data_Previsao_Embarque)
+                  WHEN Lms.Tipo_Operacao = 2 THEN COALESCE(Lms.Data_Desembarque, Lms.Data_Previsao_Desembarque)
+                  ELSE COALESCE(Lms.Data_Embarque, Lms.Data_Previsao_Embarque)
+               END AS Data_Compensacao,
+               Lmd.Lucro_Estimado
             FROM
                mov_Logistica_Moeda Lmd
             LEFT OUTER JOIN
                mov_Logistica_House Lhs ON Lhs.IdLogistica_House = Lmd.IdLogistica_House
+            LEFT OUTER JOIN
+               mov_Logistica_Master Lms ON Lms.IdLogistica_Master = Lhs.IdLogistica_Master
             WHERE
                Lhs.Numero_Processo NOT LIKE '%test%'
                AND Lhs.Numero_Processo NOT LIKE '%DEMU%'
                AND Lhs.Situacao_Agenciamento NOT IN (7 /* CANCELADOS */)
-               AND DATEPART(YEAR, Lhs.Data_Abertura_Processo) = ${anoAtual}
+               AND Lhs.Agenciamento_Carga = 1
                AND Lmd.IdMoeda = 110
-            GROUP BY
-               Lhs.IdVendedor
-         ) Lmd ON Lmd.IdVendedor = Lhs.IdVendedor
-         LEFT OUTER JOIN (
-            SELECT
-               Pfr.IdVendedor,
-               COUNT(Pfr.IdProposta_Frete) AS Propostas
-            FROM
-               mov_Oferta_Frete Ofr
-            LEFT OUTER JOIN
-               mov_Proposta_Frete Pfr ON Pfr.IdProposta_Frete = Ofr.IdProposta_Frete
-            WHERE
-               Pfr.Numero_Proposta NOT LIKE '%test%'
-               AND Pfr.Situacao = 2 /* APROVADA */
-               AND DATEPART(YEAR, Pfr.Data_Proposta) = ${anoAtual}
-            GROUP BY
-               Pfr.IdVendedor
-         ) Pfr ON Pfr.IdVendedor = Lhs.IdVendedor
-         LEFT OUTER JOIN
-            cad_Pessoa Ven ON Ven.IdPessoa = Lhs.IdVendedor
-         LEFT OUTER JOIN
-            cad_Equipe_Tarefa_Membro Etm ON Etm.IdFuncionario = Ven.IdPessoa
+      )
+      
+      SELECT
+         Lhs.IdVendedor,
+         Ven.Nome,
+         Ven.EMail,
+         COALESCE(Lhs.Processos, 0) AS Processos,
+         COALESCE(Pfr.Propostas, 0) AS Propostas,
+         COALESCE(Lmd.Lucro_Estimado, 0) AS Lucro_Estimado
+      FROM (
+         SELECT
+            Lhs.idVendedor,
+            COUNT(Lhs.IdLogistica_House) AS Processos
+         FROM
+            mov_Logistica_House Lhs
          WHERE
-            Etm.IdEquipe_Tarefa = 75 /*COMERCIAL*/
-         ORDER BY
-            Ven.Nome`
+            Lhs.Numero_Processo NOT LIKE '%test%'
+            and Lhs.Numero_Processo NOT LIKE '%DEMU%'
+            and Lhs.Situacao_Agenciamento NOT IN (7 /* CANCELADOS */)
+            AND Lhs.Agenciamento_Carga = 1
+            and DATEPART(YEAR, Lhs.Data_Abertura_Processo) = ${anoAtual}
+         GROUP BY
+            Lhs.IdVendedor
+      ) Lhs
+      LEFT OUTER JOIN (
+         SELECT
+            IdVendedor,
+            SUM(Lucro_Estimado) AS Lucro_Estimado
+         FROM
+            Lucro_Estimado_Vendedor
+         WHERE
+            YEAR(Data_Compensacao) = ${anoAtual}
+            AND Data_Compensacao < GETDATE()
+         GROUP BY
+            IdVendedor
+      ) Lmd ON Lmd.IdVendedor = Lhs.IdVendedor
+      LEFT OUTER JOIN (
+         SELECT
+            Pfr.IdVendedor,
+            COUNT(Pfr.IdProposta_Frete) AS Propostas
+         FROM
+            mov_Oferta_Frete Ofr
+         LEFT OUTER JOIN
+            mov_Proposta_Frete Pfr ON Pfr.IdProposta_Frete = Ofr.IdProposta_Frete
+         WHERE
+            Pfr.Numero_Proposta NOT LIKE '%test%'
+            AND Pfr.Situacao = 2 /* APROVADA */
+            AND DATEPART(YEAR, Pfr.Data_Proposta) = ${anoAtual}
+         GROUP BY
+            Pfr.IdVendedor
+      ) Pfr ON Pfr.IdVendedor = Lhs.IdVendedor
+      LEFT OUTER JOIN
+         cad_Pessoa Ven ON Ven.IdPessoa = Lhs.IdVendedor
+      LEFT OUTER JOIN
+         cad_Equipe_Tarefa_Membro Etm ON Etm.IdFuncionario = Ven.IdPessoa
+      WHERE
+         Etm.IdEquipe_Tarefa = 75 /*COMERCIAL*/
+      ORDER BY
+         Ven.Nome`
       )
 
       return result;
