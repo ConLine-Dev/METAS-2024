@@ -112,7 +112,7 @@ async function iniciarPagina() {
                     <p class="fw-semibold mb-0">Não Conformidades</p><span class="text-muted fs-12">?</span>
                  </div>
                  <div class="text-center p-3 my-auto">
-                    <p class="fw-semibold mb-0">Recompra Total</p><span class="text-muted fs-12">R$
+                    <p class="fw-semibold mb-0">Recompra Anual</p><span class="text-muted fs-12">R$
                        ${totalConvertidoBRL.toFixed(2)}</span>
                  </div>
               </div>
@@ -348,7 +348,6 @@ async function iniciarModal(IdOperacional) {
   var totalDivergenciasCE = 0;
   var DivergenciasFinanceiras = await Thefetch('/api/divergencias_financeiras');
   var totalDivergenciasFinanceiras = 0;
-  var recompraTotalConvertida = 302.32;
   var totalProcessosAbertos = 0;
   var totalProcessosCancelados = 0;
 
@@ -363,6 +362,24 @@ async function iniciarModal(IdOperacional) {
   let printDivFinanceiro = '';
   let printDivCE = '';
   let printRecompraTotal = '';
+  let printModalTitulo = '';
+
+  for (let index = 0; index < recompras_operacional.length; index++) {
+    if (recompras_operacional[index].id_moeda == 1 && recompras_operacional[index].id_operacional == IdOperacional) {
+      recompraUSD = recompraUSD + recompras_operacional[index].valor;
+      totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * 5);
+    } else if (recompras_operacional[index].id_moeda == 2 && recompras_operacional[index].id_operacional == IdOperacional) {
+      recompraBRL = recompraBRL + recompras_operacional[index].valor;
+      totalConvertidoBRL = totalConvertidoBRL + recompras_operacional[index].valor;
+    } else if (recompras_operacional[index].id_moeda == 3 && recompras_operacional[index].id_operacional == IdOperacional) {
+      recompraEUR = recompraEUR + recompras_operacional[index].valor;
+      totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * 7);
+    } else if (recompras_operacional[index].id_moeda == 4 && recompras_operacional[index].id_operacional == IdOperacional) {
+      recompraGBP = recompraGBP + recompras_operacional[index].valor;
+      totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * 9);
+    }
+  }
+
 
   for (let index = 0; index < totalProcessos.length; index++) {
     if (totalProcessos[index].situacao == 'Em andamento' && totalProcessos[index].funcionario == IdOperacional) {
@@ -401,6 +418,10 @@ async function iniciarModal(IdOperacional) {
     }
 
   }
+
+  printModalTitulo = `<h6 class="modal-title nome-comercial" id="exampleModalXlLabel">${dadosOperacional['Nome']}</h6>`
+
+  divModalTitulo.innerHTML = printModalTitulo;
 
   printProcessos = `<div class="mb-2">Processos</div>
   <div class="text-muted mb-1 fs-12"> 
@@ -441,9 +462,11 @@ async function iniciarModal(IdOperacional) {
 
   divCE.innerHTML = printDivCE;
 
-  printRecompraTotal = `<span class="d-block fs-16 fw-semibold" style="color: black;">BRL ${recompraTotalConvertida.toFixed(2)}</span>`
+  printRecompraTotal = `<span class="d-block fs-16 fw-semibold" style="color: black;">BRL ${totalConvertidoBRL.toFixed(2)}</span>`
 
   divRecompraTotal.innerHTML = printRecompraTotal;
+
+  totalConvertidoBRL = 0;
 
 }
 
