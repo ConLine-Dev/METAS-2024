@@ -448,16 +448,6 @@ async function criarGraficos() {
       },
     },
 
-    // dataLabels: {
-    //   enabled: true,
-    //   enabledOnSeries: [0, 1, 2, 3],
-    //   offsetX: 30,
-    //   style: {
-    //     fontSize: '12px',
-    //     colors: ['#F9423A', '#2D2926', '#D0CFCD', '#3F2021']
-    //   }
-    // },
-
     dataLabels: {
       enabled: true,
       enabledOnSeries: [0, 1, 2, 3],

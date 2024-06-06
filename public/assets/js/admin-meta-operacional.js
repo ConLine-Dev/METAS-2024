@@ -16,6 +16,10 @@ let arrayEmailsEnviados = [];
 let arrayEmailsRecebidos = [];
 const dadosOperacional = ['IdPessoa', 'Nome', 'Email'];
 var nfLista = [0, 0, 0, 0, 0, 0];
+var trimestreUSD = [];
+var trimestreBRL = [];
+var trimestreEUR = [];
+var trimestreGBP = [];
 
 async function criarArrayEmails(IdOperacional) {
 
@@ -112,8 +116,7 @@ async function iniciarPagina() {
                     <p class="fw-semibold mb-0">Não Conformidades</p><span class="text-muted fs-12">?</span>
                  </div>
                  <div class="text-center p-3 my-auto">
-                    <p class="fw-semibold mb-0">Recompra Anual</p><span class="text-muted fs-12">R$
-                       ${totalConvertidoBRL.toFixed(2)}</span>
+                    <p class="fw-semibold mb-0">Recompra Anual</p><span class="text-muted fs-12">R$ ${totalConvertidoBRL.toFixed(2)}</span>
                  </div>
               </div>
            </div>
@@ -136,30 +139,148 @@ async function iniciarPagina() {
 
 async function recomprasCalculo(IdOperacional) {
 
-  for (let index = 0; index < recompras_operacional.length; index++) {
-    if (recompras_operacional[index].id_moeda == 1 && recompras_operacional[index].id_operacional == IdOperacional) {
-      recompraUSD = recompraUSD + recompras_operacional[index].valor;
-      totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * 5);
-    } else if (recompras_operacional[index].id_moeda == 2 && recompras_operacional[index].id_operacional == IdOperacional) {
-      recompraBRL = recompraBRL + recompras_operacional[index].valor;
-      totalConvertidoBRL = totalConvertidoBRL + recompras_operacional[index].valor;
-    } else if (recompras_operacional[index].id_moeda == 3 && recompras_operacional[index].id_operacional == IdOperacional) {
-      recompraEUR = recompraEUR + recompras_operacional[index].valor;
-      totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * 7);
-    } else if (recompras_operacional[index].id_moeda == 4 && recompras_operacional[index].id_operacional == IdOperacional) {
-      recompraGBP = recompraGBP + recompras_operacional[index].valor;
-      totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * 9);
+  var taxaDolar = 0;
+  var taxaEuro = 0;
+  var taxaLibra = 0;
+
+  for (let index = 0; index < conversao_taxas.length; index++) {
+    if (conversao_taxas[index].IdMoeda_Origem == 31) {
+      taxaDolar = conversao_taxas[index].Fator;
+    }
+    if (conversao_taxas[index].IdMoeda_Origem == 52) {
+      taxaEuro = conversao_taxas[index].Fator;
+    }
+    if (conversao_taxas[index].IdMoeda_Origem == 81) {
+      taxaLibra = conversao_taxas[index].Fator;
     }
   }
 
-  return { recompraUSD, recompraBRL, recompraEUR, recompraGBP, totalConvertidoBRL };
+  for (let index = 0; index < conversao_taxas.length; index++) {
+    if (conversao_taxas[index].IdMoeda_Origem == 31) {
+      taxaDolar = conversao_taxas[index].Fator;
+    }
+    if (conversao_taxas[index].IdMoeda_Origem == 52) {
+      taxaEuro = conversao_taxas[index].Fator;
+    }
+    if (conversao_taxas[index].IdMoeda_Origem == 81) {
+      taxaLibra = conversao_taxas[index].Fator;
+    }
+  }
+
+  for (let index = 0; index < recompras_operacional.length; index++) {
+    if (index <= 365) {
+      if (recompras_operacional[index].id_moeda == 1 && recompras_operacional[index].id_operacional == IdOperacional) {
+        recompraUSD = recompraUSD + recompras_operacional[index].valor;
+        trimestreUSD[0] = recompraUSD.toFixed(2);
+        totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaDolar);
+      } else if (recompras_operacional[index].id_moeda == 2 && recompras_operacional[index].id_operacional == IdOperacional) {
+        recompraBRL = recompraBRL + recompras_operacional[index].valor;
+        trimestreBRL[0] = recompraBRL.toFixed(2);
+        totalConvertidoBRL = totalConvertidoBRL + recompras_operacional[index].valor;
+      } else if (recompras_operacional[index].id_moeda == 3 && recompras_operacional[index].id_operacional == IdOperacional) {
+        recompraEUR = recompraEUR + recompras_operacional[index].valor;
+        trimestreEUR[0] = recompraEUR.toFixed(2);
+        totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaEuro);
+      } else if (recompras_operacional[index].id_moeda == 4 && recompras_operacional[index].id_operacional == IdOperacional) {
+        recompraGBP = recompraGBP + recompras_operacional[index].valor;
+        totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaLibra);
+        trimestreGBP[0] = recompraGBP.toFixed(2);
+      }
+    }
+  }
+
+  recompraUSD = 0;
+  recompraBRL = 0;
+  recompraEUR = 0;
+  recompraGBP = 0;
+  totalConvertidoBRL = 0;
+
+  for (let index = 0; index < recompras_operacional.length; index++) {
+    if (index > 365) {
+      if (recompras_operacional[index].id_moeda == 1 && recompras_operacional[index].id_operacional == IdOperacional) {
+        recompraUSD = recompraUSD + recompras_operacional[index].valor;
+        trimestreUSD[1] = recompraUSD.toFixed(2);
+        totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaDolar);
+      } else if (recompras_operacional[index].id_moeda == 2 && recompras_operacional[index].id_operacional == IdOperacional) {
+        recompraBRL = recompraBRL + recompras_operacional[index].valor;
+        trimestreBRL[1] = recompraBRL.toFixed(2);
+        totalConvertidoBRL = totalConvertidoBRL + recompras_operacional[index].valor;
+      } else if (recompras_operacional[index].id_moeda == 3 && recompras_operacional[index].id_operacional == IdOperacional) {
+        recompraEUR = recompraEUR + recompras_operacional[index].valor;
+        trimestreEUR[1] = recompraEUR.toFixed(2);
+        totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaEuro);
+      } else if (recompras_operacional[index].id_moeda == 4 && recompras_operacional[index].id_operacional == IdOperacional) {
+        recompraGBP = recompraGBP + recompras_operacional[index].valor;
+        trimestreGBP[1] = recompraGBP.toFixed(2);
+        totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaLibra);
+      }
+    }
+  }
+
+
+
+  if (IdOperacional == 49993) {
+    for (let index = 0; index < recompras_operacional.length; index++) {
+      if (index <= 365) {
+        if (recompras_operacional[index].id_moeda == 1) {
+          recompraUSD = recompraUSD + recompras_operacional[index].valor;
+          trimestreUSD[0] = recompraUSD.toFixed(2);
+          totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaDolar);
+        } else if (recompras_operacional[index].id_moeda == 2) {
+          recompraBRL = recompraBRL + recompras_operacional[index].valor;
+          trimestreBRL[0] = recompraBRL.toFixed(2);
+          totalConvertidoBRL = totalConvertidoBRL + recompras_operacional[index].valor;
+        } else if (recompras_operacional[index].id_moeda == 3) {
+          recompraEUR = recompraEUR + recompras_operacional[index].valor;
+          trimestreEUR[0] = recompraEUR.toFixed(2);
+          totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaEuro);
+        } else if (recompras_operacional[index].id_moeda == 4) {
+          recompraGBP = recompraGBP + recompras_operacional[index].valor;
+          totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaLibra);
+          trimestreGBP[0] = recompraGBP.toFixed(2);
+        }
+      }
+    }
+
+    recompraUSD = 0;
+    recompraBRL = 0;
+    recompraEUR = 0;
+    recompraGBP = 0;
+    totalConvertidoBRL = 0;
+  
+    for (let index = 0; index < recompras_operacional.length; index++) {
+      if (index > 365) {
+        if (recompras_operacional[index].id_moeda == 1) {
+          recompraUSD = recompraUSD + recompras_operacional[index].valor;
+          trimestreUSD[1] = recompraUSD.toFixed(2);
+          totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaDolar);
+        } else if (recompras_operacional[index].id_moeda == 2) {
+          recompraBRL = recompraBRL + recompras_operacional[index].valor;
+          trimestreBRL[1] = recompraBRL.toFixed(2);
+          totalConvertidoBRL = totalConvertidoBRL + recompras_operacional[index].valor;
+        } else if (recompras_operacional[index].id_moeda == 3) {
+          recompraEUR = recompraEUR + recompras_operacional[index].valor;
+          trimestreEUR[1] = recompraEUR.toFixed(2);
+          totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaEuro);
+        } else if (recompras_operacional[index].id_moeda == 4) {
+          recompraGBP = recompraGBP + recompras_operacional[index].valor;
+          trimestreGBP[1] = recompraGBP.toFixed(2);
+          totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaLibra);
+        }
+      }
+    }
+  }
+
+  return { trimestreUSD, trimestreBRL, trimestreEUR, trimestreGBP, totalConvertidoBRL };
 }
 
 async function criarGraficos(IdOperacional) {
 
+  await limparModal();
+
   const arrayRecompras = await recomprasCalculo(IdOperacional);
   criarArrayEmails(IdOperacional);
-  const graficoRecompras = [arrayRecompras.recompraUSD, arrayRecompras.recompraBRL, arrayRecompras.recompraEUR, arrayRecompras.recompraGBP];
+  const graficoRecompras = [arrayRecompras.trimestreUSD, arrayRecompras.trimestreBRL, arrayRecompras.trimestreEUR, arrayRecompras.trimestreGBP];
   var options = {
 
     series: [{
@@ -280,26 +401,78 @@ async function criarGraficos(IdOperacional) {
   // nfChart.updateSeries(nfLista, true);
 
   var options = {
-    series: graficoRecompras,
-    labels: ['USD', 'BRL', 'EUR', 'GBP'],
+
+    series: [{
+      data: arrayRecompras.trimestreUSD,
+      name: 'USD'
+    }, {
+      data: arrayRecompras.trimestreBRL,
+      name: 'BRL'
+    }, {
+      data: arrayRecompras.trimestreEUR,
+      name: 'EUR'
+    }, {
+      data: arrayRecompras.trimestreGBP,
+      name: 'GBP'
+    }],
+
+    labels: ['Jan/Fev/Mar', 'Abr/Mai/Jun', 'Jul/Ago/Set', 'Out/Nov/Dez'],
+
     chart: {
-      type: 'pie',
-      width: 500
+      type: 'bar',
+      height: 410,
+      stacked: false,
+      toolbar: {
+        show: false
+      },
+    },
+
+    dataLabels: {
+      enabled: true,
+      enabledOnSeries: [0, 1, 2, 3],
+      offsetX: 0,
+      offsetY: -25,
+      style: {
+        fontSize: '12px',
+        colors: ['#F9423A', '#2D2926', '#D0CFCD', '#3F2021']
+      },
+      background: {
+        enabled: true,
+        foreColor: '#fff',
+        borderRadius: 2,
+        padding: 4,
+        opacity: 0.9,
+        borderWidth: 1,
+        borderColor: '#fff'
+      }
     },
 
     plotOptions: {
-      pie: {
-        expandOnClick: false
+      bar: {
+        borderRadius: 2,
+        columnWidth: '55%',
+        horizontal: false,
+        dataLabels: {
+          position: 'top',
+        },
       }
     },
-    colors: ['#F9423A', '#2D2926', '#D0CFCD', '#3F2021'],
-    fill: {
-      type: 'gradient',
-      opacity: 0.85,
+
+    yaxis: {
+      show: false,
     },
+
+    colors: ['#F9423A', '#2D2926', '#D0CFCD', '#3F2021'],
+
     legend: {
-      show: false
-    }
+      show: true,
+      data: ['USD', 'BRL', 'EUR', 'GBP']
+    },
+
+    tooltip: {
+      enabled: false,
+    },
+
   };
 
   var recompraChart = new ApexCharts(document.querySelector("#recompra-chart"), options);
@@ -308,15 +481,39 @@ async function criarGraficos(IdOperacional) {
   recompraChart.updateSeries(graficoRecompras, true);
 }
 
+async function limparModal() {
+  
+  const mail_chart = document.querySelector('#mail-chart');
+  const filhos_mail_chart = mail_chart.querySelectorAll('div');
+  filhos_mail_chart.forEach(divFilha => {
+     divFilha.remove();
+  });
+
+  const nf_chart = document.querySelector('#nf-chart');
+  const filhos_nf_chart = nf_chart.querySelectorAll('div');
+  filhos_nf_chart.forEach(divFilha => {
+     divFilha.remove();
+  });
+
+  const recompra_chart = document.querySelector('#recompra-chart');
+  const filhos_recompra_chart = recompra_chart.querySelectorAll('div');
+  filhos_recompra_chart.forEach(divFilha => {
+     divFilha.remove();
+  });
+
+};
+
 async function clickModal() {
   document.querySelectorAll('.modal-operacional').forEach(element => {
     element.addEventListener('click', async function (e) {
       e.preventDefault();
       const IdOperacional = this.getAttribute('data-IdOperacional');
 
+      await mostrar_loading_modal();
       await iniciarModal(IdOperacional);
       await criarGraficos(IdOperacional);
       await criarTabelaRecompras(recompras_operacional);
+      await remover_loading();
     })
   });
 }
@@ -328,9 +525,21 @@ async function mostrar_loading() {
   img.src = "/assets/images/brand-logos/SLOGAN VERMELHO.gif";
 };
 
+async function mostrar_loading_modal() {
+  let loading_modal = document.querySelector('.loading-modal');
+
+  loading_modal.style.display = 'flex';
+};
+
 async function remover_loading() {
   let loading = document.querySelector('.loading');
+  let loading_modal = document.querySelector('.loading-modal');
+
   loading.style.display = 'none';
+
+  setTimeout(() => {
+     loading_modal.style.display = 'none';   
+  }, 750);
 };
 
 async function iniciarModal(IdOperacional) {
@@ -363,30 +572,39 @@ async function iniciarModal(IdOperacional) {
   let printDivCE = '';
   let printRecompraTotal = '';
   let printModalTitulo = '';
+  totalConvertidoBRL = 0;
 
   for (let index = 0; index < recompras_operacional.length; index++) {
     if (recompras_operacional[index].id_moeda == 1 && recompras_operacional[index].id_operacional == IdOperacional) {
       recompraUSD = recompraUSD + recompras_operacional[index].valor;
-      totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * 5);
+      for (let k = 0; k < conversao_taxas.length; k++) {
+        if (conversao_taxas[k].IdMoeda_Origem == 31) {
+          totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * conversao_taxas[k].Fator);
+        }
+      }
     } else if (recompras_operacional[index].id_moeda == 2 && recompras_operacional[index].id_operacional == IdOperacional) {
       recompraBRL = recompraBRL + recompras_operacional[index].valor;
       totalConvertidoBRL = totalConvertidoBRL + recompras_operacional[index].valor;
     } else if (recompras_operacional[index].id_moeda == 3 && recompras_operacional[index].id_operacional == IdOperacional) {
       recompraEUR = recompraEUR + recompras_operacional[index].valor;
-      totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * 7);
+      for (let k = 0; k < conversao_taxas.length; k++) {
+        if (conversao_taxas[k].IdMoeda_Origem == 52) {
+          totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * conversao_taxas[k].Fator);
+        }
+      }
     } else if (recompras_operacional[index].id_moeda == 4 && recompras_operacional[index].id_operacional == IdOperacional) {
       recompraGBP = recompraGBP + recompras_operacional[index].valor;
-      totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * 9);
+      totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * 6);
     }
   }
 
-
-  for (let index = 0; index < totalProcessos.length; index++) {
-    if (totalProcessos[index].situacao == 'Em andamento' && totalProcessos[index].funcionario == IdOperacional) {
+  
+  for (let index = 0; index < quantidade_processos.length; index++) {
+    if (quantidade_processos[index].situacao == 'Em andamento' && quantidade_processos[index].funcionario == IdOperacional) {
       totalProcessosAbertos++;
-    } else if (totalProcessos[index].situacao == 'Aberto' && totalProcessos[index].funcionario == IdOperacional) {
+    } else if (quantidade_processos[index].situacao == 'Aberto' && quantidade_processos[index].funcionario == IdOperacional) {
       totalProcessosAbertos++;
-    } else if (totalProcessos[index].situacao == 'Cancelado' && totalProcessos[index].funcionario == IdOperacional) {
+    } else if (quantidade_processos[index].situacao == 'Cancelado' && quantidade_processos[index].funcionario == IdOperacional) {
       totalProcessosCancelados++;
     }
   }
@@ -407,16 +625,40 @@ async function iniciarModal(IdOperacional) {
     totalDivergenciasFinanceiras = DivergenciasFinanceiras.length;
     totalDivergenciasCE = DivergenciasCE.length;
 
-    for (let index = 0; index < totalProcessos.length; index++) {
-      if (totalProcessos[index].situacao == 'Em andamento') {
+
+    for (let index = 0; index < quantidade_processos.length; index++) {
+      if (quantidade_processos[index].situacao == 'Em andamento') {
         totalProcessosAbertos++;
-      } else if (totalProcessos[index].situacao == 'Aberto') {
+      } else if (quantidade_processos[index].situacao == 'Aberto') {
         totalProcessosAbertos++;
-      } else if (totalProcessos[index].situacao == 'Cancelado') {
+      } else if (quantidade_processos[index].situacao == 'Cancelado') {
         totalProcessosCancelados++;
       }
     }
 
+    for (let index = 0; index < recompras_operacional.length; index++) {
+      if (recompras_operacional[index].id_moeda) {
+        recompraUSD = recompraUSD + recompras_operacional[index].valor;
+        for (let k = 0; k < conversao_taxas.length; k++) {
+          if (conversao_taxas[k].IdMoeda_Origem == 31) {
+            totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * conversao_taxas[k].Fator);
+          }
+        }
+      } else if (recompras_operacional[index].id_moeda == 2) {
+        recompraBRL = recompraBRL + recompras_operacional[index].valor;
+        totalConvertidoBRL = totalConvertidoBRL + recompras_operacional[index].valor;
+      } else if (recompras_operacional[index].id_moeda == 3) {
+        recompraEUR = recompraEUR + recompras_operacional[index].valor;
+        for (let k = 0; k < conversao_taxas.length; k++) {
+          if (conversao_taxas[k].IdMoeda_Origem == 52) {
+            totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * conversao_taxas[k].Fator);
+          }
+        }
+      } else if (recompras_operacional[index].id_moeda == 4) {
+        recompraGBP = recompraGBP + recompras_operacional[index].valor;
+        totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * 6);
+      }
+    }
   }
 
   printModalTitulo = `<h6 class="modal-title nome-comercial" id="exampleModalXlLabel">${dadosOperacional['Nome']}</h6>`
@@ -428,7 +670,7 @@ async function iniciarModal(IdOperacional) {
      <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${totalProcessosAbertos} </span> 
   </div>
   <div> 
-     <span class="fs-12 mb-0">Número de processos abertos para coordenação</span>
+     <span class="fs-12 mb-0">Número de processos em aberto</span>
   </div>`
 
   divProcessos.innerHTML = printProcessos;
@@ -438,7 +680,7 @@ async function iniciarModal(IdOperacional) {
      <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${totalProcessosCancelados} </span> 
   </div>
   <div> 
-     <span class="fs-12 mb-0">Número de processos que foram cancelados</span>
+     <span class="fs-12 mb-0">Número de processos cancelados</span>
   </div>`
 
   divProcessosCancelados.innerHTML = printProcessosCancelados;
@@ -448,7 +690,7 @@ async function iniciarModal(IdOperacional) {
      <span class="text-dark fw-semibold fs-20 lh-1 vertical-bottom"> ${totalDivergenciasFinanceiras} </span> 
   </div>
   <div> 
-     <span class="fs-12 mb-0">Número de divergências informadas pelo financeiro</span>
+     <span class="fs-12 mb-0">Número de divergências financeiras</span>
   </div>`
 
   divFinanceiro.innerHTML = printDivFinanceiro;
@@ -465,8 +707,6 @@ async function iniciarModal(IdOperacional) {
   printRecompraTotal = `<span class="d-block fs-16 fw-semibold" style="color: black;">BRL ${totalConvertidoBRL.toFixed(2)}</span>`
 
   divRecompraTotal.innerHTML = printRecompraTotal;
-
-  totalConvertidoBRL = 0;
 
 }
 
@@ -501,6 +741,10 @@ async function criarTabelaRecompras(consulta) {
   if (lucro_estimado_por_processo) {
     lucro_estimado_por_processo.destroy();
  }
+
+  $('#exampleModalXl').on('hidden.bs.modal', function () {
+    $('.table').empty();
+  });
 
   lucro_estimado_por_processo = $('.table').DataTable({
     "data": resultados,
