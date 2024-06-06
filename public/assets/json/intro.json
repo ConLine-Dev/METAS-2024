@@ -1,0 +1,101 @@
+[
+    {
+      "title": "Bem vindo as Metas!",
+      "intro": "Este é um tutorial explicando o funcionamento delas."
+    },
+    {
+      "element": ".intro-meta-anual-financeiro",
+      "title": "Meta Anual",
+      "intro": "Este card representa a porcentagem atual do progresso rumo à meta."
+    },
+    {
+      "element": ".intro-meta-hoje-financeiro",
+      "title": "Meta Hoje",
+      "intro": "Este card representa a porcentagem da nossa meta que deveríamos ter alcançado até hoje."
+    },
+    {
+      "element": ".intro-participacao-modal-financeiro",
+      "title": "Participação Por Modal",
+      "intro": "Este card representa a participação de cada modalidade na meta, onde: <br><strong>Azul:</strong> Importação Marítima <br><strong>Laranja:</strong>  Exportação Marítima <br><strong> Vermelho:</strong>  Exportação Aérea <br><strong> Roxo:</strong>  Importação Aérea <br><strong> Outros:</strong> Rodoviário/Terrestre",
+      "position": "right"
+    },
+    {
+      "element": ".intro-grafico-mensal-financeiro",
+      "title": "Gráfico Mensal",
+      "intro": "<strong>Gráfico de linha:</strong> Representa a meta mensal, onde a mesma se adapta para os próximos meses de acordo com a recadação dos meses que passaram.<br><br><strong>Gráfico de barra:</strong> Representa o nosso lucro mensal.",
+      "position": "left"
+    },
+    {
+      "element": ".intro-anual-processos",
+      "title": "Meta Anual",
+      "intro": "Todos os cards dessa linha representam a porcentagem atual do progresso rumo à meta anual.",
+      "position": "left"
+    },
+    {
+      "element": ".intro-mensal-processos",
+      "title": "Meta Mensal",
+      "intro": "<strong>Barras em bordô:</strong> Representa a meta mensal.<br><br><strong>Barras em vermelho:</strong> Representam o total de processos por mês.",
+      "position": "right"
+    },
+    {
+      "element": ".intro-meta-anual-teus",
+      "title": "Meta Anual",
+      "intro": "Este card representa a porcentagem anual de cumprimento das metas em <strong>TEUS.</strong>",
+      "position": "right"
+    },
+    {
+      "element": ".intro-meta-anual-processos",
+      "title": "Meta Anual",
+      "intro": "Este card representa a porcentagem anual de cumprimento das metas em <strong>PROCESSOS.</strong>",
+      "position": "right"
+    },
+    {
+      "element": ".intro-meta-anual-tons",
+      "title": "Meta Anual",
+      "intro": "Este card representa a porcentagem anual de cumprimento das metas em <strong>TONS.</strong>",
+      "position": "left"
+    },
+    {
+      "element": ".intro-meta-mensal-teus",
+      "title": "Meta Mensal",
+      "intro": "<strong>Barras em bordô:</strong> Representa a meta mensal.<br><br><strong>Barras em vermelho:</strong> Representam o total de TEUS por mês.",
+      "position": "right"
+    },
+    {
+      "element": ".intro-meta-mensal-processos",
+      "title": "Meta Mensal",
+      "intro": "<strong>Barras em bordô:</strong> Representa a meta mensal.<br><br><strong>Barras em vermelho:</strong> Representam o total de PROCESSOS por mês.",
+      "position": "right"
+    },
+    {
+      "element": ".intro-meta-mensal-tons",
+      "title": "Meta Mensal",
+      "intro": "<strong>Barras em bordô:</strong> Representa a meta mensal.<br><br><strong>Barras em vermelho:</strong> Representam o total de TONS por mês.",
+      "position": "left"
+    },
+    {
+      "element": ".intro-meta-anual-comercial",
+      "title": "Meta Anual",
+      "intro": "Todos os cards desta linha representam a porcentagem anual de cada modalidade em relação ao progresso rumo à meta anual.",
+      "position": "left"
+    },
+    {
+      "element": ".intro-fechamento-mensal-comercial",
+      "title": "Meta Mensal",
+      "intro": "Este card representa o total de processos de todos os modais por mês.",
+      "position": "right"
+    },
+    {
+      "element": ".intro-fechamento-recente-comercial",
+      "title": "Fechamentos Recentes",
+      "intro": "Poderá visualizar os nove últimos processos gerados.",
+      "position": "left"
+    },
+    {
+      "element": ".intro-ultimo-fechamento-comercial",
+      "title": "Últimos Fechamentos",
+      "intro": "Poderá visualizar o último processo gerado de cada modal.",
+      "position": "left"
+    }
+  ]
+ 
