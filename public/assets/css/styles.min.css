@@ -185,6 +185,13 @@
    outline: 0.25rem solid rgb(var(--primary-rgb)) !important;
 }
 
+#btn-tutorial {
+   position: absolute;
+   top: 30%;
+   right: 0;
+   cursor: pointer;
+}
+
 /* / ESTILOS CRIADOS */
 
 
