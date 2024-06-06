@@ -11,6 +11,8 @@
    <link rel="icon" href="/assets/images/brand-logos/icon-redondo.png" type="image/x-icon" />
    <!-- Bootstrap Css -->
    <link id="style" href="/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+   <!-- IntroJs Css -->
+   <link rel="stylesheet" href="../assets/libs/introjs/introjs.min.css">
    <!-- Style Css -->
    <link href="/assets/css/styles.min.css" rel="stylesheet">
    <!-- Icons Css -->
@@ -235,7 +237,7 @@
                   <div class="col-xl-12">
                      <div class="row">
                         <div class="col-xxl-4 col-lg-4 col-md-4">
-                           <div class="card custom-card overflow-hidden">
+                           <div class="card custom-card overflow-hidden card-meta-teus intro-meta-anual-teus">
                               <div class="card-body">
                                  <div class="d-flex align-items-top justify-content-between">
                                     <div> 
@@ -259,7 +261,7 @@
                            </div>
                         </div>
                         <div class="col-xxl-4 col-lg-4 col-md-4">
-                           <div class="card custom-card overflow-hidden">
+                           <div class="card custom-card overflow-hidden card-meta-processos intro-meta-anual-processos">
                               <div class="card-body">
                                  <div class="d-flex align-items-top justify-content-between">
                                     <div> 
@@ -283,7 +285,7 @@
                            </div>
                         </div>
                         <div class="col-xxl-4 col-lg-4 col-md-4">
-                           <div class="card custom-card overflow-hidden">
+                           <div class="card custom-card overflow-hidden card-meta-tons intro-meta-anual-tons">
                               <div class="card-body">
                                  <div class="d-flex align-items-top justify-content-between">
                                     <div> 
@@ -312,7 +314,7 @@
                   <div class="col-xl-12">
                      <div class="row">
                         <div class="col-xxl-4 col-lg-4 col-md-4">
-                           <div class="card custom-card">
+                           <div class="card custom-card card-imp-teus intro-meta-mensal-teus">
                               <div class="card-header justify-content-between">
                                  <div class="card-title"> Importação Marítima - FCL - [TEUS] </div>
                               </div>
@@ -322,7 +324,7 @@
                            </div>
                         </div>
                         <div class="col-xxl-4 col-lg-4 col-md-4">
-                           <div class="card custom-card">
+                           <div class="card custom-card card-imp-processo intro-meta-mensal-processos">
                               <div class="card-header justify-content-between">
                                  <div class="card-title"> Importação Marítima - LCL - [PROCESSOS]</div>
                               </div>
@@ -332,7 +334,7 @@
                            </div>
                         </div>
                         <div class="col-xxl-4 col-lg-4 col-md-4">
-                           <div class="card custom-card">
+                           <div class="card custom-card card-imp-tons intro-meta-mensal-tons">
                               <div class="card-header justify-content-between">
                                  <div class="card-title"> Importação Aérea - [TONS]</div>
                               </div>
@@ -349,6 +351,10 @@
          </div>
          </div>
    <!-- Dashboard -->
+
+   <span class="avatar avatar-md p-2 bg-warning" id="btn-tutorial" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Visualizar Tutorial"> 
+      <img src="../assets/images/brand-logos/mycon.svg" alt="mycon">
+   </span>
 
    <!-- Footer Start -->
    <footer class="footer mt-auto py-3 bg-white text-center">
@@ -370,6 +376,8 @@
    <script type="module" src="/assets/js/verifica-modulo.js"></script>
    
    <script src="/assets/js/socket.io.min.js"></script>
+   <script src="../assets/libs/introjs/introjs.min.js"></script>
+   <script src="../assets/js/intro.js"></script>
    <script type="module" src="/assets/js/importacao.js"></script>
    <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
    <script src="/assets/js/custom.js"></script>

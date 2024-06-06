@@ -11,6 +11,8 @@
    <link rel="icon" href="/assets/images/brand-logos/icon-redondo.png" type="image/x-icon" />
    <!-- Bootstrap Css -->
    <link id="style" href="/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+   <!-- IntroJs Css -->
+   <link rel="stylesheet" href="../assets/libs/introjs/introjs.min.css">
    <!-- Style Css -->
    <link href="/assets/css/styles.min.css" rel="stylesheet">
    <!-- Icons Css -->
@@ -233,7 +235,7 @@
             <div class="col-xl-4">
                <div class="row">
                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12" style="height: 160px;">
-                     <div class="card custom-card overflow-hidden" style="height: 85%;">
+                     <div class="card custom-card overflow-hidden card-meta-anual intro-meta-anual-financeiro" style="height: 85%;">
                         <div class="card-body mb-3">
                            <div class="d-flex align-items-center justify-content-between">
                               <div>
@@ -250,7 +252,7 @@
                      </div>
 
                      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12" style="height: 160px;">
-                        <div class="card custom-card overflow-hidden" style="height: 85%;">
+                        <div class="card custom-card overflow-hidden card-meta-hoje intro-meta-hoje-financeiro" style="height: 85%;">
                            <div class="card-body mb-3">
                               <div class="d-flex align-items-center justify-content-between">
                                  <div>
@@ -266,7 +268,7 @@
                      </div>
 
                      <div class="col-xxl-12 col-xl-12">
-                        <div class="card custom-card" style="height: 465px;">
+                        <div class="card custom-card card-participacao-modal intro-participacao-modal-financeiro" style="height: 465px;">
                            <div class="card-header justify-content-between">
                               <div class="card-title"> Participação por modal </div>
                            </div>
@@ -310,7 +312,7 @@
                <div class="col-xl-8">
                   <div class="row">
                      <div class="col-xl-12">
-                        <div class="card custom-card" style="height: 624px">
+                        <div class="card custom-card card-grafico-mensal intro-grafico-mensal-financeiro" style="height: 624px">
                            <div class="card-header justify-content-between">
                               <div class="card-title"> Gráfico Mensal </div>
                            </div>
@@ -329,6 +331,10 @@
          </div>
    </div>
    <!-- Dashboard -->
+
+   <span class="avatar avatar-md p-2 bg-warning" id="btn-tutorial" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Visualizar Tutorial"> 
+      <img src="../assets/images/brand-logos/mycon.svg" alt="mycon">
+   </span>
 
    <!-- Footer Start -->
    <footer class="footer mt-auto py-3 bg-white text-center">
@@ -350,6 +356,8 @@
    <script type="module" src="/assets/js/verifica-modulo.js"></script>
    
    <script src="/assets/js/socket.io.min.js"></script>
+   <script src="../assets/libs/introjs/introjs.min.js"></script>
+   <script src="/assets/js/intro.js"></script>
    <script type="module" src="/assets/js/financeiro.js"></script>
    <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
    <script src="/assets/js/custom.js"></script>

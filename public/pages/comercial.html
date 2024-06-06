@@ -11,6 +11,8 @@
    <link rel="icon" href="/assets/images/brand-logos/icon-redondo.png" type="image/x-icon" />
    <!-- Bootstrap Css -->
    <link id="style" href="/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+   <!-- IntroJs Css -->
+   <link rel="stylesheet" href="../assets/libs/introjs/introjs.min.css">
    <!-- Style Css -->
    <link href="/assets/css/styles.min.css" rel="stylesheet">
    <!-- Icons Css -->
@@ -234,7 +236,7 @@
                   <div class="row row-cols-12">
                      <div class="col">
                         <div class="card custom-card">
-                           <div class="card-body">
+                           <div class="card-body cards-meta-comercial intro-meta-anual-comercial">
                               <div class="d-flex align-items-top">
                                  <div class="me-3"> 
                                     <span class="avatar avatar-md p-2 bg-primary"> 
@@ -308,7 +310,7 @@
                         </div>
                      </div>
                      <div class="col-xl-12">
-                        <div class="card custom-card overflow-hidden">
+                        <div class="card custom-card overflow-hidden card-fechamento-mensais intro-fechamento-mensal-comercial">
                            <div class="card-header justify-content-between">
                               <div class="card-title">Fechamentos Mensais</div>
                            </div>
@@ -322,7 +324,7 @@
                <div class="col-xxl-6 col-xl-12">
                   <div class="row">
                      <div class="col-xxl-6 col-xl-6">
-                        <div class="card custom-card overflow-hidden" style="height: 660px;">
+                        <div class="card custom-card overflow-hidden card-fechamento-recente intro-fechamento-recente-comercial" style="height: 660px;">
                            <div class="card-header justify-content-between">
                               <div class="card-title">Fechamentos recentes</div>
                            </div>
@@ -356,7 +358,7 @@
                         </div>
                      </div>
 
-                     <div class="col-xxl-6 col-xl-6 cards_ultimo_fechamento_modal">
+                     <div class="col-xxl-6 col-xl-6 cards_ultimo_fechamento_modal intro-ultimo-fechamento-comercial">
                         <!-- CARDS AQUI -->
                         <div class="card custom-card overflow-hidden" style="height: 145px;">
                            <div class="card-header justify-content-between">
@@ -575,6 +577,10 @@
    </div>
    <!-- Dashboard -->
 
+   <span class="avatar avatar-md p-2 bg-warning" id="btn-tutorial" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Visualizar Tutorial"> 
+      <img src="../assets/images/brand-logos/mycon.svg" alt="mycon">
+   </span>
+
    <!-- Footer Start -->
    <footer class="footer mt-auto py-3 bg-white text-center">
       <div class="container">
@@ -595,6 +601,8 @@
    <script type="module" src="/assets/js/verifica-modulo.js"></script>
 
    <script src="/assets/js/socket.io.min.js"></script>
+   <script src="../assets/libs/introjs/introjs.min.js"></script>
+   <script src="../assets/js/intro.js"></script>
    <script type="module" src="/assets/js/comercial.js"></script>
    <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
    <script src="/assets/js/custom.js"></script>

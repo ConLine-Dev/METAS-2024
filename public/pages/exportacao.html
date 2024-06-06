@@ -11,6 +11,8 @@
    <link rel="icon" href="/assets/images/brand-logos/icon-redondo.png" type="image/x-icon" />
    <!-- Bootstrap Css -->
    <link id="style" href="/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+   <!-- IntroJs Css -->
+   <link rel="stylesheet" href="../assets/libs/introjs/introjs.min.css">
    <!-- Style Css -->
    <link href="/assets/css/styles.min.css" rel="stylesheet">
    <!-- Icons Css -->
@@ -237,7 +239,7 @@
                      <div class="row">
                         <div class="col-xxl-4 col-lg-4 col-md-4">
                            <div class="card custom-card overflow-hidden">
-                              <div class="card-body">
+                              <div class="card-body card-meta-teus intro-meta-anual-teus">
                                  <div class="d-flex align-items-top justify-content-between">
                                     <div> 
                                        <span class="avatar avatar-md avatar-rounded bg-success" style="background-color: var(--primary-color) !important;"> 
@@ -261,7 +263,7 @@
                         </div>
                         <div class="col-xxl-4 col-lg-4 col-md-4">
                            <div class="card custom-card overflow-hidden">
-                              <div class="card-body">
+                              <div class="card-body card-meta-processos intro-meta-anual-processos">
                                  <div class="d-flex align-items-top justify-content-between">
                                     <div> 
                                        <span class="avatar avatar-md avatar-rounded bg-success" style="background-color: var(--primary-color) !important;"> 
@@ -285,7 +287,7 @@
                         </div>
                         <div class="col-xxl-4 col-lg-4 col-md-4">
                            <div class="card custom-card overflow-hidden">
-                              <div class="card-body">
+                              <div class="card-body card-meta-tons intro-meta-anual-tons">
                                  <div class="d-flex align-items-top justify-content-between">
                                     <div> 
                                        <span class="avatar avatar-md avatar-rounded bg-success" style="background-color: var(--primary-color) !important;"> 
@@ -312,8 +314,8 @@
 
                   <div class="col-xl-12">
                      <div class="row">
-                        <div class="col-xxl-4 col-lg-4 col-md-4">
-                           <div class="card custom-card">
+                        <div class="col-xxl-4 col-lg-4 col-md-4 ">
+                           <div class="card custom-card card-exp-teus intro-meta-mensal-teus">
                               <div class="card-header justify-content-between">
                                  <div class="card-title"> Exportação Marítima - FCL - [TEUS] </div>
                               </div>
@@ -322,8 +324,8 @@
                               </div>
                            </div>
                         </div>
-                        <div class="col-xxl-4 col-lg-4 col-md-4">
-                           <div class="card custom-card">
+                        <div class="col-xxl-4 col-lg-4 col-md-4 ">
+                           <div class="card custom-card card-exp-processo intro-meta-mensal-processos">
                               <div class="card-header justify-content-between">
                                  <div class="card-title"> Exportação Marítima - LCL - [PROCESSOS]</div>
                               </div>
@@ -332,8 +334,8 @@
                               </div>
                            </div>
                         </div>
-                        <div class="col-xxl-4 col-lg-4 col-md-4">
-                           <div class="card custom-card">
+                        <div class="col-xxl-4 col-lg-4 col-md-4 ">
+                           <div class="card custom-card card-exp-tons intro-meta-mensal-tons">
                               <div class="card-header justify-content-between">
                                  <div class="card-title"> Exportação Aérea - [TONS]</div>
                               </div>
@@ -350,6 +352,10 @@
          </div>
          </div>
    <!-- Dashboard -->
+
+   <span class="avatar avatar-md p-2 bg-warning" id="btn-tutorial" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Visualizar Tutorial"> 
+      <img src="../assets/images/brand-logos/mycon.svg" alt="mycon">
+   </span>
 
    <!-- Footer Start -->
    <footer class="footer mt-auto py-3 bg-white text-center">
@@ -371,6 +377,8 @@
    <script type="module" src="/assets/js/verifica-modulo.js"></script>
    
    <script src="/assets/js/socket.io.min.js"></script>
+   <script src="../assets/libs/introjs/introjs.min.js"></script>
+   <script src="../assets/js/intro.js"></script>
    <script type="module" src="/assets/js/exportacao.js"></script>
    <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
    <script src="/assets/js/custom.js"></script>
