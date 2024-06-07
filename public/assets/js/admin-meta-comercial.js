@@ -1,5 +1,4 @@
 const admin_cards_comerciais = await Thefetch('/api/admin-cards-comerciais');
-let lucro_estimado_por_processo;
 const meses_grafico = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
 
 const meses = [
@@ -174,19 +173,23 @@ async function card_meta_comercial(consulta) {
    const data_atual = new Date();
    const mes_atual = data_atual.getMonth() + 1;
 
-   let valor_meta = 0; // Inicializa a variável valor_meta fora do loop
+   let valor_meta = 0; // Inicializa a variável valor_meta como 0
 
    for (let i = 0; i < consulta.length; i++) {
       const item = consulta[i];
 
       // Verifica se o usuario logado é um vendedor e se existe registros de valores para o mes atual para somar
       if (mes_atual === item.mes) {
-         valor_meta = item.valor_meta
+         valor_meta = item.valor_meta;
       }
    }
 
    const html_valor_meta = document.getElementById('meta-mensal');
-   html_valor_meta.textContent = valor_meta.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
+   if (valor_meta !== undefined) {
+      html_valor_meta.textContent = valor_meta.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+   } else {
+      html_valor_meta.textContent = 'R$ 0,00'; // Define um valor padrão se não houver valor_meta
+   }
 };
 
 // Retorna o total de processo, proposta o que for passado na consulta, mas tem que tem o ID_VENDEDOR e o MES na consulta
@@ -196,7 +199,7 @@ async function quantidade_itens_mes_atual(consulta, situacao) {
 
    return total;
 };
-
+let grafico_processos_intancia, grafico_propostas_intancia;
 // Cria o grafico com o total de propostas e processos aprovados e cancelados
 async function grafico_proposta_processo(proposta_meta_comercial, processos_meta_comercial) {
    const propostas_aprovadas = await quantidade_itens_mes_atual(proposta_meta_comercial, 'APROVADA');
@@ -261,15 +264,14 @@ async function grafico_proposta_processo(proposta_meta_comercial, processos_meta
       }
    };
 
-
-
-   var grafico_propostas = new ApexCharts(document.querySelector("#grafico-propostas"), options_propostas);
-   grafico_propostas.render();
-   var grafico_processos = new ApexCharts(document.querySelector("#grafico-processos"), options_processos);
-   grafico_processos.render();
+   grafico_propostas_intancia = new ApexCharts(document.querySelector("#grafico-propostas"), options_propostas);
+   grafico_propostas_intancia.render();
+   grafico_processos_intancia = new ApexCharts(document.querySelector("#grafico-processos"), options_processos);
+   grafico_processos_intancia.render();
 
 };
 
+let lucro_estimado_por_processo;
 // Cria a tabela com os processos e o total de recebimento, pagamento e lucro de cada um
 async function faturamento_processo(consulta) {
    const lucratividade_processos = {};
@@ -289,44 +291,45 @@ async function faturamento_processo(consulta) {
    const resultados = Object.values(lucratividade_processos);
 
    // Se a tabela do datatable ja existir, destroi
-   if (lucro_estimado_por_processo) {
+   if ($.fn.DataTable.isDataTable('.table')) {
       lucro_estimado_por_processo.destroy();
+      $('.table').empty(); // Limpar o HTML da tabela
    }
 
-   lucro_estimado_por_processo = $('.tabela-faturamento-processo').DataTable({
+   lucro_estimado_por_processo = $('.table').DataTable({
       "data": resultados,
       "columns": [
-            { "data": "numero_processo" },
-            { 
-               "data": "recebimento",
-               "className": "recebimento",
-               "render": function (data, type, row) {
-                  return `<span class="badge bg-success-transparent">${data ? data.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'}) : ''}</span>`;
-               }
-            },
-            { 
-               "data": "pagamento",
-               "className": "pagamento",
-               "render": function (data, type, row) {
-                  return `<span class="badge bg-danger-transparent">${data ? data.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'}) : ''}</span>`;
-               }
-            },
-            { 
-               "data": "lucro",
-               "className": "lucro",
-               "render": function (data, type, row) {
-                  return `<span>${data ? data.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'}) : ''}</span>`;
-               }
+         { "data": "numero_processo" },
+         { 
+            "data": "recebimento",
+            "className": "recebimento",
+            "render": function (data, type, row) {
+               return `<span class="badge bg-success-transparent">${data ? data.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'}) : ''}</span>`;
             }
+         },
+         { 
+            "data": "pagamento",
+            "className": "pagamento",
+            "render": function (data, type, row) {
+               return `<span class="badge bg-danger-transparent">${data ? data.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'}) : ''}</span>`;
+            }
+         },
+         { 
+            "data": "lucro",
+            "className": "lucro",
+            "render": function (data, type, row) {
+               return `<span>${data ? data.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'}) : ''}</span>`;
+            }
+         }
       ],
       "language": {
-            url: '/assets/libs/dataTables/dataTables.plugins.pt-br.json' // Tradução para o português do Brasil
+         url: '/assets/libs/dataTables/dataTables.plugins.pt-br.json' // Tradução para o português do Brasil
       },
       "order": [[3, 'desc']],
       "lengthMenu": [[8], [8]],
-      "pageLenght": 8
+      "pageLength": 8
    });
-};
+}
 
 // Retonar um array com o lucro estimado de cada mes
 async function lucro_estimado_mes_a_mes(consulta) {
@@ -362,12 +365,19 @@ async function array_metas(consulta_metas) {
    return array_metas;
 };
 
+let grafico_lucro_estimado_instancia;
 // Cria os graficos de lucro estimado de cada mes
 async function grafico_lucro_estimado(consulta, consulta_metas) {
    const lucro_estimado = await lucro_estimado_mes_a_mes(consulta); // Recebe a consulta do head para criar o array de lucro estimado
    const metas_mensais = await array_metas(consulta_metas); // Recebe a consulta do Sirius para criar o array de metas
 
-   const valores_arrecadados = lucro_estimado.map(item => Number((item.LUCRO_ESTIMADO).toFixed(2)));
+   const valores_arrecadados = [];
+
+   for (let i = 0; i < lucro_estimado.length; i++) {
+      const item = lucro_estimado[i];
+      
+      valores_arrecadados.push(item.LUCRO_ESTIMADO);
+   }
    
    var options = {
       series: [{
@@ -414,7 +424,7 @@ async function grafico_lucro_estimado(consulta, consulta_metas) {
          intersect: false,
          y: {
            formatter: function (val) {
-             return val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+             return val !== undefined ? val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'}) : '';
            }
          }
        },
@@ -433,8 +443,8 @@ async function grafico_lucro_estimado(consulta, consulta_metas) {
 
    };
 
-   const chart = new ApexCharts(document.querySelector("#lucro-estimado-mes-a-mes"), options);
-   chart.render();
+   grafico_lucro_estimado_instancia = new ApexCharts(document.querySelector("#lucro-estimado-mes-a-mes"), options);
+   grafico_lucro_estimado_instancia.render();
 };
 
 async function carrega_indicadores_comercial(IdVendedor) {
@@ -482,8 +492,8 @@ async function carrega_faturamento_mes_comercial_modal(IdVendedor) {
       
       const item_html = `<tr>
                            <td> <span class="fw-semibold">${item.Mes}</span> </td>
-                           <td> <span class="badge ${cor_lucro_efetivo}">${item.Lucro_Efetivo.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})}</span> </td>
                            <td> <span class="badge ${cor_lucro_estimado}">${item.Lucro_Estimado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})}</span> </td>
+                           <td> <span class="badge ${cor_lucro_efetivo}">${item.Lucro_Efetivo.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})}</span> </td>
                            <td> <span class="badge ${cor_meta}">${item.Meta.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})}</span> </td>
                         </tr>`
       
@@ -544,27 +554,42 @@ async function inserir_valores() {
 };
 
 async function limparModal() {
+   // Destruir instâncias dos gráficos ApexCharts, se existirem
+   if (grafico_propostas_intancia) {
+       grafico_propostas_intancia.destroy();
+       grafico_propostas_intancia = null;
+   }
+
+   if (grafico_processos_intancia) {
+       grafico_processos_intancia.destroy();
+       grafico_processos_intancia = null;
+   }
+
+   if (grafico_lucro_estimado_instancia) {
+       grafico_lucro_estimado_instancia.destroy();
+       grafico_lucro_estimado_instancia = null;
+   }
+
    // Remove todas as divs filhas da div grafico-propostas
    const graficoPropostas = document.querySelector('#grafico-propostas');
    const filhosGraficoPropostas = graficoPropostas.querySelectorAll('div');
    filhosGraficoPropostas.forEach(divFilha => {
-      divFilha.remove();
+       divFilha.remove();
    });
 
    // Remove todas as divs filhas da div grafico-processos
    const graficoProcessos = document.querySelector('#grafico-processos');
    const filhosGraficoProcessos = graficoProcessos.querySelectorAll('div');
    filhosGraficoProcessos.forEach(divFilha => {
-      divFilha.remove();
+       divFilha.remove();
    });
 
-   // Remove todas as divs filhas da div grafico-processos
-   const grafico_lucro_estimado = document.querySelector('#lucro-estimado-mes-a-mes');
-   const filhos_grafico_lucro_estimado = grafico_lucro_estimado.querySelectorAll('div');
-   filhos_grafico_lucro_estimado.forEach(divFilha => {
-      divFilha.remove();
+   // Remove todas as divs filhas da div lucro-estimado-mes-a-mes
+   const graficoLucroEstimado = document.querySelector('#lucro-estimado-mes-a-mes');
+   const filhosGraficoLucroEstimado = graficoLucroEstimado.querySelectorAll('div');
+   filhosGraficoLucroEstimado.forEach(divFilha => {
+       divFilha.remove();
    });
-
 };
 
 async function eventos_cliques() {
@@ -588,11 +613,12 @@ async function eventos_cliques() {
    // Ao clicar no card do comercial, abre o modal do mesmo com os respectivos dados
    document.querySelectorAll('.modal-vendedor').forEach(element => {
       element.addEventListener('click', async function(e) {
+         $('#exampleModalXl').modal('show');
+         
          const IdVendedor = this.getAttribute('data-IdVendedor');
          await mostrar_loading_modal(); // Adiciona o loading ao abrir o modal
          await carrega_indicadores_comercial(IdVendedor);
          await remover_loading(); // remove o loading ao fechar o modal
-         $('#exampleModalXl').modal('show');
       })
    });
 
@@ -612,6 +638,18 @@ async function eventos_cliques() {
       limpar_inputs();
       verificar_habilitacao();
    })
+
+   // ========== FECHA MODAL ========== // 
+   // Adiciona evento ao modal para limpar o DataTable ao fechar o modal
+   $('#exampleModalXl').on('hidden.bs.modal', async function () {
+      await limparModal();
+      if ($.fn.DataTable.isDataTable('.table')) {
+         lucro_estimado_por_processo.destroy();
+         $('.table').empty(); // Limpar o HTML da tabela
+      }
+   });
+   
+   // ========== FECHA MODAL ========== // 
 
 };
 
