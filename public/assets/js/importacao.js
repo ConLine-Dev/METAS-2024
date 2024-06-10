@@ -677,57 +677,21 @@ async function remover_loading() {
   let loading = document.querySelector(".loading");
 
   corpoDashboard.style.display = "block";
-  setTimeout(() => {
-    loading.style.display = "none";
-  }, 1000);
+  loading.style.display = "none";
 }
 
 async function main() {
   const teus_tons_ano_anterior = await Thefetch("/api/teus_tons_ano_anterior");
   const teus_tons_ano_atual = await Thefetch("/api/teus_tons_ano_atual");
   await mostrar_loading();
-  await cards_anuais(
-    teus_tons_ano_anterior,
-    teus_tons_ano_atual,
-    "IM",
-    "FCL",
-    "TEUS"
-  );
+  await cards_anuais(teus_tons_ano_anterior,teus_tons_ano_atual,"IM","FCL","TEUS");
   // await cards_anuais(teus_tons_ano_anterior, teus_tons_ano_atual, 'IM', 'LCL', 'TONS');
-  await cards_anuais_LCL(
-    teus_tons_ano_anterior,
-    teus_tons_ano_atual,
-    "IM",
-    "LCL"
-  );
-  await cards_anuais(
-    teus_tons_ano_anterior,
-    teus_tons_ano_atual,
-    "IA",
-    "AÉREO",
-    "TONS"
-  );
-  await graficos_mensais(
-    teus_tons_ano_anterior,
-    teus_tons_ano_atual,
-    "IM",
-    "FCL",
-    "TEUS"
-  );
+  await cards_anuais_LCL(teus_tons_ano_anterior,teus_tons_ano_atual,"IM","LCL");
+  await cards_anuais(teus_tons_ano_anterior,teus_tons_ano_atual,"IA","AÉREO","TONS");
+  await graficos_mensais(teus_tons_ano_anterior,teus_tons_ano_atual,"IM","FCL","TEUS");
   // await graficos_mensais(teus_tons_ano_anterior, teus_tons_ano_atual, 'IM', 'LCL', 'TONS')
-  await graficos_mensais_LCL(
-    teus_tons_ano_anterior,
-    teus_tons_ano_atual,
-    "IM",
-    "LCL"
-  );
-  await graficos_mensais(
-    teus_tons_ano_anterior,
-    teus_tons_ano_atual,
-    "IA",
-    "AÉREO",
-    "TONS"
-  );
+  await graficos_mensais_LCL(teus_tons_ano_anterior,teus_tons_ano_atual,"IM","LCL");
+  await graficos_mensais(teus_tons_ano_anterior,teus_tons_ano_atual,"IA","AÉREO","TONS");
   await remover_loading();
 }
 

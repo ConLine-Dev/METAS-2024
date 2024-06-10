@@ -657,9 +657,7 @@ async function remover_loading() {
   let loading = document.querySelector(".loading");
 
   corpoDashboard.style.display = "block";
-  setTimeout(() => {
-    loading.style.display = "none";
-  }, 1000);
+  loading.style.display = "none";
 }
 
 // Função para organizar a execução das demais
@@ -667,6 +665,7 @@ async function main() {
   const processos_ano_anterior = await Thefetch("/api/processos-ano-anterior");
   const processos_ano_atual = await Thefetch("/api/processos-ano-atual");
   await mostrar_loading();
+  
   await cards_anuais(processos_ano_anterior, processos_ano_atual);
   await graficos_mensais(processos_ano_anterior, processos_ano_atual, "IM");
   await graficos_mensais(processos_ano_anterior, processos_ano_atual, "IA");

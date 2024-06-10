@@ -32,9 +32,7 @@
 <body>
    <!-- LOADING -->
    <div class="loading" style="display: block;">
-      <div class="loadingio-spinner-eclipse-jj809cj2h7" id="loading-icon">
-         <img src="/assets/images/brand-logos/SLOGAN VERMELHO.gif" class="navbar-brand-img" id="loading-img" alt="main_logo">
-      </div>
+      <img src="/assets/images/brand-logos/SLOGAN VERMELHO.gif" class="navbar-brand-img" id="loading-img" alt="main_logo">
    </div>
    <!-- /LOADING -->
 
@@ -137,8 +135,8 @@
                      <thead>
                         <tr>
                            <th scope="col">Mês</th>
-                           <th scope="col">Efetivo</th>
                            <th scope="col">Estimado</th>
+                           <th scope="col">Efetivo</th>
                            <th scope="col">Meta</th>
                         </tr>
                      </thead>
@@ -169,14 +167,12 @@
       <div class="modal-dialog modal-xl">
 
          <!-- LOADING -->
-         <div class="loading-modal" style="display: none;">
-            <div class="loadingio-spinner-eclipse-jj809cj2h7" id="loading-icon">
-               <img src="/assets/images/brand-logos/SLOGAN VERMELHO.gif" class="navbar-brand-img" id="loading-img" alt="main_logo">
-            </div>
+         <div class="loading-modal" style="display: block;">
+            <img src="/assets/images/brand-logos/SLOGAN VERMELHO.gif" class="navbar-brand-img" id="loading-img" alt="main_logo">
          </div>
          <!-- /LOADING -->
 
-         <div class="modal-content">
+         <div class="modal-content" style="min-height: 90%;">
 
             <div class="modal-header">
                <h6 class="modal-title nome-comercial" id="exampleModalXlLabel">---------- ---------</h6> <button type="button"
@@ -248,7 +244,7 @@
                                  <div class="d-sm-flex">
                                     <div class="me-3 mb-3 mb-sm-0"> 
                                        <input class="form-control form-control-sm" id="pesquisar-processos" type="text" placeholder="Pesquisar" aria-label=".form-control-sm example"> 
-                                       </div>
+                                    </div>
                                  </div>
                               </div>
                               <div class="card-body">
@@ -506,14 +502,14 @@
                               <div class="team-header">
                                  <div class="d-flex flex-wrap align-items-center justify-content-between">
                                     <div class="h5 fw-semibold mb-0">Comerciais</div>
-                                    <div class="d-flex align-items-center">
+                                    <!-- <div class="d-flex align-items-center">
                                        <div class="input-group"> 
                                           <input type="text" class="form-control bg-light border-0" placeholder="Pesquisar" aria-describedby="search-team-member"> 
                                           <button class="btn btn-light" type="button" id="search-team-member">
                                              <i class="ri-search-line text-muted"></i>
                                           </button> 
                                        </div>
-                                    </div>
+                                    </div> -->
                                  </div>
                               </div>
                            </div>
@@ -553,8 +549,6 @@
    <div id="responsive-overlay"></div>
    <span class="scrollToTop" style="display: none;"></span>
 
-   <script type="module" src="/assets/js/admin-meta-comercial.js"></script>
-   
    <script src="/assets/libs/dataTables/jquery-3.6.1.min.js"></script>
    <script src="/assets/libs/dataTables/jquery.dataTables.min.js"></script>
    <script src="/assets/libs/dataTables/dataTables.bootstrap5.min.js"></script>
@@ -565,6 +559,8 @@
    <script src="/assets/js/custom.js"></script>
    <script src="/assets/js/defaultmenu.min.js"></script>
    <script src="/assets/libs/apexcharts/apexcharts.min.js"></script>
+
+   <script type="module" src="/assets/js/admin-meta-comercial.js"></script>
 
    <script>
 

@@ -391,7 +391,7 @@ function logout(element) {
     const scrollTop = window.scrollY || window.pageYOffset;
     const clientHt = $rootElement.scrollHeight - $rootElement.clientHeight;
     if (window.scrollY > 100) {
-      scrollToTop.style.display = "flex";
+      scrollToTop.style.display = "none";
     } else {
       scrollToTop.style.display = "none";
     }
