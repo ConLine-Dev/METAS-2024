@@ -286,6 +286,16 @@ async function iniciarPagina() {
 
 }
 
+function openSwal(){
+
+    Swal.fire({
+      icon: "success",
+      title: "Pronto!",
+      text: "A recompra foi cadastrada.",
+    });
+}
+
+
 function confirmar() {
   const numero_processo = document.getElementById("numeroProcesso").value;
   const id_moeda = document.getElementById("tipoMoeda").value;
@@ -294,6 +304,9 @@ function confirmar() {
 
   let url = `/api/operacional_por_processo?numero_processo=${numero_processo}&id_moeda=${id_moeda}&valor=${valor}&descricao=${descricao}`
   fetch(url).then(data => console.log(data));
+
+ openSwal();
+
 }
 
 async function criarGraficos() {
@@ -502,13 +515,15 @@ async function criarGraficos() {
 }
 
 async function faturamento_processo(consulta) {
+
   const idUsuarioLogado = await usuario_logado(listaOperacionais);
-  const lucratividade_processos = {};
+  const lucratividade_processos = [];
 
   for (let i = 0; i < consulta.length; i++) {
     const item = consulta[i];
     let moeda = '';
     if (item.id_operacional === idUsuarioLogado) {
+      console.log(idUsuarioLogado);
       const numero_processo = item.numero_processo;
       if (item.id_moeda == 1) {
         moeda = 'USD';
@@ -519,19 +534,17 @@ async function faturamento_processo(consulta) {
       } else if (item.id_moeda == 4) {
         moeda = 'GBP';
       }
-      lucratividade_processos[numero_processo] = {
+      lucratividade_processos.push({
         numero_processo: item.numero_processo,
         id_moeda: moeda,
         valor: item.valor,
         data: item.data
-      };
+      });
     }
   }
 
-  const resultados = Object.values(lucratividade_processos);
-
   lucro_estimado_por_processo = $('.table').DataTable({
-    "data": resultados,
+    "data": lucratividade_processos,
     "columns": [
       { "data": "numero_processo" },
       {
@@ -554,7 +567,12 @@ async function faturamento_processo(consulta) {
     },
     "order": [[0, 'desc']],
     "lengthMenu": [[7], [7]],
-    "pageLenght": 8
+    "pageLenght": 8,
+    "searching": true
+  });
+
+  $('#searchBox').on('keyup', function() {
+    lucro_estimado_por_processo.search(this.value).draw();
   });
 };
 
