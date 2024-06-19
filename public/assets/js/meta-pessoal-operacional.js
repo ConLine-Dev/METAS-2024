@@ -3,8 +3,13 @@ const dadosLogin = JSON.parse(localStorage.getItem('metasUser'));
 const recompras_operacional = await Thefetch('/api/recompras_operacional');
 const quantidade_emails = await Thefetch('/api/emails_enviados_recebidos');
 const taxas_coversao = await Thefetch('/api/taxas_conversao');
+const divergencias_financeiras = await Thefetch('/api/divergencias_financeiras');
+const divergencias_CE = await Thefetch('/api/divergencias_ce_mercante');
+const totalProcessos = await Thefetch('/api/quantidade_processos');
 
-let lucro_estimado_por_processo;
+let tabelaRecompras;
+let tabelaDivFinanceiras;
+let tabelaDivCEMercante;
 
 let arrayEmailsEnviados = [];
 let arrayEmailsRecebidos = [];
@@ -178,16 +183,9 @@ async function iniciarPagina() {
   const arrayRecompras = await recomprasCalculo();
   const recompraTotalConvertida = arrayRecompras.totalConvertidoBRL;
 
-  const retorno_divCE = await fetch('/api/divergencias_ce_mercante');
-  const divergencias_CE = await retorno_divCE.json();
   var totalDivergenciasCE = 0;
-
-  const retorno_divFinanceiro = await fetch('/api/divergencias_financeiras');
-  const divergencias_financeiras = await retorno_divFinanceiro.json();
   var totalDivergenciasFinanceiras = 0;
 
-  const retorno_processos = await fetch('/api/quantidade_processos');
-  const totalProcessos = await retorno_processos.json();
   var totalProcessosAbertos = 0;
   var totalProcessosCancelados = 0;
 
@@ -514,6 +512,102 @@ async function criarGraficos() {
   recompraChart.render();
 }
 
+async function criar_tabelas_divergencias(){
+
+  const idUsuarioLogado = await usuario_logado(listaOperacionais);
+  const listaDivFinanceiro = [];
+  const listaDivCEMercante = [];
+
+  for (let index = 0; index < divergencias_financeiras.length; index++) {
+    const item = divergencias_financeiras[index];
+
+    if(idUsuarioLogado === 49993){
+      listaDivFinanceiro.push({
+        numero_processo: item.Numero_Processo,
+        responsavel: item.Nome
+      });
+    }
+    else if(item.IdResponsavel === idUsuarioLogado){
+      listaDivFinanceiro.push({
+        numero_processo: item.Numero_Processo,
+        responsavel: item.Nome
+      });
+    }
+  }
+
+  tabelaDivFinanceiras = $('#tabelaDivFinanceiro').DataTable({
+    "data": listaDivFinanceiro,
+    "columns": [
+      { "data": "numero_processo" },
+      { "data": "responsavel" }
+    ],
+    "language": {
+      url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json' // Tradução para o português do Brasil
+    },
+    "order": [[0, 'desc']],
+    "lengthMenu": [[14], [14]],
+    "pageLenght": 8,
+    "searching": true
+  });
+
+  $('#searchBox2').on('keyup', function() {
+    tabelaDivFinanceiras.search(this.value).draw();
+  });
+
+  for (let index = 0; index < divergencias_CE.length; index++) {
+    const item = divergencias_CE[index];
+    let tipo = '';
+    let inconsistencia = '';
+
+    if (divergencias_CE[index].Divergencia == null) {
+      tipo = 'Retificação';
+      inconsistencia = divergencias_CE[index].Retificacao;
+    } else {
+      tipo = 'Divergência';
+      inconsistencia = divergencias_CE[index].Divergencia;
+    }
+
+    if(idUsuarioLogado === 49993){
+      listaDivCEMercante.push({
+        numero_processo: item.Processo,
+        tipo: tipo,
+        setor: item.Setor,
+        inconsistencia: inconsistencia
+      });
+    }
+    else if(item.IdResponsavel === idUsuarioLogado){
+      listaDivCEMercante.push({
+        numero_processo: item.Processo,
+        tipo: item.Tipo,
+        setor: item.Setor,
+        inconsistencia: inconsistencia
+      });
+    }
+  }
+
+  tabelaDivCEMercante = $('#tabelaDivCE').DataTable({
+    "data": listaDivCEMercante,
+    "columns": [
+      { "data": "numero_processo" },
+      { "data": "tipo" },
+      { "data": "setor" },
+      { "data": "inconsistencia" }
+    ],
+    "language": {
+      url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json' // Tradução para o português do Brasil
+    },
+    "order": [[0, 'desc']],
+    "lengthMenu": [[14], [14]],
+    "pageLenght": 8,
+    "searching": true
+  });
+
+  $('#searchBox3').on('keyup', function() {
+    tabelaDivCEMercante.search(this.value).draw();
+  });
+
+}
+
 async function faturamento_processo(consulta) {
 
   const idUsuarioLogado = await usuario_logado(listaOperacionais);
@@ -522,9 +616,24 @@ async function faturamento_processo(consulta) {
   for (let i = 0; i < consulta.length; i++) {
     const item = consulta[i];
     let moeda = '';
-    if (item.id_operacional === idUsuarioLogado) {
-      console.log(idUsuarioLogado);
-      const numero_processo = item.numero_processo;
+    if (idUsuarioLogado === 49993){
+      if (item.id_moeda == 1) {
+        moeda = 'USD';
+      } else if (item.id_moeda == 2) {
+        moeda = 'BRL';
+      } else if (item.id_moeda == 3) {
+        moeda = 'EUR';
+      } else if (item.id_moeda == 4) {
+        moeda = 'GBP';
+      }
+      lucratividade_processos.push({
+        numero_processo: item.numero_processo,
+        id_moeda: moeda,
+        valor: item.valor,
+        data: item.data
+      });
+    }
+    else if (item.id_operacional === idUsuarioLogado) {
       if (item.id_moeda == 1) {
         moeda = 'USD';
       } else if (item.id_moeda == 2) {
@@ -543,7 +652,7 @@ async function faturamento_processo(consulta) {
     }
   }
 
-  lucro_estimado_por_processo = $('.table').DataTable({
+  tabelaRecompras = $('#tabelaRecompras').DataTable({
     "data": lucratividade_processos,
     "columns": [
       { "data": "numero_processo" },
@@ -572,7 +681,7 @@ async function faturamento_processo(consulta) {
   });
 
   $('#searchBox').on('keyup', function() {
-    lucro_estimado_por_processo.search(this.value).draw();
+    tabelaRecompras.search(this.value).draw();
   });
 };
 
@@ -608,6 +717,7 @@ async function main() {
   await remover_loading();
   await criarArrayEmails();
   await eventos_clique();
+  await criar_tabelas_divergencias();
 }
 
 await main();

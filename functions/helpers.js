@@ -600,7 +600,8 @@ const helpers = {
          `SELECT
          Lhs.IdLogistica_House,
          Lhs.Numero_Processo,
-         Par.IdResponsavel
+         Par.IdResponsavel,
+         pss.Nome
      FROM
          mov_Atividade Atv
          LEFT OUTER JOIN
@@ -609,11 +610,13 @@ const helpers = {
          mov_Logistica_House Lhs ON Lhs.IdProjeto_Atividade = Atv.IdProjeto_Atividade
          LEFT OUTER JOIN
          mov_Projeto_Atividade_Responsavel Par ON Par.IdProjeto_Atividade = Lhs.IdProjeto_Atividade
+         LEFT OUTER JOIN
+         cad_Pessoa pss ON pss.IdPessoa = Par.IdResponsavel
      WHERE
               Atv.IdTarefa = 1625 /*Conferir Valores*/
          AND Ath.Situacao = 3 /*Paralisada*/
          AND Par.IdPapel_Projeto = 2 /*Operacional*/
-         AND DATEPART(year, Lhs.Data_Abertura_Processo) = 2024;
+         AND DATEPART(year, Lhs.Data_Abertura_Processo) = 2024
          `)
 
       return result;
