@@ -545,9 +545,11 @@ async function criar_tabelas_divergencias(){
       url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json' // Tradução para o português do Brasil
     },
     "order": [[0, 'desc']],
-    "lengthMenu": [[14], [14]],
+    "lengthMenu": [[13], [13]],
     "pageLenght": 8,
-    "searching": true
+    "searching": true,
+    "dom": 'fBrtip',
+    "buttons": ['excel']
   });
 
   $('#searchBox2').on('keyup', function() {
@@ -597,9 +599,11 @@ async function criar_tabelas_divergencias(){
       url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json' // Tradução para o português do Brasil
     },
     "order": [[0, 'desc']],
-    "lengthMenu": [[14], [14]],
+    "lengthMenu": [[13], [13]],
     "pageLenght": 8,
-    "searching": true
+    "searching": true,
+    "dom": 'fBrtip',
+    "buttons": ['excel']
   });
 
   $('#searchBox3').on('keyup', function() {
@@ -675,11 +679,13 @@ async function faturamento_processo(consulta) {
       url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json' // Tradução para o português do Brasil
     },
     "order": [[0, 'desc']],
-    "lengthMenu": [[7], [7]],
+    "lengthMenu": [[6], [6]],
     "pageLenght": 8,
-    "searching": true
+    "searching": true,
+    "dom": 'fBrtip',
+    "buttons": ['excel']
   });
-
+  
   $('#searchBox').on('keyup', function() {
     tabelaRecompras.search(this.value).draw();
   });
