@@ -206,6 +206,18 @@ router.get('/meta-financeira-comercial', async (req, res, next) => {
     }
 });
 
+router.get('/meta_financeira_comercial_datatables_data_abertura', async (req, res, next) => {
+    try {
+        const { IdVendedor, email } = req.query;
+        const result = await helpers.meta_financeira_comercial_datatables_data_abertura(IdVendedor, email);
+
+        res.status(200).json(result)
+    } catch (error) {
+        
+        res.status(404).json(error)
+    }
+});
+
 router.get('/proposta-meta-comercial', async (req, res, next) => {
     try {
         const { IdVendedor, email } = req.query;
