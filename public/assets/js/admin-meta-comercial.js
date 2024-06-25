@@ -1,4 +1,3 @@
-const admin_cards_comerciais = await Thefetch('/api/admin-cards-comerciais');
 const meses_grafico = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
 
 const meses = [
@@ -190,28 +189,28 @@ async function card_lucro_efetivo_mes_atual(consulta) {
 };
 
 // Pega o lucro estimado do vendedor no mes atual
-async function card_meta_comercial(consulta) {
-   const data_atual = new Date();
-   const mes_atual = data_atual.getMonth() + 1;
+// async function card_meta_comercial(consulta) {
+//    const data_atual = new Date();
+//    const mes_atual = data_atual.getMonth() + 1;
 
-   let valor_meta = 0; // Inicializa a variável valor_meta como 0
+//    let valor_meta = 0; // Inicializa a variável valor_meta como 0
 
-   for (let i = 0; i < consulta.length; i++) {
-      const item = consulta[i];
+//    for (let i = 0; i < consulta.length; i++) {
+//       const item = consulta[i];
 
-      // Verifica se o usuario logado é um vendedor e se existe registros de valores para o mes atual para somar
-      if (mes_atual === item.mes) {
-         valor_meta = item.valor_meta;
-      }
-   }
+//       // Verifica se o usuario logado é um vendedor e se existe registros de valores para o mes atual para somar
+//       if (mes_atual === item.mes) {
+//          valor_meta = item.valor_meta;
+//       }
+//    }
 
-   const html_valor_meta = document.getElementById('meta-mensal');
-   if (valor_meta !== undefined) {
-      html_valor_meta.textContent = valor_meta.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-   } else {
-      html_valor_meta.textContent = 'R$ 0,00'; // Define um valor padrão se não houver valor_meta
-   }
-};
+//    const html_valor_meta = document.getElementById('meta-mensal');
+//    if (valor_meta !== undefined) {
+//       html_valor_meta.textContent = valor_meta.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+//    } else {
+//       html_valor_meta.textContent = 'R$ 0,00'; // Define um valor padrão se não houver valor_meta
+//    }
+// };
 
 // Retorna o total de processo, proposta o que for passado na consulta, mas tem que tem o ID_VENDEDOR e o MES na consulta
 async function quantidade_itens_mes_atual(consulta, situacao) {
@@ -220,6 +219,7 @@ async function quantidade_itens_mes_atual(consulta, situacao) {
 
    return total;
 };
+
 let grafico_processos_intancia, grafico_propostas_intancia;
 // Cria o grafico com o total de propostas e processos aprovados e cancelados
 async function grafico_proposta_processo(proposta_meta_comercial, processos_meta_comercial) {
@@ -360,7 +360,7 @@ async function faturamento_processo(consulta) {
    });
 }
 
-// Retonar um array com o lucro estimado de cada mes
+// Retonar um array com o lucro efetivo de cada mes
 async function lucro_efetivo_mes_a_mes(consulta) {
    const soma_por_mes = [];
 
@@ -703,6 +703,8 @@ async function remover_loading() {
 };
 
 async function main() {
+   const admin_cards_comerciais = await Thefetch('/api/admin-cards-comerciais');
+
    await vendedores(admin_cards_comerciais);
    await selecionar_vendedores(admin_cards_comerciais);
    await eventos_cliques();
