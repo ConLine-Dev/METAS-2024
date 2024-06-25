@@ -137,10 +137,7 @@ async function card_metas_anuais(fluxo_ano_anterior, fluxo_ano_atual) {
 }
 
 // Pega o valor arrecadado do mes atual e vai acrescentando ou diminuindo a meta do proximo mes
-async function ajustarMetasComBaseEmResultadosAutomatico(
-  metasMensais,
-  resultadosMensais
-) {
+async function ajustarMetasComBaseEmResultadosAutomatico(metasMensais, resultadosMensais) {
   for (let i = 0; i < resultadosMensais.length; i++) {
     const valorArrecadado = resultadosMensais[i].VALOR_CONVERTIDO_REAL;
 
@@ -370,8 +367,6 @@ async function grafico_modais(fluxo_ano_atual) {
     }
   }
 
-  // Tirando o modal e deixando somente os valores do objeto
-  const porcentagens_somente_numero = Object.values(porcentagens);
 
   const porcentagem_IM = document.querySelector("#porcentagem_IM");
   const porcentagem_EM = document.querySelector("#porcentagem_EM");
@@ -379,19 +374,22 @@ async function grafico_modais(fluxo_ano_atual) {
   const porcentagem_EA = document.querySelector("#porcentagem_EA");
   const porcentagem_OUTROS = document.querySelector("#porcentagem_OUTROS");
 
-  porcentagem_IM.textContent = porcentagens_somente_numero[0] + "%";
-  porcentagem_OUTROS.textContent = porcentagens_somente_numero[1] + "%";
-  porcentagem_EM.textContent = porcentagens_somente_numero[2] + "%";
-  porcentagem_EA.textContent = porcentagens_somente_numero[3] + "%";
-  porcentagem_IA.textContent = porcentagens_somente_numero[4] + "%";
+  porcentagem_IM.textContent = porcentagens.IM + "%";
+  porcentagem_EM.textContent = porcentagens.EM + "%";
+  porcentagem_EA.textContent = porcentagens.EA + "%";
+  porcentagem_IA.textContent = porcentagens.IA + "%";
+  porcentagem_OUTROS.textContent = porcentagens.OUTROS + "%";
+
+  let valores = [porcentagens.IM, porcentagens.EM, porcentagens.EA, porcentagens.IA, porcentagens.OUTROS];
+  let labels = ["IM", "EM", "EA", "IA", "OUTROS"];
 
   var options = {
-    series: porcentagens_somente_numero,
+    series: valores,
     chart: {
       type: "donut",
       width: "123%",
     },
-    labels: ["IM", "OUTROS", "EM", "EA", "IA"],
+    labels: labels,
     legend: {
       show: true,
       position: "bottom",
@@ -405,12 +403,12 @@ async function grafico_modais(fluxo_ano_atual) {
   // Verifique se o gráfico já existe
   if (atualizacao_chart_2) {
     // Se existir, atualize os dados e renderize novamente
-    atualizacao_chart_2.updateSeries(porcentagens_somente_numero);
-    porcentagem_IM.textContent = porcentagens_somente_numero[0] + "%";
-    porcentagem_OUTROS.textContent = porcentagens_somente_numero[1] + "%";
-    porcentagem_EM.textContent = porcentagens_somente_numero[2] + "%";
-    porcentagem_EA.textContent = porcentagens_somente_numero[3] + "%";
-    porcentagem_IA.textContent = porcentagens_somente_numero[4] + "%";
+    atualizacao_chart_2.updateSeries(porcentagens);
+    porcentagem_IM.textContent = porcentagens.IM + "%";
+    porcentagem_EM.textContent = porcentagens.EM + "%";
+    porcentagem_EA.textContent = porcentagens.EA + "%";
+    porcentagem_IA.textContent = porcentagens.IA + "%";
+    porcentagem_OUTROS.textContent = porcentagens.OUTROS + "%";
   } else {
     // Se não existir, crie um novo gráfico
     atualizacao_chart_2 = new ApexCharts(
