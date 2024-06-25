@@ -127,7 +127,7 @@ const helpers = {
 
    admin_cards_comerciais: async function() {
       const result = await executeQuerySQL(`
-         WITH Lucro_Estimado_Vendedor AS (
+         WITH Lucro_Vendedor AS (
             SELECT
                Lhs.IdVendedor,
                CASE
@@ -135,7 +135,8 @@ const helpers = {
                   WHEN Lms.Tipo_Operacao = 2 THEN COALESCE(Lms.Data_Desembarque, Lms.Data_Previsao_Desembarque)
                   ELSE COALESCE(Lms.Data_Embarque, Lms.Data_Previsao_Embarque)
                END AS Data_Compensacao,
-               Lmd.Lucro_Estimado
+               Lmd.Lucro_Estimado,
+               Lmd.Lucro_Efetivo
             FROM
                mov_Logistica_Moeda Lmd
             LEFT OUTER JOIN
@@ -156,7 +157,8 @@ const helpers = {
          Ven.EMail,
          COALESCE(Lhs.Processos, 0) AS Processos,
          COALESCE(Pfr.Propostas, 0) AS Propostas,
-         COALESCE(Lmd.Lucro_Estimado, 0) AS Lucro_Estimado
+         COALESCE(Lmd.Lucro_Estimado, 0) AS Lucro_Estimado,
+         COALESCE(Lmd.Lucro_Efetivo, 0) AS Lucro_Efetivo
       FROM (
          SELECT
             Lhs.idVendedor,
@@ -175,9 +177,10 @@ const helpers = {
       LEFT OUTER JOIN (
          SELECT
             IdVendedor,
-            SUM(Lucro_Estimado) AS Lucro_Estimado
+            SUM(Lucro_Estimado) AS Lucro_Estimado,
+            SUM(Lucro_Efetivo) AS Lucro_Efetivo
          FROM
-            Lucro_Estimado_Vendedor
+            Lucro_Vendedor
          WHERE
             YEAR(Data_Compensacao) = ${anoAtual}
             AND Data_Compensacao < GETDATE()
@@ -413,7 +416,7 @@ const helpers = {
       const where_vendedor = IdVendedor ? `and Lhs.IdVendedor = ${IdVendedor}` : '';
       const where_email = email ? `and Fnc.EMail = '${email}'` : '';
       const result = await executeQuerySQL(`
-         WITH Lucro_Estimado_Vendedor AS (
+         WITH Lucro_Vendedor AS (
             SELECT
                Lhs.IdVendedor,
                Lhs.IdLogistica_House,
@@ -472,10 +475,59 @@ const helpers = {
          LEFT OUTER JOIN
             vis_Funcionario Fnc ON Fnc.IdPessoa = Lhs.IdVendedor
          LEFT OUTER JOIN
-            Lucro_Estimado_Vendedor Lmd ON Lmd.IdLogistica_House = Lhs.IdLogistica_House
+            Lucro_Vendedor Lmd ON Lmd.IdLogistica_House = Lhs.IdLogistica_House
          WHERE
             YEAR(Data_Compensacao) = ${anoAtual}
             AND Data_Compensacao < GETDATE()
+            AND Lhs.Numero_Processo NOT LIKE '%test%'
+            ${where_vendedor}
+            ${where_email}
+      `)
+
+      return result;
+   },
+
+   meta_financeira_comercial_datatables_data_abertura: async function(IdVendedor, email) {
+      const where_vendedor = IdVendedor ? `and Lhs.IdVendedor = ${IdVendedor}` : '';
+      const where_email = email ? `and Fnc.EMail = '${email}'` : '';
+      const result = await executeQuerySQL(`         
+         SELECT
+            TOP 100
+            Lhs.IdLogistica_House AS ID_LOGISTICA_HOUSE,
+         
+            Lhs.Numero_Processo AS NUMERO_PROCESSO,
+            Cli.IdPessoa AS ID_CLIENTE,
+            Cli.nome AS CLIENTE,
+         
+            DATEPART(YEAR, Lhs.Data_Abertura_Processo) AS ANO,
+            DATEPART(MONTH, Lhs.Data_Abertura_Processo) AS MES,
+         
+            CASE Lhs.Situacao_Agenciamento
+               WHEN 7 THEN 'CANCELADO'
+               ELSE 'PROCESSO'
+            END AS Situacao,
+         
+            Lhs.IdVendedor AS ID_VENDEDOR,
+            Fnc.Nome AS VENDEDOR,
+            Fnc.EMail AS EMAIL_VENDEDOR,
+         
+            COALESCE(Lmd.Total_Pagamento, 0) AS TOTAL_PAGAMENTO,
+            COALESCE(Lmd.Total_Recebimento, 0) AS TOTAL_RECEBIMENTO,
+         
+            COALESCE(Lmd.Lucro_Estimado, 0) AS LUCRO_ESTIMADO,
+            COALESCE(Lmd.Lucro_Efetivo, 1) AS LUCRO_EFETIVO
+         
+         FROM
+            mov_Logistica_House Lhs
+         LEFT OUTER JOIN
+            cad_Pessoa Cli ON Cli.IdPessoa = Lhs.IdCliente
+         LEFT OUTER JOIN
+            vis_Funcionario Fnc ON Fnc.IdPessoa = Lhs.IdVendedor
+         LEFT OUTER JOIN
+            mov_Logistica_Moeda Lmd ON Lmd.IdLogistica_House = Lhs.IdLogistica_House
+         WHERE
+            YEAR(Lhs.Data_Abertura_Processo) = ${anoAtual}
+            AND Lhs.Numero_Processo NOT LIKE '%test%'
             ${where_vendedor}
             ${where_email}
       `)
