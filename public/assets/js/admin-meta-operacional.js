@@ -4,7 +4,7 @@ const conversao_taxas = await Thefetch('/api/taxas_conversao');
 const quantidade_processos = await Thefetch('/api/quantidade_processos');
 const quantidade_emails = await Thefetch('/api/emails_enviados_recebidos');
 
-let lucro_estimado_por_processo;
+let tabelaRecompras;
 
 let recompraUSD = 0;
 let recompraBRL = 0;
@@ -738,15 +738,15 @@ async function criarTabelaRecompras(consulta) {
 
   const resultados = Object.values(lucratividade_processos);
 
-  if (lucro_estimado_por_processo) {
-    lucro_estimado_por_processo.destroy();
+  if (tabelaRecompras) {
+    tabelaRecompras.destroy();
  }
 
   $('#exampleModalXl').on('hidden.bs.modal', function () {
-    $('.table').empty();
+    $('#tabelaRecompras').empty();
   });
 
-  lucro_estimado_por_processo = $('.table').DataTable({
+  tabelaRecompras = $('#tabelaRecompras').DataTable({
     "data": resultados,
     "columns": [
       { "data": "numero_processo" },
@@ -769,9 +769,17 @@ async function criarTabelaRecompras(consulta) {
       url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json' // Tradução para o português do Brasil
     },
     "order": [[0, 'desc']],
-    "lengthMenu": [[7], [7]],
-    "pageLenght": 8
+    "lengthMenu": [[6], [6]],
+    "pageLength": 7,
+    "dom": 'fBrtip',
+    "buttons": ['excel'],
+    "searching": false
   });
+  
+  $('#searchBox').on('keyup', function() {
+    tabelaRecompras.search(this.value).draw();
+  });
+  
 };
 
 async function main() {
