@@ -104,13 +104,16 @@ async function vendedores(consulta) {
 
                   <div class="team-member-stats d-sm-flex justify-content-evenly">
                         <div class="text-center p-3 my-auto">
-                           <p class="fw-semibold mb-0">Propostas Aprovadas</p><span class="text-muted fs-12">${item.Propostas}</span>
+                           <p class="fw-semibold mb-0">Prop. Aprovadas</p><span class="text-muted fs-12">${item.Propostas}</span>
                         </div>
                         <div class="text-center p-3 my-auto">
                            <p class="fw-semibold mb-0">Processos</p><span class="text-muted fs-12">${item.Processos}</span>
                         </div>
                         <div class="text-center p-3 my-auto">
                            <p class="fw-semibold mb-0">Lucro Estimado</p><span class="text-muted fs-12">${item.Lucro_Estimado.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</span>
+                        </div>
+                        <div class="text-center p-3 my-auto">
+                           <p class="fw-semibold mb-0">Lucro Efetivo</p><span class="text-muted fs-12">${item.Lucro_Efetivo.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</span>
                         </div>
                   </div>
                </div>
@@ -166,6 +169,24 @@ async function card_lucro_estimado_mes_atual(consulta) {
 
    const html_lucro_estimado = document.getElementById('lucro-estimado');
    html_lucro_estimado.textContent = lucro_estimado.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
+};
+
+// Pega o lucro estimado do vendedor no mes atual
+async function card_lucro_efetivo_mes_atual(consulta) {
+   const data_atual = new Date();
+   const mes_atual = data_atual.getMonth() + 1;
+
+   // Usa o reduce para somar os valores de lucro estimado do mes atual
+   const Lucro_Efetivo = consulta.reduce((total, item) => {
+      // Verifica se o usuario logado é um vendedor e se existe registros de valores para o mes atual para somar
+      if (mes_atual === item.MES) {
+         return total + item.LUCRO_EFETIVO;
+      }
+      return total;
+   }, 0);
+
+   const html_Lucro_Efetivo = document.getElementById('lucro-efetivo');
+   html_Lucro_Efetivo.textContent = Lucro_Efetivo.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
 };
 
 // Pega o lucro estimado do vendedor no mes atual
@@ -271,7 +292,7 @@ async function grafico_proposta_processo(proposta_meta_comercial, processos_meta
 
 };
 
-let lucro_estimado_por_processo;
+let lucro_por_processo;
 // Cria a tabela com os processos e o total de recebimento, pagamento e lucro de cada um
 async function faturamento_processo(consulta) {
    const lucratividade_processos = {};
@@ -283,7 +304,8 @@ async function faturamento_processo(consulta) {
          numero_processo: item.NUMERO_PROCESSO,
          pagamento: item.TOTAL_PAGAMENTO,
          recebimento: item.TOTAL_RECEBIMENTO,
-         lucro: item.LUCRO_ESTIMADO
+         lucro_est: item.LUCRO_ESTIMADO,
+         lucro_efe: item.LUCRO_EFETIVO
       };
    }
 
@@ -291,12 +313,12 @@ async function faturamento_processo(consulta) {
    const resultados = Object.values(lucratividade_processos);
 
    // Se a tabela do datatable ja existir, destroi
-   if ($.fn.DataTable.isDataTable('.table')) {
-      lucro_estimado_por_processo.destroy();
-      $('.table').empty(); // Limpar o HTML da tabela
+   if ($.fn.DataTable.isDataTable('.tabela-faturamento-processo')) {
+      lucro_por_processo.destroy();
+      $('.tabela-faturamento-processo').empty(); // Limpar o HTML da tabela
    }
 
-   lucro_estimado_por_processo = $('.table').DataTable({
+   lucro_por_processo = $('.tabela-faturamento-processo').DataTable({
       "data": resultados,
       "columns": [
          { "data": "numero_processo" },
@@ -315,8 +337,15 @@ async function faturamento_processo(consulta) {
             }
          },
          { 
-            "data": "lucro",
-            "className": "lucro",
+            "data": "lucro_est",
+            "className": "lucro_est",
+            "render": function (data, type, row) {
+               return `<span>${data ? data.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'}) : ''}</span>`;
+            }
+         },
+         { 
+            "data": "lucro_efe",
+            "className": "lucro_efe",
             "render": function (data, type, row) {
                return `<span>${data ? data.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'}) : ''}</span>`;
             }
@@ -325,14 +354,14 @@ async function faturamento_processo(consulta) {
       "language": {
          url: '/assets/libs/dataTables/dataTables.plugins.pt-br.json' // Tradução para o português do Brasil
       },
-      "order": [[3, 'desc']],
+      "order": [[4, 'desc']],
       "lengthMenu": [[8], [8]],
       "pageLength": 8
    });
 }
 
 // Retonar um array com o lucro estimado de cada mes
-async function lucro_estimado_mes_a_mes(consulta) {
+async function lucro_efetivo_mes_a_mes(consulta) {
    const soma_por_mes = [];
 
    for (let i = 0; i < consulta.length; i++) {
@@ -340,11 +369,11 @@ async function lucro_estimado_mes_a_mes(consulta) {
       const mes_existente = soma_por_mes.find(mes => mes.MES === item.MES); // Encontra o mes na consulta do banco e salva na variavel
 
       if (mes_existente) {
-         mes_existente.LUCRO_ESTIMADO += item.LUCRO_ESTIMADO; // Se o mes existir na variavel ele concatena o novo valor localizado
+         mes_existente.LUCRO_EFETIVO += item.LUCRO_EFETIVO; // Se o mes existir na variavel ele concatena o novo valor localizado
       } else {
          soma_por_mes.push({
             MES: item.MES,
-            LUCRO_ESTIMADO: item.LUCRO_ESTIMADO
+            LUCRO_EFETIVO: item.LUCRO_EFETIVO
          });
       }
    }
@@ -365,24 +394,23 @@ async function array_metas(consulta_metas) {
    return array_metas;
 };
 
-let grafico_lucro_estimado_instancia;
+let grafico_lucro_efetivo_instancia;
 // Cria os graficos de lucro estimado de cada mes
-async function grafico_lucro_estimado(consulta, consulta_metas) {
-   const lucro_estimado = await lucro_estimado_mes_a_mes(consulta); // Recebe a consulta do head para criar o array de lucro estimado
+async function grafico_lucro_efetivo(consulta, consulta_metas) {
+   const lucro_efetivo = await lucro_efetivo_mes_a_mes(consulta); // Recebe a consulta do head para criar o array de lucro estimado
    const metas_mensais = await array_metas(consulta_metas); // Recebe a consulta do Sirius para criar o array de metas
 
-   const valores_arrecadados = [];
+   const array_lucro = new Array(12).fill(0); // Inicializa um array com zeros para 12 meses
 
-   for (let i = 0; i < lucro_estimado.length; i++) {
-      const item = lucro_estimado[i];
-      
-      valores_arrecadados.push(item.LUCRO_ESTIMADO);
-   }
+   // Filtra os dados do ano atual e preenche o array de lucro
+   lucro_efetivo.forEach(item => {
+      array_lucro[item.MES - 1] = Number(item.LUCRO_EFETIVO); // Subtrai 1 do mês para ajustar o índice do array (Janeiro = 0, Fevereiro = 1, etc.)
+   });
    
    var options = {
       series: [{
-         name: 'Lucro Estimado',
-         data: valores_arrecadados
+         name: 'Lucro Efetivo',
+         data: array_lucro
       }, {
          name: 'Meta',
          data: metas_mensais
@@ -443,8 +471,8 @@ async function grafico_lucro_estimado(consulta, consulta_metas) {
 
    };
 
-   grafico_lucro_estimado_instancia = new ApexCharts(document.querySelector("#lucro-estimado-mes-a-mes"), options);
-   grafico_lucro_estimado_instancia.render();
+   grafico_lucro_efetivo_instancia = new ApexCharts(document.querySelector("#lucro-efetivo-mes-a-mes"), options);
+   grafico_lucro_efetivo_instancia.render();
 };
 
 async function carrega_indicadores_comercial(IdVendedor) {
@@ -452,6 +480,7 @@ async function carrega_indicadores_comercial(IdVendedor) {
    await limparModal();
 
    let meta_financeira_comercial = await Thefetch(`/api/meta-financeira-comercial?IdVendedor=${IdVendedor}`);
+   let meta_financeira_comercial_datatables_data_abertura = await Thefetch(`/api/meta_financeira_comercial_datatables_data_abertura?IdVendedor=${IdVendedor}`);
    let proposta_meta_comercial = await Thefetch(`/api/proposta-meta-comercial?IdVendedor=${IdVendedor}`);
    let processos_meta_comercial = await Thefetch(`/api/processos-meta-comercial?IdVendedor=${IdVendedor}`);
    let meta_mes_atual = await Thefetch(`/api/meta-mes-atual?IdVendedor=${IdVendedor}`);
@@ -461,19 +490,22 @@ async function carrega_indicadores_comercial(IdVendedor) {
    nome_comercial.textContent = meta_financeira_comercial[0].VENDEDOR;
    // Insere o lucro estimado do mes atual
    await card_lucro_estimado_mes_atual(meta_financeira_comercial);
+   // Insere o lucro efetivo do mes atual
+   await card_lucro_efetivo_mes_atual(meta_financeira_comercial);
    // Insere a meta do mes atual
-   await card_meta_comercial(meta_mes_atual);
+   // await card_meta_comercial(meta_mes_atual);
 
    // Insere o grafico de processos e proposta
    await grafico_proposta_processo(proposta_meta_comercial, processos_meta_comercial);
 
-   // Cria tabela com datatables com o faturamento estimado de cada processo
-   await faturamento_processo(meta_financeira_comercial);
+   // Cria tabela com datatables com o faturamento estimado e efetivo de cada processo
+   await faturamento_processo(meta_financeira_comercial_datatables_data_abertura);
 
    // Cria o grafico mes a mes do lucro estimado e metas
-   await grafico_lucro_estimado(meta_financeira_comercial, meta_mes_atual);
+   await grafico_lucro_efetivo(meta_financeira_comercial, meta_mes_atual);
 };
 
+// Card de adição de metas ao vendedor
 async function carrega_faturamento_mes_comercial_modal(IdVendedor) {
    const admin_modal_valores_comerciais = await Thefetch(`/api/admin-modal-valores-comerciais?IdVendedor=${IdVendedor}`);
 
@@ -565,9 +597,9 @@ async function limparModal() {
        grafico_processos_intancia = null;
    }
 
-   if (grafico_lucro_estimado_instancia) {
-       grafico_lucro_estimado_instancia.destroy();
-       grafico_lucro_estimado_instancia = null;
+   if (grafico_lucro_efetivo_instancia) {
+       grafico_lucro_efetivo_instancia.destroy();
+       grafico_lucro_efetivo_instancia = null;
    }
 
    // Remove todas as divs filhas da div grafico-propostas
@@ -585,9 +617,9 @@ async function limparModal() {
    });
 
    // Remove todas as divs filhas da div lucro-estimado-mes-a-mes
-   const graficoLucroEstimado = document.querySelector('#lucro-estimado-mes-a-mes');
-   const filhosGraficoLucroEstimado = graficoLucroEstimado.querySelectorAll('div');
-   filhosGraficoLucroEstimado.forEach(divFilha => {
+   const graficoLucroEfetivo = document.querySelector('#lucro-efetivo-mes-a-mes');
+   const filhosGraficoLucroEfetivo = graficoLucroEfetivo.querySelectorAll('div');
+   filhosGraficoLucroEfetivo.forEach(divFilha => {
        divFilha.remove();
    });
 };
@@ -628,7 +660,7 @@ async function eventos_cliques() {
    e.preventDefault();
 
       const valor_texto = this.value.toUpperCase();
-      lucro_estimado_por_processo.search(valor_texto).draw();
+      lucro_por_processo.search(valor_texto).draw();
    });
 
    // Enviar os dados da meta para inserir no banco de dados
@@ -643,9 +675,9 @@ async function eventos_cliques() {
    // Adiciona evento ao modal para limpar o DataTable ao fechar o modal
    $('#exampleModalXl').on('hidden.bs.modal', async function () {
       await limparModal();
-      if ($.fn.DataTable.isDataTable('.table')) {
-         lucro_estimado_por_processo.destroy();
-         $('.table').empty(); // Limpar o HTML da tabela
+      if ($.fn.DataTable.isDataTable('.table-metas')) {
+         lucro_por_processo.destroy();
+         $('.table-metas').empty(); // Limpar o HTML da tabela
       }
    });
    
