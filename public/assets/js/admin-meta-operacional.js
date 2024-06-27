@@ -274,6 +274,16 @@ async function recomprasCalculo(IdOperacional) {
   return { trimestreUSD, trimestreBRL, trimestreEUR, trimestreGBP, totalConvertidoBRL };
 }
 
+async function FormattedDateTime(time) {
+  const date = new Date(time);
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // meses começam de 0 a 11, então adicionamos 1
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${day}/${month}/${year}`;
+}
+
 async function criarGraficos(IdOperacional) {
 
   await limparModal();
@@ -715,6 +725,11 @@ async function criarTabelaRecompras(consulta) {
 
   for (let i = 0; i < consulta.length; i++) {
     const item = consulta[i];
+
+    let dataFormatada;
+
+    dataFormatada = await FormattedDateTime(item.data);
+
     let moeda = '';
     if (item.id_operacional === dadosOperacional['IdPessoa']) {
       const numero_processo = item.numero_processo;
@@ -731,7 +746,7 @@ async function criarTabelaRecompras(consulta) {
         numero_processo: item.numero_processo,
         id_moeda: moeda,
         valor: item.valor,
-        data: item.data
+        data: dataFormatada
       };
     }
   }
@@ -763,7 +778,8 @@ async function criarTabelaRecompras(consulta) {
         "render": function (data, type, row) {
           return `<span>${data.toFixed(2).toLocaleString('pt-BR')}</span>`;
         }
-      }
+      },
+      { "data": "data" }
     ],
     "language": {
       url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json' // Tradução para o português do Brasil

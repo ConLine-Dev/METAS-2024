@@ -612,6 +612,16 @@ async function criar_tabelas_divergencias(){
 
 }
 
+async function FormattedDateTime(time) {
+  const date = new Date(time);
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // meses começam de 0 a 11, então adicionamos 1
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${day}/${month}/${year}`;
+}
+
 async function faturamento_processo(consulta) {
 
   const idUsuarioLogado = await usuario_logado(listaOperacionais);
@@ -619,6 +629,11 @@ async function faturamento_processo(consulta) {
 
   for (let i = 0; i < consulta.length; i++) {
     const item = consulta[i];
+
+    let dataFormatada;
+
+    dataFormatada = await FormattedDateTime(item.data);
+
     let moeda = '';
     if (idUsuarioLogado === 49993){
       if (item.id_moeda == 1) {
@@ -634,7 +649,7 @@ async function faturamento_processo(consulta) {
         numero_processo: item.numero_processo,
         id_moeda: moeda,
         valor: item.valor,
-        data: item.data
+        data: dataFormatada
       });
     }
     else if (item.id_operacional === idUsuarioLogado) {
@@ -651,7 +666,7 @@ async function faturamento_processo(consulta) {
         numero_processo: item.numero_processo,
         id_moeda: moeda,
         valor: item.valor,
-        data: item.data
+        data: dataFormatada
       });
     }
   }
@@ -673,7 +688,8 @@ async function faturamento_processo(consulta) {
         "render": function (data, type, row) {
           return `<span>${data.toFixed(2).toLocaleString('pt-BR')}</span>`;
         }
-      }
+      },
+      { "data": "data" }
     ],
     "language": {
       url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json' // Tradução para o português do Brasil
