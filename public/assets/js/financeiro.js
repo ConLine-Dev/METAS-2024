@@ -403,7 +403,7 @@ async function grafico_modais(fluxo_ano_atual) {
   // Verifique se o gráfico já existe
   if (atualizacao_chart_2) {
     // Se existir, atualize os dados e renderize novamente
-    atualizacao_chart_2.updateSeries(porcentagens);
+    atualizacao_chart_2.updateSeries(valores);
     porcentagem_IM.textContent = porcentagens.IM + "%";
     porcentagem_EM.textContent = porcentagens.EM + "%";
     porcentagem_EA.textContent = porcentagens.EA + "%";
