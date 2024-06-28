@@ -524,13 +524,15 @@ async function criar_tabelas_divergencias(){
     if(idUsuarioLogado === 49993){
       listaDivFinanceiro.push({
         numero_processo: item.Numero_Processo,
-        responsavel: item.Nome
+        responsavel: item.Nome,
+        caminho: item.Caminho_Tarefa
       });
     }
     else if(item.IdResponsavel === idUsuarioLogado){
       listaDivFinanceiro.push({
         numero_processo: item.Numero_Processo,
-        responsavel: item.Nome
+        responsavel: item.Nome,
+        caminho: item.Caminho_Tarefa
       });
     }
   }
@@ -539,7 +541,8 @@ async function criar_tabelas_divergencias(){
     "data": listaDivFinanceiro,
     "columns": [
       { "data": "numero_processo" },
-      { "data": "responsavel" }
+      { "data": "responsavel" },
+      { "data": "caminho"}
     ],
     "language": {
       url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json' // Tradução para o português do Brasil

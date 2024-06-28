@@ -6,60 +6,60 @@ let anoAtual = 2024;
 let anoAnterior = 2023
 
 const helpers = {
-   resultados_ano_anterior: async function() {
+   resultados_ano_anterior: async function () {
       const result = await executeQuerySQL(`SELECT * FROM vis_Fluxo_Caixa_Novas_Metas WHERE ANO = ${anoAnterior}`);
 
       return result;
    },
 
-   resultados_ano_atual: async function() {
+   resultados_ano_atual: async function () {
       const result = await executeQuerySQL(`SELECT * FROM vis_Fluxo_Caixa_Novas_Metas WHERE ANO = ${anoAtual}`);
 
       return result;
    },
 
-   processos_ano_anterior: async function() {
+   processos_ano_anterior: async function () {
       const result = await executeQuerySQL(`SELECT * FROM vis_Metas_Processo_Nova WHERE ANO = ${anoAnterior}`);
 
       return result;
    },
 
-   processos_ano_atual: async function() {
+   processos_ano_atual: async function () {
       const result = await executeQuerySQL(`SELECT * FROM vis_Metas_Processo_Nova WHERE ANO = ${anoAtual}`);
 
       return result;
    },
 
-   ultimos_9_processos: async function() {
+   ultimos_9_processos: async function () {
       const result = await executeQuerySQL(`SET LANGUAGE Portuguese SELECT TOP 9 * FROM vis_Metas_Processo_Nova ORDER BY IdLogistica_House DESC`);
 
       return result;
    },
 
-   ultimo_processo_por_modal: async function(modalidade) {
+   ultimo_processo_por_modal: async function (modalidade) {
       const result = await executeQuerySQL(`SET LANGUAGE Portuguese SELECT TOP 1 * FROM vis_Metas_Processo_Nova WHERE MODALIDADE = '${modalidade}' ORDER BY IdLogistica_House DESC`);
       return result;
-  },
-  
-   ultimo_processo_gerado: async function() {
+   },
+
+   ultimo_processo_gerado: async function () {
       const result = await executeQuerySQL(`SET LANGUAGE Portuguese SELECT TOP 1 * FROM vis_Metas_Processo_Nova ORDER BY IdLogistica_House DESC`);
 
       return result;
    },
 
-   teus_tons_ano_anterior: async function() {
+   teus_tons_ano_anterior: async function () {
       const result = await executeQuerySQL(`SELECT * FROM vis_Metas_Tons_Teus_Nova WHERE ANO = ${anoAnterior}`);
 
       return result;
    },
 
-   teus_tons_ano_atual: async function() {
+   teus_tons_ano_atual: async function () {
       const result = await executeQuerySQL(`SELECT * FROM vis_Metas_Tons_Teus_Nova WHERE ANO = ${anoAtual}`);
 
       return result;
    },
 
-   nivel_acesso: async function(nivel, email) {
+   nivel_acesso: async function (nivel, email) {
       const id_acesso = await executeQuery(`
          SELECT
             *
@@ -87,7 +87,7 @@ const helpers = {
       return result;
    },
 
-   comerciais: async function() {
+   comerciais: async function () {
       const result = await executeQuerySQL(`
          SELECT
             Psa.IdPessoa,
@@ -106,7 +106,7 @@ const helpers = {
       return result;
    },
 
-   admin_comerciais: async function() {
+   admin_comerciais: async function () {
       const result = await executeQuerySQL(`
          SELECT
             Psa.IdPessoa,
@@ -125,7 +125,7 @@ const helpers = {
       return result;
    },
 
-   admin_cards_comerciais: async function() {
+   admin_cards_comerciais: async function () {
       const result = await executeQuerySQL(`
          WITH Lucro_Vendedor AS (
             SELECT
@@ -215,7 +215,7 @@ const helpers = {
       return result;
    },
 
-   admin_modal_valores_comerciais: async function(IdVendedor) {
+   admin_modal_valores_comerciais: async function (IdVendedor) {
       // Consulta no banco da head
       const result_Head = await executeQuerySQL(`
          WITH Lucro_Estimado_Vendedor AS (
@@ -341,7 +341,7 @@ const helpers = {
       return result_valores_comercial;
    },
 
-   inserir_meta_comercial: async function(body) {
+   inserir_meta_comercial: async function (body) {
       // Faz uma verificação no banco do sirius para ver se localiza algum meta ja lançada para aquele mes, ano ou comercial
       const verificacao = await executeQuery(`SELECT * FROM meta_comercial WHERE id_comercial = ? AND mes = ? AND ano = ?`, [body.id_comercial, body.mes, body.ano])
 
@@ -360,9 +360,9 @@ const helpers = {
          // Caso não encontre nada ele faz um INSERT da nova meta
          const result = await executeQuery(`INSERT INTO meta_comercial 
                   (id_comercial, nome_comercial, mes, ano, valor_meta) 
-               VALUES (?, ?, ?, ?, ?)`, 
-               // Passa os valores por parametros
-               [body.id_comercial, body.nome_comercial, body.mes, body.ano, body.valor_meta]
+               VALUES (?, ?, ?, ?, ?)`,
+            // Passa os valores por parametros
+            [body.id_comercial, body.nome_comercial, body.mes, body.ano, body.valor_meta]
          )
 
          return {
@@ -374,7 +374,7 @@ const helpers = {
       }
    },
 
-   operacionais: async function() {
+   operacionais: async function () {
       const result = await executeQuerySQL(`
          SELECT
             Psa.IdPessoa,
@@ -393,7 +393,7 @@ const helpers = {
       return result;
    },
 
-   admin_operacionais: async function() {
+   admin_operacionais: async function () {
       const result = await executeQuerySQL(`
          SELECT
             Psa.IdPessoa,
@@ -412,7 +412,7 @@ const helpers = {
       return result;
    },
 
-   meta_financeira_comercial: async function(IdVendedor, email) {
+   meta_financeira_comercial: async function (IdVendedor, email) {
       const where_vendedor = IdVendedor ? `and Lhs.IdVendedor = ${IdVendedor}` : '';
       const where_email = email ? `and Fnc.EMail = '${email}'` : '';
       const result = await executeQuerySQL(`
@@ -487,7 +487,7 @@ const helpers = {
       return result;
    },
 
-   meta_financeira_comercial_datatables_data_abertura: async function(IdVendedor, email) {
+   meta_financeira_comercial_datatables_data_abertura: async function (IdVendedor, email) {
       const where_vendedor = IdVendedor ? `and Lhs.IdVendedor = ${IdVendedor}` : '';
       const where_email = email ? `and Fnc.EMail = '${email}'` : '';
       const result = await executeQuerySQL(`         
@@ -535,7 +535,7 @@ const helpers = {
       return result;
    },
 
-   proposta_meta_comercial: async function(IdVendedor, email) {
+   proposta_meta_comercial: async function (IdVendedor, email) {
       const where_vendedor = IdVendedor ? `and Pfr.IdVendedor = ${IdVendedor}` : '';
       const where_email = email ? `and Fnc.EMail = '${email}'` : '';
       const result = await executeQuerySQL(`
@@ -573,7 +573,7 @@ const helpers = {
       return result;
    },
 
-   processos_meta_comercial: async function(IdVendedor, email) {
+   processos_meta_comercial: async function (IdVendedor, email) {
       const where_vendedor = IdVendedor ? `and Lhs.IdVendedor = ${IdVendedor}` : '';
       const where_email = email ? `and Fnc.EMail = '${email}'` : '';
       const result = await executeQuerySQL(`
@@ -602,7 +602,7 @@ const helpers = {
       return result;
    },
 
-   meta_mes_atual: async function(IdVendedor) {
+   meta_mes_atual: async function (IdVendedor) {
       const result = await executeQuery(`
          SELECT
             *
@@ -614,7 +614,7 @@ const helpers = {
       return result;
    },
 
-   operacional_por_processo: async function(numero_processo) {
+   operacional_por_processo: async function (numero_processo) {
       const result = await executeQuerySQL(`
       select lhs.Numero_Processo as 'Numero_do_Processo'
       , pss.IdPessoa
@@ -631,12 +631,12 @@ const helpers = {
       return result;
    },
 
-   cadastrar_operacional_por_processo: async function(numero_processo, id_operacional, id_moeda, valor, descricao){
+   cadastrar_operacional_por_processo: async function (numero_processo, id_operacional, id_moeda, valor, descricao) {
       let query = `INSERT INTO recompra_operacional
     (numero_processo, id_operacional, id_moeda, valor, descricao) VALUES
     ("${numero_processo}", ${id_operacional}, ${id_moeda}, ${valor}, "${descricao}")`
 
-    await executeQuery(query);
+      await executeQuery(query);
    },
 
    recompras_operacional: async function () {
@@ -650,25 +650,37 @@ const helpers = {
    divergencias_financeiras: async function () {
       const result = await executeQuerySQL(
          `SELECT
-         Lhs.IdLogistica_House,
-         Lhs.Numero_Processo,
-         Par.IdResponsavel,
-         pss.Nome
-     FROM
-         mov_Atividade Atv
+            Lhs.IdLogistica_House,
+            Lhs.Numero_Processo,
+            Par.IdResponsavel,
+            pss.Nome,
+            Ctr.Caminho_Tarefa
+         FROM
+            mov_Atividade Atv
          LEFT OUTER JOIN
-         mov_Atividade_Historico Ath ON Ath.IdAtividade = Atv.IdAtividade
+            mov_Atividade_Historico Ath ON Ath.IdAtividade = Atv.IdAtividade
          LEFT OUTER JOIN
-         mov_Logistica_House Lhs ON Lhs.IdProjeto_Atividade = Atv.IdProjeto_Atividade
+            mov_Logistica_House Lhs ON Lhs.IdProjeto_Atividade = Atv.IdProjeto_Atividade
          LEFT OUTER JOIN
-         mov_Projeto_Atividade_Responsavel Par ON Par.IdProjeto_Atividade = Lhs.IdProjeto_Atividade
+            mov_Projeto_Atividade_Responsavel Par ON Par.IdProjeto_Atividade = Lhs.IdProjeto_Atividade
          LEFT OUTER JOIN
-         cad_Pessoa pss ON pss.IdPessoa = Par.IdResponsavel
-     WHERE
-              Atv.IdTarefa = 1625 /*Conferir Valores*/
-         AND Ath.Situacao = 3 /*Paralisada*/
-         AND Par.IdPapel_Projeto = 2 /*Operacional*/
-         AND DATEPART(year, Lhs.Data_Abertura_Processo) = 2024
+            cad_Pessoa pss ON pss.IdPessoa = Par.IdResponsavel
+         LEFT OUTER JOIN (
+            SELECT
+               Atv.IdProjeto_Atividade,
+               Ctr.Descricao AS Caminho_Tarefa
+            FROM
+               mov_Atividade Atv
+            LEFT OUTER JOIN
+               cad_Caminho_Tarefa Ctr ON Ctr.IdCaminho_Tarefa = Atv.IdCaminho_Tarefa_Escolha
+            WHERE
+               Atv.IdTarefa = 1629 /*Conferir valores operacional*/
+         ) Ctr ON Ctr.IdProjeto_Atividade = Atv.IdProjeto_Atividade
+         WHERE
+            Atv.IdTarefa = 1625 /*Conferir Valores*/
+            AND Ath.Situacao = 3 /*Paralisada*/
+            AND Par.IdPapel_Projeto = 2 /*Operacional*/
+            AND DATEPART(year, Lhs.Data_Abertura_Processo) = 2024
          `)
 
       return result;
@@ -730,7 +742,7 @@ const helpers = {
       const result = await executeQuerySirius(
          `SELECT * FROM SIRIUS.email_metrics;
          `)
-         
+
       return result;
    },
 
@@ -741,7 +753,7 @@ const helpers = {
          join mov_Logistica_House lhs on lhs.IdLogistica_Master = lmm.IdLogistica_Master
          where DATEPART(year, lmm.Data_CE) = 2024
          `)
-         
+
       return result;
    },
 
@@ -820,7 +832,7 @@ const helpers = {
       return result;
    },
 
-   quantidade_prospeccao: async function(emailVendedor) {
+   quantidade_prospeccao: async function (emailVendedor) {
       const result = await executeQuerySQL(`
          SELECT 
             Cli.IdPessoa AS IdCliente,
@@ -837,7 +849,7 @@ const helpers = {
       return result;
    },
 
-   quantidade_clientes_ativos: async function(emailVendedor) {
+   quantidade_clientes_ativos: async function (emailVendedor) {
       const result = await executeQuerySQL(`
          SELECT DISTINCT
             CASE DATEPART(MONTH, Lhs.Data_Abertura_Processo)
