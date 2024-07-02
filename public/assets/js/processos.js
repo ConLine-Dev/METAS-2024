@@ -18,25 +18,118 @@ const meses = [
 ];
 
 // Função que insere os cards anuais
-async function cards_anuais(processos_ano_anterior, processos_ano_atual) {
-  // Dados ano anterior
-  const IM_ano_anterior = processos_ano_anterior.filter(
-    (palavra) => palavra.MODALIDADE === "IM"
-  );
-  const EM_ano_anterior = processos_ano_anterior.filter(
-    (palavra) => palavra.MODALIDADE === "EM"
-  );
-  const IA_ano_anterior = processos_ano_anterior.filter(
-    (palavra) => palavra.MODALIDADE === "IA"
-  );
-  const EA_ano_anterior = processos_ano_anterior.filter(
-    (palavra) => palavra.MODALIDADE === "EA"
-  );
+// async function cards_anuais(processos_ano_anterior, processos_ano_atual) {
+//   // Dados ano anterior
+//   const IM_ano_anterior = processos_ano_anterior.filter(
+//     (palavra) => palavra.MODALIDADE === "IM"
+//   );
+//   const EM_ano_anterior = processos_ano_anterior.filter(
+//     (palavra) => palavra.MODALIDADE === "EM"
+//   );
+//   const IA_ano_anterior = processos_ano_anterior.filter(
+//     (palavra) => palavra.MODALIDADE === "IA"
+//   );
+//   const EA_ano_anterior = processos_ano_anterior.filter(
+//     (palavra) => palavra.MODALIDADE === "EA"
+//   );
 
-  const IM_meta = parseInt(IM_ano_anterior.length * meta);
-  const EM_meta = parseInt(EM_ano_anterior.length * meta);
-  const IA_meta = parseInt(IA_ano_anterior.length * meta);
-  const EA_meta = parseInt(EA_ano_anterior.length * meta);
+//   const IM_meta = parseInt(IM_ano_anterior.length * meta);
+//   const EM_meta = parseInt(EM_ano_anterior.length * meta);
+//   const IA_meta = parseInt(IA_ano_anterior.length * meta);
+//   const EA_meta = parseInt(EA_ano_anterior.length * meta);
+
+//   // Dados ano atual
+//   const IM_ano_atual = processos_ano_atual.filter(
+//     (palavra) => palavra.MODALIDADE === "IM"
+//   );
+//   const EM_ano_atual = processos_ano_atual.filter(
+//     (palavra) => palavra.MODALIDADE === "EM"
+//   );
+//   const IA_ano_atual = processos_ano_atual.filter(
+//     (palavra) => palavra.MODALIDADE === "IA"
+//   );
+//   const EA_ano_atual = processos_ano_atual.filter(
+//     (palavra) => palavra.MODALIDADE === "EA"
+//   );
+
+//   const IM_total_atual = parseInt(IM_ano_atual.length);
+//   const EM_total_atual = parseInt(EM_ano_atual.length);
+//   const IA_total_atual = parseInt(IA_ano_atual.length);
+//   const EA_total_atual = parseInt(EA_ano_atual.length);
+
+//   // Porcentagens meta anual
+//   const IM_porcentagem = (IM_total_atual / IM_meta) * 100;
+//   const EM_porcentagem = (EM_total_atual / EM_meta) * 100;
+//   const IA_porcentagem = (IA_total_atual / IA_meta) * 100;
+//   const EA_porcentagem = (EA_total_atual / EA_meta) * 100;
+
+//   const card_IM = document.querySelector("#card-IM");
+//   const card_IA = document.querySelector("#card-IA");
+//   const card_EM = document.querySelector("#card-EM");
+//   const card_EA = document.querySelector("#card-EA");
+
+//   card_IM.textContent = IM_porcentagem.toFixed(2) + "%";
+//   card_EM.textContent = EM_porcentagem.toFixed(2) + "%";
+//   card_IA.textContent = IA_porcentagem.toFixed(2) + "%";
+//   card_EA.textContent = EA_porcentagem.toFixed(2) + "%";
+
+//   // Mapeia o array por IdCliente unicos
+//   const clientes_ano_anterior = Array.from(
+//     new Set(processos_ano_anterior.map((obj) => obj.IdCliente))
+//   );
+//   const clientes_ano_atual = Array.from(
+//     new Set(processos_ano_atual.map((obj) => obj.IdCliente))
+//   );
+
+//   // Obtém a contagem de Clientes Unicos
+//   const quantidade_clientes_ano_anterior = clientes_ano_anterior.length;
+//   const meta_clientes = parseInt(quantidade_clientes_ano_anterior * meta);
+//   const quantidade_clientes_ano_atual = clientes_ano_atual.length;
+//   const CLI_porcentagem = (quantidade_clientes_ano_atual / meta_clientes) * 100;
+
+//   const card_CLI = document.querySelector("#card-CLI");
+//   card_CLI.textContent = CLI_porcentagem.toFixed(2) + "%";
+// }
+
+// Metas trimestrais
+const metas_trimestrais = {
+  Q1: 1.15,
+  Q2: 1.15,
+  Q3: 1.20,
+  Q4: 1.20,
+};
+
+// Função auxiliar para calcular a meta acumulada anual
+async function calcular_meta_anual(processos_ano_anterior, metas) {
+  let total_meta = 0;
+  let total_processos = processos_ano_anterior.length;
+
+  for (const trimestre in metas) {
+    total_meta += total_processos * metas[trimestre];
+  }
+
+  return total_meta / 4; // Divide por 4 para obter a média trimestral
+}
+
+// Função que insere os cards anuais
+async function cards_anuais(processos_ano_anterior, processos_ano_atual) {
+  // Calcula as metas acumuladas anuais
+  const IM_meta_anual = await calcular_meta_anual(
+    processos_ano_anterior.filter((palavra) => palavra.MODALIDADE === "IM"),
+    metas_trimestrais
+  );
+  const EM_meta_anual = await calcular_meta_anual(
+    processos_ano_anterior.filter((palavra) => palavra.MODALIDADE === "EM"),
+    metas_trimestrais
+  );
+  const IA_meta_anual = await calcular_meta_anual(
+    processos_ano_anterior.filter((palavra) => palavra.MODALIDADE === "IA"),
+    metas_trimestrais
+  );
+  const EA_meta_anual = await calcular_meta_anual(
+    processos_ano_anterior.filter((palavra) => palavra.MODALIDADE === "EA"),
+    metas_trimestrais
+  );
 
   // Dados ano atual
   const IM_ano_atual = processos_ano_atual.filter(
@@ -51,17 +144,17 @@ async function cards_anuais(processos_ano_anterior, processos_ano_atual) {
   const EA_ano_atual = processos_ano_atual.filter(
     (palavra) => palavra.MODALIDADE === "EA"
   );
-
-  const IM_total_atual = parseInt(IM_ano_atual.length);
-  const EM_total_atual = parseInt(EM_ano_atual.length);
-  const IA_total_atual = parseInt(IA_ano_atual.length);
-  const EA_total_atual = parseInt(EA_ano_atual.length);
+  
+  const IM_total_atual = IM_ano_atual.length;
+  const EM_total_atual = EM_ano_atual.length;
+  const IA_total_atual = IA_ano_atual.length;
+  const EA_total_atual = EA_ano_atual.length;
 
   // Porcentagens meta anual
-  const IM_porcentagem = (IM_total_atual / IM_meta) * 100;
-  const EM_porcentagem = (EM_total_atual / EM_meta) * 100;
-  const IA_porcentagem = (IA_total_atual / IA_meta) * 100;
-  const EA_porcentagem = (EA_total_atual / EA_meta) * 100;
+  const IM_porcentagem = (IM_total_atual / IM_meta_anual) * 100;
+  const EM_porcentagem = (EM_total_atual / EM_meta_anual) * 100;
+  const IA_porcentagem = (IA_total_atual / IA_meta_anual) * 100;
+  const EA_porcentagem = (EA_total_atual / EA_meta_anual) * 100;
 
   const card_IM = document.querySelector("#card-IM");
   const card_IA = document.querySelector("#card-IA");
@@ -73,7 +166,7 @@ async function cards_anuais(processos_ano_anterior, processos_ano_atual) {
   card_IA.textContent = IA_porcentagem.toFixed(2) + "%";
   card_EA.textContent = EA_porcentagem.toFixed(2) + "%";
 
-  // Mapeia o array por IdCliente unicos
+  // Mapeia o array por IdCliente únicos
   const clientes_ano_anterior = Array.from(
     new Set(processos_ano_anterior.map((obj) => obj.IdCliente))
   );
@@ -81,11 +174,11 @@ async function cards_anuais(processos_ano_anterior, processos_ano_atual) {
     new Set(processos_ano_atual.map((obj) => obj.IdCliente))
   );
 
-  // Obtém a contagem de Clientes Unicos
-  const quantidade_clientes_ano_anterior = clientes_ano_anterior.length;
-  const meta_clientes = parseInt(quantidade_clientes_ano_anterior * meta);
+  // Obtém a contagem de Clientes Únicos
+  const quantidade_clientes_ano_anterior = clientes_ano_anterior;
+  const meta_clientes_anual = await calcular_meta_anual(quantidade_clientes_ano_anterior, metas_trimestrais);
   const quantidade_clientes_ano_atual = clientes_ano_atual.length;
-  const CLI_porcentagem = (quantidade_clientes_ano_atual / meta_clientes) * 100;
+  const CLI_porcentagem = (quantidade_clientes_ano_atual / meta_clientes_anual) * 100;
 
   const card_CLI = document.querySelector("#card-CLI");
   card_CLI.textContent = CLI_porcentagem.toFixed(2) + "%";
@@ -119,25 +212,26 @@ async function contagem_processos_mes(consulta, modalidade) {
   return contagem_total_por_mes;
 }
 
-// Função que cria os graficos
+// Função que cria os gráficos
 let graficosMensais = {}; // Objeto para armazenar os gráficos mensais
-async function graficos_mensais(
-  processos_ano_anterior,
-  processos_ano_atual,
-  modalidade
-) {
-  const processos_anterior = await contagem_processos_mes(
-    processos_ano_anterior,
-    modalidade
-  );
-  const processos_atual = await contagem_processos_mes(
-    processos_ano_atual,
-    modalidade
-  );
+async function graficos_mensais(processos_ano_anterior, processos_ano_atual, modalidade) {
+  const processos_anterior = await contagem_processos_mes(processos_ano_anterior, modalidade);
+  const processos_atual = await contagem_processos_mes(processos_ano_atual, modalidade);
 
-  const meta_processos = processos_anterior.map((valor) =>
-    parseInt(valor * meta)
-  );
+  // Determinar a meta para cada mês
+  const metas_mensais = processos_anterior.map((valor, index) => {
+    let meta_trimestral;
+    if (index < 3) {
+      meta_trimestral = metas_trimestrais.Q1; // Janeiro, Fevereiro, Março
+    } else if (index < 6) {
+      meta_trimestral = metas_trimestrais.Q2; // Abril, Maio, Junho
+    } else if (index < 9) {
+      meta_trimestral = metas_trimestrais.Q3; // Julho, Agosto, Setembro
+    } else {
+      meta_trimestral = metas_trimestrais.Q4; // Outubro, Novembro, Dezembro
+    }
+    return parseInt(valor * meta_trimestral);
+  });
 
   // Porcentagem da meta
   const porcentagens = [];
@@ -145,7 +239,7 @@ async function graficos_mensais(
   // Passado o ano atual, pois se passar o ano anterior pode dar erro ao comparar os dois, visto que no inicio do ano tem poucos meses de registro e nao os 12
   for (let i = 0; i < processos_atual.length; i++) {
     const item1 = processos_atual[i];
-    const item2 = meta_processos[i];
+    const item2 = metas_mensais[i];
 
     // Calcular porcentagem  e adicionar ao array de porcentagens
     const porcentagem = (item1 / item2) * 100;
@@ -160,7 +254,7 @@ async function graficos_mensais(
       },
       {
         name: "Meta",
-        data: meta_processos,
+        data: metas_mensais,
       },
     ],
 
@@ -188,12 +282,13 @@ async function graficos_mensais(
       enabled: true,
       enabledOnSeries: [0, 1], // ativa os rótulos para ambas as séries
       formatter: function (val, opts) {
+        const seriesIndex = opts.seriesIndex;
         if (seriesIndex === 0) {
           // Se for a primeira serie de processos do ano atual, mostra o valor correspondente
           return processos_atual[opts.dataPointIndex];
         } else if (seriesIndex === 1) {
           // Se for a segunda sére (Meta), mostra o valor correspondente
-          return meta_processos[opts.dataPointIndex];
+          return metas_mensais[opts.dataPointIndex];
         }
       },
       offsetX: 30,
@@ -318,7 +413,7 @@ async function graficos_mensais(
         return processos_atual[opts.dataPointIndex];
       } else if (seriesIndex === 1) {
         // Se for a segunda série (Meta), mostre o valor correspondente
-        return meta_processos[opts.dataPointIndex];
+        return metas_mensais[opts.dataPointIndex];
       }
     };
     // Se existir, atualize os dados e renderize novamente
@@ -327,7 +422,7 @@ async function graficos_mensais(
       grafico_meta_anual
     );
   }
-}
+};
 
 // Função que pega a quantidade de cliente por mes
 async function quantidade_clientes_por_mes(consulta) {
@@ -351,21 +446,14 @@ async function quantidade_clientes_por_mes(consulta) {
   );
 
   return array_cliente;
-}
+};
 
-// Função que cria os graficos
+// Função que cria os gráficos
 let graficosMensaisCliente = {}; // Objeto para armazenar os gráficos mensais
-// Função que insere os graficos de clientes
-async function grafico_mensais_cliente(
-  processos_ano_anterior,
-  processos_ano_atual
-) {
-  const clientes_ano_anterior = await quantidade_clientes_por_mes(
-    processos_ano_anterior
-  );
-  let cliente_ano_atual = await quantidade_clientes_por_mes(
-    processos_ano_atual
-  );
+// Função que insere os gráficos de clientes
+async function grafico_mensais_cliente(processos_ano_anterior, processos_ano_atual) {
+  const clientes_ano_anterior = await quantidade_clientes_por_mes(processos_ano_anterior);
+  let cliente_ano_atual = await quantidade_clientes_por_mes(processos_ano_atual);
 
   // Verifique se o array cliente_ano_atual tem menos de 12 itens
   if (cliente_ano_atual.length < 12) {
@@ -380,15 +468,26 @@ async function grafico_mensais_cliente(
     cliente_ano_atual = cliente_ano_atual.slice(0, 12);
   }
 
-  const meta_cliente = clientes_ano_anterior.map((valor) =>
-    parseInt(valor * meta)
-  );
+  // Determinar a meta para cada mês
+  const metas_mensais_cliente = clientes_ano_anterior.map((valor, index) => {
+    let meta_trimestral;
+    if (index < 3) {
+      meta_trimestral = metas_trimestrais.Q1; // Janeiro, Fevereiro, Março
+    } else if (index < 6) {
+      meta_trimestral = metas_trimestrais.Q2; // Abril, Maio, Junho
+    } else if (index < 9) {
+      meta_trimestral = metas_trimestrais.Q3; // Julho, Agosto, Setembro
+    } else {
+      meta_trimestral = metas_trimestrais.Q4; // Outubro, Novembro, Dezembro
+    }
+    return valor * meta_trimestral;
+  });
 
   const porcentagens = [];
 
   for (let i = 0; i < cliente_ano_atual.length; i++) {
     const item1 = cliente_ano_atual[i];
-    const item2 = meta_cliente[i];
+    const item2 = metas_mensais_cliente[i];
 
     // Calcular porcentagem  e adicionar ao array de porcentagens
     const porcentagem = (item1 / item2) * 100;
@@ -403,7 +502,7 @@ async function grafico_mensais_cliente(
       },
       {
         name: "Meta",
-        data: meta_cliente,
+        data: metas_mensais_cliente,
       },
     ],
 
@@ -429,14 +528,15 @@ async function grafico_mensais_cliente(
     },
     dataLabels: {
       enabled: true,
-      enabledOnSeries: [0, 1], // ativa os rótulos para ambas as séreis
+      enabledOnSeries: [0, 1], // ativa os rótulos para ambas as séries
       formatter: function (val, opts) {
+        const seriesIndex = opts.seriesIndex;
         if (seriesIndex === 0) {
-          // Se for a primeira serie (cliente_ano_atual), mostra o valor correspondente
+          // Se for a primeira série (cliente_ano_atual), mostre o valor correspondente
           return cliente_ano_atual[opts.dataPointIndex];
         } else if (seriesIndex === 1) {
-          // Se for a primeira serie (meta_cliente), mostra o valor correspondente
-          return meta_cliente[opts.dataPointIndex];
+          // Se for a segunda série (meta_cliente), mostre o valor correspondente
+          return metas_mensais_cliente[opts.dataPointIndex];
         }
       },
       offsetX: 30,
@@ -541,12 +641,12 @@ async function grafico_mensais_cliente(
   chartAnual.render();
 
   // Atribua as instâncias dos gráficos ao objeto usando a combinação de modalidade e tipoCarga como chave
-  graficosMensais = {
+  graficosMensaisCliente = {
     chartMensal,
     chartAnual,
   };
 
-  const graficosMensaisExistem = graficosMensais;
+  const graficosMensaisExistem = graficosMensaisCliente;
 
   if (graficosMensaisExistem) {
     // Atualize as porcentagens
@@ -556,15 +656,15 @@ async function grafico_mensais_cliente(
         // Se for a primeira série (cliente_ano_atual), mostre o valor correspondente
         return cliente_ano_atual[opts.dataPointIndex];
       } else if (seriesIndex === 1) {
-        // Se for a primeira série (meta_cliente), mostre o valor correspondente
-        return meta_cliente[opts.dataPointIndex];
+        // Se for a segunda série (meta_cliente), mostre o valor correspondente
+        return metas_mensais_cliente[opts.dataPointIndex];
       }
     };
     // Se existir, atualize os dados e renderize novamente
-    graficosMensais.chartMensal.updateOptions(options);
-    graficosMensais.chartAnual.updateOptions(grafico_meta_anual);
+    graficosMensaisCliente.chartMensal.updateOptions(options);
+    graficosMensaisCliente.chartAnual.updateOptions(grafico_meta_anual);
   }
-}
+};
 
 // Gera o modal
 function obter_cores_icone_por_modalidade(modalidade) {
