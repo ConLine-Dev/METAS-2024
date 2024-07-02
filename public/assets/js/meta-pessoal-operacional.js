@@ -69,23 +69,25 @@ async function recomprasCalculo() {
   }
 
   for (let index = 0; index < recompras_operacional.length; index++) {
-    if (index <= 365) {
-      if (recompras_operacional[index].id_moeda == 1 && recompras_operacional[index].id_operacional == idUsuarioLogado) {
-        recompraUSD = recompraUSD + recompras_operacional[index].valor;
-        trimestreUSD[0] = recompraUSD.toFixed(2);
-        totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaDolar);
-      } else if (recompras_operacional[index].id_moeda == 2 && recompras_operacional[index].id_operacional == idUsuarioLogado) {
-        recompraBRL = recompraBRL + recompras_operacional[index].valor;
-        trimestreBRL[0] = recompraBRL.toFixed(2);
-        totalConvertidoBRL = totalConvertidoBRL + recompras_operacional[index].valor;
-      } else if (recompras_operacional[index].id_moeda == 3 && recompras_operacional[index].id_operacional == idUsuarioLogado) {
-        recompraEUR = recompraEUR + recompras_operacional[index].valor;
-        trimestreEUR[0] = recompraEUR.toFixed(2);
-        totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaEuro);
-      } else if (recompras_operacional[index].id_moeda == 4 && recompras_operacional[index].id_operacional == idUsuarioLogado) {
-        recompraGBP = recompraGBP + recompras_operacional[index].valor;
-        totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaLibra);
-        trimestreGBP[0] = recompraGBP.toFixed(2);
+    if (recompras_operacional[index].status_recompra == 1){
+      if (recompras_operacional[index].id <= 365) {
+        if (recompras_operacional[index].id_moeda == 1 && recompras_operacional[index].id_operacional == idUsuarioLogado) {
+          recompraUSD = recompraUSD + recompras_operacional[index].valor;
+          trimestreUSD[0] = recompraUSD.toFixed(2);
+          totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaDolar);
+        } else if (recompras_operacional[index].id_moeda == 2 && recompras_operacional[index].id_operacional == idUsuarioLogado) {
+          recompraBRL = recompraBRL + recompras_operacional[index].valor;
+          trimestreBRL[0] = recompraBRL.toFixed(2);
+          totalConvertidoBRL = totalConvertidoBRL + recompras_operacional[index].valor;
+        } else if (recompras_operacional[index].id_moeda == 3 && recompras_operacional[index].id_operacional == idUsuarioLogado) {
+          recompraEUR = recompraEUR + recompras_operacional[index].valor;
+          trimestreEUR[0] = recompraEUR.toFixed(2);
+          totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaEuro);
+        } else if (recompras_operacional[index].id_moeda == 4 && recompras_operacional[index].id_operacional == idUsuarioLogado) {
+          recompraGBP = recompraGBP + recompras_operacional[index].valor;
+          totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaLibra);
+          trimestreGBP[0] = recompraGBP.toFixed(2);
+        }
       }
     }
   }
@@ -97,48 +99,80 @@ async function recomprasCalculo() {
   totalConvertidoBRL = 0;
 
   for (let index = 0; index < recompras_operacional.length; index++) {
-    if (index > 365) {
-      if (recompras_operacional[index].id_moeda == 1 && recompras_operacional[index].id_operacional == idUsuarioLogado) {
-        recompraUSD = recompraUSD + recompras_operacional[index].valor;
-        trimestreUSD[1] = recompraUSD.toFixed(2);
-        totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaDolar);
-      } else if (recompras_operacional[index].id_moeda == 2 && recompras_operacional[index].id_operacional == idUsuarioLogado) {
-        recompraBRL = recompraBRL + recompras_operacional[index].valor;
-        trimestreBRL[1] = recompraBRL.toFixed(2);
-        totalConvertidoBRL = totalConvertidoBRL + recompras_operacional[index].valor;
-      } else if (recompras_operacional[index].id_moeda == 3 && recompras_operacional[index].id_operacional == idUsuarioLogado) {
-        recompraEUR = recompraEUR + recompras_operacional[index].valor;
-        trimestreEUR[1] = recompraEUR.toFixed(2);
-        totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaEuro);
-      } else if (recompras_operacional[index].id_moeda == 4 && recompras_operacional[index].id_operacional == idUsuarioLogado) {
-        recompraGBP = recompraGBP + recompras_operacional[index].valor;
-        trimestreGBP[1] = recompraGBP.toFixed(2);
-        totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaLibra);
+    if (recompras_operacional[index].status_recompra == 1){
+      if (recompras_operacional[index].id > 365 && recompras_operacional[index].id < 874) {
+        if (recompras_operacional[index].id_moeda == 1 && recompras_operacional[index].id_operacional == idUsuarioLogado) {
+          recompraUSD = recompraUSD + recompras_operacional[index].valor;
+          trimestreUSD[1] = recompraUSD.toFixed(2);
+          totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaDolar);
+        } else if (recompras_operacional[index].id_moeda == 2 && recompras_operacional[index].id_operacional == idUsuarioLogado) {
+          recompraBRL = recompraBRL + recompras_operacional[index].valor;
+          trimestreBRL[1] = recompraBRL.toFixed(2);
+          totalConvertidoBRL = totalConvertidoBRL + recompras_operacional[index].valor;
+        } else if (recompras_operacional[index].id_moeda == 3 && recompras_operacional[index].id_operacional == idUsuarioLogado) {
+          recompraEUR = recompraEUR + recompras_operacional[index].valor;
+          trimestreEUR[1] = recompraEUR.toFixed(2);
+          totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaEuro);
+        } else if (recompras_operacional[index].id_moeda == 4 && recompras_operacional[index].id_operacional == idUsuarioLogado) {
+          recompraGBP = recompraGBP + recompras_operacional[index].valor;
+          trimestreGBP[1] = recompraGBP.toFixed(2);
+          totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaLibra);
+        }
       }
     }
   }
 
+  recompraUSD = 0;
+  recompraBRL = 0;
+  recompraEUR = 0;
+  recompraGBP = 0;
+  totalConvertidoBRL = 0;
 
+  for (let index = 0; index < recompras_operacional.length; index++) {
+    if (recompras_operacional[index].status_recompra == 1){
+      if (recompras_operacional[index].id > 874) {
+        if (recompras_operacional[index].id_moeda == 1 && recompras_operacional[index].id_operacional == idUsuarioLogado) {
+          recompraUSD = recompraUSD + recompras_operacional[index].valor;
+          trimestreUSD[2] = recompraUSD.toFixed(2);
+          totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaDolar);
+        } else if (recompras_operacional[index].id_moeda == 2 && recompras_operacional[index].id_operacional == idUsuarioLogado) {
+          recompraBRL = recompraBRL + recompras_operacional[index].valor;
+          trimestreBRL[2] = recompraBRL.toFixed(2);
+          totalConvertidoBRL = totalConvertidoBRL + recompras_operacional[index].valor;
+        } else if (recompras_operacional[index].id_moeda == 3 && recompras_operacional[index].id_operacional == idUsuarioLogado) {
+          recompraEUR = recompraEUR + recompras_operacional[index].valor;
+          trimestreEUR[2] = recompraEUR.toFixed(2);
+          totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaEuro);
+        } else if (recompras_operacional[index].id_moeda == 4 && recompras_operacional[index].id_operacional == idUsuarioLogado) {
+          recompraGBP = recompraGBP + recompras_operacional[index].valor;
+          trimestreGBP[2] = recompraGBP.toFixed(2);
+          totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaLibra);
+        }
+      }
+    }
+  }
 
   if (idUsuarioLogado == 49993) {
     for (let index = 0; index < recompras_operacional.length; index++) {
-      if (index <= 365) {
-        if (recompras_operacional[index].id_moeda == 1) {
-          recompraUSD = recompraUSD + recompras_operacional[index].valor;
-          trimestreUSD[0] = recompraUSD.toFixed(2);
-          totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaDolar);
-        } else if (recompras_operacional[index].id_moeda == 2) {
-          recompraBRL = recompraBRL + recompras_operacional[index].valor;
-          trimestreBRL[0] = recompraBRL.toFixed(2);
-          totalConvertidoBRL = totalConvertidoBRL + recompras_operacional[index].valor;
-        } else if (recompras_operacional[index].id_moeda == 3) {
-          recompraEUR = recompraEUR + recompras_operacional[index].valor;
-          trimestreEUR[0] = recompraEUR.toFixed(2);
-          totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaEuro);
-        } else if (recompras_operacional[index].id_moeda == 4) {
-          recompraGBP = recompraGBP + recompras_operacional[index].valor;
-          totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaLibra);
-          trimestreGBP[0] = recompraGBP.toFixed(2);
+      if (recompras_operacional[index].status_recompra == 1){
+        if (recompras_operacional[index].id <= 365) {
+          if (recompras_operacional[index].id_moeda == 1) {
+            recompraUSD = recompraUSD + recompras_operacional[index].valor;
+            trimestreUSD[0] = recompraUSD.toFixed(2);
+            totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaDolar);
+          } else if (recompras_operacional[index].id_moeda == 2) {
+            recompraBRL = recompraBRL + recompras_operacional[index].valor;
+            trimestreBRL[0] = recompraBRL.toFixed(2);
+            totalConvertidoBRL = totalConvertidoBRL + recompras_operacional[index].valor;
+          } else if (recompras_operacional[index].id_moeda == 3) {
+            recompraEUR = recompraEUR + recompras_operacional[index].valor;
+            trimestreEUR[0] = recompraEUR.toFixed(2);
+            totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaEuro);
+          } else if (recompras_operacional[index].id_moeda == 4) {
+            recompraGBP = recompraGBP + recompras_operacional[index].valor;
+            totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaLibra);
+            trimestreGBP[0] = recompraGBP.toFixed(2);
+          }
         }
       }
     }
@@ -150,23 +184,56 @@ async function recomprasCalculo() {
     totalConvertidoBRL = 0;
   
     for (let index = 0; index < recompras_operacional.length; index++) {
-      if (index > 365) {
-        if (recompras_operacional[index].id_moeda == 1) {
-          recompraUSD = recompraUSD + recompras_operacional[index].valor;
-          trimestreUSD[1] = recompraUSD.toFixed(2);
-          totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaDolar);
-        } else if (recompras_operacional[index].id_moeda == 2) {
-          recompraBRL = recompraBRL + recompras_operacional[index].valor;
-          trimestreBRL[1] = recompraBRL.toFixed(2);
-          totalConvertidoBRL = totalConvertidoBRL + recompras_operacional[index].valor;
-        } else if (recompras_operacional[index].id_moeda == 3) {
-          recompraEUR = recompraEUR + recompras_operacional[index].valor;
-          trimestreEUR[1] = recompraEUR.toFixed(2);
-          totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaEuro);
-        } else if (recompras_operacional[index].id_moeda == 4) {
-          recompraGBP = recompraGBP + recompras_operacional[index].valor;
-          trimestreGBP[1] = recompraGBP.toFixed(2);
-          totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaLibra);
+      if (recompras_operacional[index].status_recompra == 1){
+        if (recompras_operacional[index].id > 365 && recompras_operacional[index].id <= 889) {
+          if (recompras_operacional[index].id_moeda == 1) {
+            recompraUSD = recompraUSD + recompras_operacional[index].valor;
+            trimestreUSD[1] = recompraUSD.toFixed(2);
+            totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaDolar);
+          } else if (recompras_operacional[index].id_moeda == 2) {
+            recompraBRL = recompraBRL + recompras_operacional[index].valor;
+            trimestreBRL[1] = recompraBRL.toFixed(2);
+            totalConvertidoBRL = totalConvertidoBRL + recompras_operacional[index].valor;
+          } else if (recompras_operacional[index].id_moeda == 3) {
+            recompraEUR = recompraEUR + recompras_operacional[index].valor;
+            trimestreEUR[1] = recompraEUR.toFixed(2);
+            totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaEuro);
+          } else if (recompras_operacional[index].id_moeda == 4) {
+            recompraGBP = recompraGBP + recompras_operacional[index].valor;
+            trimestreGBP[1] = recompraGBP.toFixed(2);
+            totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaLibra);
+          }
+        }
+      }
+    }
+
+    recompraUSD = 0;
+    recompraBRL = 0;
+    recompraEUR = 0;
+    recompraGBP = 0;
+    totalConvertidoBRL = 0;
+  
+    for (let index = 0; index < recompras_operacional.length; index++) {
+      if (recompras_operacional[index].status_recompra == 1){
+        if (recompras_operacional[index].id > 889) {
+          if (recompras_operacional[index].id_moeda == 1) {
+            recompraUSD = recompraUSD + recompras_operacional[index].valor;
+            trimestreUSD[2] = recompraUSD.toFixed(2);
+            console.log(trimestreUSD);
+            totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaDolar);
+          } else if (recompras_operacional[index].id_moeda == 2) {
+            recompraBRL = recompraBRL + recompras_operacional[index].valor;
+            trimestreBRL[2] = recompraBRL.toFixed(2);
+            totalConvertidoBRL = totalConvertidoBRL + recompras_operacional[index].valor;
+          } else if (recompras_operacional[index].id_moeda == 3) {
+            recompraEUR = recompraEUR + recompras_operacional[index].valor;
+            trimestreEUR[2] = recompraEUR.toFixed(2);
+            totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaEuro);
+          } else if (recompras_operacional[index].id_moeda == 4) {
+            recompraGBP = recompraGBP + recompras_operacional[index].valor;
+            trimestreGBP[2] = recompraGBP.toFixed(2);
+            totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaLibra);
+          }
         }
       }
     }
@@ -638,39 +705,43 @@ async function faturamento_processo(consulta) {
     dataFormatada = await FormattedDateTime(item.data);
 
     let moeda = '';
-    if (idUsuarioLogado === 49993){
-      if (item.id_moeda == 1) {
-        moeda = 'USD';
-      } else if (item.id_moeda == 2) {
-        moeda = 'BRL';
-      } else if (item.id_moeda == 3) {
-        moeda = 'EUR';
-      } else if (item.id_moeda == 4) {
-        moeda = 'GBP';
+    if (item.status_recompra == 1) {
+      if (idUsuarioLogado === 49993) {
+        if (item.id_moeda == 1) {
+          moeda = 'USD';
+        } else if (item.id_moeda == 2) {
+          moeda = 'BRL';
+        } else if (item.id_moeda == 3) {
+          moeda = 'EUR';
+        } else if (item.id_moeda == 4) {
+          moeda = 'GBP';
+        }
+        lucratividade_processos.push({
+          id: item.id,
+          numero_processo: item.numero_processo,
+          id_moeda: moeda,
+          valor: item.valor,
+          data: dataFormatada
+        });
       }
-      lucratividade_processos.push({
-        numero_processo: item.numero_processo,
-        id_moeda: moeda,
-        valor: item.valor,
-        data: dataFormatada
-      });
-    }
-    else if (item.id_operacional === idUsuarioLogado) {
-      if (item.id_moeda == 1) {
-        moeda = 'USD';
-      } else if (item.id_moeda == 2) {
-        moeda = 'BRL';
-      } else if (item.id_moeda == 3) {
-        moeda = 'EUR';
-      } else if (item.id_moeda == 4) {
-        moeda = 'GBP';
+      else if (item.id_operacional === idUsuarioLogado) {
+        if (item.id_moeda == 1) {
+          moeda = 'USD';
+        } else if (item.id_moeda == 2) {
+          moeda = 'BRL';
+        } else if (item.id_moeda == 3) {
+          moeda = 'EUR';
+        } else if (item.id_moeda == 4) {
+          moeda = 'GBP';
+        }
+        lucratividade_processos.push({
+          id: item.id,
+          numero_processo: item.numero_processo,
+          id_moeda: moeda,
+          valor: item.valor,
+          data: dataFormatada
+        });
       }
-      lucratividade_processos.push({
-        numero_processo: item.numero_processo,
-        id_moeda: moeda,
-        valor: item.valor,
-        data: dataFormatada
-      });
     }
   }
 
@@ -692,13 +763,20 @@ async function faturamento_processo(consulta) {
           return `<span>${data.toFixed(2).toLocaleString('pt-BR')}</span>`;
         }
       },
-      { "data": "data" }
+      { "data": "data" },
+      {
+        "data": null,
+        "className": "button-column",
+        "render": function (data, type, row) {
+          return `<button type="button" class="btn btn-primary">X</button>`;
+        }
+      }
     ],
     "language": {
       url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json' // Tradução para o português do Brasil
     },
     "order": [[0, 'desc']],
-    "lengthMenu": [[6], [6]],
+    "lengthMenu": [[4], [4]],
     "pageLenght": 8,
     "searching": true,
     "dom": 'fBrtip',
