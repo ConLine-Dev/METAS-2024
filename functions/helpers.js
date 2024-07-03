@@ -882,6 +882,15 @@ const helpers = {
       return result;
    },
 
+   atualizar_status_recompra: async function (idRecompra) {
+      const result = await executeQuery(
+         `UPDATE
+            recompra_operacional SET status_recompra = '0'
+         WHERE (id = ${idRecompra})`
+      );
+
+      return result;
+   }
 
 }
 

@@ -401,4 +401,16 @@ router.get('/quantidade-clientes-ativos', async (req, res, next) => {
     }
 });
 
+router.get('/atualizar_status_recompra', async (req, res, next) => {
+    try {
+        const { idRecompra } = req.query;
+        const result = await helpers.atualizar_status_recompra(idRecompra);
+
+        res.status(200).json(result)
+    } catch (error) {
+        
+        res.status(404).json(error)
+    }
+});
+
 module.exports = router;

@@ -219,7 +219,6 @@ async function recomprasCalculo() {
           if (recompras_operacional[index].id_moeda == 1) {
             recompraUSD = recompraUSD + recompras_operacional[index].valor;
             trimestreUSD[2] = recompraUSD.toFixed(2);
-            console.log(trimestreUSD);
             totalConvertidoBRL = totalConvertidoBRL + (recompras_operacional[index].valor * taxaDolar);
           } else if (recompras_operacional[index].id_moeda == 2) {
             recompraBRL = recompraBRL + recompras_operacional[index].valor;
@@ -765,10 +764,10 @@ async function faturamento_processo(consulta) {
       },
       { "data": "data" },
       {
-        "data": null,
+        "data": "id",
         "className": "button-column",
         "render": function (data, type, row) {
-          return `<button type="button" class="btn btn-primary">X</button>`;
+          return `<button type="button" id="${data}" class="btn btn-primary deletebutton">X</button>`;
         }
       }
     ],
@@ -781,6 +780,21 @@ async function faturamento_processo(consulta) {
     "searching": true,
     "dom": 'fBrtip',
     "buttons": ['excel']
+  });
+
+  $(document).on('click', '.deletebutton', function () {
+    const id = this.id;
+
+    const row = this.closest('tr');
+    const cells = row.querySelectorAll('td');
+
+    cells.forEach(cell => {
+      cell.style.setProperty('color', '#F9243A', 'important');
+    });
+
+    let url = `/api/atualizar_status_recompra?idRecompra=${id}`
+    fetch(url).then(data => console.log(data));
+
   });
   
   $('#searchBox').on('keyup', function() {
