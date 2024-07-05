@@ -413,4 +413,15 @@ router.get('/atualizar_status_recompra', async (req, res, next) => {
     }
 });
 
+router.get('/propostas_pricing', async (req, res, next) => {
+    try {
+        const result = await helpers.propostas_pricing();
+
+        res.status(200).json(result)
+    } catch (error) {
+
+        res.status(404).json(error)
+    }
+});
+
 module.exports = router;
