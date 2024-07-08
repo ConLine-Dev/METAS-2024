@@ -899,10 +899,14 @@ const helpers = {
          when 5 then 'Pré-Proposta' when 6 then 'Enviada' end as 'status', case pfc.Tipo_Carga
          when 1 then 'Aéreo' when 2 then 'Break-Bulk' when 3 then 'FCL' when 4 then 'LCL'
          when 5 then 'RO-RO' when 6 then 'Rodoviário' end as 'tipo', pft.Data_Proposta as 'data'
-         , DATEPART(month, pft.Data_Proposta) as 'mes' from mov_Proposta_Frete pft
+         , DATEPART(month, pft.Data_Proposta) as 'mes', pss.Nome as 'agente', org.Nome as 'origem', 
+         dst.Nome as 'destino' from mov_Proposta_Frete pft
 
          left outer join mov_Proposta_Frete_Carga pfc on pfc.IdProposta_Frete = pft.IdProposta_Frete
          left outer join mov_Oferta_Frete oft on oft.IdProposta_Frete = pft.IdProposta_Frete
+         left outer join cad_Origem_Destino org on org.IdOrigem_Destino = oft.IdOrigem
+         left outer join cad_Origem_Destino dst on dst.IdOrigem_Destino = oft.IdDestino
+         left outer join cad_Pessoa pss on pss.IdPessoa = oft.IdAgente_Origem
 
          where DATEPART(year, pft.Data_Proposta) = 2024 and oft.Tipo_Operacao = 2`
       );
