@@ -17,60 +17,154 @@ const meses = [
   "Dez",
 ];
 
+// Metas trimestrais
+const metas_trimestrais = {
+  IM: {
+    Q1: 1.15,
+    Q2: 1.15,
+    Q3: parseFloat((1.15 + 0.20).toFixed(2)),
+    Q4: parseFloat((1.15 + 0.20).toFixed(2)),
+  },
+  EM: {
+    Q1: 1.15,
+    Q2: 1.15,
+    Q3: parseFloat((1.15 + 0.10).toFixed(2)),
+    Q4: parseFloat((1.15 + 0.10).toFixed(2)),
+  },
+  IA: {
+    Q1: 1.15,
+    Q2: 1.15,
+    Q3: parseFloat((1.15 + 0.15).toFixed(2)),
+    Q4: parseFloat((1.15 + 0.15).toFixed(2)),
+  },
+  EA: {
+    Q1: 1.15,
+    Q2: 1.15,
+    Q3: parseFloat((1.15 + 0.20).toFixed(2)),
+    Q4: parseFloat((1.15 + 0.20).toFixed(2)),
+  },
+};
+
+// Meta MANUAL
+const IM_Array = [209,164,287,248,323,287,389,389,389,389,389,389]
+const IA_Array = [35,55,79,64,73,48,154,154,154,154,154,154]
+const EM_Array = [20,29,24,18,28,33,65,65,65,65,65,65]
+const EA_Array = [5,4,13,13,9,20,26,26,26,26,26,26]
+
+// Função para encontrar a modalidade, essa funcao é lincada com o array de cima
+async function pegar_modalidade_array(modalidade) {
+  switch (modalidade) {
+    case 'IM':
+      return IM_Array;
+    case 'IA':
+      return IA_Array;
+    case 'EM':
+      return EM_Array;
+    case 'EA':
+      return EA_Array;
+    default:
+      return [];
+  };
+};
+
 // Função insere os valores nos cards anuais
-async function cards_anuais(processos_ano_anterior, processos_ano_atual) {
-  // Dados ano anterior
-  const IM_ano_anterior = processos_ano_anterior.filter(
-    (item) => item.MODALIDADE === "IM"
-  );
-  const EM_ano_anterior = processos_ano_anterior.filter(
-    (item) => item.MODALIDADE === "EM"
-  );
-  const IA_ano_anterior = processos_ano_anterior.filter(
-    (item) => item.MODALIDADE === "IA"
-  );
-  const EA_ano_anterior = processos_ano_anterior.filter(
-    (item) => item.MODALIDADE === "EA"
-  );
+// async function cards_anuais(processos_ano_anterior, processos_ano_atual) {
+//   // Dados ano anterior
+//   const IM_ano_anterior = processos_ano_anterior.filter(
+//     (item) => item.MODALIDADE === "IM"
+//   );
+//   const EM_ano_anterior = processos_ano_anterior.filter(
+//     (item) => item.MODALIDADE === "EM"
+//   );
+//   const IA_ano_anterior = processos_ano_anterior.filter(
+//     (item) => item.MODALIDADE === "IA"
+//   );
+//   const EA_ano_anterior = processos_ano_anterior.filter(
+//     (item) => item.MODALIDADE === "EA"
+//   );
 
-  const IM_meta = parseInt(IM_ano_anterior.length * meta);
-  const EM_meta = parseInt(EM_ano_anterior.length * meta);
-  const IA_meta = parseInt(IA_ano_anterior.length * meta);
-  const EA_meta = parseInt(EA_ano_anterior.length * meta);
+//   const IM_meta = parseInt(IM_ano_anterior.length * meta);
+//   const EM_meta = parseInt(EM_ano_anterior.length * meta);
+//   const IA_meta = parseInt(IA_ano_anterior.length * meta);
+//   const EA_meta = parseInt(EA_ano_anterior.length * meta);
 
-  // Dados ano atual
-  const IM_ano_atual = processos_ano_atual.filter(
-    (item) => item.MODALIDADE === "IM"
-  );
-  const EM_ano_atual = processos_ano_atual.filter(
-    (item) => item.MODALIDADE === "EM"
-  );
-  const IA_ano_atual = processos_ano_atual.filter(
-    (item) => item.MODALIDADE === "IA"
-  );
-  const EA_ano_atual = processos_ano_atual.filter(
-    (item) => item.MODALIDADE === "EA"
-  );
+//   // Dados ano atual
+//   const IM_ano_atual = processos_ano_atual.filter(
+//     (item) => item.MODALIDADE === "IM"
+//   );
+//   const EM_ano_atual = processos_ano_atual.filter(
+//     (item) => item.MODALIDADE === "EM"
+//   );
+//   const IA_ano_atual = processos_ano_atual.filter(
+//     (item) => item.MODALIDADE === "IA"
+//   );
+//   const EA_ano_atual = processos_ano_atual.filter(
+//     (item) => item.MODALIDADE === "EA"
+//   );
 
-  const IM_total_atual = parseInt(IM_ano_atual.length);
-  const EM_total_atual = parseInt(EM_ano_atual.length);
-  const IA_total_atual = parseInt(IA_ano_atual.length);
-  const EA_total_atual = parseInt(EA_ano_atual.length);
+//   const IM_total_atual = parseInt(IM_ano_atual.length);
+//   const EM_total_atual = parseInt(EM_ano_atual.length);
+//   const IA_total_atual = parseInt(IA_ano_atual.length);
+//   const EA_total_atual = parseInt(EA_ano_atual.length);
 
-  const IM_porcentagem = (IM_total_atual / IM_meta) * 100;
-  const EM_porcentagem = (EM_total_atual / EM_meta) * 100;
-  const IA_porcentagem = (IA_total_atual / IA_meta) * 100;
-  const EA_porcentagem = (EA_total_atual / EA_meta) * 100;
+//   const IM_porcentagem = (IM_total_atual / IM_meta) * 100;
+//   const EM_porcentagem = (EM_total_atual / EM_meta) * 100;
+//   const IA_porcentagem = (IA_total_atual / IA_meta) * 100;
+//   const EA_porcentagem = (EA_total_atual / EA_meta) * 100;
 
-  const card_IM = document.querySelector("#card-IM");
-  const card_EM = document.querySelector("#card-EM");
-  const card_IA = document.querySelector("#card-IA");
-  const card_EA = document.querySelector("#card-EA");
+//   const card_IM = document.querySelector("#card-IM");
+//   const card_EM = document.querySelector("#card-EM");
+//   const card_IA = document.querySelector("#card-IA");
+//   const card_EA = document.querySelector("#card-EA");
 
-  card_IM.textContent = IM_porcentagem.toFixed(2) + "%";
-  card_EM.textContent = EM_porcentagem.toFixed(2) + "%";
-  card_IA.textContent = IA_porcentagem.toFixed(2) + "%";
-  card_EA.textContent = EA_porcentagem.toFixed(2) + "%";
+//   card_IM.textContent = IM_porcentagem.toFixed(2) + "%";
+//   card_EM.textContent = EM_porcentagem.toFixed(2) + "%";
+//   card_IA.textContent = IA_porcentagem.toFixed(2) + "%";
+//   card_EA.textContent = EA_porcentagem.toFixed(2) + "%";
+// }
+
+
+async function cards_anuais(processos_ano_anterior, processos_ano_atual, modalidade) {
+  const processos_anterior = await contagem_processos_mes(processos_ano_anterior, modalidade);
+  const processos_atual = await contagem_processos_mes(processos_ano_atual, modalidade);
+  const meta_array = await pegar_modalidade_array(modalidade)
+
+  if (!(modalidade in metas_trimestrais)) {
+    throw new Error(`Metas trimestrais não definidas para a modalidade ${modalidade}`);
+  };
+
+  const metas_trimestrais_modalidade = metas_trimestrais[modalidade];
+
+  // Determinar a meta para cada mês
+  const metas_mensais = processos_anterior.map((valor, index) => {
+    let meta_trimestral;
+    if (index < 3) {
+      meta_trimestral = metas_trimestrais_modalidade.Q1; // Janeiro, Fevereiro, Março
+    } else if (index < 6) {
+      meta_trimestral = metas_trimestrais_modalidade.Q2; // Abril, Maio, Junho
+    } else if (index < 9) {
+      meta_trimestral = metas_trimestrais_modalidade.Q3; // Julho, Agosto, Setembro
+    } else {
+      meta_trimestral = metas_trimestrais_modalidade.Q4; // Outubro, Novembro, Dezembro
+    }
+    return parseInt(valor * meta_trimestral);
+  });
+
+  // Somar as metas mensais para obter a meta anual
+  // const meta_anual = metas_mensais.reduce((total, valor) => total + valor, 0);
+  const meta_anual = meta_array.reduce((total, valor) => total + valor, 0);
+
+  // Calcular o total de processos do ano atual por modalidade
+  const processos_ano_atual_modalidade = processos_ano_atual.filter((palavra) => palavra.MODALIDADE === modalidade);
+  const total_atual = processos_ano_atual_modalidade.length;
+
+  // Calcular a porcentagem da meta anual
+  const porcentagem = (total_atual / meta_anual) * 100;
+
+  // Atualizar o valor nos cards correspondetes
+  const cardId = `card-${modalidade}`;
+  const card = document.querySelector(`#${cardId}`);
+  card.textContent = porcentagem.toFixed(2) + '%';
 }
 
 async function contagem_processos_mes(consulta) {
@@ -96,14 +190,14 @@ async function contagem_processos_mes(consulta) {
 
 let atualizacao_chart = null;
 async function graficos_mensais(processos_ano_anterior, processos_ano_atual) {
-  const processos_anterior = await contagem_processos_mes(
-    processos_ano_anterior
-  );
+  const processos_anterior = await contagem_processos_mes(processos_ano_anterior);
   const processos_atual = await contagem_processos_mes(processos_ano_atual);
 
-  const meta_processos = processos_anterior.map((valor) =>
-    parseInt(valor * meta)
-  );
+  const summed_array = IM_Array.map((value, index) => {
+    return value + IA_Array[index] + EM_Array[index] + EA_Array[index]
+  })
+
+  const meta_processos = processos_anterior.map((valor) =>parseInt(valor * meta));
 
   // Porcentagem da meta
   const porcentagens = [];
@@ -125,10 +219,15 @@ async function graficos_mensais(processos_ano_anterior, processos_ano_atual) {
         type: "line", // Altere 'bar' para 'line'
         data: processos_atual,
       },
+      // {
+      //   name: "Meta",
+      //   type: "line", // Altere 'area' para 'line'
+      //   data: meta_processos,
+      // },
       {
         name: "Meta",
         type: "line", // Altere 'area' para 'line'
-        data: meta_processos,
+        data: summed_array,
       },
     ],
 
@@ -405,7 +504,11 @@ async function main() {
   const processos_ano_atual = await Thefetch("/api/processos-ano-atual");
   const ultimos_9_processos = await Thefetch("/api/ultimos_9_processos");
   await mostrar_loading();
-  await cards_anuais(processos_ano_anterior, processos_ano_atual);
+  // await cards_anuais(processos_ano_anterior, processos_ano_atual);
+  await cards_anuais(processos_ano_anterior, processos_ano_atual, 'IM');
+  await cards_anuais(processos_ano_anterior, processos_ano_atual, 'EM');
+  await cards_anuais(processos_ano_anterior, processos_ano_atual, 'IA');
+  await cards_anuais(processos_ano_anterior, processos_ano_atual, 'EA');
   await graficos_mensais(processos_ano_anterior, processos_ano_atual);
   await ultimos_processos(ultimos_9_processos);
   await ultimo_fechamento_modal("IM");

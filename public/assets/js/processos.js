@@ -45,9 +45,32 @@ const metas_trimestrais = {
   },
 };
 
+// Meta MANUAL
+const IM_Array = [209,164,287,248,323,287,389,389,389,0,0,0]
+const IA_Array = [35,55,79,64,73,48,154,154,154,0,0,0]
+const EM_Array = [20,29,24,18,28,33,65,65,65,0,0,0]
+const EA_Array = [5,4,13,13,9,20,26,26,26,0,0,0]
+
+// Função para encontrar a modalidade, essa funcao é lincada com o array de cima
+async function pegar_modalidade_array(modalidade) {
+  switch (modalidade) {
+    case 'IM':
+      return IM_Array;
+    case 'IA':
+      return IA_Array;
+    case 'EM':
+      return EM_Array;
+    case 'EA':
+      return EA_Array;
+    default:
+      return [];
+  };
+};
+
 async function cards_anuais(processos_ano_anterior, processos_ano_atual, modalidade) {
   const processos_anterior = await contagem_processos_mes(processos_ano_anterior, modalidade);
   const processos_atual = await contagem_processos_mes(processos_ano_atual, modalidade);
+  const meta_array = await pegar_modalidade_array(modalidade)
 
   if (!(modalidade in metas_trimestrais)) {
     throw new Error(`Metas trimestrais não definidas para a modalidade ${modalidade}`);
@@ -71,7 +94,8 @@ async function cards_anuais(processos_ano_anterior, processos_ano_atual, modalid
   });
 
   // Somar as metas mensais para obter a meta anual
-  const meta_anual = metas_mensais.reduce((total, valor) => total + valor, 0);
+  // const meta_anual = metas_mensais.reduce((total, valor) => total + valor, 0);
+  const meta_anual = meta_array.reduce((total, valor) => total + valor, 0);
 
   // Calcular o total de processos do ano atual por modalidade
   const processos_ano_atual_modalidade = processos_ano_atual.filter((palavra) => palavra.MODALIDADE === modalidade);
@@ -119,6 +143,7 @@ let graficosMensais = {}; // Objeto para armazenar os gráficos mensais
 async function graficos_mensais(processos_ano_anterior, processos_ano_atual, modalidade) {
   const processos_anterior = await contagem_processos_mes(processos_ano_anterior, modalidade);
   const processos_atual = await contagem_processos_mes(processos_ano_atual, modalidade);
+  const meta_array = await pegar_modalidade_array(modalidade)
 
   if (!(modalidade in metas_trimestrais)) {
     throw new Error(`Metas trimestrais não definidas para a modalidade ${modalidade}`)
@@ -160,9 +185,13 @@ async function graficos_mensais(processos_ano_anterior, processos_ano_atual, mod
         name: "Ano Atual",
         data: processos_atual,
       },
+      // {
+      //   name: "Meta",
+      //   data: metas_mensais,
+      // },
       {
         name: "Meta",
-        data: metas_mensais,
+        data: meta_array,
       },
     ],
 
@@ -196,7 +225,7 @@ async function graficos_mensais(processos_ano_anterior, processos_ano_atual, mod
           return processos_atual[opts.dataPointIndex];
         } else if (seriesIndex === 1) {
           // Se for a segunda sére (Meta), mostra o valor correspondente
-          return metas_mensais[opts.dataPointIndex];
+          return meta_array[opts.dataPointIndex];
         }
       },
       offsetX: 30,
@@ -291,23 +320,14 @@ async function graficos_mensais(processos_ano_anterior, processos_ano_atual, mod
   const grafico_anual_id = "grafico_card_" + modalidade;
 
   // Crie instâncias separadas para gráficos mensais e anuais
-  const chartMensal = new ApexCharts(
-    document.querySelector("#" + grafico_mensal_id),
-    options
-  );
-  const chartAnual = new ApexCharts(
-    document.querySelector("#" + grafico_anual_id),
-    grafico_meta_anual
-  );
+  const chartMensal = new ApexCharts(document.querySelector("#" + grafico_mensal_id),options);
+  const chartAnual = new ApexCharts(document.querySelector("#" + grafico_anual_id),grafico_meta_anual);
   // Renderize os gráficos
   chartMensal.render();
   chartAnual.render();
 
   // Atribua as instâncias dos gráficos ao objeto usando a combinação de modalidade e tipoCarga como chave
-  graficosMensais[`${modalidade}`] = {
-    chartMensal,
-    chartAnual,
-  };
+  graficosMensais[`${modalidade}`] = {chartMensal,chartAnual,};
 
   const modalidadeTipoCargaKey = `${modalidade}`;
   const graficosMensaisExistem = graficosMensais[modalidadeTipoCargaKey];
@@ -321,7 +341,7 @@ async function graficos_mensais(processos_ano_anterior, processos_ano_atual, mod
         return processos_atual[opts.dataPointIndex];
       } else if (seriesIndex === 1) {
         // Se for a segunda série (Meta), mostre o valor correspondente
-        return metas_mensais[opts.dataPointIndex];
+        return meta_array[opts.dataPointIndex];
       }
     };
     // Se existir, atualize os dados e renderize novamente
