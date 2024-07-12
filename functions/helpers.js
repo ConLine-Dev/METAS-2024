@@ -895,20 +895,127 @@ const helpers = {
    propostas_pricing: async function () {
       const result = await executeQuerySQL(
          `select pft.Numero_Proposta as 'proposta', case pft.situacao when 1 then 'Aguardando Aprovação'
-         when 2 then 'Aprovada' when 3 then 'Não Aprovada' when 4 then 'Não Enviada'
-         when 5 then 'Pré-Proposta' when 6 then 'Enviada' end as 'status', case pfc.Tipo_Carga
-         when 1 then 'Aéreo' when 2 then 'Break-Bulk' when 3 then 'FCL' when 4 then 'LCL'
-         when 5 then 'RO-RO' when 6 then 'Rodoviário' end as 'tipo', pft.Data_Proposta as 'data'
-         , DATEPART(month, pft.Data_Proposta) as 'mes', pss.Nome as 'agente', org.Nome as 'origem', 
-         dst.Nome as 'destino' from mov_Proposta_Frete pft
+         when 2 then 'Aprovada' when 3 then 'Não Aprovada' when 4 then 'Não Enviada' when 5 then 'Pré-Proposta'
+         when 6 then 'Enviada' end as 'status', case pfc.Tipo_Carga when 1 then 'Aéreo' when 2 then 'Break-Bulk'
+         when 3 then 'FCL' when 4 then 'LCL' when 5 then 'RO-RO' when 6 then 'Rodoviário' end as 'tipo', pft.Data_Proposta as 'data'
+         , DATEPART(month, pft.Data_Proposta) as 'mes', pss.Nome as 'agente', org.Nome as 'origem', dst.Nome as 'destino', arm.Nome as 'armador'
+         , rep.Descricao as 'motivo_reprovacao', pft.Detalhes_Nao_Aprovacao as 'detalhe_reprovacao', pfc.Peso_Taxado from mov_Proposta_Frete pft
 
          left outer join mov_Proposta_Frete_Carga pfc on pfc.IdProposta_Frete = pft.IdProposta_Frete
          left outer join mov_Oferta_Frete oft on oft.IdProposta_Frete = pft.IdProposta_Frete
          left outer join cad_Origem_Destino org on org.IdOrigem_Destino = oft.IdOrigem
          left outer join cad_Origem_Destino dst on dst.IdOrigem_Destino = oft.IdDestino
          left outer join cad_Pessoa pss on pss.IdPessoa = oft.IdAgente_Origem
+         left outer join cad_Motivo_Nao_Aprovacao_Proposta rep on rep.IdMotivo_Nao_Aprovacao_Proposta = pft.IdMotivo_Nao_Aprovacao_Proposta
+         left outer join cad_Pessoa arm on arm.IdPessoa = oft.IdCompanhia_Transporte
 
          where DATEPART(year, pft.Data_Proposta) = 2024 and oft.Tipo_Operacao = 2`
+      );
+
+      return result;
+   },
+
+   fretes_china_fcl: async function (){
+      const result = await executeQuerySQL(
+         `SELECT
+            Oft.Valor_Pagamento_Unitario as 'frete',
+            Prf.Data_Proposta,
+            Ofr.Data_Validade,
+            DATEPART(month, Ofr.Data_Validade) as 'mes_validade',
+            Ori.Nome AS origem,
+            Des.Nome AS destino,
+            Prf.Numero_Proposta,
+            Eqp.Descricao
+         FROM
+            mov_Proposta_Frete Prf
+         LEFT OUTER JOIN 
+            mov_Proposta_Frete_Carga Pfc ON Pfc.IdProposta_Frete = Prf.IdProposta_Frete
+         LEFT OUTER JOIN
+            mov_Oferta_Frete Ofr ON Ofr.IdProposta_Frete = Prf.IdProposta_Frete
+         LEFT OUTER JOIN
+            mov_Oferta_Frete_Taxa Oft ON Oft.IdOferta_Frete = Ofr.IdOferta_Frete
+         LEFT OUTER JOIN
+            cad_Origem_Destino Ori ON Ori.IdOrigem_Destino = Ofr.IdOrigem
+         LEFT OUTER JOIN
+            cad_Origem_Destino Des ON Des.IdOrigem_Destino = Ofr.IdDestino
+         LEFT OUTER JOIN
+            cad_Equipamento_Maritimo Eqp ON Eqp.IdEquipamento_Maritimo = Oft.IdEquipamento_Maritimo
+         WHERE
+            DATEPART(YEAR, Prf.Data_Proposta) = 2024
+         AND
+            Ofr.IdOrigem IN (596/*NGB*/,78/*SHA*/,85/*YAN*/,645/*SHEN*/,658/*SHEK*/,162/*HK*/,79/*QING*/)
+         AND
+            Ofr.IdDestino IN (43/*NVT*/,45/*PNG*/,594/*IOA*/,50/*SSZ*/)
+         AND
+            Oft.IdTaxa_Logistica_Exibicao IN (2 /*FCL*/)
+         -- AND 
+         --     Prf.Situacao = 2 /*Aprovada*/
+         AND
+            Pfc.Tipo_Carga = 3 /*FCL*/
+         AND
+            Ofr.Tipo_Operacao = 2 /*Importação*/
+         AND
+            Ofr.Modalidade_Processo = 2 /*Maritima*/
+         AND
+            Prf.Numero_Proposta NOT LIKE '%test%'
+         AND
+            Ofr.Data_Validade <= GETDATE()`
+      );
+
+      return result;
+   },
+
+   incoterms_pricing_lcl: async function (){
+      const result = await executeQuerySQL(
+         `SELECT
+            Prf.Numero_Proposta,
+            Inc.Nome as 'incoterm',
+            Prf.Data_Proposta,
+            DATEPART(month, Prf.Data_Proposta) as 'mes',
+            Pri.Nome as 'pricing'
+         FROM
+            mov_Proposta_Frete Prf
+         LEFT OUTER JOIN 
+            mov_Proposta_Frete_Carga Pfc ON Pfc.IdProposta_Frete = Prf.IdProposta_Frete
+         LEFT OUTER JOIN
+            mov_Oferta_Frete Ofr ON Ofr.IdProposta_Frete_Carga = Pfc.IdProposta_Frete_Carga
+         LEFT OUTER JOIN
+            cad_Incoterm Inc ON Inc.IdIncoterm = Ofr.IdIncoterm
+         LEFT OUTER JOIN
+            mov_Projeto_Atividade_Responsavel Par ON Par.IdProjeto_Atividade = Prf.IdProjeto_Atividade AND (Par.IdPapel_Projeto = 5) /*Pricing*/
+         LEFT OUTER JOIN
+            Cad_Pessoa Pri ON Pri.IdPessoa = Par.IdResponsavel
+         WHERE
+            DATEPART(YEAR,Prf.Data_Proposta) = 2024
+         AND
+            Pfc.Tipo_Carga = 4 /*LCL*/
+         AND
+            Ofr.Tipo_Operacao = 2 /*Importação*/
+         AND
+            Prf.Numero_Proposta NOT LIKE '%test%'`
+      );
+
+      return result;
+   },
+
+   propostas_aereo_pais: async function (){
+      const result = await executeQuerySQL(
+         `select pft.Numero_Proposta
+         , org.Nome as 'origem'
+         , pais.Nome as 'pais'
+         , DATEPART(month, pft.Data_Proposta) as 'mes'
+         , nva.Descricao as 'courier'
+         from mov_Proposta_Frete pft
+
+         left outer join mov_Proposta_Frete_Carga pfc on pfc.IdProposta_Frete = pft.IdProposta_Frete
+         left outer join mov_Oferta_Frete oft on oft.IdProposta_Frete = pft.IdProposta_Frete
+         left outer join cad_Origem_Destino org on org.IdOrigem_Destino = oft.IdOrigem
+         left outer join cad_Pais pais on pais.IdPais = org.IdPais
+         left outer join cad_Nivel_Servico_Aereo nva on nva.IdNivel_Servico_Aereo = oft.IdNivel_Servico_Aereo
+
+         where oft.Tipo_Operacao = 2
+         and oft.Modalidade_Processo = 1
+         and DATEPART(year, pft.Data_Proposta) = 2024`
       );
 
       return result;

@@ -396,7 +396,7 @@ router.get('/quantidade-clientes-ativos', async (req, res, next) => {
 
         res.status(200).json(result)
     } catch (error) {
-        
+
         res.status(404).json(error)
     }
 });
@@ -408,7 +408,7 @@ router.get('/atualizar_status_recompra', async (req, res, next) => {
 
         res.status(200).json(result)
     } catch (error) {
-        
+
         res.status(404).json(error)
     }
 });
@@ -416,6 +416,39 @@ router.get('/atualizar_status_recompra', async (req, res, next) => {
 router.get('/propostas_pricing', async (req, res, next) => {
     try {
         const result = await helpers.propostas_pricing();
+
+        res.status(200).json(result)
+    } catch (error) {
+
+        res.status(404).json(error)
+    }
+});
+
+router.get('/fretes_china_fcl', async (req, res, next) => {
+    try {
+        const result = await helpers.fretes_china_fcl();
+
+        res.status(200).json(result)
+    } catch (error) {
+
+        res.status(404).json(error)
+    }
+});
+
+router.get('/incoterms_pricing_lcl', async (req, res, next) => {
+    try {
+        const result = await helpers.incoterms_pricing_lcl();
+
+        res.status(200).json(result)
+    } catch (error) {
+
+        res.status(404).json(error)
+    }
+});
+
+router.get('/propostas_aereo_pais', async (req, res, next) => {
+    try {
+        const result = await helpers.propostas_aereo_pais();
 
         res.status(200).json(result)
     } catch (error) {
