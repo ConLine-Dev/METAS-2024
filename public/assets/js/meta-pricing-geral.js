@@ -1,6 +1,5 @@
 const dadosLogin = JSON.parse(localStorage.getItem('metasUser'));
-const taxas_coversao = await Thefetch('/api/taxas_conversao');
-const propostas_pricing = await Thefetch('/api/propostas_pricing')
+const propostas_pricing = await Thefetch('/api/propostas_pricing');
 
 let aprovadasLCL = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 let reprovadasLCL = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]

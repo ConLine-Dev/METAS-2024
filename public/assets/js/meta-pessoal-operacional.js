@@ -130,7 +130,7 @@ async function recomprasCalculo() {
 
   for (let index = 0; index < recompras_operacional.length; index++) {
     if (recompras_operacional[index].status_recompra == 1){
-      if (recompras_operacional[index].id > 896) {
+      if (recompras_operacional[index].id > 898) {
         if (recompras_operacional[index].id_moeda == 1 && recompras_operacional[index].id_operacional == idUsuarioLogado) {
           recompraUSD = recompraUSD + recompras_operacional[index].valor;
           trimestreUSD[2] = recompraUSD.toFixed(2);
@@ -215,7 +215,7 @@ async function recomprasCalculo() {
   
     for (let index = 0; index < recompras_operacional.length; index++) {
       if (recompras_operacional[index].status_recompra == 1){
-        if (recompras_operacional[index].id > 896) {
+        if (recompras_operacional[index].id > 898) {
           if (recompras_operacional[index].id_moeda == 1) {
             recompraUSD = recompraUSD + recompras_operacional[index].valor;
             trimestreUSD[2] = recompraUSD.toFixed(2);
