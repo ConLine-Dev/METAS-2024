@@ -1,19 +1,17 @@
 const dadosLogin = JSON.parse(localStorage.getItem('metasUser'));
 const propostas_pricing = await Thefetch('/api/propostas_pricing');
-const fretes_china = await Thefetch('/api/fretes_china_fcl');
+const propostas_aereo = await Thefetch('/api/propostas_aereo_pais');
 
 let totalAprovadas = 0;
 let totalReprovadas = 0;
 let totalPendentes = 0;
 let tabelaReprovadas;
 let tabelaTotais;
-let arrayOscilacaoFretes = [];
-let arrayOscilacaoMeses = [];
 
 async function iniciarPagina() {
 
     for (let index = 0; index < propostas_pricing.length; index++) {
-        if(propostas_pricing[index].tipo == 'FCL'){
+        if(propostas_pricing[index].tipo == 'Aéreo'){
             if(propostas_pricing[index].status == 'Aprovada'){
                 totalAprovadas++;
             } else if(propostas_pricing[index].status == 'Não Aprovada'){
@@ -49,90 +47,179 @@ async function iniciarPagina() {
 
 async function criarGraficos() {
 
-    let soma20DC = [];
-    let soma40HC = [];
-    let soma40NOR = [];
-    let quantidade20DC = [];
-    let quantidade40HC = [];
-    let quantidade40NOR = [];
-    
-    for (let index = 0; index < fretes_china.length; index++) {
-        if (fretes_china[index].frete > 10 && fretes_china[index].mes_validade) {
-            if (fretes_china[index].Descricao == '20 DRY BOX'){
-                if (soma20DC[fretes_china[index].mes_validade-1] === undefined){
-                    quantidade20DC[fretes_china[index].mes_validade-1] = 0;
-                    soma20DC[fretes_china[index].mes_validade-1] = 0;
-                }
-                soma20DC[fretes_china[index].mes_validade-1] = soma20DC[fretes_china[index].mes_validade-1] + fretes_china[index].frete;
-                quantidade20DC[fretes_china[index].mes_validade-1]++;
-            }
-            if (fretes_china[index].Descricao == '40 DRY BOX' || fretes_china[index].Descricao == '40 HIGH CUBE'){
-                if (soma40HC[fretes_china[index].mes_validade-1] === undefined){
-                    quantidade40HC[fretes_china[index].mes_validade-1] = 0;
-                    soma40HC[fretes_china[index].mes_validade-1] = 0;
-                }
-                soma40HC[fretes_china[index].mes_validade-1] = soma40HC[fretes_china[index].mes_validade-1] + fretes_china[index].frete;
-                quantidade40HC[fretes_china[index].mes_validade-1]++;
-            }
-            if (fretes_china[index].Descricao == '40 NOR'){
-                if (soma40NOR[fretes_china[index].mes_validade-1] === undefined){
-                    quantidade40NOR[fretes_china[index].mes_validade-1] = 0;
-                    soma40NOR[fretes_china[index].mes_validade-1] = 0;
-                }
-                soma40NOR[fretes_china[index].mes_validade-1] = soma40NOR[fretes_china[index].mes_validade-1] + fretes_china[index].frete;
-                quantidade40NOR[fretes_china[index].mes_validade-1]++;
-            }
-        }
-    }
+    let propostaCHN = [];
+    let propostaEUA = [];
+    let propostaITA = [];
+    let propostaALE = [];
 
-    for (let index = 0; index < 12; index++) {
-        if (soma20DC[index] != undefined){
-            soma20DC[index] = Number((soma20DC[index]/quantidade20DC[index]).toFixed(2));
+    for (let index = 0; index < propostas_aereo.length; index++) {
+        if (propostas_aereo[index].pais == 'CHINA' && propostas_aereo[index].courier == null){
+            if (propostaCHN[propostas_aereo[index].mes-1] === undefined){
+                propostaCHN[propostas_aereo[index].mes-1] = 0;
+            }
+            propostaCHN[propostas_aereo[index].mes-1]++;
         }
-        if (soma40HC[index] != undefined){
-            soma40HC[index] = Number((soma40HC[index]/quantidade40HC[index]).toFixed(2));
+        if (propostas_aereo[index].pais == 'ESTADOS UNIDOS' && propostas_aereo[index].courier == null){
+            if (propostaEUA[propostas_aereo[index].mes-1] === undefined){
+                propostaEUA[propostas_aereo[index].mes-1] = 0;
+            }
+            propostaEUA[propostas_aereo[index].mes-1]++;
         }
-        if (soma40NOR[index] != undefined){
-            soma40NOR[index] = Number((soma40NOR[index]/quantidade40NOR[index]).toFixed(2));
+        if (propostas_aereo[index].pais == 'ITALIA' && propostas_aereo[index].courier == null){
+            if (propostaITA[propostas_aereo[index].mes-1] === undefined){
+                propostaITA[propostas_aereo[index].mes-1] = 0;
+            }
+            propostaITA[propostas_aereo[index].mes-1]++;
+        }
+        if (propostas_aereo[index].pais == 'ALEMANHA' && propostas_aereo[index].courier == null){
+            if (propostaALE[propostas_aereo[index].mes-1] === undefined){
+                propostaALE[propostas_aereo[index].mes-1] = 0;
+            }
+            propostaALE[propostas_aereo[index].mes-1]++;
         }
     }
 
     var options = {
         series: [{
-            name: '20DC',
-            data: soma20DC
+            name: 'China',
+            data: propostaCHN
         }, {
-            name: '40HC',
-            data: soma40HC
+            name: 'EUA',
+            data: propostaEUA
         }, {
-            name: '40NOR',
-            data: soma40NOR
+            name: 'Italia',
+            data: propostaITA
+        }, {
+            name: 'Alemanha',
+            data: propostaALE
         }],
-        colors: ["#F9423A", "#3F2021", "#D0CFCD"],
+        colors: ['#F9423A', '#2D2926', '#D0CFCD', '#F9423A99'],
         chart: {
-            height: 520,
-            type: 'area',
+            height: 265,
+            type: 'bar',
             toolbar: {
                 show: false
             }
         },
         dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            curve: 'smooth'
+            enabled: true,
+            enabledOnSeries: [0, 1, 2, 3],
+            offsetY: 50,
+            style: {
+                fontSize: '12px',
+                colors: ['#F9423A', '#2D2926', '#D0CFCD', '#F9423A99']
+            },
+            background: {
+                enabled: true,
+                foreColor: '#fff',
+                borderRadius: 2,
+                padding: 4,
+                opacity: 0.9,
+                borderWidth: 1,
+                borderColor: '#fff'
+            }
         },
         xaxis: {
             categories: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
         },
         yaxis: {
             show: false
+        },
+        tooltip: {
+            enabled: false
         }
     };
 
-    var freightChart = new ApexCharts(document.querySelector("#freightChart"), options);
+    var b2bChart = new ApexCharts(document.querySelector("#b2bChart"), options);
 
-    freightChart.render();
+    b2bChart.render();
+
+    let courierCHN = [];
+    let courierEUA = [];
+    let courierITA = [];
+    let courierALE = [];
+
+    for (let index = 0; index < propostas_aereo.length; index++) {
+        if (propostas_aereo[index].pais == 'CHINA' && propostas_aereo[index].courier != null){
+            if (courierCHN[propostas_aereo[index].mes-1] === undefined){
+                courierCHN[propostas_aereo[index].mes-1] = 0;
+            }
+            courierCHN[propostas_aereo[index].mes-1]++;
+        }
+        if (propostas_aereo[index].pais == 'ESTADOS UNIDOS' && propostas_aereo[index].courier != null){
+            if (courierEUA[propostas_aereo[index].mes-1] === undefined){
+                courierEUA[propostas_aereo[index].mes-1] = 0;
+            }
+            courierEUA[propostas_aereo[index].mes-1]++;
+        }
+        if (propostas_aereo[index].pais == 'ITALIA' && propostas_aereo[index].courier != null){
+            if (courierITA[propostas_aereo[index].mes-1] === undefined){
+                courierITA[propostas_aereo[index].mes-1] = 0;
+            }
+            courierITA[propostas_aereo[index].mes-1]++;
+        }
+        if (propostas_aereo[index].pais == 'ALEMANHA' && propostas_aereo[index].courier != null){
+            if (courierALE[propostas_aereo[index].mes-1] === undefined){
+                courierALE[propostas_aereo[index].mes-1] = 0;
+            }
+            courierALE[propostas_aereo[index].mes-1]++;
+        }
+    }
+
+    var options = {
+        series: [{
+            name: 'China',
+            data: courierCHN
+        }, {
+            name: 'EUA',
+            data: courierEUA
+        }, {
+            name: 'Italia',
+            data: courierITA
+        }, {
+            name: 'Alemanha',
+            data: courierALE
+        }],
+        colors: ['#F9423A', '#2D2926', '#D0CFCD', '#F9423A99'],
+        chart: {
+            height: 265,
+            type: 'bar',
+            toolbar: {
+                show: false
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            enabledOnSeries: [0, 1, 2, 3],
+            offsetY: 50,
+            style: {
+                fontSize: '12px',
+                colors: ['#F9423A', '#2D2926', '#D0CFCD', '#F9423A99']
+            },
+            background: {
+                enabled: true,
+                foreColor: '#fff',
+                borderRadius: 2,
+                padding: 4,
+                opacity: 0.9,
+                borderWidth: 1,
+                borderColor: '#fff'
+            }
+        },
+        xaxis: {
+            categories: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+        },
+        yaxis: {
+            show: false
+        },
+        tooltip: {
+            enabled: false
+        }
+    };
+
+    var courierChart = new ApexCharts(document.querySelector("#courierChart"), options);
+
+    courierChart.render();
 
     var options = {
         series: [totalAprovadas, totalReprovadas, totalPendentes],
@@ -153,6 +240,9 @@ async function criarGraficos() {
         },
         legend: {
             show: false
+        },
+        tooltip: {
+            enabled: false
         }
     };
 
@@ -167,19 +257,20 @@ async function criarTabelas(){
   
     for (let index = 0; index < propostas_pricing.length; index++) {
       const item = propostas_pricing[index];
-      if (item.tipo == 'FCL') {
+      if (item.tipo == 'Aéreo') {
         listaPropostasTotais.push({
             numero_proposta: item.proposta,
-            agente: item.agente,
+            coloader: item.armador,
             origem: item.origem,
             destino: item.destino,
             situacao: item.status,
+            peso_taxado: item.Peso_Taxado,
           });
       }
-      if (item.tipo == 'FCL' && item.status == 'Não Aprovada') {
+      if (item.tipo == 'Aéreo' && item.status == 'Não Aprovada') {
         listaPropostasReprovadas.push({
             numero_proposta: item.proposta,
-            agente: item.agente,
+            coloader: item.armador,
             origem: item.origem,
             destino: item.destino,
             motivo_reprovacao: item.motivo_reprovacao,
@@ -192,10 +283,11 @@ async function criarTabelas(){
       "data": listaPropostasTotais,
       "columns": [
         { "data": "numero_proposta" },
-        { "data": "agente" },
+        { "data": "coloader" },
         { "data": "origem"},
         { "data": "destino"},
         { "data": "situacao"},
+        { "data": "peso_taxado"},
       ],
       "language": {
         url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json' // Tradução para o português do Brasil
@@ -209,7 +301,7 @@ async function criarTabelas(){
       "data": listaPropostasReprovadas,
       "columns": [
         { "data": "numero_proposta" },
-        { "data": "agente" },
+        { "data": "coloader" },
         { "data": "origem"},
         { "data": "destino"},
         { "data": "motivo_reprovacao"},

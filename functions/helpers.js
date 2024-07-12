@@ -899,7 +899,7 @@ const helpers = {
          when 6 then 'Enviada' end as 'status', case pfc.Tipo_Carga when 1 then 'Aéreo' when 2 then 'Break-Bulk'
          when 3 then 'FCL' when 4 then 'LCL' when 5 then 'RO-RO' when 6 then 'Rodoviário' end as 'tipo', pft.Data_Proposta as 'data'
          , DATEPART(month, pft.Data_Proposta) as 'mes', pss.Nome as 'agente', org.Nome as 'origem', dst.Nome as 'destino', arm.Nome as 'armador'
-         , rep.Descricao as 'motivo_reprovacao', pft.Detalhes_Nao_Aprovacao as 'detalhe_reprovacao' from mov_Proposta_Frete pft
+         , rep.Descricao as 'motivo_reprovacao', pft.Detalhes_Nao_Aprovacao as 'detalhe_reprovacao', pfc.Peso_Taxado from mov_Proposta_Frete pft
 
          left outer join mov_Proposta_Frete_Carga pfc on pfc.IdProposta_Frete = pft.IdProposta_Frete
          left outer join mov_Oferta_Frete oft on oft.IdProposta_Frete = pft.IdProposta_Frete
@@ -993,6 +993,29 @@ const helpers = {
             Ofr.Tipo_Operacao = 2 /*Importação*/
          AND
             Prf.Numero_Proposta NOT LIKE '%test%'`
+      );
+
+      return result;
+   },
+
+   propostas_aereo_pais: async function (){
+      const result = await executeQuerySQL(
+         `select pft.Numero_Proposta
+         , org.Nome as 'origem'
+         , pais.Nome as 'pais'
+         , DATEPART(month, pft.Data_Proposta) as 'mes'
+         , nva.Descricao as 'courier'
+         from mov_Proposta_Frete pft
+
+         left outer join mov_Proposta_Frete_Carga pfc on pfc.IdProposta_Frete = pft.IdProposta_Frete
+         left outer join mov_Oferta_Frete oft on oft.IdProposta_Frete = pft.IdProposta_Frete
+         left outer join cad_Origem_Destino org on org.IdOrigem_Destino = oft.IdOrigem
+         left outer join cad_Pais pais on pais.IdPais = org.IdPais
+         left outer join cad_Nivel_Servico_Aereo nva on nva.IdNivel_Servico_Aereo = oft.IdNivel_Servico_Aereo
+
+         where oft.Tipo_Operacao = 2
+         and oft.Modalidade_Processo = 1
+         and DATEPART(year, pft.Data_Proposta) = 2024`
       );
 
       return result;

@@ -446,4 +446,15 @@ router.get('/incoterms_pricing_lcl', async (req, res, next) => {
     }
 });
 
+router.get('/propostas_aereo_pais', async (req, res, next) => {
+    try {
+        const result = await helpers.propostas_aereo_pais();
+
+        res.status(200).json(result)
+    } catch (error) {
+
+        res.status(404).json(error)
+    }
+});
+
 module.exports = router;
